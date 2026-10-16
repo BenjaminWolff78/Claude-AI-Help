@@ -22,16 +22,29 @@ export const Dust: React.FC<{t: number; x: number; y: number; w: number; h: numb
       const sp = 6 + hash2(seed + 2, i) * 14;
       const px = x + ((sx * w + t * sp * (hash2(seed + 3, i) - 0.4)) % w + w) % w;
       const py = y + ((sy * h - t * sp * 0.6) % h + h) % h;
-      const r = 1.6 + hash2(seed + 4, i) * 2.6;
+      const r = 2.4 + hash2(seed + 4, i) * 3.6;
       const tw = 0.45 + 0.55 * Math.abs(Math.sin(t * (0.6 + sx) + i));
       return <circle key={i} cx={px} cy={py} r={r} fill={color} opacity={0.8 * tw} />;
     })}
   </g>
 );
 
+/** Little folded-paper boat bobbing on water (living element). */
+export const PaperBoat: React.FC<{x: number; y: number; t: number; s?: number; seed?: number}> = ({x, y, t, s = 1, seed = 950}) => {
+  const bob = Math.sin(t * 2.1) * 5;
+  const rot = Math.sin(t * 1.5 + 0.6) * 5;
+  return (
+    <g transform={`translate(${x},${y + bob}) rotate(${rot}) scale(${s})`}>
+      <Shape pts={[[-70, 0], [70, 0], [48, 30], [-48, 30]]} fill={P.white} seed={seed} w={4} />
+      <Shape pts={[[-6, -4], [-6, -78], [46, -4]]} fill={P.mustard} seed={seed + 1} w={4} />
+      <Shape pts={[[-12, -4], [-12, -60], [-52, -4]]} fill={P.coral} seed={seed + 2} w={4} />
+    </g>
+  );
+};
+
 /** Window light shaft polygon. */
 export const LightShaft: React.FC<{pts: Pt[]; t: number; color?: string}> = ({pts, t, color = '#FFF3CF'}) => (
-  <polygon points={pts.map((p) => p.join(',')).join(' ')} fill={color} opacity={0.32 + 0.04 * Math.sin(t * 0.7)} />
+  <polygon points={pts.map((p) => p.join(',')).join(' ')} fill={color} opacity={0.42 + 0.06 * Math.sin(t * 0.7)} />
 );
 
 /** Puffy hand-drawn cloud drifting horizontally and wrapping. */

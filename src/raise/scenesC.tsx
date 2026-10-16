@@ -241,8 +241,8 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1560} y={150} size={70} align="center" k={grow > 0 ? 1 : 0} color={P.coral} weight={800} qa="creditAmt" riso={P.ink}>
           {'≈ ' + money(9700 * grow) + '/yr'}
         </Txt>
-        <Txt x={1560} y={232} size={30} align="center" k={prog(t, c.amount + 0.4, c.amount + 0.9, easeOut)} color={P.inkSoft} qa="estimate">
-          estimate, average-cost area
+        <Txt x={1560} y={232} size={36} align="center" k={prog(t, c.amount + 0.4, c.amount + 0.9, easeOut)} color={P.ink} weight={700} qa="estimate">
+          estimate · varies a lot by county
         </Txt>
         <Txt x={1370} y={380} size={64} align="center" k={prog(t, c.ten - 0.1, c.ten + 0.3, easeOut)} color={P.teal} weight={800} qa="tenX">
           {'≈ 10×'}
@@ -375,7 +375,7 @@ export const StatusScene: React.FC<SceneProps> = ({t}) => {
           <Dan name="dan" a={dan} x={250} y={1080} s={1.0} pose="phone" />
         </svg>
         <Txt x={1220} y={170} size={40} k={prog(t, s.start, s.start + 0.6, easeOut)} color={P.teal} qa="asOf" weight={800}>
-          status as of Oct 15, 2026
+          status as of Oct 16, 2026
         </Txt>
         <Txt x={1220} y={270} size={44} k={prog(t, s.house - 0.1, s.house + 0.6, easeOut)} qa="house">
           {'House: passed 230–196'}
@@ -463,7 +463,7 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
           Educational, not tax advice.
         </Txt>
         <Txt x={960} y={982} size={28} align="center" k={disclaim} qa="sources" weight={600} color={P.inkSoft}>
-          {'Sources: IRS · HHS · KFF · CMS · Congress (status checked Oct 15, 2026)'}
+          {'Sources: IRS · HHS · KFF · CMS · Congress (status checked Oct 16, 2026)'}
         </Txt>
       </Cam>
     </AbsoluteFill>

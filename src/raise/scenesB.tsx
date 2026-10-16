@@ -4,7 +4,7 @@ import {act} from './acting';
 import {Coworker, Maya} from './characters';
 import {Arrow, CircleMark, Shape, Strike, Stroke, linePts, rectPts} from './ink';
 import {B, FPS, H, P, W, clamp01, easeIn, easeOut, hash2, prog, sp} from './lib';
-import {Bucket, Card, CliffBlock, Coin, Dust, LightShaft} from './props';
+import {Bucket, Card, CliffBlock, Coin, Dust, LightShaft, PaperBoat} from './props';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
 import {SceneProps} from './scenesA';
@@ -86,10 +86,11 @@ export const Buckets: React.FC<SceneProps> = ({t}) => {
           <Dust t={t} x={150} y={20} w={900} h={780} seed={7} n={40} />
           <Dust t={t} x={1480} y={20} w={420} h={560} seed={8} n={16} />
           <Shape pts={rectPts(-40, 800, W + 80, 320, 220, 6)} fill={P.sky} seed={220} />
-          {[0, 1, 2, 3, 4, 5].map((i) => {
-            const x0 = ((i * 380 + t * 30) % (W + 300)) - 150;
-            return <Stroke key={i} pts={linePts([x0, 840 + (i % 3) * 22], [x0 + 110, 838 + (i % 3) * 22], 5, 6, 230 + i)} w={3} color={P.skyDeep} seed={230 + i} />;
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+            const x0 = ((i * 260 + t * (34 + (i % 3) * 10)) % (W + 300)) - 150;
+            return <Stroke key={i} pts={linePts([x0, 836 + (i % 3) * 26], [x0 + 130, 834 + (i % 3) * 26], 5, 6, 230 + i)} w={4.5} color={P.skyDeep} seed={230 + i} />;
           })}
+          <PaperBoat x={2050 - (t - b.start) * 46} y={858} t={t} s={0.7} />
           <Bucket x={BX[0]} y={BTOP} h={BH} w={270} level={l1} seed={240} t={t} qa="b10" />
           <Bucket x={BX[1]} y={BTOP} h={BH} w={270} level={l2} seed={250} t={t} wobble={wob} qa="b12" />
           <Bucket x={BX[2]} y={BTOP} h={BH} w={270} level={l3} seed={260} t={t} qa="b22" />
