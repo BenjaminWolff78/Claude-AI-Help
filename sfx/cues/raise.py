@@ -285,8 +285,9 @@ def build_sfx():
     paper(st, c['bubble'], 0.4, 0.25, 0.2)
     pencil(st, c['wrong'] - 0.05, 0.45, 0.6, -0.4)
     pop_(st, c['mostly'], 420, 620, 0.3, 0.3)
-    # rewind: tape-ish flutter, kept small (no loud swooshes)
-    place(st, s['rewind'], sx(synth.whoosh(0.5, 2600, 500, peak=0.3, q=1.4)), 0.18)
+    # rewind: a few quick tape ticks, no swoosh
+    for i in range(6):
+        tick(st, s['rewind'] + i * 0.06, 0.14, -0.2 + i * 0.08)
     paper(st, s['boss'], 0.5, 0.3, 0.5)
     thud(st, s['raise_'], 0.25, 0.1, f=180)
     pencil(st, s['higher'] - 0.1, 0.6, 0.45, -0.6)
