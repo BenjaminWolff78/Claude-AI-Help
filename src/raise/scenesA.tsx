@@ -159,7 +159,7 @@ export const Setup: React.FC<SceneProps> = ({t}) => {
             <Shape pts={[[150, 0], [150, 80], [80, 40]]} fill={P.coral} seed={172} />
           </g>
         </svg>
-        <Txt x={300} y={112} size={72} k={1} color={P.coral} riso={P.ink} qa="rewind">
+        <Txt x={1440} y={300} size={72} k={1} color={P.coral} riso={P.ink} qa="rewind">
           rewind
         </Txt>
       </AbsoluteFill>
@@ -301,7 +301,7 @@ export const MayaScene: React.FC<SceneProps> = ({t}) => {
             <CircleMark cx={cx + 470} cy={600} rx={250} ry={62} k={prog(t, m.taxable + 0.9, m.taxable + 1.5, easeOut)} color={P.teal} />
           </g>
         </svg>
-        <Tag x={300} y={300} text="MAYA" fill={P.teal} color={P.white} k={prog(t, m.maya - 0.1, m.maya + 0.3, easeOut)} qa="mayaTag" rot={-5} size={44} />
+        <Tag x={300} y={262} text="MAYA" fill={P.teal} color={P.white} k={prog(t, m.maya - 0.1, m.maya + 0.3, easeOut)} qa="mayaTag" rot={-5} size={44} />
         <Txt x={cx + 40} y={190} size={50} k={prog(t, m.single, m.single + 0.4, easeOut)} color={P.teal} qa="single" rot={-4}>
           single
         </Txt>

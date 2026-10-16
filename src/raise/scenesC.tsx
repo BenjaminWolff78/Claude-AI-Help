@@ -63,7 +63,7 @@ export const DanScene: React.FC<SceneProps> = ({t}) => {
             : null}
           <Capitol x={1740} y={760} s={0.55 * prog(t, d.expired - 0.3, d.expired + 0.2, easeOut)} />
         </svg>
-        <Tag x={250} y={300} text="DAN, 60" fill={P.mustard} k={prog(t, d.dan - 0.1, d.dan + 0.3, easeOut)} qa="danTag" rot={-4} size={44} />
+        <Tag x={250} y={258} text="DAN, 60" fill={P.mustard} k={prog(t, d.dan - 0.1, d.dan + 0.3, easeOut)} qa="danTag" rot={-4} size={44} />
         <Txt x={600} y={420} size={40} k={prog(t, d.freelance, d.freelance + 0.5, easeOut)} color={P.teal} qa="freelance" rot={-3}>
           freelance designer
         </Txt>
@@ -183,7 +183,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
           credit: gone
         </Txt>
       </Cam>
-      <Source x={1880} y={46} align="right" text={'single, lower 48: 4 × $15,650 (HHS 2025 poverty guideline, used for 2026 coverage)'} k={prog(t, c.single, c.single + 0.5)} qa="srcFpl" />
+      <Source x={1880} y={46} align="right" text={'single, lower 48: 4 × $15,650 (HHS 2025 poverty guideline)'} k={prog(t, c.single, c.single + 0.5)} qa="srcFpl" />
     </AbsoluteFill>
   );
 };
@@ -241,8 +241,8 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1560} y={150} size={70} align="center" k={grow > 0 ? 1 : 0} color={P.coral} weight={800} qa="creditAmt" riso={P.ink}>
           {'≈ ' + money(9700 * grow) + '/yr'}
         </Txt>
-        <Txt x={1560} y={232} size={36} align="center" k={prog(t, c.amount + 0.4, c.amount + 0.9, easeOut)} color={P.ink} weight={700} qa="estimate">
-          estimate · varies a lot by county
+        <Txt x={1560} y={232} size={34} align="center" k={prog(t, c.amount + 0.4, c.amount + 0.9, easeOut)} color={P.ink} weight={700} qa="estimate">
+          estimate · varies by county
         </Txt>
         <Txt x={1370} y={380} size={64} align="center" k={prog(t, c.ten - 0.1, c.ten + 0.3, easeOut)} color={P.teal} weight={800} qa="tenX">
           {'≈ 10×'}
@@ -440,16 +440,16 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
           <Dan name="dan" a={dan} x={1760} y={1080} s={1.0} flip />
           {walkIn > 0 ? <Coworker name="cw" a={cw} x={cwX} y={1180 - 266 * walkIn} s={0.8} legs walk={walking} walkPhase={t * 9} /> : null}
         </svg>
-        <Txt x={480} y={40} size={104} align="center" k={titlesK} color={P.teal} riso={P.ink} qa="bucketTitle" weight={800}>
+        <Txt x={480} y={54} size={96} align="center" k={titlesK} color={P.teal} riso={P.ink} qa="bucketTitle" weight={800}>
           BUCKET
         </Txt>
-        <Txt x={480} y={150} size={40} align="center" k={prog(t, c.never, c.never + 0.6, easeOut)} qa="neverPunish">
+        <Txt x={480} y={160} size={38} align="center" k={prog(t, c.never, c.never + 0.6, easeOut)} qa="neverPunish">
           never punishes a raise
         </Txt>
-        <Txt x={1440} y={40} size={104} align="center" k={titlesK} color={P.coral} riso={P.ink} qa="cliffTitle" weight={800}>
+        <Txt x={1440} y={54} size={96} align="center" k={titlesK} color={P.coral} riso={P.ink} qa="cliffTitle" weight={800}>
           CLIFF
         </Txt>
-        <Txt x={1440} y={150} size={40} align="center" k={prog(t, c.cliffs, c.cliffs + 0.5, easeOut)} qa="different">
+        <Txt x={1440} y={160} size={38} align="center" k={prog(t, c.cliffs, c.cliffs + 0.5, easeOut)} qa="different">
           different.
         </Txt>
         <div style={{position: 'absolute', left: 645, top: 222, width: 630, height: 118, borderRadius: 22, background: 'rgba(255,253,247,0.92)', border: `4px solid ${P.ink}`, opacity: prog(t, c.bucket - 0.4, c.bucket + 0.1, easeOut), transform: 'rotate(-1deg)'}} />
