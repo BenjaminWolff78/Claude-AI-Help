@@ -250,7 +250,8 @@ export const Pivot: React.FC<SceneProps> = ({t}) => {
   const slam = sp(f, p.cliffs - 0.12, {damping: 9, stiffness: 210, mass: 0.7});
   const cliffY = 1100 - 560 * slam;
   const kick = clamp01((t - p.cliffs) / 0.9);
-  const bucketShow = prog(t, p.buckets - 0.5, p.buckets, easeOut);
+  const bucketShow = prog(t, p.almost + 0.2, p.almost + 0.8, easeOut);
+  const bucketBob = (1 - kick) * Math.sin(t * 2.2) * 12;
   return (
     <AbsoluteFill>
       <Paper color={P.salmon} id="pivot" />
@@ -262,7 +263,7 @@ export const Pivot: React.FC<SceneProps> = ({t}) => {
           })}
           <Coworker name="cw" a={cw} x={420} y={1050} s={1.45} />
           {bucketShow > 0 ? (
-            <g transform={`translate(${1320 - kick * 700},${560 - kick * 500 + kick * kick * 300}) rotate(${-kick * 260}) scale(${0.55 * bucketShow})`}>
+            <g transform={`translate(${1320 - kick * 700},${560 + bucketBob - kick * 500 + kick * kick * 300}) rotate(${-kick * 260}) scale(${0.55 * bucketShow})`}>
               <Bucket x={0} y={-170} w={270} h={340} level={0.6} seed={390} t={t} />
             </g>
           ) : null}
