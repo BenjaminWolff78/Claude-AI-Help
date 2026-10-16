@@ -218,3 +218,29 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# =========================================================================
+# Claude AI & AI Coding Agents Exclusions
+# =========================================================================
+
+# Secrets and API Keys (Crucial!)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Claude Code & Anthropic local files
+.claude/
+.claude/sessions/
+.claude/settings.local.json
+.claude/todos/
+.claude/scheduled_tasks.*
+
+# Other AI Tool scrapings (if you use Cursor, Windsurf, Aider, etc.)
+.ai-context/
+.agent/
+.continue/
+.windsurf/
+AI_CONTEXT.md
+
