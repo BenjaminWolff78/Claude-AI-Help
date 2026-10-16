@@ -440,18 +440,19 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
           <Dan name="dan" a={dan} x={1760} y={1080} s={1.0} flip />
           {walkIn > 0 ? <Coworker name="cw" a={cw} x={cwX} y={1180 - 266 * walkIn} s={0.8} legs walk={walking} walkPhase={t * 9} /> : null}
         </svg>
-        <Txt x={480} y={70} size={104} align="center" k={titlesK} color={P.teal} riso={P.ink} qa="bucketTitle" weight={800}>
+        <Txt x={480} y={40} size={104} align="center" k={titlesK} color={P.teal} riso={P.ink} qa="bucketTitle" weight={800}>
           BUCKET
         </Txt>
-        <Txt x={480} y={194} size={40} align="center" k={prog(t, c.never, c.never + 0.6, easeOut)} qa="neverPunish">
+        <Txt x={480} y={150} size={40} align="center" k={prog(t, c.never, c.never + 0.6, easeOut)} qa="neverPunish">
           never punishes a raise
         </Txt>
-        <Txt x={1440} y={70} size={104} align="center" k={titlesK} color={P.coral} riso={P.ink} qa="cliffTitle" weight={800}>
+        <Txt x={1440} y={40} size={104} align="center" k={titlesK} color={P.coral} riso={P.ink} qa="cliffTitle" weight={800}>
           CLIFF
         </Txt>
-        <Txt x={1440} y={194} size={40} align="center" k={prog(t, c.cliffs, c.cliffs + 0.5, easeOut)} qa="different">
+        <Txt x={1440} y={150} size={40} align="center" k={prog(t, c.cliffs, c.cliffs + 0.5, easeOut)} qa="different">
           different.
         </Txt>
+        <div style={{position: 'absolute', left: 645, top: 222, width: 630, height: 118, borderRadius: 22, background: 'rgba(255,253,247,0.92)', border: `4px solid ${P.ink}`, opacity: prog(t, c.bucket - 0.4, c.bucket + 0.1, easeOut), transform: 'rotate(-1deg)'}} />
         <Txt x={960} y={238} size={72} align="center" k={prog(t, c.bucket - 0.4, c.bucket + 0.1, easeOut)} qa="question" weight={800} riso={P.mustard}>
           bucket or cliff?
         </Txt>
