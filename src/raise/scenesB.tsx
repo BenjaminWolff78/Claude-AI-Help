@@ -127,10 +127,10 @@ export const Buckets: React.FC<SceneProps> = ({t}) => {
         <Txt x={BX[1] - 212} y={198} size={52} k={prog(t, b.full, b.full + 0.3, easeOut)} color={P.coral} riso={P.ink} qa="full" rot={-6} weight={800}>
           FULL!
         </Txt>
-        <Txt x={1480} y={410} size={40} k={prog(t, b.overflow + 0.2, b.overflow + 0.7, easeOut)} color={P.coral} qa="onlyThis" rot={-3}>
+        <Txt x={1518} y={410} size={36} k={prog(t, b.overflow + 0.2, b.overflow + 0.7, easeOut)} color={P.coral} qa="onlyThis" rot={-3}>
           only this part
         </Txt>
-        <Txt x={1480} y={460} size={40} k={prog(t, b.taxed22, b.taxed22 + 0.4, easeOut)} color={P.coral} qa="onlyThis22" rot={-3} weight={800}>
+        <Txt x={1518} y={460} size={36} k={prog(t, b.taxed22, b.taxed22 + 0.4, easeOut)} color={P.coral} qa="onlyThis22" rot={-3} weight={800}>
           pays 22%
         </Txt>
         <Txt x={820} y={790} size={44} align="center" k={prog(t, b.same - 0.6, b.same + 0.2, easeOut)} color={P.teal} qa="same" rot={-2}>
