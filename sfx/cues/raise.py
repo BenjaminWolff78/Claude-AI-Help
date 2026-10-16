@@ -220,8 +220,8 @@ def coin(f=None):
     f = f or rng.uniform(2600, 3600)
     n = int(0.22 * SR)
     t = np.arange(n) / SR
-    x = (np.sin(2 * np.pi * f * t) + 0.6 * np.sin(2 * np.pi * f * 1.53 * t) + 0.3 * np.sin(2 * np.pi * f * 2.11 * t)) * np.exp(-t / 0.05)
-    return x * 0.5
+    x = (np.sin(2 * np.pi * f * t) + 0.6 * np.sin(2 * np.pi * f * 1.53 * t) + 0.3 * np.sin(2 * np.pi * f * 2.11 * t)) * np.exp(-t / 0.018)
+    return x * 0.3
 
 
 def coin_hit(dst, t, gain=0.5, pan=0.0):
@@ -299,10 +299,10 @@ def build_sfx():
     for key, dur in (('salary', 0.7), ('deduction', 0.5), ('dedAmt', 0.6), ('taxable', 0.8)):
         pencil(st, m[key] - 0.05, dur, 0.4, 0.35)
     # buckets: coins drop as they fill; the spill; a red circle; check marks
-    for i in range(10):
-        coin_hit(st, bk['first'] + 0.1 + i * 0.28, 0.32 * rng.uniform(0.7, 1), -0.45)
-    for i in range(16):
-        coin_hit(st, bk['everything'] + i * 0.45, 0.28 * rng.uniform(0.7, 1), -0.1)
+    for i in range(5):
+        coin_hit(st, bk['first'] + 0.1 + i * 0.56, 0.32 * rng.uniform(0.7, 1), -0.45)
+    for i in range(7):
+        coin_hit(st, bk['everything'] + i * 1.0, 0.28 * rng.uniform(0.7, 1), -0.1)
     pop_(st, bk['full'], 600, 980, 0.22, -0.1)
     pour(st, bk['spills'] - 0.1, 1.3, 0.3, 0.35)
     for i in range(4):
@@ -363,8 +363,8 @@ def build_sfx():
     # close: footsteps in, the final pour into the bucket, footsteps to the edge, the paper rip
     for i in range(4):
         step(st, cs['next'] - 0.5 + i * 0.35, 0.18, 0.0)
-    for i in range(8):
-        coin_hit(st, e['action'] + 0.35 + i * 0.17, 0.28, -0.35)
+    for i in range(4):
+        coin_hit(st, e['action'] + 0.35 + i * 0.34, 0.28, -0.35)
     for i in range(4):
         step(st, e['action'] + i * 0.35, 0.18, 0.2)
     rip(st, e['wipe'], DUR - e['wipe'], 0.4)
