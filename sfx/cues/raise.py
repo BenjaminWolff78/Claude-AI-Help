@@ -140,21 +140,54 @@ def snare_brush(vel):
     return x * vel
 
 
+def kalimba(f, dur, vel):
+    """Thumb-piano tine: soft sine body, a short inharmonic tine on top, quick wooden decay."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    env = np.exp(-t / 0.55) * (1 - np.exp(-t / 0.003))
+    tine = np.exp(-t / 0.05)
+    x = np.sin(2 * np.pi * f * t) + 0.22 * tine * np.sin(2 * np.pi * 5.4 * f * t) + 0.1 * np.exp(-t / 0.12) * np.sin(2 * np.pi * 2 * f * t)
+    return lowpass(x * env * vel, 5200)
+
+
+# lead motifs per chord: (beat offset within the bar, note) - pentatonic, stepwise, leaves room for the voice
+MOTIF = {
+    'Fmaj7': [(1.5, 'A4'), (2.5, 'C5'), (3.5, 'A4')],
+    'Dm7': [(1.5, 'F4'), (2.5, 'A4')],
+    'Am7': [(1.5, 'E4'), (2.5, 'A4'), (3.5, 'C5')],
+    'Bbmaj7': [(1.5, 'D5'), (2.5, 'C5')],
+    'C7sus': [(1.5, 'G4'), (2.5, 'A4'), (3.5, 'C5')],
+    'Gm7': [(1.5, 'D5'), (2.5, 'A#4')],
+    'A7sus': [(1.5, 'E5'), (2.5, 'D5')],
+    'Bbadd9': [(1.5, 'F5'), (2.5, 'D5'), (3.5, 'C5')],
+    'C/E': [(1.5, 'G4'), (2.5, 'C5')],
+}
+
+
+def echo(st, delay=0.75 * BEAT, fb=0.38, n=3):
+    out = st.copy()
+    for k in range(1, n + 1):
+        d = int(delay * k * SR)
+        out[:, d:] += st[:, : st.shape[1] - d] * (fb ** k)
+    return out
+
+
 # sections: (start, end, chords per bar (cycled), parts)
 S = lambda k: SC[k]['start']
 SECTIONS = [
     (0.0, S('claim'), ['Fmaj7', 'Dm7'], {'keys'}),
     (S('claim'), S('maya'), ['Bbmaj7', 'C7sus'], {'keys', 'bass', 'shaker'}),
-    (S('maya'), S('pivot'), ['Fmaj7', 'Am7', 'Bbmaj7', 'C7sus'], {'keys', 'bass', 'shaker', 'kick', 'snare'}),
+    (S('maya'), S('pivot'), ['Fmaj7', 'Am7', 'Bbmaj7', 'C7sus'], {'keys', 'bass', 'shaker', 'kick', 'snare', 'bells'}),
     (S('pivot'), B['pivot']['cliffs'] - 0.45, ['Bbmaj7'], {'keys'}),
-    (B['pivot']['cliffs'] + 1.6, S('move'), ['Dm7', 'Bbmaj7', 'Gm7', 'A7sus'], {'keys', 'bass', 'shaker', 'kick'}),
-    (S('move'), S('close'), ['Bbadd9', 'C7sus', 'Fmaj7', 'Dm7'], {'keys', 'bass', 'shaker', 'kick', 'snare'}),
-    (S('close'), B['end']['hold'], ['Fmaj7', 'C/E', 'Dm7', 'Bbmaj7'], {'keys', 'bass', 'shaker', 'kick', 'snare'}),
+    (B['pivot']['cliffs'] + 1.6, S('move'), ['Dm7', 'Bbmaj7', 'Gm7', 'A7sus'], {'keys', 'bass', 'shaker', 'kick', 'bells'}),
+    (S('move'), S('close'), ['Bbadd9', 'C7sus', 'Fmaj7', 'Dm7'], {'keys', 'bass', 'shaker', 'kick', 'snare', 'bells'}),
+    (S('close'), B['end']['hold'], ['Fmaj7', 'C/E', 'Dm7', 'Bbmaj7'], {'keys', 'bass', 'shaker', 'kick', 'snare', 'bells'}),
 ]
 
 
 def build_music():
     st = np.zeros((2, N))
+    bl = np.zeros((2, N))
     for (t0, t1, chords, parts) in SECTIONS:
         # snap section start to the bar grid so the groove never stumbles
         bar0 = int(np.ceil(t0 / BAR - 1e-6))
@@ -172,6 +205,11 @@ def build_music():
                     continue
                 for k, nm in enumerate(voicing):
                     place(st, th + k * 0.011, rhodes(hz(nm), 2.4 if hit == 0 else 1.2, vel * rng.uniform(0.85, 1.05)), 0.16, pan=-0.25 + k * 0.17)
+            if 'bells' in parts and (b % 2 == 0 or len(chords) == 1):
+                for hb, nm in MOTIF[name]:
+                    th = tb + hb * BEAT + rng.uniform(-0.008, 0.008)
+                    if th < t1 - 0.3:
+                        place(bl, th, kalimba(hz(nm), 1.6, rng.uniform(0.8, 1.0)), 0.2, pan=0.35 if hb == 1.5 else -0.2)
             if 'bass' in parts:
                 for hit in (0.0, 2.5 * BEAT):
                     if tb + hit < t1:
@@ -199,6 +237,7 @@ def build_music():
     pl, pr = synth.pad(p1 - p0, [(0.0, [hz('A#2'), hz('F3'), hz('D4')])])
     place(st, p0, arr(pl), 0.25, pan=-0.3)
     place(st, p0, arr(pr), 0.25, pan=0.3)
+    st = st + echo(bl)
     st = add_reverb(st, 0.2)
     # fades: in over the first 0.3 s, out from the final action to the start of the hold
     env = np.ones(N)

@@ -1,9 +1,15 @@
-import {spring, SpringConfig} from 'remotion';
+import {getInputProps, spring, SpringConfig} from 'remotion';
 import timeline from './timeline.json';
 export {clamp01, lerp, band, prog, easeIn, easeOut, easeInOut} from '../lib';
 
 export const TL = timeline;
 export const FPS = TL.fps;
+
+/** Shutter sub-frame offset (0..1 frame) from the render script: smooth motion is sampled at frame+SUB and averaged,
+ *  stepped layers (characters on twos, line boil, grain, captions) keep integer frames and stay crisp. */
+export const SUB = Number((getInputProps() as {sub?: number}).sub ?? 0);
+/** Fractional frame for smooth springs; stepped consumers floor it themselves. */
+export const frF = (t: number) => Math.round(t * FPS * 1000) / 1000;
 
 /** Spring starting at `startSec` (this video's fps, not the example's). */
 export const sp = (frame: number, startSec: number, config: Partial<SpringConfig> = {}) => {

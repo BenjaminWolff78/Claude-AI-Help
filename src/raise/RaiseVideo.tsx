@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, getInputProps, useCurrentFrame} from 'remotion';
 import {QaProbe} from './QaProbe';
 import {Captions} from './Captions';
-import {FPS, H, SC, TL, W, clamp01, easeInOut, easeOut} from './lib';
+import {FPS, SUB, H, SC, TL, W, clamp01, easeInOut, easeOut} from './lib';
 import {Claim, Cold, ColdFirstFrame, MayaScene, SceneProps, Setup} from './scenesA';
 import {Buckets, MathScene, Pivot} from './scenesB';
 import {CliffScene, CloseScene, CostScene, DanScene, MoveScene, StatusScene} from './scenesC';
@@ -69,7 +69,7 @@ const outgoingStyle = (enter: Enter, k: number): React.CSSProperties => {
 
 export const RaiseVideo: React.FC = () => {
   const frame = useCurrentFrame();
-  const t = frame / FPS;
+  const t = (frame + SUB) / FPS;
   const layers: React.ReactNode[] = [];
   for (let i = 0; i < SCENES.length; i++) {
     const s = SCENES[i];

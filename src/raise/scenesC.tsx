@@ -3,13 +3,13 @@ import {AbsoluteFill} from 'remotion';
 import {act} from './acting';
 import {Coworker, Dan, Maya} from './characters';
 import {Arrow, CircleMark, CrossOut, Shape, Stroke, ellipsePts, linePts, rectPts} from './ink';
-import {B, FPS, H, P, W, clamp01, easeIn, easeInOut, easeOut, hash2, prog} from './lib';
+import {B, FPS, frF, H, P, W, clamp01, easeIn, easeInOut, easeOut, hash2, prog} from './lib';
 import {Bill, Bucket, Capitol, Card, CliffBlock, Clock, Clouds, Coin, Envelope, Flag, Jar, Laptop, QaLine, SignPost, Window} from './props';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
 import {SceneProps} from './scenesA';
 
-const fr = (t: number) => Math.round(t * FPS);
+const fr = frF;
 
 /* ======================= DAN ======================= */
 

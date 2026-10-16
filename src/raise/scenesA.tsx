@@ -3,13 +3,13 @@ import {AbsoluteFill} from 'remotion';
 import {act} from './acting';
 import {BossArm, Coworker, Maya} from './characters';
 import {CircleMark, CrossOut, Shape, Stroke, Underline, ellipsePts, linePts, rectPts} from './ink';
-import {B, FPS, H, P, W, clamp01, easeIn, easeInOut, easeOut, prog, sp} from './lib';
+import {B, FPS, frF, H, P, W, clamp01, easeIn, easeInOut, easeOut, prog, sp} from './lib';
 import {Bill, Card, Clock, Dust, Envelope, LightShaft, Plant, Stairs, Sunburst, Window} from './props';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
 
 export type SceneProps = {t: number};
-const fr = (t: number) => Math.round(t * FPS);
+const fr = frF;
 
 /* ======================= OFFICE (cold open + setup) ======================= */
 

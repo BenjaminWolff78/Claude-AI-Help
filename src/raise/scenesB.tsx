@@ -3,13 +3,13 @@ import {AbsoluteFill} from 'remotion';
 import {act} from './acting';
 import {Coworker, Maya} from './characters';
 import {Arrow, CircleMark, Shape, Strike, Stroke, linePts, rectPts} from './ink';
-import {B, FPS, H, P, W, clamp01, easeIn, easeOut, hash2, prog, sp} from './lib';
+import {B, FPS, frF, H, P, W, clamp01, easeIn, easeOut, hash2, prog, sp} from './lib';
 import {Bucket, Card, CliffBlock, Coin, Dust, LightShaft, PaperBoat} from './props';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
 import {SceneProps} from './scenesA';
 
-const fr = (t: number) => Math.round(t * FPS);
+const fr = frF;
 
 /** Coins falling into a bucket during [a,b]: one every `every` s, 0.55 s fall. */
 const CoinStream: React.FC<{t: number; a: number; b: number; x: number; topY: number; endY: number; seed: number; every?: number; arc?: number}> = ({
