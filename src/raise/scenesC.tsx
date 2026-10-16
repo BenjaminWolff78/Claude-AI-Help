@@ -137,7 +137,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
                 return <Coin key={i} x={fall > 0 ? fx : bx} y={fall > 0 ? fy : by} r={18} seed={540 + i} rot={fall * (200 + i * 90)} />;
               })
             : null}
-          <Dan name="dan" a={dan} x={danX} y={TOPY} s={0.62} legs walk={walking} walkPhase={t * 9} />
+          <Dan name="dan" a={dan} x={danX} y={TOPY} s={0.82} legs walk={walking} walkPhase={t * 9} />
           {prog(t, c.single - 0.2, c.single + 0.3) > 0 ? (
             <>
               <QaLine id="fplLineTop" x={EDGE} y={150} w={10} h={TOPY - 340 - 46 - 150} />
@@ -163,7 +163,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
             </g>
           ) : null}
         </svg>
-        <Txt x={EDGE - 20} y={150} size={40} align="right" k={prog(t, c.four, c.four + 0.6, easeOut)} color={P.coral} qa="fpl" weight={700}>
+        <Txt x={EDGE + 22} y={104} size={40} k={prog(t, c.four, c.four + 0.6, easeOut)} color={P.coral} qa="fpl" weight={700}>
           400% of the poverty line
         </Txt>
         <Txt x={1560} y={220} size={170} align="center" k={prog(t, c.zero, c.zero + 0.25, easeOut)} color={P.ink} riso={P.coral} qa="zero" weight={800} bounce={80} rot={-4 + (t > c.zero2 && t < c.zero2 + 0.3 ? 3 : 0)}>
@@ -179,7 +179,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={EDGE + 30} y={TOPY + 160} size={44} k={prog(t, c.over, c.over + 0.5, easeOut)} color={P.coral} qa="over" weight={800}>
           $400 over
         </Txt>
-        <Txt x={250} y={246} size={60} k={prog(t, c.gone, c.gone + 0.4, easeOut)} color={P.coral} riso={P.ink} qa="gone" weight={800} rot={-4}>
+        <Txt x={96} y={330} size={58} k={prog(t, c.gone, c.gone + 0.4, easeOut)} color={P.coral} riso={P.ink} qa="gone" weight={800} rot={-4}>
           credit: gone
         </Txt>
       </Cam>
@@ -438,7 +438,7 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
           <CliffBlock x={1180} y={600} w={420} h={520} seed={790} />
           <Maya name="maya" a={maya} x={230} y={1080} s={1.0} />
           <Dan name="dan" a={dan} x={1760} y={1080} s={1.0} flip />
-          {walkIn > 0 ? <Coworker name="cw" a={cw} x={cwX} y={1180 - 300 * walkIn} s={0.62} legs walk={walking} walkPhase={t * 9} /> : null}
+          {walkIn > 0 ? <Coworker name="cw" a={cw} x={cwX} y={1180 - 266 * walkIn} s={0.8} legs walk={walking} walkPhase={t * 9} /> : null}
         </svg>
         <Txt x={480} y={70} size={104} align="center" k={titlesK} color={P.teal} riso={P.ink} qa="bucketTitle" weight={800}>
           BUCKET
@@ -452,7 +452,7 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1440} y={194} size={40} align="center" k={prog(t, c.cliffs, c.cliffs + 0.5, easeOut)} qa="different">
           different.
         </Txt>
-        <Txt x={960} y={252} size={76} align="center" k={prog(t, c.bucket - 0.4, c.bucket + 0.1, easeOut)} qa="question" weight={800} riso={P.mustard}>
+        <Txt x={960} y={238} size={72} align="center" k={prog(t, c.bucket - 0.4, c.bucket + 0.1, easeOut)} qa="question" weight={800} riso={P.mustard}>
           bucket or cliff?
         </Txt>
         {disclaim > 0 ? (

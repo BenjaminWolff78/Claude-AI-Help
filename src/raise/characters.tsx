@@ -156,7 +156,7 @@ const Wrap: React.FC<CharProps & {seed: number; body: React.ReactNode; head: Rea
         <g transform={`translate(0,${(-br * 4 + a.nod).toFixed(2)}) rotate(${a.tilt.toFixed(2)} 0 -205)`}>{head}</g>
         {front}
       </g>
-      <rect data-qa={`face:${name}`} data-qa-type="face" x={-95} y={-405} width={190} height={215} fill="none" stroke="none" transform={`translate(0,${a.bob})`} />
+      <rect data-qa={`face:${name}`} data-qa-type="face" x={-105} y={-470} width={210} height={280} fill="none" stroke="none" transform={`translate(0,${a.bob})`} />
     </g>
   );
 };
