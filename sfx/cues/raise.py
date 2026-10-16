@@ -463,12 +463,15 @@ def main():
     duck = np.convolve(duck, np.ones(k) / k, mode='same')
     duck_gain = 10 ** (-5.0 * duck / 20)
     mix = stems['voice'] + stems['music'] * g['music'] * duck_gain[None] + stems['sfx'] * g['sfx'] + stems['sting'] * g['sting']
+    # room tone: a barely-there warm bed so the closing hold is never digital silence (about -50 dB under the voice)
+    rt = lowpass(rng.standard_normal(N), 700, 2) * 0.004
+    mix = mix + np.stack([rt, np.roll(rt, 900)])
     mix = mix[:, : int(DUR * SR)]
     write(out / 'premaster.wav', mix / max(1e-9, np.abs(mix).max()) * 0.7)
     # two-pass loudnorm to -14 LUFS / -1.5 dBTP, linear
-    p1 = subprocess.run(['ffmpeg', '-nostats', '-i', str(out / 'premaster.wav'), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
+    p1 = subprocess.run(['ffmpeg', '-nostats', '-i', str(out / 'premaster.wav'), '-af', 'loudnorm=I=-14:TP=-2.5:LRA=11:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
     j = json.loads(p1[p1.rfind('{'): p1.rfind('}') + 1])
-    flt = (f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}"
+    flt = (f"loudnorm=I=-14:TP=-2.5:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}"
            f":measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true,aresample=48000")
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', str(out / 'premaster.wav'), '-af', flt, '-ar', '48000', str(out / 'mix.wav')], check=True)
     i, tp = lufs(out / 'mix.wav')
