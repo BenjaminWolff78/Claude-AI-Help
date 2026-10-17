@@ -20,7 +20,7 @@ for (const [sub, list] of Object.entries(plan)) {
   const todo = list.filter((f) => !fs.existsSync(path.join(dir, `f${String(f).padStart(5, '0')}.jpeg`))).sort((a, b) => a - b);
   done += list.length - todo.length;
   const inputProps = {sub: parseFloat(sub)};
-  const comp = await selectComposition({serveUrl, id: 'RaiseVideo', inputProps, puppeteerInstance: browser});
+  const comp = await selectComposition({serveUrl, id: opt('id', 'RaiseVideo'), inputProps, puppeteerInstance: browser});
   // contiguous runs
   const runs = [];
   for (const f of todo) {

@@ -19,7 +19,7 @@ fs.mkdirSync(outDir, {recursive: true});
 
 const serveUrl = await bundle({entryPoint: path.resolve('src/index.ts'), onProgress: () => {}});
 const inputProps = qa ? {qa: true} : {};
-const comp = await selectComposition({serveUrl, id: 'RaiseVideo', inputProps, browserExecutable});
+const comp = await selectComposition({serveUrl, id: opt('id', 'RaiseVideo'), inputProps, browserExecutable});
 const fps = comp.fps;
 let frames = [];
 if (opt('times')) frames = opt('times').split(',').map((s) => Math.min(comp.durationInFrames - 1, Math.round(parseFloat(s) * fps)));
