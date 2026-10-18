@@ -27,7 +27,7 @@ export const Ep2Thumb: React.FC = () => {
         <Txt x={1420} y={150} size={210} align="center" color={P.ink} riso={P.mustard} weight={800} rot={-4} qa="th1">
           THE $1
         </Txt>
-        <Txt x={1420} y={430} size={230} align="center" color={P.white} riso={P.berry} weight={800} rot={3} bounce={70} qa="th2">
+        <Txt x={1420} y={430} size={230} align="center" color={P.berry} riso={P.ink} weight={800} rot={3} bounce={70} qa="th2">
           CLIFF
         </Txt>
       </div>
