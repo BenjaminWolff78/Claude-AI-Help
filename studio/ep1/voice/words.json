@@ -1,0 +1,3535 @@
+{
+ "duration": 230.944,
+ "lines": [
+  {
+   "id": "c1",
+   "scene": "cold",
+   "text": "\"Don't take the raise. You'll take home less.\"",
+   "say": "Don't take the raise. You'll take home less.",
+   "start": 0.26,
+   "end": 2.87,
+   "words": [
+    {
+     "w": "Don't",
+     "start": 0.26,
+     "end": 0.51
+    },
+    {
+     "w": "take",
+     "start": 0.51,
+     "end": 0.74
+    },
+    {
+     "w": "the",
+     "start": 0.74,
+     "end": 1.088
+    },
+    {
+     "w": "raise",
+     "start": 1.088,
+     "end": 1.47
+    },
+    {
+     "w": "You'll",
+     "start": 1.76,
+     "end": 1.95
+    },
+    {
+     "w": "take",
+     "start": 1.95,
+     "end": 2.22
+    },
+    {
+     "w": "home",
+     "start": 2.22,
+     "end": 2.62
+    },
+    {
+     "w": "less",
+     "start": 2.62,
+     "end": 2.87
+    }
+   ]
+  },
+  {
+   "id": "c2",
+   "scene": "cold",
+   "text": "Wrong. Mostly.",
+   "say": "Wrong. Mostly.",
+   "start": 4.19,
+   "end": 5.91,
+   "words": [
+    {
+     "w": "Wrong",
+     "start": 4.19,
+     "end": 4.87
+    },
+    {
+     "w": "Mostly",
+     "start": 5.35,
+     "end": 5.91
+    }
+   ]
+  },
+  {
+   "id": "r1",
+   "scene": "setup",
+   "text": "Rewind.",
+   "say": "Rewind.",
+   "start": 6.64,
+   "end": 7.15,
+   "words": [
+    {
+     "w": "Rewind",
+     "start": 6.64,
+     "end": 7.15
+    }
+   ]
+  },
+  {
+   "id": "r2",
+   "scene": "setup",
+   "text": "Your boss offers you a $2,000 raise.",
+   "say": "Your boss offers you a two thousand dollar raise.",
+   "start": 7.7,
+   "end": 10.6,
+   "words": [
+    {
+     "w": "Your",
+     "start": 7.7,
+     "end": 7.89
+    },
+    {
+     "w": "boss",
+     "start": 7.89,
+     "end": 8.25
+    },
+    {
+     "w": "offers",
+     "start": 8.25,
+     "end": 8.85
+    },
+    {
+     "w": "you",
+     "start": 8.85,
+     "end": 9.05
+    },
+    {
+     "w": "a",
+     "start": 9.05,
+     "end": 9.18
+    },
+    {
+     "w": "two",
+     "start": 9.18,
+     "end": 9.38
+    },
+    {
+     "w": "thousand",
+     "start": 9.38,
+     "end": 9.894
+    },
+    {
+     "w": "dollar",
+     "start": 9.894,
+     "end": 10.42
+    },
+    {
+     "w": "raise",
+     "start": 10.42,
+     "end": 10.6
+    }
+   ]
+  },
+  {
+   "id": "r3",
+   "scene": "setup",
+   "text": "And your coworker leans over and whispers: don't take it.",
+   "say": "And your coworker leans over, and whispers. Don't take it.",
+   "start": 10.98,
+   "end": 14.45,
+   "words": [
+    {
+     "w": "And",
+     "start": 10.98,
+     "end": 11.24
+    },
+    {
+     "w": "your",
+     "start": 11.24,
+     "end": 11.509
+    },
+    {
+     "w": "coworker",
+     "start": 11.509,
+     "end": 12.028
+    },
+    {
+     "w": "leans",
+     "start": 12.028,
+     "end": 12.35
+    },
+    {
+     "w": "over",
+     "start": 12.35,
+     "end": 12.57
+    },
+    {
+     "w": "and",
+     "start": 12.57,
+     "end": 12.97
+    },
+    {
+     "w": "whispers",
+     "start": 12.97,
+     "end": 13.31
+    },
+    {
+     "w": "Don't",
+     "start": 13.63,
+     "end": 13.89
+    },
+    {
+     "w": "take",
+     "start": 13.89,
+     "end": 14.17
+    },
+    {
+     "w": "it",
+     "start": 14.17,
+     "end": 14.45
+    }
+   ]
+  },
+  {
+   "id": "r4",
+   "scene": "setup",
+   "text": "It'll push you into a higher tax bracket.",
+   "say": "It'll push you into a higher tax bracket.",
+   "start": 14.78,
+   "end": 16.96,
+   "words": [
+    {
+     "w": "It'll",
+     "start": 14.78,
+     "end": 15.02
+    },
+    {
+     "w": "push",
+     "start": 15.02,
+     "end": 15.328
+    },
+    {
+     "w": "you",
+     "start": 15.328,
+     "end": 15.58
+    },
+    {
+     "w": "into",
+     "start": 15.58,
+     "end": 15.831
+    },
+    {
+     "w": "a",
+     "start": 15.831,
+     "end": 16.13
+    },
+    {
+     "w": "higher",
+     "start": 16.13,
+     "end": 16.38
+    },
+    {
+     "w": "tax",
+     "start": 16.38,
+     "end": 16.72
+    },
+    {
+     "w": "bracket",
+     "start": 16.72,
+     "end": 16.96
+    }
+   ]
+  },
+  {
+   "id": "r5",
+   "scene": "claim",
+   "text": "That advice is wrong.",
+   "say": "That advice is wrong.",
+   "start": 17.46,
+   "end": 18.93,
+   "words": [
+    {
+     "w": "That",
+     "start": 17.46,
+     "end": 17.83
+    },
+    {
+     "w": "advice",
+     "start": 17.83,
+     "end": 18.22
+    },
+    {
+     "w": "is",
+     "start": 18.22,
+     "end": 18.47
+    },
+    {
+     "w": "wrong",
+     "start": 18.47,
+     "end": 18.93
+    }
+   ]
+  },
+  {
+   "id": "r6",
+   "scene": "claim",
+   "text": "But the part that's right could cost you thousands.",
+   "say": "But the part that's right, could cost you thousands.",
+   "start": 19.34,
+   "end": 22.14,
+   "words": [
+    {
+     "w": "But",
+     "start": 19.34,
+     "end": 19.55
+    },
+    {
+     "w": "the",
+     "start": 19.55,
+     "end": 19.82
+    },
+    {
+     "w": "part",
+     "start": 19.82,
+     "end": 20.05
+    },
+    {
+     "w": "that's",
+     "start": 20.05,
+     "end": 20.43
+    },
+    {
+     "w": "right",
+     "start": 20.43,
+     "end": 20.57
+    },
+    {
+     "w": "could",
+     "start": 20.57,
+     "end": 20.87
+    },
+    {
+     "w": "cost",
+     "start": 20.87,
+     "end": 21.45
+    },
+    {
+     "w": "you",
+     "start": 21.45,
+     "end": 21.671
+    },
+    {
+     "w": "thousands",
+     "start": 21.671,
+     "end": 22.14
+    }
+   ]
+  },
+  {
+   "id": "r7",
+   "scene": "claim",
+   "text": "So let's do the actual math.",
+   "say": "So let's do the actual math.",
+   "start": 22.56,
+   "end": 24.25,
+   "words": [
+    {
+     "w": "So",
+     "start": 22.56,
+     "end": 22.94
+    },
+    {
+     "w": "let's",
+     "start": 22.94,
+     "end": 23.1
+    },
+    {
+     "w": "do",
+     "start": 23.1,
+     "end": 23.406
+    },
+    {
+     "w": "the",
+     "start": 23.406,
+     "end": 23.52
+    },
+    {
+     "w": "actual",
+     "start": 23.52,
+     "end": 24.032
+    },
+    {
+     "w": "math",
+     "start": 24.032,
+     "end": 24.25
+    }
+   ]
+  },
+  {
+   "id": "m1",
+   "scene": "maya",
+   "text": "Meet Maya.",
+   "say": "Meet Maya.",
+   "start": 24.88,
+   "end": 25.59,
+   "words": [
+    {
+     "w": "Meet",
+     "start": 24.88,
+     "end": 25.09
+    },
+    {
+     "w": "Maya",
+     "start": 25.09,
+     "end": 25.59
+    }
+   ]
+  },
+  {
+   "id": "m2",
+   "scene": "maya",
+   "text": "She's single, and she earns $66,500 a year.",
+   "say": "She's single, and she earns sixty six thousand, five hundred dollars a year.",
+   "start": 25.96,
+   "end": 30.0,
+   "words": [
+    {
+     "w": "She's",
+     "start": 25.96,
+     "end": 26.246
+    },
+    {
+     "w": "single",
+     "start": 26.246,
+     "end": 26.689
+    },
+    {
+     "w": "and",
+     "start": 26.689,
+     "end": 26.82
+    },
+    {
+     "w": "she",
+     "start": 26.82,
+     "end": 27.064
+    },
+    {
+     "w": "earns",
+     "start": 27.064,
+     "end": 27.444
+    },
+    {
+     "w": "sixty",
+     "start": 27.444,
+     "end": 28.01
+    },
+    {
+     "w": "six",
+     "start": 28.01,
+     "end": 28.14
+    },
+    {
+     "w": "thousand",
+     "start": 28.14,
+     "end": 28.57
+    },
+    {
+     "w": "five",
+     "start": 28.57,
+     "end": 28.89
+    },
+    {
+     "w": "hundred",
+     "start": 28.89,
+     "end": 29.18
+    },
+    {
+     "w": "dollars",
+     "start": 29.18,
+     "end": 29.567
+    },
+    {
+     "w": "a",
+     "start": 29.567,
+     "end": 29.706
+    },
+    {
+     "w": "year",
+     "start": 29.706,
+     "end": 30.0
+    }
+   ]
+  },
+  {
+   "id": "m3",
+   "scene": "maya",
+   "text": "In 2026, the standard deduction for a single filer is $16,100.",
+   "say": "In twenty twenty six, the standard deduction for a single filer is sixteen thousand, one hundred dollars.",
+   "start": 30.57,
+   "end": 36.48,
+   "words": [
+    {
+     "w": "In",
+     "start": 30.57,
+     "end": 30.81
+    },
+    {
+     "w": "twenty",
+     "start": 30.81,
+     "end": 31.282
+    },
+    {
+     "w": "twenty",
+     "start": 31.282,
+     "end": 31.79
+    },
+    {
+     "w": "six",
+     "start": 31.98,
+     "end": 32.17
+    },
+    {
+     "w": "the",
+     "start": 32.17,
+     "end": 32.51
+    },
+    {
+     "w": "standard",
+     "start": 32.51,
+     "end": 32.81
+    },
+    {
+     "w": "deduction",
+     "start": 32.81,
+     "end": 33.337
+    },
+    {
+     "w": "for",
+     "start": 33.337,
+     "end": 33.53
+    },
+    {
+     "w": "a",
+     "start": 33.53,
+     "end": 33.72
+    },
+    {
+     "w": "single",
+     "start": 33.72,
+     "end": 34.046
+    },
+    {
+     "w": "filer",
+     "start": 34.046,
+     "end": 34.386
+    },
+    {
+     "w": "is",
+     "start": 34.386,
+     "end": 34.71
+    },
+    {
+     "w": "sixteen",
+     "start": 34.71,
+     "end": 35.159
+    },
+    {
+     "w": "thousand",
+     "start": 35.159,
+     "end": 35.447
+    },
+    {
+     "w": "one",
+     "start": 35.447,
+     "end": 35.69
+    },
+    {
+     "w": "hundred",
+     "start": 35.69,
+     "end": 35.96
+    },
+    {
+     "w": "dollars",
+     "start": 35.96,
+     "end": 36.48
+    }
+   ]
+  },
+  {
+   "id": "m4",
+   "scene": "maya",
+   "text": "Take that off, and Maya's taxable income is $50,400.",
+   "say": "Take that off, and Maya's taxable income is fifty thousand, four hundred. dollars",
+   "start": 37.03,
+   "end": 42.76,
+   "words": [
+    {
+     "w": "Take",
+     "start": 37.03,
+     "end": 37.23
+    },
+    {
+     "w": "that",
+     "start": 37.23,
+     "end": 37.516
+    },
+    {
+     "w": "off",
+     "start": 37.516,
+     "end": 37.71
+    },
+    {
+     "w": "and",
+     "start": 38.07,
+     "end": 38.443
+    },
+    {
+     "w": "Maya's",
+     "start": 38.443,
+     "end": 38.86
+    },
+    {
+     "w": "taxable",
+     "start": 38.86,
+     "end": 39.34
+    },
+    {
+     "w": "income",
+     "start": 39.34,
+     "end": 39.65
+    },
+    {
+     "w": "is",
+     "start": 39.65,
+     "end": 39.95
+    },
+    {
+     "w": "fifty",
+     "start": 39.95,
+     "end": 40.31
+    },
+    {
+     "w": "thousand",
+     "start": 40.31,
+     "end": 40.73
+    },
+    {
+     "w": "four",
+     "start": 40.73,
+     "end": 40.85
+    },
+    {
+     "w": "hundred",
+     "start": 40.85,
+     "end": 41.86
+    },
+    {
+     "w": "dollars",
+     "start": 42.39,
+     "end": 42.76
+    }
+   ]
+  },
+  {
+   "id": "b1",
+   "scene": "buckets",
+   "text": "Now, picture the tax brackets as buckets.",
+   "say": "Now, picture the tax brackets as buckets.",
+   "start": 43.1,
+   "end": 45.85,
+   "words": [
+    {
+     "w": "Now",
+     "start": 43.1,
+     "end": 43.52
+    },
+    {
+     "w": "picture",
+     "start": 43.74,
+     "end": 44.17
+    },
+    {
+     "w": "the",
+     "start": 44.17,
+     "end": 44.42
+    },
+    {
+     "w": "tax",
+     "start": 44.42,
+     "end": 44.76
+    },
+    {
+     "w": "brackets",
+     "start": 44.76,
+     "end": 45.29
+    },
+    {
+     "w": "as",
+     "start": 45.29,
+     "end": 45.48
+    },
+    {
+     "w": "buckets",
+     "start": 45.48,
+     "end": 45.85
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "scene": "buckets",
+   "text": "Her first $12,400 fills a bucket taxed at 10%.",
+   "say": "Her first twelve thousand, four hundred, fills a bucket taxed at ten percent.",
+   "start": 46.36,
+   "end": 50.73,
+   "words": [
+    {
+     "w": "Her",
+     "start": 46.36,
+     "end": 46.59
+    },
+    {
+     "w": "first",
+     "start": 46.59,
+     "end": 47.17
+    },
+    {
+     "w": "twelve",
+     "start": 47.17,
+     "end": 47.412
+    },
+    {
+     "w": "thousand",
+     "start": 47.412,
+     "end": 47.73
+    },
+    {
+     "w": "four",
+     "start": 47.73,
+     "end": 48.18
+    },
+    {
+     "w": "hundred",
+     "start": 48.18,
+     "end": 48.66
+    },
+    {
+     "w": "fills",
+     "start": 48.66,
+     "end": 48.924
+    },
+    {
+     "w": "a",
+     "start": 48.924,
+     "end": 49.05
+    },
+    {
+     "w": "bucket",
+     "start": 49.05,
+     "end": 49.43
+    },
+    {
+     "w": "taxed",
+     "start": 49.43,
+     "end": 49.79
+    },
+    {
+     "w": "at",
+     "start": 49.79,
+     "end": 49.96
+    },
+    {
+     "w": "ten",
+     "start": 49.96,
+     "end": 50.23
+    },
+    {
+     "w": "percent",
+     "start": 50.23,
+     "end": 50.73
+    }
+   ]
+  },
+  {
+   "id": "b3",
+   "scene": "buckets",
+   "text": "Everything after that, up to $50,400, fills the 12% bucket.",
+   "say": "Everything after that, up to fifty thousand, four hundred, fills the twelve percent bucket.",
+   "start": 51.3,
+   "end": 56.37,
+   "words": [
+    {
+     "w": "Everything",
+     "start": 51.3,
+     "end": 51.72
+    },
+    {
+     "w": "after",
+     "start": 51.72,
+     "end": 52.09
+    },
+    {
+     "w": "that",
+     "start": 52.09,
+     "end": 52.35
+    },
+    {
+     "w": "up",
+     "start": 52.59,
+     "end": 52.69
+    },
+    {
+     "w": "to",
+     "start": 52.69,
+     "end": 52.93
+    },
+    {
+     "w": "fifty",
+     "start": 52.93,
+     "end": 53.28
+    },
+    {
+     "w": "thousand",
+     "start": 53.28,
+     "end": 53.66
+    },
+    {
+     "w": "four",
+     "start": 53.66,
+     "end": 53.92
+    },
+    {
+     "w": "hundred",
+     "start": 53.92,
+     "end": 54.375
+    },
+    {
+     "w": "fills",
+     "start": 54.375,
+     "end": 54.64
+    },
+    {
+     "w": "the",
+     "start": 54.89,
+     "end": 55.12
+    },
+    {
+     "w": "twelve",
+     "start": 55.12,
+     "end": 55.6
+    },
+    {
+     "w": "percent",
+     "start": 55.6,
+     "end": 56.0
+    },
+    {
+     "w": "bucket",
+     "start": 56.0,
+     "end": 56.37
+    }
+   ]
+  },
+  {
+   "id": "b4",
+   "scene": "buckets",
+   "text": "And Maya's 12% bucket is full. Right to the brim.",
+   "say": "And Maya's twelve percent bucket is full. Right to the brim.",
+   "start": 57.04,
+   "end": 60.56,
+   "words": [
+    {
+     "w": "And",
+     "start": 57.04,
+     "end": 57.3
+    },
+    {
+     "w": "Maya's",
+     "start": 57.3,
+     "end": 57.59
+    },
+    {
+     "w": "twelve",
+     "start": 57.59,
+     "end": 57.94
+    },
+    {
+     "w": "percent",
+     "start": 57.94,
+     "end": 58.47
+    },
+    {
+     "w": "bucket",
+     "start": 58.47,
+     "end": 58.93
+    },
+    {
+     "w": "is",
+     "start": 58.93,
+     "end": 59.01
+    },
+    {
+     "w": "full",
+     "start": 59.01,
+     "end": 59.31
+    },
+    {
+     "w": "Right",
+     "start": 59.58,
+     "end": 59.786
+    },
+    {
+     "w": "to",
+     "start": 59.786,
+     "end": 59.9
+    },
+    {
+     "w": "the",
+     "start": 59.9,
+     "end": 60.19
+    },
+    {
+     "w": "brim",
+     "start": 60.19,
+     "end": 60.56
+    }
+   ]
+  },
+  {
+   "id": "b5",
+   "scene": "buckets",
+   "text": "So her raise spills over, into the 22% bucket.",
+   "say": "So her raise spills over, into the twenty two percent bucket.",
+   "start": 61.02,
+   "end": 64.49,
+   "words": [
+    {
+     "w": "So",
+     "start": 61.02,
+     "end": 61.199
+    },
+    {
+     "w": "her",
+     "start": 61.199,
+     "end": 61.432
+    },
+    {
+     "w": "raise",
+     "start": 61.432,
+     "end": 61.87
+    },
+    {
+     "w": "spills",
+     "start": 61.87,
+     "end": 62.166
+    },
+    {
+     "w": "over",
+     "start": 62.166,
+     "end": 62.56
+    },
+    {
+     "w": "into",
+     "start": 62.75,
+     "end": 62.98
+    },
+    {
+     "w": "the",
+     "start": 62.98,
+     "end": 63.09
+    },
+    {
+     "w": "twenty",
+     "start": 63.09,
+     "end": 63.48
+    },
+    {
+     "w": "two",
+     "start": 63.48,
+     "end": 63.72
+    },
+    {
+     "w": "percent",
+     "start": 63.72,
+     "end": 64.26
+    },
+    {
+     "w": "bucket",
+     "start": 64.26,
+     "end": 64.49
+    }
+   ]
+  },
+  {
+   "id": "b6",
+   "scene": "buckets",
+   "text": "This is exactly what her coworker was scared of.",
+   "say": "This is exactly what her coworker was scared of.",
+   "start": 65.03,
+   "end": 67.55,
+   "words": [
+    {
+     "w": "This",
+     "start": 65.03,
+     "end": 65.203
+    },
+    {
+     "w": "is",
+     "start": 65.203,
+     "end": 65.32
+    },
+    {
+     "w": "exactly",
+     "start": 65.32,
+     "end": 65.89
+    },
+    {
+     "w": "what",
+     "start": 65.89,
+     "end": 66.19
+    },
+    {
+     "w": "her",
+     "start": 66.19,
+     "end": 66.33
+    },
+    {
+     "w": "coworker",
+     "start": 66.33,
+     "end": 66.74
+    },
+    {
+     "w": "was",
+     "start": 66.74,
+     "end": 67.08
+    },
+    {
+     "w": "scared",
+     "start": 67.08,
+     "end": 67.426
+    },
+    {
+     "w": "of",
+     "start": 67.426,
+     "end": 67.55
+    }
+   ]
+  },
+  {
+   "id": "b7",
+   "scene": "buckets",
+   "text": "But watch what actually happens.",
+   "say": "But watch what actually happens.",
+   "start": 68.07,
+   "end": 69.79,
+   "words": [
+    {
+     "w": "But",
+     "start": 68.07,
+     "end": 68.43
+    },
+    {
+     "w": "watch",
+     "start": 68.43,
+     "end": 68.53
+    },
+    {
+     "w": "what",
+     "start": 68.53,
+     "end": 68.92
+    },
+    {
+     "w": "actually",
+     "start": 68.92,
+     "end": 69.43
+    },
+    {
+     "w": "happens",
+     "start": 69.43,
+     "end": 69.79
+    }
+   ]
+  },
+  {
+   "id": "b8",
+   "scene": "buckets",
+   "text": "Only the overflow gets taxed at 22%.",
+   "say": "Only the overflow gets taxed at twenty two percent.",
+   "start": 70.33,
+   "end": 73.13,
+   "words": [
+    {
+     "w": "Only",
+     "start": 70.33,
+     "end": 70.62
+    },
+    {
+     "w": "the",
+     "start": 70.62,
+     "end": 70.8
+    },
+    {
+     "w": "overflow",
+     "start": 70.8,
+     "end": 71.42
+    },
+    {
+     "w": "gets",
+     "start": 71.42,
+     "end": 71.66
+    },
+    {
+     "w": "taxed",
+     "start": 71.66,
+     "end": 71.91
+    },
+    {
+     "w": "at",
+     "start": 71.91,
+     "end": 72.14
+    },
+    {
+     "w": "twenty",
+     "start": 72.14,
+     "end": 72.46
+    },
+    {
+     "w": "two",
+     "start": 72.46,
+     "end": 72.65
+    },
+    {
+     "w": "percent",
+     "start": 72.65,
+     "end": 73.13
+    }
+   ]
+  },
+  {
+   "id": "b9",
+   "scene": "buckets",
+   "text": "The money already in the lower buckets? It's taxed exactly the same as before.",
+   "say": "The money already in the lower buckets? It's taxed exactly the same as before.",
+   "start": 73.64,
+   "end": 78.1,
+   "words": [
+    {
+     "w": "The",
+     "start": 73.64,
+     "end": 73.831
+    },
+    {
+     "w": "money",
+     "start": 73.831,
+     "end": 74.249
+    },
+    {
+     "w": "already",
+     "start": 74.249,
+     "end": 74.669
+    },
+    {
+     "w": "in",
+     "start": 74.669,
+     "end": 74.93
+    },
+    {
+     "w": "the",
+     "start": 74.93,
+     "end": 75.07
+    },
+    {
+     "w": "lower",
+     "start": 75.07,
+     "end": 75.41
+    },
+    {
+     "w": "buckets",
+     "start": 75.79,
+     "end": 76.01
+    },
+    {
+     "w": "It's",
+     "start": 76.01,
+     "end": 76.36
+    },
+    {
+     "w": "taxed",
+     "start": 76.36,
+     "end": 76.665
+    },
+    {
+     "w": "exactly",
+     "start": 76.665,
+     "end": 77.1
+    },
+    {
+     "w": "the",
+     "start": 77.1,
+     "end": 77.27
+    },
+    {
+     "w": "same",
+     "start": 77.27,
+     "end": 77.61
+    },
+    {
+     "w": "as",
+     "start": 77.61,
+     "end": 77.8
+    },
+    {
+     "w": "before",
+     "start": 77.8,
+     "end": 78.1
+    }
+   ]
+  },
+  {
+   "id": "k1",
+   "scene": "math",
+   "text": "$2,000 times 22% is $440.",
+   "say": "Two thousand dollars, times twenty two percent, is four hundred forty.",
+   "start": 78.61,
+   "end": 82.84,
+   "words": [
+    {
+     "w": "Two",
+     "start": 78.61,
+     "end": 78.82
+    },
+    {
+     "w": "thousand",
+     "start": 78.82,
+     "end": 79.261
+    },
+    {
+     "w": "dollars",
+     "start": 79.261,
+     "end": 79.66
+    },
+    {
+     "w": "times",
+     "start": 79.66,
+     "end": 79.99
+    },
+    {
+     "w": "twenty",
+     "start": 79.99,
+     "end": 80.51
+    },
+    {
+     "w": "two",
+     "start": 80.51,
+     "end": 80.677
+    },
+    {
+     "w": "percent",
+     "start": 80.677,
+     "end": 81.06
+    },
+    {
+     "w": "is",
+     "start": 81.06,
+     "end": 81.31
+    },
+    {
+     "w": "four",
+     "start": 81.31,
+     "end": 81.64
+    },
+    {
+     "w": "hundred",
+     "start": 81.64,
+     "end": 82.3
+    },
+    {
+     "w": "forty",
+     "start": 82.3,
+     "end": 82.84
+    }
+   ]
+  },
+  {
+   "id": "k2",
+   "scene": "math",
+   "text": "Maya keeps $1,560 of her raise, before payroll taxes.",
+   "say": "Maya keeps fifteen hundred sixty of her raise, before payroll taxes.",
+   "start": 83.3,
+   "end": 88.27,
+   "words": [
+    {
+     "w": "Maya",
+     "start": 83.3,
+     "end": 83.64
+    },
+    {
+     "w": "keeps",
+     "start": 83.64,
+     "end": 83.97
+    },
+    {
+     "w": "fifteen",
+     "start": 83.97,
+     "end": 85.01
+    },
+    {
+     "w": "hundred",
+     "start": 85.01,
+     "end": 85.5
+    },
+    {
+     "w": "sixty",
+     "start": 85.5,
+     "end": 86.15
+    },
+    {
+     "w": "of",
+     "start": 86.15,
+     "end": 86.347
+    },
+    {
+     "w": "her",
+     "start": 86.347,
+     "end": 86.56
+    },
+    {
+     "w": "raise",
+     "start": 86.56,
+     "end": 86.82
+    },
+    {
+     "w": "before",
+     "start": 86.82,
+     "end": 87.3
+    },
+    {
+     "w": "payroll",
+     "start": 87.3,
+     "end": 87.9
+    },
+    {
+     "w": "taxes",
+     "start": 87.9,
+     "end": 88.27
+    }
+   ]
+  },
+  {
+   "id": "k3",
+   "scene": "math",
+   "text": "Her whole federal income tax bill is $6,240.",
+   "say": "Her whole federal income tax bill, is six thousand, two hundred forty.",
+   "start": 88.81,
+   "end": 93.09,
+   "words": [
+    {
+     "w": "Her",
+     "start": 88.81,
+     "end": 89.05
+    },
+    {
+     "w": "whole",
+     "start": 89.05,
+     "end": 89.36
+    },
+    {
+     "w": "federal",
+     "start": 89.36,
+     "end": 89.86
+    },
+    {
+     "w": "income",
+     "start": 89.86,
+     "end": 90.25
+    },
+    {
+     "w": "tax",
+     "start": 90.25,
+     "end": 90.38
+    },
+    {
+     "w": "bill",
+     "start": 90.38,
+     "end": 90.7
+    },
+    {
+     "w": "is",
+     "start": 90.7,
+     "end": 90.914
+    },
+    {
+     "w": "six",
+     "start": 90.914,
+     "end": 91.22
+    },
+    {
+     "w": "thousand",
+     "start": 91.22,
+     "end": 91.77
+    },
+    {
+     "w": "two",
+     "start": 91.77,
+     "end": 91.906
+    },
+    {
+     "w": "hundred",
+     "start": 91.906,
+     "end": 92.59
+    },
+    {
+     "w": "forty",
+     "start": 92.59,
+     "end": 93.09
+    }
+   ]
+  },
+  {
+   "id": "k4",
+   "scene": "math",
+   "text": "That's about 9% of her pay. Not 22.",
+   "say": "That's about nine percent of her pay. Not twenty two.",
+   "start": 93.5,
+   "end": 96.46,
+   "words": [
+    {
+     "w": "That's",
+     "start": 93.5,
+     "end": 93.73
+    },
+    {
+     "w": "about",
+     "start": 93.73,
+     "end": 93.9
+    },
+    {
+     "w": "nine",
+     "start": 93.9,
+     "end": 94.32
+    },
+    {
+     "w": "percent",
+     "start": 94.32,
+     "end": 94.72
+    },
+    {
+     "w": "of",
+     "start": 94.72,
+     "end": 94.89
+    },
+    {
+     "w": "her",
+     "start": 94.89,
+     "end": 95.106
+    },
+    {
+     "w": "pay",
+     "start": 95.106,
+     "end": 95.26
+    },
+    {
+     "w": "Not",
+     "start": 95.53,
+     "end": 95.74
+    },
+    {
+     "w": "twenty",
+     "start": 95.74,
+     "end": 96.17
+    },
+    {
+     "w": "two",
+     "start": 96.17,
+     "end": 96.46
+    }
+   ]
+  },
+  {
+   "id": "k5",
+   "scene": "math",
+   "text": "A higher bracket can't shrink your paycheck.",
+   "say": "A higher bracket can't shrink your paycheck.",
+   "start": 97.08,
+   "end": 99.33,
+   "words": [
+    {
+     "w": "A",
+     "start": 97.08,
+     "end": 97.254
+    },
+    {
+     "w": "higher",
+     "start": 97.254,
+     "end": 97.55
+    },
+    {
+     "w": "bracket",
+     "start": 97.55,
+     "end": 97.99
+    },
+    {
+     "w": "can't",
+     "start": 97.99,
+     "end": 98.34
+    },
+    {
+     "w": "shrink",
+     "start": 98.34,
+     "end": 98.81
+    },
+    {
+     "w": "your",
+     "start": 98.81,
+     "end": 99.02
+    },
+    {
+     "w": "paycheck",
+     "start": 99.02,
+     "end": 99.33
+    }
+   ]
+  },
+  {
+   "id": "k6",
+   "scene": "math",
+   "text": "The buckets only fill. They never tip over.",
+   "say": "The buckets only fill. They never tip over.",
+   "start": 99.77,
+   "end": 102.56,
+   "words": [
+    {
+     "w": "The",
+     "start": 99.77,
+     "end": 100.05
+    },
+    {
+     "w": "buckets",
+     "start": 100.05,
+     "end": 100.34
+    },
+    {
+     "w": "only",
+     "start": 100.34,
+     "end": 100.79
+    },
+    {
+     "w": "fill",
+     "start": 100.79,
+     "end": 101.09
+    },
+    {
+     "w": "They",
+     "start": 101.42,
+     "end": 101.538
+    },
+    {
+     "w": "never",
+     "start": 101.538,
+     "end": 101.96
+    },
+    {
+     "w": "tip",
+     "start": 101.96,
+     "end": 102.14
+    },
+    {
+     "w": "over",
+     "start": 102.14,
+     "end": 102.56
+    }
+   ]
+  },
+  {
+   "id": "p1",
+   "scene": "pivot",
+   "text": "But here's what her coworker almost got right.",
+   "say": "But here's what her coworker almost got right.",
+   "start": 103.05,
+   "end": 105.46,
+   "words": [
+    {
+     "w": "But",
+     "start": 103.05,
+     "end": 103.25
+    },
+    {
+     "w": "here's",
+     "start": 103.25,
+     "end": 103.5
+    },
+    {
+     "w": "what",
+     "start": 103.5,
+     "end": 103.76
+    },
+    {
+     "w": "her",
+     "start": 103.76,
+     "end": 103.86
+    },
+    {
+     "w": "coworker",
+     "start": 103.86,
+     "end": 104.34
+    },
+    {
+     "w": "almost",
+     "start": 104.52,
+     "end": 104.93
+    },
+    {
+     "w": "got",
+     "start": 104.93,
+     "end": 105.279
+    },
+    {
+     "w": "right",
+     "start": 105.279,
+     "end": 105.46
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "scene": "pivot",
+   "text": "Some money rules don't work like buckets.",
+   "say": "Some money rules don't work like buckets.",
+   "start": 105.92,
+   "end": 108.09,
+   "words": [
+    {
+     "w": "Some",
+     "start": 105.92,
+     "end": 106.231
+    },
+    {
+     "w": "money",
+     "start": 106.231,
+     "end": 106.48
+    },
+    {
+     "w": "rules",
+     "start": 106.48,
+     "end": 106.83
+    },
+    {
+     "w": "don't",
+     "start": 106.83,
+     "end": 107.07
+    },
+    {
+     "w": "work",
+     "start": 107.07,
+     "end": 107.49
+    },
+    {
+     "w": "like",
+     "start": 107.49,
+     "end": 107.72
+    },
+    {
+     "w": "buckets",
+     "start": 107.72,
+     "end": 108.09
+    }
+   ]
+  },
+  {
+   "id": "p3",
+   "scene": "pivot",
+   "text": "They work like cliffs.",
+   "say": "They work like cliffs.",
+   "start": 108.39,
+   "end": 109.66,
+   "words": [
+    {
+     "w": "They",
+     "start": 108.39,
+     "end": 108.55
+    },
+    {
+     "w": "work",
+     "start": 108.55,
+     "end": 108.81
+    },
+    {
+     "w": "like",
+     "start": 108.81,
+     "end": 109.15
+    },
+    {
+     "w": "cliffs",
+     "start": 109.15,
+     "end": 109.66
+    }
+   ]
+  },
+  {
+   "id": "d1",
+   "scene": "dan",
+   "text": "Meet Dan.",
+   "say": "Meet Dan.",
+   "start": 110.14,
+   "end": 110.86,
+   "words": [
+    {
+     "w": "Meet",
+     "start": 110.14,
+     "end": 110.44
+    },
+    {
+     "w": "Dan",
+     "start": 110.44,
+     "end": 110.86
+    }
+   ]
+  },
+  {
+   "id": "d2",
+   "scene": "dan",
+   "text": "He's 60, he's a freelance designer, and he buys his health insurance on the ACA marketplace.",
+   "say": "He's sixty, he's a freelance designer, and he buys his health insurance on the A C A marketplace.",
+   "start": 111.28,
+   "end": 116.78,
+   "words": [
+    {
+     "w": "He's",
+     "start": 111.28,
+     "end": 111.61
+    },
+    {
+     "w": "sixty",
+     "start": 111.61,
+     "end": 111.95
+    },
+    {
+     "w": "he's",
+     "start": 112.22,
+     "end": 112.42
+    },
+    {
+     "w": "a",
+     "start": 112.42,
+     "end": 112.52
+    },
+    {
+     "w": "freelance",
+     "start": 112.52,
+     "end": 112.93
+    },
+    {
+     "w": "designer",
+     "start": 112.93,
+     "end": 113.35
+    },
+    {
+     "w": "and",
+     "start": 113.35,
+     "end": 113.49
+    },
+    {
+     "w": "he",
+     "start": 113.71,
+     "end": 113.95
+    },
+    {
+     "w": "buys",
+     "start": 113.95,
+     "end": 114.225
+    },
+    {
+     "w": "his",
+     "start": 114.225,
+     "end": 114.38
+    },
+    {
+     "w": "health",
+     "start": 114.38,
+     "end": 114.81
+    },
+    {
+     "w": "insurance",
+     "start": 114.81,
+     "end": 115.14
+    },
+    {
+     "w": "on",
+     "start": 115.14,
+     "end": 115.42
+    },
+    {
+     "w": "the",
+     "start": 115.42,
+     "end": 115.68
+    },
+    {
+     "w": "A",
+     "start": 115.68,
+     "end": 115.782
+    },
+    {
+     "w": "C",
+     "start": 115.782,
+     "end": 115.942
+    },
+    {
+     "w": "A",
+     "start": 115.942,
+     "end": 116.2
+    },
+    {
+     "w": "marketplace",
+     "start": 116.2,
+     "end": 116.78
+    }
+   ]
+  },
+  {
+   "id": "d3",
+   "scene": "dan",
+   "text": "A tax credit helps pay his monthly premium.",
+   "say": "A tax credit helps pay his monthly premium.",
+   "start": 117.26,
+   "end": 119.66,
+   "words": [
+    {
+     "w": "A",
+     "start": 117.26,
+     "end": 117.38
+    },
+    {
+     "w": "tax",
+     "start": 117.38,
+     "end": 117.6
+    },
+    {
+     "w": "credit",
+     "start": 117.6,
+     "end": 118.02
+    },
+    {
+     "w": "helps",
+     "start": 118.02,
+     "end": 118.25
+    },
+    {
+     "w": "pay",
+     "start": 118.25,
+     "end": 118.39
+    },
+    {
+     "w": "his",
+     "start": 118.39,
+     "end": 118.78
+    },
+    {
+     "w": "monthly",
+     "start": 118.78,
+     "end": 118.98
+    },
+    {
+     "w": "premium",
+     "start": 118.98,
+     "end": 119.66
+    }
+   ]
+  },
+  {
+   "id": "d4",
+   "scene": "dan",
+   "text": "Extra help that Congress added in 2021 expired at the end of 2025.",
+   "say": "Extra help that Congress added in twenty twenty one, expired at the end of twenty twenty five.",
+   "start": 120.24,
+   "end": 125.08,
+   "words": [
+    {
+     "w": "Extra",
+     "start": 120.24,
+     "end": 120.45
+    },
+    {
+     "w": "help",
+     "start": 120.45,
+     "end": 120.85
+    },
+    {
+     "w": "that",
+     "start": 120.85,
+     "end": 120.99
+    },
+    {
+     "w": "Congress",
+     "start": 120.99,
+     "end": 121.47
+    },
+    {
+     "w": "added",
+     "start": 121.47,
+     "end": 121.75
+    },
+    {
+     "w": "in",
+     "start": 121.75,
+     "end": 122.01
+    },
+    {
+     "w": "twenty",
+     "start": 122.01,
+     "end": 122.31
+    },
+    {
+     "w": "twenty",
+     "start": 122.31,
+     "end": 122.85
+    },
+    {
+     "w": "one",
+     "start": 122.85,
+     "end": 122.99
+    },
+    {
+     "w": "expired",
+     "start": 122.99,
+     "end": 123.19
+    },
+    {
+     "w": "at",
+     "start": 123.19,
+     "end": 123.53
+    },
+    {
+     "w": "the",
+     "start": 123.53,
+     "end": 123.65
+    },
+    {
+     "w": "end",
+     "start": 123.65,
+     "end": 123.78
+    },
+    {
+     "w": "of",
+     "start": 123.78,
+     "end": 124.11
+    },
+    {
+     "w": "twenty",
+     "start": 124.11,
+     "end": 124.41
+    },
+    {
+     "w": "twenty",
+     "start": 124.41,
+     "end": 124.77
+    },
+    {
+     "w": "five",
+     "start": 124.77,
+     "end": 125.08
+    }
+   ]
+  },
+  {
+   "id": "d5",
+   "scene": "dan",
+   "text": "So for 2026, the old rule is back.",
+   "say": "So for twenty twenty six, the old rule is back.",
+   "start": 125.53,
+   "end": 128.32,
+   "words": [
+    {
+     "w": "So",
+     "start": 125.53,
+     "end": 125.72
+    },
+    {
+     "w": "for",
+     "start": 125.72,
+     "end": 125.82
+    },
+    {
+     "w": "twenty",
+     "start": 125.82,
+     "end": 126.19
+    },
+    {
+     "w": "twenty",
+     "start": 126.19,
+     "end": 126.66
+    },
+    {
+     "w": "six",
+     "start": 126.66,
+     "end": 126.84
+    },
+    {
+     "w": "the",
+     "start": 127.06,
+     "end": 127.23
+    },
+    {
+     "w": "old",
+     "start": 127.23,
+     "end": 127.542
+    },
+    {
+     "w": "rule",
+     "start": 127.542,
+     "end": 127.903
+    },
+    {
+     "w": "is",
+     "start": 127.903,
+     "end": 127.97
+    },
+    {
+     "w": "back",
+     "start": 127.97,
+     "end": 128.32
+    }
+   ]
+  },
+  {
+   "id": "f1",
+   "scene": "cliff",
+   "text": "If your income is above 400% of the federal poverty line, that credit drops to zero.",
+   "say": "If your income is above four hundred percent of the federal poverty line, that credit drops to zero.",
+   "start": 128.85,
+   "end": 134.46,
+   "words": [
+    {
+     "w": "If",
+     "start": 128.85,
+     "end": 128.94
+    },
+    {
+     "w": "your",
+     "start": 128.94,
+     "end": 129.17
+    },
+    {
+     "w": "income",
+     "start": 129.17,
+     "end": 129.548
+    },
+    {
+     "w": "is",
+     "start": 129.548,
+     "end": 129.646
+    },
+    {
+     "w": "above",
+     "start": 129.646,
+     "end": 130.07
+    },
+    {
+     "w": "four",
+     "start": 130.07,
+     "end": 130.19
+    },
+    {
+     "w": "hundred",
+     "start": 130.19,
+     "end": 130.66
+    },
+    {
+     "w": "percent",
+     "start": 130.66,
+     "end": 131.12
+    },
+    {
+     "w": "of",
+     "start": 131.12,
+     "end": 131.26
+    },
+    {
+     "w": "the",
+     "start": 131.26,
+     "end": 131.42
+    },
+    {
+     "w": "federal",
+     "start": 131.42,
+     "end": 131.82
+    },
+    {
+     "w": "poverty",
+     "start": 131.82,
+     "end": 132.331
+    },
+    {
+     "w": "line",
+     "start": 132.331,
+     "end": 132.53
+    },
+    {
+     "w": "that",
+     "start": 132.76,
+     "end": 132.95
+    },
+    {
+     "w": "credit",
+     "start": 132.95,
+     "end": 133.38
+    },
+    {
+     "w": "drops",
+     "start": 133.38,
+     "end": 133.77
+    },
+    {
+     "w": "to",
+     "start": 133.77,
+     "end": 134.025
+    },
+    {
+     "w": "zero",
+     "start": 134.025,
+     "end": 134.46
+    }
+   ]
+  },
+  {
+   "id": "f2",
+   "scene": "cliff",
+   "text": "Not down a little. Zero.",
+   "say": "Not down a little. Zero.",
+   "start": 134.88,
+   "end": 136.68,
+   "words": [
+    {
+     "w": "Not",
+     "start": 134.88,
+     "end": 135.07
+    },
+    {
+     "w": "down",
+     "start": 135.07,
+     "end": 135.51
+    },
+    {
+     "w": "a",
+     "start": 135.51,
+     "end": 135.76
+    },
+    {
+     "w": "little",
+     "start": 136.05,
+     "end": 136.327
+    },
+    {
+     "w": "Zero",
+     "start": 136.327,
+     "end": 136.68
+    }
+   ]
+  },
+  {
+   "id": "f3",
+   "scene": "cliff",
+   "text": "For a single person in the lower 48 states, the line is $62,600.",
+   "say": "For a single person in the lower forty eight states, the line is sixty two thousand, six hundred.",
+   "start": 137.18,
+   "end": 142.84,
+   "words": [
+    {
+     "w": "For",
+     "start": 137.18,
+     "end": 137.351
+    },
+    {
+     "w": "a",
+     "start": 137.351,
+     "end": 137.525
+    },
+    {
+     "w": "single",
+     "start": 137.525,
+     "end": 137.76
+    },
+    {
+     "w": "person",
+     "start": 137.76,
+     "end": 138.308
+    },
+    {
+     "w": "in",
+     "start": 138.308,
+     "end": 138.489
+    },
+    {
+     "w": "the",
+     "start": 138.489,
+     "end": 138.78
+    },
+    {
+     "w": "lower",
+     "start": 138.78,
+     "end": 139.16
+    },
+    {
+     "w": "forty",
+     "start": 139.16,
+     "end": 139.3
+    },
+    {
+     "w": "eight",
+     "start": 139.3,
+     "end": 139.69
+    },
+    {
+     "w": "states",
+     "start": 140.0,
+     "end": 140.29
+    },
+    {
+     "w": "the",
+     "start": 140.29,
+     "end": 140.43
+    },
+    {
+     "w": "line",
+     "start": 140.43,
+     "end": 140.78
+    },
+    {
+     "w": "is",
+     "start": 140.78,
+     "end": 141.02
+    },
+    {
+     "w": "sixty",
+     "start": 141.02,
+     "end": 141.26
+    },
+    {
+     "w": "two",
+     "start": 141.26,
+     "end": 141.628
+    },
+    {
+     "w": "thousand",
+     "start": 141.628,
+     "end": 141.89
+    },
+    {
+     "w": "six",
+     "start": 141.89,
+     "end": 142.3
+    },
+    {
+     "w": "hundred",
+     "start": 142.3,
+     "end": 142.84
+    }
+   ]
+  },
+  {
+   "id": "f4",
+   "scene": "cliff",
+   "text": "Dan's income is $62,000.",
+   "say": "Dan's income is sixty two thousand.",
+   "start": 143.26,
+   "end": 145.84,
+   "words": [
+    {
+     "w": "Dan's",
+     "start": 143.26,
+     "end": 143.642
+    },
+    {
+     "w": "income",
+     "start": 143.642,
+     "end": 144.07
+    },
+    {
+     "w": "is",
+     "start": 144.07,
+     "end": 144.43
+    },
+    {
+     "w": "sixty",
+     "start": 144.43,
+     "end": 144.92
+    },
+    {
+     "w": "two",
+     "start": 144.92,
+     "end": 145.194
+    },
+    {
+     "w": "thousand",
+     "start": 145.194,
+     "end": 145.84
+    }
+   ]
+  },
+  {
+   "id": "f5",
+   "scene": "cliff",
+   "text": "Then a client sends one more small job. $1,000.",
+   "say": "Then a client sends one more small job. One thousand dollars.",
+   "start": 146.16,
+   "end": 150.18,
+   "words": [
+    {
+     "w": "Then",
+     "start": 146.16,
+     "end": 146.57
+    },
+    {
+     "w": "a",
+     "start": 146.57,
+     "end": 146.69
+    },
+    {
+     "w": "client",
+     "start": 146.69,
+     "end": 147.06
+    },
+    {
+     "w": "sends",
+     "start": 147.06,
+     "end": 147.4
+    },
+    {
+     "w": "one",
+     "start": 147.4,
+     "end": 147.852
+    },
+    {
+     "w": "more",
+     "start": 147.852,
+     "end": 148.11
+    },
+    {
+     "w": "small",
+     "start": 148.11,
+     "end": 148.35
+    },
+    {
+     "w": "job",
+     "start": 148.35,
+     "end": 148.71
+    },
+    {
+     "w": "One",
+     "start": 149.03,
+     "end": 149.29
+    },
+    {
+     "w": "thousand",
+     "start": 149.29,
+     "end": 149.806
+    },
+    {
+     "w": "dollars",
+     "start": 149.806,
+     "end": 150.18
+    }
+   ]
+  },
+  {
+   "id": "f6",
+   "scene": "cliff",
+   "text": "Now he's at $63,000. $400 over the line.",
+   "say": "Now he's at sixty three thousand. Four hundred dollars over the line.",
+   "start": 150.63,
+   "end": 155.48,
+   "words": [
+    {
+     "w": "Now",
+     "start": 150.63,
+     "end": 151.0
+    },
+    {
+     "w": "he's",
+     "start": 151.0,
+     "end": 151.28
+    },
+    {
+     "w": "at",
+     "start": 151.28,
+     "end": 151.55
+    },
+    {
+     "w": "sixty",
+     "start": 151.55,
+     "end": 151.93
+    },
+    {
+     "w": "three",
+     "start": 151.93,
+     "end": 152.16
+    },
+    {
+     "w": "thousand",
+     "start": 152.16,
+     "end": 152.786
+    },
+    {
+     "w": "Four",
+     "start": 152.786,
+     "end": 153.06
+    },
+    {
+     "w": "hundred",
+     "start": 153.41,
+     "end": 154.1
+    },
+    {
+     "w": "dollars",
+     "start": 154.1,
+     "end": 154.532
+    },
+    {
+     "w": "over",
+     "start": 154.532,
+     "end": 154.79
+    },
+    {
+     "w": "the",
+     "start": 154.79,
+     "end": 155.173
+    },
+    {
+     "w": "line",
+     "start": 155.173,
+     "end": 155.48
+    }
+   ]
+  },
+  {
+   "id": "f7",
+   "scene": "cliff",
+   "text": "And his entire credit is gone.",
+   "say": "And his entire credit is gone.",
+   "start": 155.98,
+   "end": 158.03,
+   "words": [
+    {
+     "w": "And",
+     "start": 155.98,
+     "end": 156.223
+    },
+    {
+     "w": "his",
+     "start": 156.223,
+     "end": 156.37
+    },
+    {
+     "w": "entire",
+     "start": 156.37,
+     "end": 157.02
+    },
+    {
+     "w": "credit",
+     "start": 157.02,
+     "end": 157.5
+    },
+    {
+     "w": "is",
+     "start": 157.5,
+     "end": 157.648
+    },
+    {
+     "w": "gone",
+     "start": 157.648,
+     "end": 158.03
+    }
+   ]
+  },
+  {
+   "id": "n1",
+   "scene": "cost",
+   "text": "How much is that?",
+   "say": "How much is that?",
+   "start": 158.75,
+   "end": 159.46,
+   "words": [
+    {
+     "w": "How",
+     "start": 158.75,
+     "end": 158.844
+    },
+    {
+     "w": "much",
+     "start": 158.844,
+     "end": 159.01
+    },
+    {
+     "w": "is",
+     "start": 159.01,
+     "end": 159.22
+    },
+    {
+     "w": "that",
+     "start": 159.22,
+     "end": 159.46
+    }
+   ]
+  },
+  {
+   "id": "n2",
+   "scene": "cost",
+   "text": "For a 60-year-old in an average-cost area, roughly $9,700 a year.",
+   "say": "For a sixty year old, in an average cost area, roughly nine thousand, seven hundred dollars a year.",
+   "start": 160.15,
+   "end": 166.04,
+   "words": [
+    {
+     "w": "For",
+     "start": 160.15,
+     "end": 160.347
+    },
+    {
+     "w": "a",
+     "start": 160.347,
+     "end": 160.61
+    },
+    {
+     "w": "sixty",
+     "start": 160.61,
+     "end": 160.889
+    },
+    {
+     "w": "year",
+     "start": 160.889,
+     "end": 161.22
+    },
+    {
+     "w": "old",
+     "start": 161.22,
+     "end": 161.29
+    },
+    {
+     "w": "in",
+     "start": 161.29,
+     "end": 161.58
+    },
+    {
+     "w": "an",
+     "start": 161.58,
+     "end": 161.722
+    },
+    {
+     "w": "average",
+     "start": 161.722,
+     "end": 162.0
+    },
+    {
+     "w": "cost",
+     "start": 162.0,
+     "end": 162.433
+    },
+    {
+     "w": "area",
+     "start": 162.433,
+     "end": 162.77
+    },
+    {
+     "w": "roughly",
+     "start": 163.24,
+     "end": 163.45
+    },
+    {
+     "w": "nine",
+     "start": 163.45,
+     "end": 163.99
+    },
+    {
+     "w": "thousand",
+     "start": 163.99,
+     "end": 164.406
+    },
+    {
+     "w": "seven",
+     "start": 164.406,
+     "end": 164.73
+    },
+    {
+     "w": "hundred",
+     "start": 164.73,
+     "end": 165.15
+    },
+    {
+     "w": "dollars",
+     "start": 165.15,
+     "end": 165.589
+    },
+    {
+     "w": "a",
+     "start": 165.589,
+     "end": 165.735
+    },
+    {
+     "w": "year",
+     "start": 165.735,
+     "end": 166.04
+    }
+   ]
+  },
+  {
+   "id": "n3",
+   "scene": "cost",
+   "text": "A $1,000 job just cost him almost ten times what it paid.",
+   "say": "A one thousand dollar job just cost him almost ten times what it paid.",
+   "start": 166.72,
+   "end": 171.16,
+   "words": [
+    {
+     "w": "A",
+     "start": 166.72,
+     "end": 166.852
+    },
+    {
+     "w": "one",
+     "start": 166.852,
+     "end": 167.13
+    },
+    {
+     "w": "thousand",
+     "start": 167.13,
+     "end": 167.441
+    },
+    {
+     "w": "dollar",
+     "start": 167.441,
+     "end": 167.81
+    },
+    {
+     "w": "job",
+     "start": 167.81,
+     "end": 168.01
+    },
+    {
+     "w": "just",
+     "start": 168.01,
+     "end": 168.22
+    },
+    {
+     "w": "cost",
+     "start": 168.4,
+     "end": 168.73
+    },
+    {
+     "w": "him",
+     "start": 168.73,
+     "end": 168.99
+    },
+    {
+     "w": "almost",
+     "start": 168.99,
+     "end": 169.59
+    },
+    {
+     "w": "ten",
+     "start": 169.59,
+     "end": 169.99
+    },
+    {
+     "w": "times",
+     "start": 169.99,
+     "end": 170.373
+    },
+    {
+     "w": "what",
+     "start": 170.373,
+     "end": 170.5
+    },
+    {
+     "w": "it",
+     "start": 170.5,
+     "end": 170.75
+    },
+    {
+     "w": "paid",
+     "start": 170.75,
+     "end": 171.16
+    }
+   ]
+  },
+  {
+   "id": "n4",
+   "scene": "cost",
+   "text": "So did one extra job make Dan poorer? Yes.",
+   "say": "So did one extra job make Dan poorer? Yes.",
+   "start": 171.8,
+   "end": 176.41,
+   "words": [
+    {
+     "w": "So",
+     "start": 171.8,
+     "end": 172.27
+    },
+    {
+     "w": "did",
+     "start": 172.27,
+     "end": 172.644
+    },
+    {
+     "w": "one",
+     "start": 172.644,
+     "end": 172.9
+    },
+    {
+     "w": "extra",
+     "start": 172.9,
+     "end": 173.61
+    },
+    {
+     "w": "job",
+     "start": 173.61,
+     "end": 173.86
+    },
+    {
+     "w": "make",
+     "start": 173.86,
+     "end": 174.16
+    },
+    {
+     "w": "Dan",
+     "start": 174.16,
+     "end": 174.63
+    },
+    {
+     "w": "poorer",
+     "start": 175.24,
+     "end": 175.41
+    },
+    {
+     "w": "Yes",
+     "start": 175.81,
+     "end": 176.41
+    }
+   ]
+  },
+  {
+   "id": "n5",
+   "scene": "cost",
+   "text": "Unless he knows one move.",
+   "say": "Unless he knows one move.",
+   "start": 177.02,
+   "end": 178.97,
+   "words": [
+    {
+     "w": "Unless",
+     "start": 177.02,
+     "end": 177.524
+    },
+    {
+     "w": "he",
+     "start": 177.524,
+     "end": 177.81
+    },
+    {
+     "w": "knows",
+     "start": 177.81,
+     "end": 178.21
+    },
+    {
+     "w": "one",
+     "start": 178.21,
+     "end": 178.701
+    },
+    {
+     "w": "move",
+     "start": 178.701,
+     "end": 178.97
+    }
+   ]
+  },
+  {
+   "id": "v1",
+   "scene": "move",
+   "text": "The cliff isn't measured by his paycheck.",
+   "say": "The cliff isn't measured by his paycheck.",
+   "start": 179.62,
+   "end": 181.88,
+   "words": [
+    {
+     "w": "The",
+     "start": 179.62,
+     "end": 179.74
+    },
+    {
+     "w": "cliff",
+     "start": 179.74,
+     "end": 180.2
+    },
+    {
+     "w": "isn't",
+     "start": 180.2,
+     "end": 180.669
+    },
+    {
+     "w": "measured",
+     "start": 180.669,
+     "end": 180.97
+    },
+    {
+     "w": "by",
+     "start": 180.97,
+     "end": 181.32
+    },
+    {
+     "w": "his",
+     "start": 181.32,
+     "end": 181.54
+    },
+    {
+     "w": "paycheck",
+     "start": 181.54,
+     "end": 181.88
+    }
+   ]
+  },
+  {
+   "id": "v2",
+   "scene": "move",
+   "text": "It's measured by something called modified adjusted gross income.",
+   "say": "It's measured by something called modified adjusted gross income.",
+   "start": 182.36,
+   "end": 186.14,
+   "words": [
+    {
+     "w": "It's",
+     "start": 182.36,
+     "end": 182.557
+    },
+    {
+     "w": "measured",
+     "start": 182.557,
+     "end": 182.89
+    },
+    {
+     "w": "by",
+     "start": 182.89,
+     "end": 183.3
+    },
+    {
+     "w": "something",
+     "start": 183.3,
+     "end": 183.87
+    },
+    {
+     "w": "called",
+     "start": 183.87,
+     "end": 184.28
+    },
+    {
+     "w": "modified",
+     "start": 184.28,
+     "end": 184.75
+    },
+    {
+     "w": "adjusted",
+     "start": 184.75,
+     "end": 185.22
+    },
+    {
+     "w": "gross",
+     "start": 185.22,
+     "end": 185.59
+    },
+    {
+     "w": "income",
+     "start": 185.59,
+     "end": 186.14
+    }
+   ]
+  },
+  {
+   "id": "v3",
+   "scene": "move",
+   "text": "And some contributions lower that number.",
+   "say": "And some contributions lower that number.",
+   "start": 186.72,
+   "end": 188.86,
+   "words": [
+    {
+     "w": "And",
+     "start": 186.72,
+     "end": 187.026
+    },
+    {
+     "w": "some",
+     "start": 187.026,
+     "end": 187.13
+    },
+    {
+     "w": "contributions",
+     "start": 187.13,
+     "end": 187.89
+    },
+    {
+     "w": "lower",
+     "start": 187.89,
+     "end": 188.256
+    },
+    {
+     "w": "that",
+     "start": 188.256,
+     "end": 188.42
+    },
+    {
+     "w": "number",
+     "start": 188.42,
+     "end": 188.86
+    }
+   ]
+  },
+  {
+   "id": "v4",
+   "scene": "move",
+   "text": "Put money into a traditional IRA, or a health savings account if his plan qualifies, and Dan can slide back under the line.",
+   "say": "Put money into a traditional I R A, or a health savings account if his plan qualifies, and Dan can slide back under the line.",
+   "start": 189.49,
+   "end": 197.23,
+   "words": [
+    {
+     "w": "Put",
+     "start": 189.49,
+     "end": 189.64
+    },
+    {
+     "w": "money",
+     "start": 189.64,
+     "end": 190.14
+    },
+    {
+     "w": "into",
+     "start": 190.14,
+     "end": 190.36
+    },
+    {
+     "w": "a",
+     "start": 190.36,
+     "end": 190.55
+    },
+    {
+     "w": "traditional",
+     "start": 190.55,
+     "end": 191.16
+    },
+    {
+     "w": "I",
+     "start": 191.16,
+     "end": 191.266
+    },
+    {
+     "w": "R",
+     "start": 191.266,
+     "end": 191.436
+    },
+    {
+     "w": "A",
+     "start": 191.436,
+     "end": 191.681
+    },
+    {
+     "w": "or",
+     "start": 191.681,
+     "end": 191.8
+    },
+    {
+     "w": "a",
+     "start": 191.8,
+     "end": 191.888
+    },
+    {
+     "w": "health",
+     "start": 191.888,
+     "end": 192.31
+    },
+    {
+     "w": "savings",
+     "start": 192.31,
+     "end": 192.56
+    },
+    {
+     "w": "account",
+     "start": 192.56,
+     "end": 192.84
+    },
+    {
+     "w": "if",
+     "start": 192.84,
+     "end": 193.13
+    },
+    {
+     "w": "his",
+     "start": 193.13,
+     "end": 193.45
+    },
+    {
+     "w": "plan",
+     "start": 193.45,
+     "end": 193.72
+    },
+    {
+     "w": "qualifies",
+     "start": 193.72,
+     "end": 194.27
+    },
+    {
+     "w": "and",
+     "start": 194.27,
+     "end": 194.44
+    },
+    {
+     "w": "Dan",
+     "start": 194.92,
+     "end": 195.243
+    },
+    {
+     "w": "can",
+     "start": 195.243,
+     "end": 195.583
+    },
+    {
+     "w": "slide",
+     "start": 195.583,
+     "end": 195.939
+    },
+    {
+     "w": "back",
+     "start": 195.939,
+     "end": 196.34
+    },
+    {
+     "w": "under",
+     "start": 196.34,
+     "end": 196.45
+    },
+    {
+     "w": "the",
+     "start": 196.45,
+     "end": 196.956
+    },
+    {
+     "w": "line",
+     "start": 196.956,
+     "end": 197.23
+    }
+   ]
+  },
+  {
+   "id": "v5",
+   "scene": "move",
+   "text": "He keeps the job. He keeps the money, saved for later. And he keeps his credit.",
+   "say": "He keeps the job. He keeps the money, saved for later. And he keeps his credit.",
+   "start": 197.72,
+   "end": 203.15,
+   "words": [
+    {
+     "w": "He",
+     "start": 197.72,
+     "end": 197.85
+    },
+    {
+     "w": "keeps",
+     "start": 197.85,
+     "end": 198.15
+    },
+    {
+     "w": "the",
+     "start": 198.15,
+     "end": 198.366
+    },
+    {
+     "w": "job",
+     "start": 198.366,
+     "end": 198.63
+    },
+    {
+     "w": "He",
+     "start": 199.08,
+     "end": 199.18
+    },
+    {
+     "w": "keeps",
+     "start": 199.18,
+     "end": 199.47
+    },
+    {
+     "w": "the",
+     "start": 199.47,
+     "end": 199.698
+    },
+    {
+     "w": "money",
+     "start": 199.698,
+     "end": 199.99
+    },
+    {
+     "w": "saved",
+     "start": 200.2,
+     "end": 200.49
+    },
+    {
+     "w": "for",
+     "start": 200.49,
+     "end": 200.6
+    },
+    {
+     "w": "later",
+     "start": 200.6,
+     "end": 200.906
+    },
+    {
+     "w": "And",
+     "start": 200.906,
+     "end": 201.08
+    },
+    {
+     "w": "he",
+     "start": 201.58,
+     "end": 201.91
+    },
+    {
+     "w": "keeps",
+     "start": 202.15,
+     "end": 202.49
+    },
+    {
+     "w": "his",
+     "start": 202.49,
+     "end": 202.75
+    },
+    {
+     "w": "credit",
+     "start": 202.75,
+     "end": 203.15
+    }
+   ]
+  },
+  {
+   "id": "w1",
+   "scene": "status",
+   "text": "One warning: this rule is moving.",
+   "say": "One warning. This rule is moving.",
+   "start": 203.82,
+   "end": 206.34,
+   "words": [
+    {
+     "w": "One",
+     "start": 203.82,
+     "end": 204.09
+    },
+    {
+     "w": "warning",
+     "start": 204.09,
+     "end": 204.55
+    },
+    {
+     "w": "This",
+     "start": 204.95,
+     "end": 205.22
+    },
+    {
+     "w": "rule",
+     "start": 205.22,
+     "end": 205.57
+    },
+    {
+     "w": "is",
+     "start": 205.57,
+     "end": 205.826
+    },
+    {
+     "w": "moving",
+     "start": 205.826,
+     "end": 206.34
+    }
+   ]
+  },
+  {
+   "id": "w2",
+   "scene": "status",
+   "text": "The House voted in January to bring the extra help back. So far, the Senate hasn't.",
+   "say": "The House voted in January to bring the extra help back. So far, the Senate hasn't.",
+   "start": 206.87,
+   "end": 212.25,
+   "words": [
+    {
+     "w": "The",
+     "start": 206.87,
+     "end": 207.093
+    },
+    {
+     "w": "House",
+     "start": 207.093,
+     "end": 207.3
+    },
+    {
+     "w": "voted",
+     "start": 207.3,
+     "end": 207.679
+    },
+    {
+     "w": "in",
+     "start": 207.679,
+     "end": 207.952
+    },
+    {
+     "w": "January",
+     "start": 207.952,
+     "end": 208.39
+    },
+    {
+     "w": "to",
+     "start": 208.39,
+     "end": 208.56
+    },
+    {
+     "w": "bring",
+     "start": 208.56,
+     "end": 208.91
+    },
+    {
+     "w": "the",
+     "start": 208.91,
+     "end": 209.13
+    },
+    {
+     "w": "extra",
+     "start": 209.13,
+     "end": 209.55
+    },
+    {
+     "w": "help",
+     "start": 209.55,
+     "end": 209.91
+    },
+    {
+     "w": "back",
+     "start": 210.36,
+     "end": 210.62
+    },
+    {
+     "w": "So",
+     "start": 210.62,
+     "end": 210.7
+    },
+    {
+     "w": "far",
+     "start": 210.7,
+     "end": 211.09
+    },
+    {
+     "w": "the",
+     "start": 211.27,
+     "end": 211.472
+    },
+    {
+     "w": "Senate",
+     "start": 211.472,
+     "end": 211.72
+    },
+    {
+     "w": "hasn't",
+     "start": 211.72,
+     "end": 212.25
+    }
+   ]
+  },
+  {
+   "id": "w3",
+   "scene": "status",
+   "text": "So check the current rules, or ask a tax pro, before you plan around a cliff.",
+   "say": "So check the current rules, or ask a tax pro, before you plan around a cliff.",
+   "start": 212.81,
+   "end": 217.35,
+   "words": [
+    {
+     "w": "So",
+     "start": 212.81,
+     "end": 212.98
+    },
+    {
+     "w": "check",
+     "start": 212.98,
+     "end": 213.29
+    },
+    {
+     "w": "the",
+     "start": 213.29,
+     "end": 213.5
+    },
+    {
+     "w": "current",
+     "start": 213.5,
+     "end": 213.974
+    },
+    {
+     "w": "rules",
+     "start": 213.974,
+     "end": 214.35
+    },
+    {
+     "w": "or",
+     "start": 214.35,
+     "end": 214.64
+    },
+    {
+     "w": "ask",
+     "start": 214.64,
+     "end": 214.87
+    },
+    {
+     "w": "a",
+     "start": 214.87,
+     "end": 214.97
+    },
+    {
+     "w": "tax",
+     "start": 214.97,
+     "end": 215.34
+    },
+    {
+     "w": "pro",
+     "start": 215.34,
+     "end": 215.66
+    },
+    {
+     "w": "before",
+     "start": 215.85,
+     "end": 216.06
+    },
+    {
+     "w": "you",
+     "start": 216.06,
+     "end": 216.41
+    },
+    {
+     "w": "plan",
+     "start": 216.41,
+     "end": 216.706
+    },
+    {
+     "w": "around",
+     "start": 216.706,
+     "end": 216.96
+    },
+    {
+     "w": "a",
+     "start": 216.96,
+     "end": 217.06
+    },
+    {
+     "w": "cliff",
+     "start": 217.06,
+     "end": 217.35
+    }
+   ]
+  },
+  {
+   "id": "e1",
+   "scene": "close",
+   "text": "Brackets are buckets. They never punish a raise.",
+   "say": "Brackets are buckets. They never punish a raise.",
+   "start": 218.2,
+   "end": 221.49,
+   "words": [
+    {
+     "w": "Brackets",
+     "start": 218.2,
+     "end": 218.87
+    },
+    {
+     "w": "are",
+     "start": 218.87,
+     "end": 219.09
+    },
+    {
+     "w": "buckets",
+     "start": 219.09,
+     "end": 219.65
+    },
+    {
+     "w": "They",
+     "start": 219.98,
+     "end": 220.103
+    },
+    {
+     "w": "never",
+     "start": 220.103,
+     "end": 220.58
+    },
+    {
+     "w": "punish",
+     "start": 220.58,
+     "end": 220.978
+    },
+    {
+     "w": "a",
+     "start": 220.978,
+     "end": 221.118
+    },
+    {
+     "w": "raise",
+     "start": 221.118,
+     "end": 221.49
+    }
+   ]
+  },
+  {
+   "id": "e2",
+   "scene": "close",
+   "text": "Cliffs are different.",
+   "say": "Cliffs are different.",
+   "start": 222.11,
+   "end": 223.4,
+   "words": [
+    {
+     "w": "Cliffs",
+     "start": 222.11,
+     "end": 222.4
+    },
+    {
+     "w": "are",
+     "start": 222.4,
+     "end": 222.74
+    },
+    {
+     "w": "different",
+     "start": 222.74,
+     "end": 223.4
+    }
+   ]
+  },
+  {
+   "id": "e3",
+   "scene": "close",
+   "text": "So the next time someone says, don't take the raise, ask one question.",
+   "say": "So the next time someone says, don't take the raise, ask one question.",
+   "start": 224.01,
+   "end": 228.39,
+   "words": [
+    {
+     "w": "So",
+     "start": 224.01,
+     "end": 224.264
+    },
+    {
+     "w": "the",
+     "start": 224.264,
+     "end": 224.41
+    },
+    {
+     "w": "next",
+     "start": 224.41,
+     "end": 224.757
+    },
+    {
+     "w": "time",
+     "start": 224.757,
+     "end": 225.052
+    },
+    {
+     "w": "someone",
+     "start": 225.052,
+     "end": 225.58
+    },
+    {
+     "w": "says",
+     "start": 225.58,
+     "end": 225.75
+    },
+    {
+     "w": "don't",
+     "start": 225.75,
+     "end": 225.98
+    },
+    {
+     "w": "take",
+     "start": 225.98,
+     "end": 226.24
+    },
+    {
+     "w": "the",
+     "start": 226.24,
+     "end": 226.525
+    },
+    {
+     "w": "raise",
+     "start": 226.525,
+     "end": 226.86
+    },
+    {
+     "w": "ask",
+     "start": 227.19,
+     "end": 227.48
+    },
+    {
+     "w": "one",
+     "start": 227.48,
+     "end": 227.83
+    },
+    {
+     "w": "question",
+     "start": 227.83,
+     "end": 228.39
+    }
+   ]
+  },
+  {
+   "id": "e4",
+   "scene": "close",
+   "text": "Is it a bucket, or a cliff?",
+   "say": "Is it a bucket, or a cliff?",
+   "start": 228.98,
+   "end": 230.6,
+   "words": [
+    {
+     "w": "Is",
+     "start": 228.98,
+     "end": 229.107
+    },
+    {
+     "w": "it",
+     "start": 229.107,
+     "end": 229.32
+    },
+    {
+     "w": "a",
+     "start": 229.32,
+     "end": 229.48
+    },
+    {
+     "w": "bucket",
+     "start": 229.48,
+     "end": 229.7
+    },
+    {
+     "w": "or",
+     "start": 230.08,
+     "end": 230.28
+    },
+    {
+     "w": "a",
+     "start": 230.28,
+     "end": 230.38
+    },
+    {
+     "w": "cliff",
+     "start": 230.38,
+     "end": 230.6
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+ROLE
+You are my video studio for a new faceless YouTube channel: writer, director, animator, sound designer, editor. You make the video. The rendered, full-length MP4 is the deliverable, not a plan. Start with one sentence saying what you are building, then work. Ask at most one question, and only if a wrong guess would be expensive.
+
+FIRST VIDEO
+Use idea 1 from my shortlist unless I name another topic. Format 16:9, 1920x1080, 3 to 4 minutes (about 450 to 600 spoken words).
+
+CHANNEL SAFETY (this decides whether the channel survives)
+YouTube is demonetizing mass-produced, repetitive, templated content, and flags videos where AI made everything with no real input. So every video must visibly show human thinking:
+- An original angle: a worked example with our own numbers, or a named framework that belongs to this channel (the "Bucket or Cliff?" test is the franchise). Not a rewrite of an article.
+- A script with a point of view, built from verified facts. Search the web for every number, date and rule, and show the source on screen. Flag anything experts disagree on.
+- Visuals made for this script: new scenes, new metaphor, new layout every video. Only the palette family, fonts and character style repeat. No reused clips, no stock footage, no text over stock, no AI-generated images.
+- End with one line: educational, not tax or financial advice.
+- At the start, read YouTube's current monetization policy page and tell me in two lines anything that affects us, including whether the altered or synthetic content disclosure applies to my voiceover.
+
+TOOLS AND PIPELINE
+- Use claude-motion (installed in the previous step) as the engine and obey its skills: motion-design, review-loop, sound-design, web-sims. Write every beat into a timeline JSON before writing scene code. Everything (scenes, captions, sound cues) reads from that file. No hardcoded start times.
+- If claude-motion cannot run here, say so and use the same rules in your own renderer (Python/PIL/numpy or Playwright capture of an HTML page, piped to ffmpeg). Still use the timeline JSON and the review loop.
+- Voice: the best natural narrator available. Synthesize per sentence, trim silences, add pauses before reveals, and take word timing from the real audio.
+- Pipeline: script, voice, word-timing JSON, scenes and captions from that JSON, sound, mix, render, QA, compress.
+
+THE LOOK: HAND-MADE, NEVER SYNTHETIC
+Reference: the "Can A Raise Make You Poorer" video I attached. Keep its inked outlines, paper grain, flat palette with one accent, torn-paper wipes, and one physical metaphor carried through the whole video. Make it better:
+- Line boil on twos (outlines jitter at 8 to 12 fps), paper grain reseeded on twos at about 0.09 opacity, slight misregistration of color fills against ink lines, varied stroke width. No perfect circles or ruler-straight lines.
+- Timing like an animator: staggered entrances (words about 0.09 s apart, list items 0.2 s), easeOut in, easeIn out at half the duration, one overshoot for a hero moment, scenes overlapping so there are no hard gaps. Never one duration or one easing for everything.
+- A virtual camera on every scene: slow push-in or drift of 2 to 4 percent, parallax between layers, a small shake on impacts.
+- Characters act. Blink every 3 to 5 seconds at random intervals, breathe, shift weight, dart eyes, anticipate before big moves, react when a number lands. Mouth shapes follow the voice amplitude, not a loop. Each character has a distinct silhouette and color. Nobody stands frozen, and nobody flails.
+- Annotation like a person: hand-drawn underlines and circles that draw on, crossing out a wrong number and writing the right one, handwritten labels, numbers that count up. No emoji, no stock icons, no glow, no gradient meshes, no glassmorphism.
+- Composition: one focal point per frame, asymmetric layouts, content at least 60 px from the edge, never text over a face, never half the frame empty for more than a second.
+- Every stage of the video gets its own fully built, living background (a city for the humans, drifting dust in window light, ticking coins, clouds). Nothing sits on a flat color.
+- Palette tokens defined once. The accent color marks only what changed or the answer. Change the accent hue per video within the same family.
+- Banned AI tells: everything fading in at once, Ken Burns on a still, identical 0.5 s cuts, the same transition between every scene, floating glowing particles for no reason, centered title with sparkles, morphing hands or garbled text, symmetrical looped clips.
+
+PACING AND STORY
+- Frame 1 already has motion and stakes. No logo, no fade-in, no title card first. Open mid-action with a 1 to 3 second hook that is a statement.
+- A visual change about every 2 seconds, with something moving at all times. Hold readable text at least 1 second plus 0.25 s per word beyond three, and never move text while it is being read.
+- A re-hook every 20 to 30 seconds: a new question, reveal or reversal.
+- Structure: cold open, promise, one human story with a named person and a goal, escalation, a "but here is what makes it strange" pivot, one number that surprises, payoff, loop-back ending whose last frame flows into the first. Keep the closing hold under 3 seconds.
+- Script voice: spoken, conversational, short sentences, concrete nouns, contractions, varied sentence length, one clear opinion. Avoid filler like "let's dive in" and "here's the thing", and avoid triplets and em-dash asides.
+
+CAPTIONS
+Burned in, 1 to 4 words at a time, about 56 to 64 px, high contrast, inside safe zones, and never over a face or the focal point. Generate from measured word timestamps, appear on the word's start, never type in or clip. Highlight the active word.
+
+AUDIO
+Voice is the loudest element. Music about 19 dB under the voice, ducked further while talking. Sound effects about 17 dB under, stingers about 11 dB under. Foley should come from physical things in the scene (pencil scratch, paper slap, coin tick, water). Use at most one riser and one impact per video, and few chimes. Master to −14 LUFS with true peak at or below −1 dB, and check it.
+
+QA (required before you deliver)
+Render a draft, build a contact sheet at every beat, and open every sheet. Check: clipped text, overlaps, empty half-frames, text readable at 360 px wide, captions against the audio at word level, the first frame, every scene change, and the loop. Zoom into suspicious frames at full resolution. Fix and re-render until a full pass finds nothing. Run ffprobe and a loudness measurement on the final file. List the five weakest things in the video honestly and fix what you can.
+
+DELIVER
+1. The finished MP4 (Title_With_Underscores.mp4) plus a compressed copy under 30 MB.
+2. A thumbnail PNG (1280x720, one subject, 3 words or fewer).
+3. The plain-text script, a source list with links, and the timeline JSON.
+4. Five titles of 60 characters or fewer, a description with two to three hashtags, and a pinned comment that starts a debate.
+5. Honest performance odds for a brand-new channel (low, median, breakout) and what would move them.

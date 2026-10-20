@@ -1,0 +1,92 @@
+Can A Raise Make You Poorer? (Bucket or Cliff, Ep. 1, revised)
+
+
+[COLD]
+"Don't take the raise. You'll take home less."
+Wrong. Mostly.
+
+[SETUP]
+Rewind.
+Your boss offers you a $2,000 raise.
+And your coworker leans over and whispers: don't take it.
+It'll push you into a higher tax bracket.
+
+[CLAIM]
+That advice is wrong.
+But the part that's right could cost you thousands.
+So let's do the actual math.
+
+[MAYA]
+Meet Maya.
+She's single, and she earns $66,500 a year.
+In 2026, the standard deduction for a single filer is $16,100.
+Take that off, and Maya's taxable income is $50,400.
+
+[BUCKETS]
+Now, picture the tax brackets as buckets.
+Her first $12,400 fills a bucket taxed at 10%.
+Everything after that, up to $50,400, fills the 12% bucket.
+And Maya's 12% bucket is full. Right to the brim.
+So her raise spills over, into the 22% bucket.
+This is exactly what her coworker was scared of.
+But watch what actually happens.
+Only the overflow gets taxed at 22%.
+The money already in the lower buckets? It's taxed exactly the same as before.
+
+[MATH]
+$2,000 times 22% is $440.
+Maya keeps $1,560 of her raise, before payroll taxes.
+Her whole federal income tax bill is $6,240.
+That's about 9% of her pay. Not 22.
+A higher bracket can't shrink your paycheck.
+The buckets only fill. They never tip over.
+
+[PIVOT]
+But here's what her coworker almost got right.
+Some money rules don't work like buckets.
+They work like cliffs.
+
+[DAN]
+Meet Dan.
+He's 60, he's a freelance designer, and he buys his health insurance on the ACA marketplace.
+A tax credit helps pay his monthly premium.
+Extra help that Congress added in 2021 expired at the end of 2025.
+So for 2026, the old rule is back.
+
+[CLIFF]
+If your income is above 400% of the federal poverty line, that credit drops to zero.
+Not down a little. Zero.
+For a single person in the lower 48 states, the line is $62,600.
+Dan's income is $62,000.
+Then a client sends one more small job. $1,000.
+Now he's at $63,000. $400 over the line.
+And his entire credit is gone.
+
+[COST]
+How much is that?
+For a 60-year-old in an average-cost area, roughly $9,700 a year.
+A $1,000 job just cost him almost ten times what it paid.
+So did one extra job make Dan poorer? Yes.
+Unless he knows one move.
+
+[MOVE]
+The cliff isn't measured by his paycheck.
+It's measured by something called modified adjusted gross income.
+And some contributions lower that number.
+Put money into a traditional IRA, or a health savings account if his plan qualifies, and Dan can slide back under the line.
+He keeps the job. He keeps the money, saved for later. And he keeps his credit.
+
+[STATUS]
+One warning: this rule is moving.
+The House voted in January to bring the extra help back. So far, the Senate hasn't.
+So check the current rules, or ask a tax pro, before you plan around a cliff.
+
+[CLOSE]
+Brackets are buckets. They never punish a raise.
+Cliffs are different.
+So the next time someone says, don't take the raise, ask one question.
+Is it a bucket, or a cliff?
+
+[END CARD]
+Educational, not tax advice.
+Sources: IRS, HHS, KFF, CMS, Congress (status checked Oct 15, 2026).
