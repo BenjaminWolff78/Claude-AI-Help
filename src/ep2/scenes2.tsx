@@ -75,12 +75,12 @@ export const RuleScene: React.FC<SceneProps> = ({t}) => {
         push={0}
         keys={[
           {t: WT('r1') - 0.4, x: 960, y: 300, z: 1.16},
-          {t: name + 0.5, x: 960, y: 260, z: 1.2},
-          {t: tax - 0.2, x: 700, y: 480, z: 1.06},
-          {t: two + 0.5, x: 680, y: 500, z: 1.14},
+          {t: name + 0.5, x: 960, y: 260, z: 1.16},
+          {t: tax - 0.2, x: 600, y: 480, z: 1.06},
+          {t: two + 0.5, x: 320, y: 400, z: 1.1},
           {t: income + 0.2, x: 880, y: 600, z: 1.04},
-          {t: paycheck + 0.4, x: 880, y: 560, z: 1.08},
-          {t: bond + 0.2, x: 900, y: 450, z: 1.2},
+          {t: paycheck + 0.4, x: 640, y: 500, z: 1.06},
+          {t: bond + 0.2, x: 460, y: 480, z: 1.08},
           {t: over + 0.4, x: 960, y: 520, z: 1.04},
         ]}
       >
@@ -92,7 +92,7 @@ export const RuleScene: React.FC<SceneProps> = ({t}) => {
           <Stroke pts={linePts([-20, 900], [W + 20, 904], 12, 0, 401)} w={3} color={P.woodDark} seed={401} />
           {/* the name, on a sticky note */}
           <g transform={`translate(0,${(1 - prog(t, name - 0.4, name, easeOut)) * -200})`}>
-            <Shape pts={rectPts(630, 50, 660, 190, 402, 6)} fill={P.mustardPale} seed={402} />
+            <Shape pts={rectPts(630, 80, 660, 190, 402, 6)} fill={P.mustardPale} seed={402} />
           </g>
           {/* the income stack: each block drops in and kicks up a little dust */}
           {placed.map((b, i) => (
@@ -110,10 +110,10 @@ export const RuleScene: React.FC<SceneProps> = ({t}) => {
           {nudge > 0 ? <CircleMark cx={bx + bw / 2} cy={placed[3].y + 35} rx={330} ry={66} k={nudge} color={P.berry} /> : null}
           <Linda name="linda" a={linda} x={1560} y={1080} s={1.3} />
         </svg>
-        <Txt x={960} y={74} size={104} align="center" k={prog(t, name - 0.1, name + 0.3)} weight={800} riso={P.berry} qa="irmaa">
+        <Txt x={960} y={104} size={104} align="center" k={prog(t, name - 0.1, name + 0.3)} weight={800} riso={P.berry} qa="irmaa">
           IRMAA
         </Txt>
-        <Txt x={960} y={196} size={26} align="center" k={prog(t, name + 0.3, name + 0.7)} color={P.inkSoft} qa="irmaaSub">
+        <Txt x={960} y={226} size={26} align="center" k={prog(t, name + 0.3, name + 0.7)} color={P.inkSoft} qa="irmaaSub">
           income-related monthly adjustment amount
         </Txt>
         {calIn > 0 ? (
@@ -208,8 +208,8 @@ export const PivotScene: React.FC<SceneProps> = ({t}) => {
           {t: overflow - 0.3, x: 560, y: 520, z: 1.1},
           {t: overflow + 0.8, x: 660, y: 600, z: 1.16},
           {t: WT('p3', 'IRMAA') - 0.1, x: 1000, y: 520, z: 1.0},
-          {t: care + 0.3, x: 1400, y: 520, z: 1.14},
-          {t: whole - 0.2, x: 1300, y: 600, z: 1.12},
+          {t: care + 0.3, x: 1700, y: 520, z: 1.14},
+          {t: whole - 0.2, x: 1500, y: 600, z: 1.12},
           {t: cliff - 0.05, x: 1420, y: 560, z: 1.08},
           {t: cliff + 0.5, x: 960, y: 540, z: 1.0},
           {t: 102, x: 960, y: 540, z: 1.02},
@@ -272,7 +272,7 @@ export const PivotScene: React.FC<SceneProps> = ({t}) => {
           $109,000
         </Txt>
         <Tag x={mx - 80} y={560} text={t > WT('p4', 'Cross') - 0.1 ? '$109,001' : slide < 0.5 ? '$109,001' : '$136,999'} k={prog(t, care - 0.3, care) * (t < whole ? 1 : 0)} fill={P.mustard} size={30} rot={-2} qa="marker" />
-        <Tag x={1460} y={430} text="same +$95.70 a month" k={prog(t, went - 0.2, went + 0.2) * (t < whole - 0.3 ? 1 : 0)} fill={P.white} size={30} rot={2} qa="same" />
+        <Tag x={1420} y={430} text="same +$95.70 a month" k={prog(t, went - 0.2, went + 0.2) * (t < whole - 0.3 ? 1 : 0)} fill={P.white} size={30} rot={2} qa="same" />
         <Tag x={1205} y={460} text="+$1" k={cross * (t < whole - 0.2 ? 1 : 0)} fill={P.white} size={40} rot={-4} qa="plus1" />
         <Txt x={1250} y={drop > 0.001 ? 760 - 120 - (1 - drop) * 640 : -400} size={34} align="center" k={drop > 0.05 ? 1 : 0} weight={800} color={P.white} qa="weightT">
           +$95.70/mo

@@ -265,15 +265,15 @@ export const Claim: React.FC<SceneProps> = ({t}) => {
             if (t < billAt(i)) return null;
             return <Bill key={i} x={1430 + (i % 2) * 18} y={790 - i * 26 - (1 - d * d) * 420} w={230} h={96} seed={180 + i} rot={(i % 3) - 1 + (1 - d) * 20} />;
           })}
-          <ImpactLines t={t} t0={c.wrong + 0.05} x={1580} y={440} r={220} n={8} seed={185} color={P.coral} arc={Math.PI * 1.6} />
+          <ImpactLines t={t} t0={c.wrong + 0.05} x={1530} y={440} r={220} n={8} seed={185} color={P.coral} arc={Math.PI * 1.6} />
           <Underline x={830} y={330} len={640} k={prog(t, c.wrong - 0.1, c.wrong + 0.35, easeOut)} w={9} />
           <Underline x={850} y={350} len={600} k={prog(t, c.math - 0.2, c.math + 0.5, easeOut)} color={P.teal} seed={9} w={6} />
         </svg>
         <Txt x={1150} y={170} size={128} align="center" k={prog(t, c.start, c.start + 0.7, easeOut)} riso={P.mustard} qa="quote" weight={800}>
           {'“don’t take it.”'}
         </Txt>
-        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1580px 450px', transform: `scale(${(t < c.wrong ? 1 : 2.4 - 1.4 * prog(t, c.wrong - 0.02, c.wrong + 0.22, easeOut)).toFixed(3)})`}}>
-          <Txt x={1370} y={390} size={104} k={prog(t, c.wrong, c.wrong + 0.16, easeOut)} rot={-8} color={P.coral} riso={P.ink} qa="claimWrong" weight={800} bounce={70}>
+        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1530px 450px', transform: `scale(${(t < c.wrong ? 1 : 2.4 - 1.4 * prog(t, c.wrong - 0.02, c.wrong + 0.22, easeOut)).toFixed(3)})`}}>
+          <Txt x={1320} y={390} size={104} k={prog(t, c.wrong, c.wrong + 0.16, easeOut)} rot={-8} color={P.coral} riso={P.ink} qa="claimWrong" weight={800} bounce={70}>
             WRONG.
           </Txt>
         </div>
@@ -325,7 +325,7 @@ export const MayaScene: React.FC<SceneProps> = ({t}) => {
           {t: m.salary + 1.6, x: 1700, y: 300, z: 1.15},
           {t: m.dedAmt - 0.3, x: 1700, y: 420, z: 1.14},
           {t: m.take + 0.2, x: 1700, y: 520, z: 1.12},
-          {t: m.taxable + 0.4, x: 1700, y: 640, z: 1.16},
+          {t: m.taxable + 0.4, x: 1700, y: 520, z: 1.14},
           {t: m.taxable + 1.8, x: 1400, y: 540, z: 1.05},
           {t: B.buckets.start, x: 1100, y: 540, z: 1.04},
         ]}
@@ -361,7 +361,7 @@ export const MayaScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={cx + 680} y={205} size={54} k={prog(t, m.salary + 0.8, m.salary + 1.2, easeOut)} color={P.mustard} qa="peryr" riso={P.ink}>
           /yr
         </Txt>
-        <Tag x={cx + 640} y={86} text="2026" fill={P.mustard} k={prog(t, B.maya.deduction - 1.4, B.maya.deduction - 1.0, easeOut)} qa="year" rot={4} size={38} />
+        <Tag x={cx + 640} y={106} text="2026" fill={P.mustard} k={prog(t, B.maya.deduction - 1.4, B.maya.deduction - 1.0, easeOut)} qa="year" rot={4} size={38} />
         <Odo x={cx + 220} y={318} size={96} from={0} to={16100} k={prog(t, m.dedAmt, m.dedAmt + 0.8)} fmt={(v) => '− $' + Math.round(v).toLocaleString('en-US')} color={P.coral} qa="ded" weight={800} />
         <Txt x={cx + 250} y={430} size={42} k={prog(t, m.deduction, m.deduction + 0.9)} color={P.inkSoft} qa="dedLabel" pen>
           standard deduction

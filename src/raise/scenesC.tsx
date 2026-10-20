@@ -156,8 +156,8 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
           {t: c.income - 1.0, x: 960, y: 520, z: 1.06},
           {t: c.income + 0.4, x: 1000, y: 520, z: 1.14},
           {t: c.job + 0.4, x: 1150, y: 500, z: 1.1},
-          {t: c.now + 0.8, x: 1240, y: 560, z: 1.14},
-          {t: c.over + 0.6, x: 1240, y: 680, z: 1.18},
+          {t: c.now + 0.8, x: 1240, y: 480, z: 1.12},
+          {t: c.over + 0.6, x: 1240, y: 460, z: 1.14},
           {t: c.gone - 0.3, x: 1100, y: 560, z: 1.06},
           {t: c.gone + 1.2, x: 1000, y: 560, z: 1.0},
           {t: B.cost.start, x: 1000, y: 540, z: 1.0},
@@ -168,7 +168,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
           <Shape pts={[[1100, 900], [1300, 720], [1480, 800], [1700, 690], [1980, 820], [1980, 1100], [1100, 1100]]} fill={P.skyDeep} seed={500} w={3} misreg={0} />
           <Clouds t={t} y={250} n={3} speed={20} seed={81} s={1} />
           <CliffBlock x={-80} y={TOPY} w={EDGE + 80} h={520} seed={510} />
-          <Stroke pts={linePts([EDGE + 6, 150], [EDGE + 4, TOPY], 12, 0, 520)} draw={prog(t, c.four - 0.2, c.four + 0.6, easeOut)} w={4} color={P.coral} seed={520} taper={false} />
+          <Stroke pts={linePts([EDGE + 6, 186], [EDGE + 4, TOPY], 12, 0, 520)} draw={prog(t, c.four - 0.2, c.four + 0.6, easeOut)} w={4} color={P.coral} seed={520} taper={false} />
           {prog(t, c.single - 0.2, c.single + 0.3) > 0 ? <SignPost x={EDGE - 80} y={TOPY} h={340 * prog(t, c.single - 0.2, c.single + 0.3, easeOut)} bw={300} bh={92} seed={530} /> : null}
           {/* Dan's credit: a coin stack beside him that tumbles off the edge when it's gone */}
           {t > c.income - 0.4
@@ -182,15 +182,15 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
             : null}
           <Pebbles t={t} t0={c.gone - 0.1} x={EDGE - 10} y={TOPY + 10} n={8} seed={575} fall={460} />
           <Burst t={t} t0={c.gone - 0.05} x={EDGE + 40} y={TOPY - 20} n={10} seed={576} spread={420} up={520} scale={0.8} />
-          <ImpactLines t={t} t0={c.zero + 0.04} x={1560} y={320} r={250} n={9} seed={577} color={P.coral} />
+          <ImpactLines t={t} t0={c.zero + 0.04} x={1500} y={320} r={250} n={9} seed={577} color={P.coral} />
           <Dan name="dan" a={dan} x={danX} y={TOPY} s={0.82} legs walk={walking} walkPhase={t * 9} />
           {prog(t, c.single - 0.2, c.single + 0.3) > 0 ? (
             <>
-              <QaLine id="fplLineTop" x={EDGE} y={150} w={10} h={TOPY - 340 - 46 - 150} />
+              <QaLine id="fplLineTop" x={EDGE} y={186} w={10} h={TOPY - 340 - 46 - 186} />
               <QaLine id="fplLineLow" x={EDGE} y={TOPY - 340 + 46} w={10} h={340 - 46} />
             </>
           ) : (
-            <QaLine id="fplLine" x={EDGE} y={150} w={10} h={TOPY - 150} />
+            <QaLine id="fplLine" x={EDGE} y={186} w={10} h={TOPY - 186} />
           )}
           {prog(t, c.single - 0.2, c.single + 0.3) > 0 ? <QaLine id="post" x={EDGE - 88} y={TOPY - 340 + 46} w={16} h={340 - 46} /> : null}
           {t > c.income - 0.3 ? <QaLine id="flagPole" x={flagX - 3} y={TOPY - 136} w={6} h={flagX > EDGE ? 280 : 136} /> : null}
@@ -209,11 +209,11 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
             </g>
           ) : null}
         </svg>
-        <Txt x={EDGE + 22} y={104} size={40} k={prog(t, c.four, c.four + 1.0)} color={P.coral} qa="fpl" weight={700} pen>
+        <Txt x={EDGE + 22} y={140} size={40} k={prog(t, c.four, c.four + 1.0)} color={P.coral} qa="fpl" weight={700} pen>
           400% of the poverty line
         </Txt>
-        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1560px 320px', transform: `scale(${(t < c.zero ? 1 : 2.5 - 1.5 * prog(t, c.zero - 0.02, c.zero + 0.24, easeOut)).toFixed(3)})`}}>
-          <Txt x={1560} y={220} size={170} align="center" k={prog(t, c.zero, c.zero + 0.16, easeOut)} color={P.ink} riso={P.coral} qa="zero" weight={800} bounce={80} rot={-4 + (t > c.zero2 && t < c.zero2 + 0.3 ? 3 : 0)}>
+        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1500px 320px', transform: `scale(${(t < c.zero ? 1 : 2.5 - 1.5 * prog(t, c.zero - 0.02, c.zero + 0.24, easeOut)).toFixed(3)})`}}>
+          <Txt x={1500} y={220} size={170} align="center" k={prog(t, c.zero, c.zero + 0.16, easeOut)} color={P.ink} riso={P.coral} qa="zero" weight={800} bounce={80} rot={-4 + (t > c.zero2 && t < c.zero2 + 0.3 ? 3 : 0)}>
             ZERO.
           </Txt>
         </div>
@@ -271,8 +271,8 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
           {t: c.amount + 1.2, x: 1650, y: 360, z: 1.12},
           {t: c.ten - 0.2, x: 1500, y: 440, z: 1.12},
           {t: c.ten + 1.6, x: 1300, y: 460, z: 1.06},
-          {t: c.poorer - 0.3, x: 760, y: 360, z: 1.06},
-          {t: c.yes + 0.6, x: 560, y: 300, z: 1.14},
+          {t: c.poorer - 0.3, x: 900, y: 300, z: 1.04},
+          {t: c.yes + 0.6, x: 1000, y: 220, z: 1.06},
           {t: c.move, x: 760, y: 480, z: 1.04},
           {t: B.move.start, x: 760, y: 480, z: 1.04},
         ]}
@@ -322,7 +322,7 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
           </Txt>
         </div>
       </Cam>
-      <Source x={1880} y={790} align="right" text={'KFF 2026 avg benchmark $625/mo at 40 × CMS age curve (60 vs 40) − 9.96% of $62,000 (IRS)'} k={prog(t, c.amount, c.amount + 0.5)} qa="srcCost" />
+      <Source x={1880} y={856} align="right" text={'KFF 2026 avg benchmark $625/mo at 40 × CMS age curve (60 vs 40) − 9.96% of $62,000 (IRS)'} k={prog(t, c.amount, c.amount + 0.5)} qa="srcCost" />
     </AbsoluteFill>
   );
 };
@@ -361,8 +361,8 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
           {t: m.paycheck + 0.4, x: 1240, y: 240, z: 1.16},
           {t: m.magi + 0.4, x: 1380, y: 260, z: 1.1},
           {t: m.lower - 0.3, x: 1300, y: 420, z: 1.06},
-          {t: m.ira + 0.4, x: 1250, y: 620, z: 1.1},
-          {t: m.hsa + 0.8, x: 1350, y: 640, z: 1.1},
+          {t: m.ira + 0.4, x: 1250, y: 560, z: 1.06},
+          {t: m.hsa + 0.8, x: 1350, y: 560, z: 1.06},
           {t: m.slide, x: 1150, y: 420, z: 1.14},
           {t: m.under + 0.6, x: 1100, y: 420, z: 1.18},
           {t: m.job - 0.4, x: 600, y: 300, z: 1.04},
@@ -412,12 +412,15 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1210} y={150} size={44} k={payK > 0 ? prog(t, m.start, m.start + 0.4, easeOut) : 0} opacity={payK} qa="paycheck">
           his paycheck
         </Txt>
-        <Txt x={1400} y={92} size={140} align="center" k={prog(t, m.magi, m.magi + 0.4, easeOut)} qa="magi" weight={800} riso={P.mustard}>
+        <Txt x={1400} y={112} size={140} align="center" k={prog(t, m.magi, m.magi + 0.4, easeOut)} qa="magi" weight={800} riso={P.mustard}>
           MAGI
         </Txt>
-        <Txt x={1400} y={268} size={36} align="center" k={prog(t, m.magi + 0.4, m.magi + 1.6)} color={P.inkSoft} qa="magiLong" pen>
-          modified adjusted gross income
-        </Txt>
+        {/* the long name has been read by now; it leaves before the camera swings to the checklist */}
+        <div style={{position: 'absolute', inset: 0, opacity: 1 - prog(t, m.job - 0.5, m.job, easeIn)}}>
+          <Txt x={1400} y={288} size={36} align="center" k={prog(t, m.magi + 0.4, m.magi + 1.6)} color={P.inkSoft} qa="magiLong" pen>
+            modified adjusted gross income
+          </Txt>
+        </div>
         <Txt x={lineX} y={530} size={34} align="center" k={prog(t, m.start, m.start + 0.5, easeOut)} color={P.coral} qa="lineLbl" weight={700}>
           $62,600 line
         </Txt>

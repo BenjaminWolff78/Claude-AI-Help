@@ -162,7 +162,7 @@ export const Buckets: React.FC<SceneProps> = ({t}) => {
         <Txt x={1518} y={460} size={36} k={prog(t, b.taxed22, b.taxed22 + 0.4, easeOut)} color={P.coral} qa="onlyThis22" rot={-3} weight={800}>
           pays 22%
         </Txt>
-        <Txt x={820} y={790} size={44} align="center" k={prog(t, b.same - 0.6, b.same + 0.6)} color={P.teal} qa="same" rot={-2} pen>
+        <Txt x={820} y={780} size={42} align="center" k={prog(t, b.same - 0.6, b.same + 0.6)} color={P.teal} qa="same" rot={-0.5} pen>
           taxed the same as before
         </Txt>
       </Cam>
@@ -207,12 +207,12 @@ export const MathScene: React.FC<SceneProps> = ({t}) => {
           {t: k.result + 0.6, x: 1700, y: 230, z: 1.15},
           {t: k.keeps - 0.3, x: 1650, y: 360, z: 1.12},
           {t: k.payroll + 0.5, x: 1600, y: 400, z: 1.1},
-          {t: k.total - 0.6, x: 1680, y: 560, z: 1.12},
-          {t: k.nine + 0.4, x: 1680, y: 640, z: 1.15},
+          {t: k.total - 0.6, x: 1680, y: 480, z: 1.1},
+          {t: k.nine + 0.4, x: 1680, y: 480, z: 1.1},
           {t: k.not22 + 0.6, x: 1600, y: 600, z: 1.1},
           {t: k.shrink - 0.4, x: 900, y: 440, z: 1.02},
-          {t: k.tip + 0.6, x: 600, y: 380, z: 1.1},
-          {t: B.pivot.start, x: 600, y: 380, z: 1.12},
+          {t: k.tip + 0.6, x: 900, y: 380, z: 1.04},
+          {t: B.pivot.start, x: 900, y: 380, z: 1.05},
         ]}
       >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
@@ -303,7 +303,7 @@ export const Pivot: React.FC<SceneProps> = ({t}) => {
           {t: p.start, x: 600, y: 520, z: 1.12},
           {t: p.almost + 0.8, x: 640, y: 480, z: 1.1},
           {t: p.buckets - 0.2, x: 1200, y: 540, z: 1.08},
-          {t: p.cliffs - 0.15, x: 1220, y: 560, z: 1.14},
+          {t: p.cliffs - 0.15, x: 1100, y: 560, z: 1.1},
           {t: p.cliffs + 0.5, x: 1000, y: 540, z: 1.0},
           {t: B.dan.start, x: 1000, y: 540, z: 1.02},
         ]}

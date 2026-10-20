@@ -164,8 +164,8 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
           {t: ira - 0.6, x: 700, y: 520, z: 1.08},
           {t: ira + 0.2, x: 420, y: 620, z: 1.18},
           {t: pulled + 1.1, x: 860, y: 540, z: 1.04},
-          {t: pushed + 0.2, x: 880, y: 470, z: 1.2},
-          {t: nothing - 0.1, x: 900, y: 490, z: 1.16},
+          {t: pushed + 0.2, x: 600, y: 470, z: 1.2},
+          {t: nothing - 0.1, x: 640, y: 490, z: 1.14},
           {t: nothing + 0.6, x: 960, y: 540, z: 1.0},
           {t: 38.4, x: 1000, y: 520, z: 1.04},
         ]}
@@ -228,10 +228,13 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
           ) : null}
           {t > taxes - 0.4 ? <Bucket x={1120} y={372} w={96} h={96} level={0.3 + 0.15 * prog(t, taxes, bucketW + 0.4, easeOut)} seed={320} t={t} /> : null}
         </svg>
+        {/* the name tag leaves before the camera pushes left, so it is never half-cropped at the frame edge */}
+        <div style={{position: 'absolute', inset: 0, opacity: 1 - prog(t, leak - 0.3, leak + 0.15, easeIn)}}>
         <Tag x={1560} y={220} text="LINDA, 66" k={prog(t, meet - 0.1, meet + 0.3)} fill={P.lavender} color={P.white} size={44} rot={-3} qa="lindaTag" />
         <Txt x={1830} y={316} size={38} align="right" k={prog(t, WT('l2', 'retired') - 0.2, WT('l2', 'single') + 0.3)} color={P.inkSoft} qa="lindaSub">
           retired · files single
         </Txt>
+        </div>
         <div style={{position: 'absolute', left: 0, top: 0}}>
           <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
             {t > y2024 - 0.3 ? <CalendarPage x={590} y={70} w={190} h={210} seed={330} rot={3} /> : null}
@@ -305,7 +308,7 @@ export const LetterScene: React.FC<SceneProps> = ({t}) => {
           {t: jan - 1.3, x: 640, y: 640, z: 1.12},
           {t: jan + 0.2, x: 930, y: 460, z: 1.04},
           {t: oldP - 0.2, x: 930, y: 420, z: 1.1},
-          {t: newP + 0.4, x: 960, y: 380, z: 1.22},
+          {t: newP + 0.4, x: 960, y: 560, z: 1.16},
           {t: drug + 0.2, x: 880, y: 500, z: 1.16},
           {t: year + 0.4, x: 860, y: 600, z: 1.2},
           {t: called - 0.4, x: 1000, y: 520, z: 1.04},

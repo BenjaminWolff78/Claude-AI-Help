@@ -20,6 +20,7 @@ W, H = 1920, 1080
 ALLOW = {
     frozenset({"text:noMistake", "text:drug"}),
     frozenset({"text:weightT", "text:marker"}),
+    frozenset({"tag:extra", "text:expired"}),  # the EXPIRED stamp lands on the extra-help tag
 }
 
 

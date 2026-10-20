@@ -71,12 +71,12 @@ export const FixScene: React.FC<SceneProps> = ({t}) => {
           {t: WT('f1') - 0.4, x: 700, y: 600, z: 1.1},
           {t: spread - 0.2, x: 760, y: 580, z: 1.12},
           {t: oneYear + 0.2, x: 1080, y: 520, z: 1.06},
-          {t: overC + 0.2, x: 900, y: 480, z: 1.16},
-          {t: two + 0.3, x: 1400, y: 500, z: 1.14},
-          {t: bucketW + 0.5, x: 1450, y: 480, z: 1.16},
+          {t: overC + 0.2, x: 900, y: 560, z: 1.16},
+          {t: two + 0.3, x: 1400, y: 520, z: 1.14},
+          {t: bucketW + 0.5, x: 1450, y: 560, z: 1.16},
           {t: roth - 0.2, x: 1120, y: 520, z: 1.04},
           {t: check + 0.2, x: 1500, y: 470, z: 1.12},
-          {t: hundred + 0.2, x: 1530, y: 500, z: 1.2},
+          {t: hundred + 0.2, x: 1530, y: 620, z: 1.2},
           {t: dec - 0.9, x: 1200, y: 520, z: 1.04},
           {t: dec + 0.4, x: 900, y: 400, z: 1.14},
           {t: age + 0.2, x: 1150, y: 560, z: 1.06},
@@ -284,7 +284,7 @@ export const EscapeScene: React.FC<SceneProps> = ({t}) => {
           {open > 0.05 ? <Dust t={t} x={160} y={340} w={560} h={540} seed={728} n={18} /> : null}
           <Linda name="linda" a={linda} x={1660} y={1080} s={1.3} pose={t > pays - 0.2 ? 'shrug' : 'neutral'} />
         </svg>
-        <Tag x={190} y={250} text="one way out" k={prog(t, out - 0.2, out + 0.2)} fill={P.white} size={34} rot={-3} qa="wayOut" />
+        <Tag x={230} y={250} text="one way out" k={prog(t, out - 0.2, out + 0.2)} fill={P.white} size={34} rot={-3} qa="wayOut" />
         <Txt x={860} y={360} size={32} k={formK} qa="lce1" weight={700}>
           stopped or cut back work
         </Txt>
