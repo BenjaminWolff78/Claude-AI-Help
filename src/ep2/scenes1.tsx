@@ -8,6 +8,7 @@ import {Bill, Bucket, Card, CliffBlock, Clouds, Coin, Envelope, Jar, LightShaft,
 import {CalendarPage, Drip, Fence, Leaves, Mailbox, Pot, Rain, Stamp, Tree, sharp} from './props2';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
+import {Burst, ImpactLines, Odo, Pebbles, Puff, Splash, landSquash} from '../mg/kit';
 
 export type SceneProps = {t: number};
 const fr = frF;
@@ -37,16 +38,22 @@ const ColdBody: React.FC<{t: number}> = ({t}) => {
   const slam = sp(f, cost - 0.15, {damping: 11, stiffness: 190, mass: 0.8});
   const coinK = clamp01((t - cliff + 0.1) / 1.4);
   const env = prog(t, bill - 0.6, bill + 0.5, easeOut);
+  // frame 1 is tight on her feet at the line; the $1,148 slam pulls the camera back to reveal the drop
   const zoomKeys = [
-    {t: 0, x: 960, y: 540, z: 1.06},
+    {t: 0, x: 900, y: 560, z: 1.26},
+    {t: over + 0.35, x: 940, y: 560, z: 1.22},
+    {t: cost - 0.05, x: 960, y: 540, z: 1.04},
     {t: cliff - 0.3, x: 960, y: 540, z: 1.06},
-    {t: cliff + 0.9, x: 980, y: 540, z: 1.0},
-    {t: 14, x: 980, y: 540, z: 1.02},
+    {t: cliff + 0.9, x: 1040, y: 560, z: 1.02},
+    {t: bill - 0.2, x: 1060, y: 520, z: 1.04},
+    {t: 14, x: 1180, y: 460, z: 1.12},
   ];
+  const cliffPop = prog(t, cliff - 0.02, cliff + 0.28, easeOut);
+  const cliffScale = cliffPop > 0 ? 2.6 - 1.6 * cliffPop : 1;
   return (
     <AbsoluteFill>
       <Paper color={P.sky} id="cold" />
-      <Cam t0={0} t1={14} push={0} keys={zoomKeys} shakeAt={[cost + 0.05]}>
+      <Cam t0={0} t1={14} push={0} keys={zoomKeys} shakeAt={[cost + 0.05, cliff + 0.15]}>
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clouds t={t} y={130} n={5} seed={210} />
           {/* sea far below the edge */}
@@ -74,6 +81,11 @@ const ColdBody: React.FC<{t: number}> = ({t}) => {
               <Envelope x={0} y={0} s={1.15} seed={260} />
             </g>
           ) : null}
+          {/* the edge crumbles as the coin goes over */}
+          <Pebbles t={t} t0={cliff - 0.05} x={EDGE - 18} y={772} n={7} seed={255} fall={380} />
+          <Burst t={t} t0={cost + 0.12} x={1500} y={190} n={12} seed={256} spread={560} up={520} />
+          <ImpactLines t={t} t0={cost + 0.1} x={1500} y={230} r={210} n={9} seed={257} />
+          <ImpactLines t={t} t0={cliff + 0.2} x={1600} y={640} r={190} n={7} seed={258} color={P.berry} />
           {/* the bracket bucket, crossed out */}
           {t > notB - 0.5 ? <Bucket x={380} y={150} w={150} h={160} level={0.5} seed={270} t={t} /> : null}
           {t > notB ? <CrossOut x={290} y={110} w={180} h={220} k={prog(t, notB + 0.35, notB + 0.75, easeOut)} sw={9} color={P.berry} /> : null}
@@ -88,9 +100,11 @@ const ColdBody: React.FC<{t: number}> = ({t}) => {
         <Txt x={300} y={330} size={40} align="center" k={prog(t, notB - 0.3, notB + 0.3)} color={P.inkSoft} qa="taxbracket">
           tax bracket
         </Txt>
-        <Txt x={1600} y={560} size={140} align="center" k={prog(t, cliff, cliff + 0.3, easeOut)} color={P.ink} riso={P.berry} weight={800} bounce={70} qa="cliffWord">
-          cliff.
-        </Txt>
+        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1600px 640px', transform: `scale(${cliffScale.toFixed(3)})`}}>
+          <Txt x={1600} y={560} size={140} align="center" k={prog(t, cliff, cliff + 0.18, easeOut)} color={P.ink} riso={P.berry} weight={800} bounce={70} qa="cliffWord">
+            cliff.
+          </Txt>
+        </div>
         <Tag x={1540} y={300} text="Medicare" k={prog(t, bill + 0.2, bill + 0.5)} fill={P.white} size={32} rot={-8} qa="medicare" />
       </Cam>
     </AbsoluteFill>
@@ -139,7 +153,23 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.paperWarm} id="linda" />
-      <Cam t0={WT('l1') - 0.4} t1={38.4} push={0.035} focus={[960, 560]}>
+      <Cam
+        t0={WT('l1') - 0.4}
+        t1={38.4}
+        push={0}
+        keys={[
+          {t: WT('l1') - 0.4, x: 1560, y: 600, z: 1.12},
+          {t: leak - 0.5, x: 1500, y: 580, z: 1.08},
+          {t: leak + 0.4, x: 820, y: 420, z: 1.16},
+          {t: ira - 0.6, x: 700, y: 520, z: 1.08},
+          {t: ira + 0.2, x: 420, y: 620, z: 1.18},
+          {t: pulled + 1.1, x: 860, y: 540, z: 1.04},
+          {t: pushed + 0.2, x: 880, y: 470, z: 1.2},
+          {t: nothing - 0.1, x: 900, y: 490, z: 1.16},
+          {t: nothing + 0.6, x: 960, y: 540, z: 1.0},
+          {t: 38.4, x: 1000, y: 520, z: 1.04},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           {/* wallpaper stripes */}
           {Array.from({length: 24}).map((_, i) => (
@@ -158,6 +188,13 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
           <Shape pts={rectPts(-40, 880, W + 80, 260, 291, 6)} fill={P.wood} seed={291} w={6} />
           <Stroke pts={linePts([-20, 930], [W + 20, 934], 12, 0, 292)} w={3} color={P.woodDark} seed={292} />
           <Pot x={800} y={900} level={potLevel} t={t} />
+          {(() => {
+            const t0 = leak - 0.2;
+            const ev = 1.15;
+            const n = Math.floor((t - t0 - 0.55 * ev) / ev);
+            if (n < 0) return null;
+            return <Splash t={t} t0={t0 + n * ev + 0.55 * ev} x={800} y={900 - 110 + 100 * (1 - potLevel)} n={6} seed={330 + n} color={P.rain} s={0.8} />;
+          })()}
           {/* a framed picture on the wall */}
           <Shape pts={rectPts(860, 130, 230, 170, 297, 8)} fill={P.wood} seed={297} />
           <Shape pts={rectPts(878, 148, 194, 134, 298, 6)} fill={P.skyDeep} seed={298} w={3.5} />
@@ -205,13 +242,11 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
         </Txt>
         <Tag x={278} y={604} text="IRA" k={1} fill={P.white} size={30} rot={-3} qa="iraTag" />
         <Tag x={150} y={470} text="+$14,000 from her IRA" k={prog(t, k14, k14 + 0.3)} fill={P.mustard} size={34} rot={-4} qa="plus14" />
-        <Txt x={580} y={350} size={34} k={prog(t, pushed - 0.2, pushed + 0.3)} color={P.inkSoft} qa="incomeLabel">
+        <Txt x={580} y={350} size={34} k={prog(t, pushed - 0.2, pushed + 0.7)} color={P.inkSoft} qa="incomeLabel" pen>
           her 2024 income
         </Txt>
-        <Txt x={580} y={398} size={84} k={prog(t, pushed, pushed + 0.3)} weight={800} color={P.ink} qa="incomeNum">
-          {money(income)}
-        </Txt>
-        <Txt x={590} y={590} size={30} k={prog(t, amt, amt + 0.3)} color={P.berry} qa="lineLabel">
+        <Odo x={580} y={398} size={84} from={95500} to={109500} k={t < pushed ? 0 : Math.max(0.0001, prog(t, amt - 1.4, amt + 0.6))} weight={800} color={P.ink} qa="incomeNum" />
+        <Txt x={590} y={590} size={30} k={prog(t, amt, amt + 0.75)} color={P.berry} qa="lineLabel" pen>
           a line at $109,000
         </Txt>
         <Txt x={1120} y={484} size={30} align="center" k={prog(t, taxes, taxes + 0.3)} color={P.teal} qa="taxesLabel">
@@ -251,11 +286,33 @@ export const LetterScene: React.FC<SceneProps> = ({t}) => {
   });
   const arrive = prog(t, letter - 0.6, letter + 0.2, easeIn);
   const pose = t > called - 0.2 ? 'phone' : t > jan - 0.6 ? 'letter' : 'neutral';
-  const card = prog(t, jan - 0.5, jan + 0.1, easeOut);
+  const card = prog(t, jan + 0.2, jan + 0.7, easeOut);
+  // the letter comes out of the mailbox and unfolds into the notice
+  const out = prog(t, jan - 1.3, jan - 0.15, easeInOut);
+  const unfold = prog(t, jan - 0.45, jan + 0.25, easeOut);
+  const stampT = hadnt - 0.05 + 0.2;
   return (
     <AbsoluteFill>
       <Paper color={P.sky} id="letter" />
-      <Cam t0={WT('m1') - 0.4} t1={70} push={0.03} focus={[900, 520]}>
+      <Cam
+        t0={WT('m1') - 0.4}
+        t1={70}
+        push={0}
+        shakeAt={[stampT]}
+        keys={[
+          {t: WT('m1') - 0.4, x: 700, y: 640, z: 1.12},
+          {t: letter + 0.3, x: 560, y: 700, z: 1.22},
+          {t: jan - 1.3, x: 640, y: 640, z: 1.12},
+          {t: jan + 0.2, x: 930, y: 460, z: 1.04},
+          {t: oldP - 0.2, x: 930, y: 420, z: 1.1},
+          {t: newP + 0.4, x: 960, y: 380, z: 1.22},
+          {t: drug + 0.2, x: 880, y: 500, z: 1.16},
+          {t: year + 0.4, x: 860, y: 600, z: 1.2},
+          {t: called - 0.4, x: 1000, y: 520, z: 1.04},
+          {t: hadnt + 0.6, x: 1060, y: 500, z: 1.08},
+          {t: 70, x: 1000, y: 520, z: 1.02},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clouds t={t} y={110} n={4} seed={340} s={0.8} />
           {/* lawn, fence, house corner */}
@@ -273,19 +330,41 @@ export const LetterScene: React.FC<SceneProps> = ({t}) => {
           ) : null}
           <Leaves t={t} n={16} seed={351} />
           <Linda name="linda" a={linda} x={1560} y={1080} s={1.35} pose={pose} />
-          {card > 0 ? (
-            <g transform={`translate(0,${(1 - card) * 60})`} opacity={clamp01(card * 2)}>
+          {out > 0 && unfold < 1 ? (
+            <g
+              transform={`translate(${420 + (930 - 420) * out},${820 + (460 - 820) * out - Math.sin(out * Math.PI) * 160}) rotate(${-24 + 24 * out}) scale(${0.18 + 0.27 * out}, ${(0.18 + 0.27 * out) * (0.36 + 0.64 * unfold)})`}
+            >
+              <Card x={-410} y={-310} w={820} h={620} seed={362} rot={0} />
+              {[0.33, 0.66].map((c, i) => (
+                <line key={i} x1={-400} y1={-310 + 620 * c} x2={400} y2={-310 + 620 * c} stroke={P.inkSoft} strokeWidth={6} opacity={0.6 * (1 - unfold)} />
+              ))}
+            </g>
+          ) : null}
+          {unfold >= 1 ? (
+            <g>
               <Card x={520} y={150} w={820} h={620} seed={360} rot={-1} qa="notice" />
               <Shape pts={rectPts(520, 150, 820, 74, 361, 8)} fill={P.tealPale} seed={361} w={4} />
+              {[0.33, 0.66].map((c, i) => (
+                <line key={i} x1={540} y1={150 + 620 * c} x2={1320} y2={150 + 620 * c} stroke={P.paperShade} strokeWidth={3} opacity={0.9} />
+              ))}
             </g>
           ) : null}
           {t > newP - 0.1 ? <Strike x={604} y={330} len={240} k={prog(t, newP - 0.1, newP + 0.2)} color={P.berry} /> : null}
-          {t > year ? <Underline x={600} y={668} len={480} k={prog(t, year + 0.2, year + 0.7)} color={P.berry} /> : null}
-          <Stamp x={1168} y={478} k={prog(t, hadnt - 0.05, hadnt + 0.25)} w={240} h={96} />
+          {t > year ? <Underline x={600} y={668} len={480} k={prog(t, year + 0.85, year + 1.35)} color={P.berry} /> : null}
+          <Stamp x={1168} y={478} k={prog(t, hadnt - 0.05, hadnt + 0.2)} w={240} h={96} />
+          <Puff t={t} t0={stampT} x={1168} y={540} w={360} seed={366} life={0.7} />
+          <Burst t={t} t0={stampT} x={1168} y={478} n={9} seed={367} spread={420} up={420} life={0.9} scale={0.8} />
+          <ImpactLines t={t} t0={stampT - 0.02} x={1168} y={500} r={170} n={8} seed={368} color={P.berry} arc={Math.PI * 1.6} />
         </svg>
         <Tag x={210} y={330} text="late 2025" k={prog(t, y2025 - 0.2, y2025 + 0.3)} fill={P.white} size={36} rot={-4} qa="late2025" />
-        <Txt x={560} y={166} size={36} k={card} qa="noticeHead" color={P.teal} weight={800}>
+        <Txt x={560} y={168} size={33} k={card} qa="noticeHead" color={P.teal} weight={800}>
           Medicare Part B, starting January 2026
+        </Txt>
+        <Txt x={560} y={226} size={24} k={prog(t, jan + 0.5, jan + 1.4)} qa="letterL1" color={P.inkSoft} weight={600} informal={10} bounce={0}>
+          Dear Linda, based on the income on your 2024 tax return,
+        </Txt>
+        <Txt x={560} y={256} size={24} k={prog(t, jan + 1.2, jan + 2.0)} qa="letterL2" color={P.inkSoft} weight={600} informal={10} bounce={0}>
+          your monthly Part B premium will change:
         </Txt>
         <Txt x={590} y={296} size={58} k={prog(t, oldP - 0.1, oldP + 0.3)} qa="oldP" color={P.inkSoft}>
           $202.90
@@ -293,19 +372,17 @@ export const LetterScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={872} y={300} size={44} k={prog(t, newP - 0.3, newP)} qa="arrow" color={P.inkSoft}>
           →
         </Txt>
-        <Txt x={930} y={280} size={82} k={prog(t, newP, newP + 0.3)} qa="newP" color={P.berry} weight={800} riso={P.ink}>
-          $284.10
-        </Txt>
+        <Odo x={930} y={280} size={82} from={202.9} to={284.1} k={prog(t, newP - 0.15, newP + 0.9)} fmt={(v) => '$' + v.toFixed(2)} qa="newP" color={P.berry} weight={800} riso={P.ink} />
         <Txt x={1300} y={384} size={34} k={prog(t, newP + 0.3, newP + 0.6)} qa="perMonth" color={P.inkSoft} align="right">
           a month
         </Txt>
-        <Txt x={600} y={452} size={50} k={prog(t, drug - 0.1, drug + 0.3)} qa="drug">
+        <Txt x={600} y={452} size={50} k={prog(t, drug - 0.15, drug + 0.6)} qa="drug" pen>
           + $14.50 a month
         </Txt>
         <Txt x={600} y={518} size={32} k={prog(t, drug + 0.4, drug + 0.7)} qa="drugLabel" color={P.inkSoft}>
           on her drug plan
         </Txt>
-        <Txt x={600} y={590} size={76} k={prog(t, year - 0.1, year + 0.3)} qa="year" weight={800}>
+        <Txt x={600} y={590} size={76} k={prog(t, year - 0.2, year + 0.75)} qa="year" weight={800} pen>
           = $1,148 a year
         </Txt>
         <Txt x={604} y={690} size={32} k={prog(t, roof - 0.1, roof + 0.3)} qa="roofNote" color={P.inkSoft}>

@@ -9,6 +9,7 @@ import {CalendarPage, Cake, Door, Leaves, Stamp, Drip, sharp} from './props2';
 import {SceneProps} from './scenes1';
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
+import {Burst, ImpactLines, Puff, Splash} from '../mg/kit';
 
 const fr = frF;
 
@@ -62,7 +63,28 @@ export const FixScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.paper} id="fix" lines="grid" />
-      <Cam t0={WT('f1') - 0.4} t1={176.2} push={0.03} focus={[1000, 520]}>
+      <Cam
+        t0={WT('f1') - 0.4}
+        t1={176.2}
+        push={0}
+        keys={[
+          {t: WT('f1') - 0.4, x: 700, y: 600, z: 1.1},
+          {t: spread - 0.2, x: 760, y: 580, z: 1.12},
+          {t: oneYear + 0.2, x: 1080, y: 520, z: 1.06},
+          {t: overC + 0.2, x: 900, y: 480, z: 1.16},
+          {t: two + 0.3, x: 1400, y: 500, z: 1.14},
+          {t: bucketW + 0.5, x: 1450, y: 480, z: 1.16},
+          {t: roth - 0.2, x: 1120, y: 520, z: 1.04},
+          {t: check + 0.2, x: 1500, y: 470, z: 1.12},
+          {t: hundred + 0.2, x: 1530, y: 500, z: 1.2},
+          {t: dec - 0.9, x: 1200, y: 520, z: 1.04},
+          {t: dec + 0.4, x: 900, y: 400, z: 1.14},
+          {t: age + 0.2, x: 1150, y: 560, z: 1.06},
+          {t: s63 + 0.3, x: 1260, y: 640, z: 1.14},
+          {t: s65 + 0.3, x: 1480, y: 580, z: 1.12},
+          {t: 176.2, x: 1440, y: 560, z: 1.1},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clock x={1800} y={110} t={t} r={58} />
           <Window x={60} y={70} w={330} h={290} seed={600} blinds>
@@ -95,7 +117,8 @@ export const FixScene: React.FC<SceneProps> = ({t}) => {
                 ))
               : null}
             {t > spread - 0.3 ? <Stroke pts={linePts([740, Y0], [1700, Y0 + 2], 10, 0, 660)} w={5} seed={660} /> : null}
-            {tick > 0 ? <Stroke pts={[[1660, yOf(LINE) + 40], [1690, yOf(LINE) + 74], [1750, yOf(LINE) - 10]]} w={9} color={P.teal} seed={661} draw={tick} /> : null}
+            {tick > 0 ? <Stroke pts={[[1660, yOf(LINE) + 40], [1690, yOf(LINE) + 74], [1750, yOf(LINE) - 10]]} w={9} color={P.teal} seed={661} draw={tick} pen /> : null}
+            <ImpactLines t={t} t0={overC + 0.05} x={875} y={yOf(109500) - 40} r={120} n={6} seed={662} color={P.berry} />
             {t > close ? <CircleMark cx={1545} cy={yOf(LINE) + 30} rx={150} ry={46} k={prog(t, hundred - 0.3, hundred + 0.3)} color={P.berry} /> : null}
           </g>
           {/* phase 2: December, and the age that counts */}
@@ -205,7 +228,24 @@ export const EscapeScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.paperWarm} id="escape" />
-      <Cam t0={WT('x1') - 0.4} t1={196.5} push={0.03} focus={[860, 520]}>
+      <Cam
+        t0={WT('x1') - 0.4}
+        t1={196.5}
+        push={0}
+        shakeAt={[isnt + 0.2]}
+        keys={[
+          {t: WT('x1') - 0.4, x: 520, y: 560, z: 1.16},
+          {t: out + 0.5, x: 460, y: 560, z: 1.12},
+          {t: event + 0.1, x: 1030, y: 460, z: 1.06},
+          {t: retiring + 0.3, x: 940, y: 420, z: 1.18},
+          {t: form + 0.1, x: 1030, y: 330, z: 1.18},
+          {t: lower + 0.5, x: 1030, y: 600, z: 1.14},
+          {t: roof - 0.5, x: 1150, y: 420, z: 1.04},
+          {t: isnt + 0.4, x: 1420, y: 300, z: 1.14},
+          {t: pays - 0.2, x: 1400, y: 560, z: 1.04},
+          {t: 196.5, x: 1500, y: 600, z: 1.1},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           {Array.from({length: 20}).map((_, i) => (
             <rect key={i} x={i * 100} y={0} width={36} height={880} fill={P.paperShade} opacity={0.3} />
@@ -225,10 +265,10 @@ export const EscapeScene: React.FC<SceneProps> = ({t}) => {
               ))}
             </g>
           ) : null}
-          {formK > 0 ? <Arrow from={[1030, 560]} to={[1030, 690]} k={prog(t, lower - 0.2, lower + 0.4)} color={P.teal} /> : null}
+          {formK > 0 ? <Arrow from={[1030, 560]} to={[1030, 690]} k={prog(t, lower - 0.2, lower + 0.4)} color={P.teal} pen={false} /> : null}
           {/* ticks for the two events she named */}
-          {t > retiring ? <Stroke pts={[[804, 380], [818, 396], [846, 358]]} w={7} color={P.teal} seed={719} draw={prog(t, retiring, retiring + 0.3)} /> : null}
-          {t > spouse ? <Stroke pts={[[804, 450], [818, 466], [846, 428]]} w={7} color={P.teal} seed={718} draw={prog(t, spouse, spouse + 0.3)} /> : null}
+          {t > retiring ? <Stroke pts={[[804, 380], [818, 396], [846, 358]]} w={7} color={P.teal} seed={719} draw={prog(t, retiring, retiring + 0.45)} pen /> : null}
+          {t > spouse ? <Stroke pts={[[804, 450], [818, 466], [846, 428]]} w={7} color={P.teal} seed={718} draw={prog(t, spouse, spouse + 0.45)} pen /> : null}
           {roofK > 0 ? (
             <g transform={`translate(${(1 - roofK) * 500},0)`}>
               <Card x={1360} y={130} w={260} h={240} seed={720} rot={4} />
@@ -237,7 +277,11 @@ export const EscapeScene: React.FC<SceneProps> = ({t}) => {
               <Drip t={t} t0={roof - 0.4} x={1490} y0={256} y1={330} every={0.8} />
             </g>
           ) : null}
-          <Stamp x={1490} y={250} k={prog(t, isnt, isnt + 0.25)} w={300} h={92} rot={-12} />
+          <Stamp x={1490} y={250} k={prog(t, isnt, isnt + 0.2)} w={300} h={92} rot={-12} />
+          <Puff t={t} t0={isnt + 0.2} x={1490} y={310} w={380} seed={725} life={0.7} />
+          <Burst t={t} t0={isnt + 0.2} x={1490} y={250} n={9} seed={726} spread={420} up={420} scale={0.8} />
+          <ImpactLines t={t} t0={isnt + 0.18} x={1490} y={260} r={190} n={8} seed={727} color={P.berry} arc={Math.PI * 1.6} />
+          {open > 0.05 ? <Dust t={t} x={160} y={340} w={560} h={540} seed={728} n={18} /> : null}
           <Linda name="linda" a={linda} x={1660} y={1080} s={1.3} pose={t > pays - 0.2 ? 'shrug' : 'neutral'} />
         </svg>
         <Tag x={190} y={250} text="one way out" k={prog(t, out - 0.2, out + 0.2)} fill={P.white} size={34} rot={-3} qa="wayOut" />
@@ -253,10 +297,10 @@ export const EscapeScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1030} y={196} size={36} align="center" k={formK} qa="lceHead" color={P.berry} weight={800}>
           life-changing event
         </Txt>
-        <Txt x={1030} y={244} size={64} align="center" k={titleK} qa="ssa44" weight={800} riso={P.teal}>
+        <Txt x={1030} y={244} size={64} align="center" k={prog(t, form - 0.3, form + 0.6)} qa="ssa44" weight={800} riso={P.teal} pen>
           Form SSA-44
         </Txt>
-        <Txt x={1030} y={700} size={34} align="center" k={prog(t, lower, lower + 0.4)} qa="lowerInc" color={P.teal} weight={800}>
+        <Txt x={1030} y={700} size={34} align="center" k={prog(t, lower, lower + 0.9)} qa="lowerInc" color={P.teal} weight={800} pen>
           use the newer, lower income
         </Txt>
         <Txt x={1490} y={228} size={34} align="center" k={prog(t, isnt + 0.05, isnt + 0.25)} qa="notList" color={P.berry} weight={800} rot={-12}>
@@ -279,7 +323,17 @@ export const NoteScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.tealPale} id="note" />
-      <Cam t0={WT('n1') - 0.4} t1={205.3} push={0.03} focus={[960, 520]}>
+      <Cam
+        t0={WT('n1') - 0.4}
+        t1={205.3}
+        push={0}
+        keys={[
+          {t: WT('n1') - 0.4, x: 860, y: 480, z: 1.06},
+          {t: nums + 0.4, x: 860, y: 430, z: 1.16},
+          {t: nov + 0.5, x: 900, y: 560, z: 1.14},
+          {t: 205.3, x: 960, y: 540, z: 1.04},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Window x={1400} y={90} w={420} h={340} seed={800} blinds={false}>
             <rect x={1400} y={90} width={420} height={340} fill={P.sky} />
@@ -288,16 +342,29 @@ export const NoteScene: React.FC<SceneProps> = ({t}) => {
           <Clock x={1160} y={150} t={t} r={60} />
           <Shape pts={rectPts(-40, 880, W + 80, 260, 802, 6)} fill={P.wood} seed={802} w={6} />
           <CalendarPage x={570} y={250} w={580} h={480} seed={803} rot={-1.5} />
-          <CircleMark cx={860} cy={622} rx={190} ry={50} k={prog(t, nov, nov + 0.5)} color={P.berry} />
+          {(() => {
+            const fk = prog(t, WT('n1') - 0.2, WT('n1') + 0.35, easeIn);
+            if (fk >= 1) return null;
+            const sy = Math.abs(Math.cos(fk * Math.PI));
+            return (
+              <g transform={`translate(0,252) scale(1,${Math.max(0.02, sy)}) translate(0,-252)`}>
+                <CalendarPage x={570} y={250} w={580} h={480} seed={804} rot={-1.5} />
+                <text x={860} y={300} textAnchor="middle" fontFamily='"Shantell Sans"' fontWeight={800} fontSize={44} fill={P.white} transform="rotate(-1.5 860 290)">
+                  OCTOBER
+                </text>
+              </g>
+            );
+          })()}
+          <CircleMark cx={860} cy={622} rx={190} ry={50} k={prog(t, nov + 0.45, nov + 0.95)} color={P.berry} />
           <Linda name="linda" a={linda} x={300} y={1080} s={1.25} pose={t > nov - 0.6 ? 'pencil' : 'neutral'} />
         </svg>
-        <Txt x={860} y={260} size={44} align="center" k={prog(t, WT('n1'), WT('n1') + 0.4)} color={P.white} weight={800} qa="novHead" rot={-1.5}>
+        <Txt x={860} y={260} size={44} align="center" k={prog(t, WT('n1') + 0.3, WT('n1') + 0.5)} color={P.white} weight={800} qa="novHead" rot={-1.5}>
           NOVEMBER
         </Txt>
-        <Txt x={860} y={380} size={38} align="center" k={prog(t, nums - 0.2, nums + 0.3)} qa="nums" weight={800} rot={-1.5}>
+        <Txt x={860} y={380} size={38} align="center" k={prog(t, nums - 0.3, nums + 0.6)} qa="nums" weight={800} rot={-1.5} pen>
           these are 2026 numbers
         </Txt>
-        <Txt x={860} y={600} size={36} align="center" k={prog(t, nov - 0.2, nov + 0.3)} qa="newLines" color={P.berry} weight={800} rot={-1.5}>
+        <Txt x={860} y={600} size={36} align="center" k={prog(t, nov - 0.5, nov + 0.4)} qa="newLines" color={P.berry} weight={800} rot={-1.5} pen>
           2027 lines come out
         </Txt>
         <Tag x={1160} y={520} text="checked Oct 17, 2026" k={prog(t, plan - 0.4, plan)} fill={P.white} size={30} rot={3} qa="checked" />
@@ -345,6 +412,9 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
                 if (d < 0 || d > 1) return null;
                 return <Coin key={i} x={520 + (hash2(910, i) - 0.5) * 140} y={-30 + d * (480 + 350 * (1 - fill))} r={16} seed={910 + i} rot={d * 300} />;
               })
+            : null}
+          {t > e.action && t < e.action + 2.4
+            ? Array.from({length: 8}).map((_, i) => <Splash key={i} t={t} t0={e.action + i * 0.18 + 0.5} x={520 + (hash2(910, i) - 0.5) * 140} y={455 + 350 * (1 - fill)} n={5} seed={940 + i} s={0.7} />)
             : null}
           <Shape pts={rectPts(120, 810, 800, 40, 902, 6)} fill={P.earth} seed={902} />
           <CliffBlock x={1000} y={810} w={640} h={420} seed={920} />

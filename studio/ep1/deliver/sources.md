@@ -1,4 +1,4 @@
-# Sources: "Can A Raise Make You Poorer?" (checked Oct 16, 2026)
+# Sources: "Can A Raise Make You Poorer?" (checked Oct 16, 2026; Senate status rechecked Oct 19, 2026)
 
 | Number in the video | Value | Source |
 |---|---|---|
@@ -12,12 +12,14 @@
 | Dan's credit (labelled an estimate on screen) | $625 × 2.714 / 1.278 = $1,327/mo = $15,927/yr benchmark; minus 9.96% × $62,000 = $6,175; ≈ $9,750 → "roughly $9,700 a year" | computed from the rows above; real premiums vary a lot by county |
 | Enhanced credits expired | end of 2025 | https://www.healthinsurancenetwork.org/guide/will-aca-subsidies-come-back |
 | House vote | Jan 8, 2026, 230-196, 3-year extension | Ballotpedia News: https://news.ballotpedia.org/2026/01/12/house-passes-three-year-extension-of-expanded-aca-subsidies/ |
-| Senate | no vote; not law (rechecked Oct 16, 2026: Senate cloture on S.3385 failed 51-48 on Dec 11, 2025; no Senate action on the House bill; bipartisan talks, no floor vote scheduled) | Sen. Heinrich statement (Jan 14, 2026): https://www.heinrich.senate.gov/newsroom/press-releases/senator-heinrich-statement-on-senate-republicans-blocking-aca-tax-credit-extension-raising-health-care-premiums-on-american-families ; healthinsurancenetwork.org (link above); Taxpayers.net status page (updated Oct 4, 2026): https://taxpayers.net/guides/aca-subsidy-status-2027 |
+| Senate | no vote; not law (rechecked Oct 19, 2026: healthinsurancenetwork.org, updated Sept 2026, still says no Senate vote on the House bill and nothing is law; earlier check Oct 16, 2026: Senate cloture on S.3385 failed 51-48 on Dec 11, 2025; no Senate action on the House bill; bipartisan talks, no floor vote scheduled) | Sen. Heinrich statement (Jan 14, 2026): https://www.heinrich.senate.gov/newsroom/press-releases/senator-heinrich-statement-on-senate-republicans-blocking-aca-tax-credit-extension-raising-health-care-premiums-on-american-families ; healthinsurancenetwork.org (link above); Taxpayers.net status page (updated Oct 4, 2026): https://taxpayers.net/guides/aca-subsidy-status-2027 |
 
-**Recheck on upload day (planned Oct 20, 2026):** the Senate status. The on-screen status card says "status as of Oct 16, 2026". If anything passes, change that card and line w2 of the script.
+**Recheck on upload day (planned Oct 20, 2026):** the Senate status. The on-screen status card now says "status as of Oct 19, 2026" (upgrade cut). If anything passes, change that card and line w2 of the script.
 
 Experts don't disagree on the bracket math. The credit size is the soft number. It depends heavily on the county's benchmark premium, so the video calls it an estimate for an average-cost area.
 
 YouTube (for the channel, not on screen):
 - Monetization / "inauthentic content": https://support.google.com/youtube/answer/1311392
 - Altered or synthetic content disclosure: https://support.google.com/youtube/answer/14328491
+
+- CNBC, Jan 8, 2026, House passes ACA subsidies; fate of bill murky in Senate: https://www.cnbc.com/2026/01/08/obamacare-subsidies-extension-congress.html (cited on the upgraded status card)

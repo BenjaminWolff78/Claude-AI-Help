@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {Pt} from './ink';
-import {FPS, H, P, W, clamp01, easeInOut, hash, hash2, prog} from './lib';
+import {FPS, H, P, SUB, W, clamp01, easeInOut, hash, hash2, prog} from './lib';
 
 /** Paper sheet: flat colour + fibre texture + soft vignette. Grain is added on top globally. */
 export const Paper: React.FC<{color?: string; id?: string; lines?: 'grid' | 'ruled' | null; children?: React.ReactNode}> = ({
@@ -69,7 +69,7 @@ export const Cam: React.FC<{
   children: React.ReactNode;
 }> = ({t0, t1, push = 0.03, focus = [960, 540], drift = 8, shakeAt = [], keys, children}) => {
   const frame = useCurrentFrame();
-  const t = frame / FPS;
+  const t = (frame + SUB) / FPS; // camera is smooth motion: sampled at the shutter sub-frame
   const k = clamp01((t - t0) / Math.max(0.1, t1 - t0));
   let z = 1 + push * easeInOut(k);
   let cx = focus[0];

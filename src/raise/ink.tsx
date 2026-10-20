@@ -1,6 +1,7 @@
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
 import {P, boilOf, clamp01, hash2} from './lib';
+import {PencilG} from '../mg/pencil';
 
 export type Pt = [number, number];
 
@@ -220,7 +221,7 @@ export const smoothPts = (pts: Pt[], closed = false, sub = 4): Pt[] => {
 };
 
 /** Stroke only (lines, arrows, hatching). */
-export const Stroke: React.FC<{pts: Pt[]; w?: number; color?: string; seed?: number; draw?: number; amp?: number; taper?: boolean}> = ({
+export const Stroke: React.FC<{pts: Pt[]; w?: number; color?: string; seed?: number; draw?: number; amp?: number; taper?: boolean; pen?: boolean | number}> = ({
   pts,
   w = 5,
   color = P.ink,
@@ -228,15 +229,28 @@ export const Stroke: React.FC<{pts: Pt[]; w?: number; color?: string; seed?: num
   draw = 1,
   amp = 1.2,
   taper = true,
+  pen = false,
 }) => {
   const frame = useCurrentFrame();
   if (draw <= 0.001) return null;
   const jp = boilPts(pts, seed, boilOf(frame), amp);
-  return <path d={ribbonPath(partial(smoothPts(jp), draw), w, seed, false, taper)} fill={color} />;
+  const part = partial(smoothPts(jp), draw);
+  const path = <path d={ribbonPath(part, w, seed, false, taper)} fill={color} />;
+  if (!pen || draw >= 0.999 || part.length === 0) return path;
+  // the carrier pencil rides the tip while the mark is being drawn
+  const tip = part[part.length - 1];
+  const lift = draw < 0.1 ? 1 - draw / 0.1 : draw > 0.9 ? (draw - 0.9) / 0.1 : 0;
+  const L = typeof pen === 'number' ? pen : 280;
+  return (
+    <g>
+      {path}
+      <PencilG x={tip[0]} y={tip[1]} rot={-58} L={L} frame={frame} lift={lift} />
+    </g>
+  );
 };
 
 /** Hand-drawn circle around something; draws on with k, overshoots its start. */
-export const CircleMark: React.FC<{cx: number; cy: number; rx: number; ry: number; k: number; color?: string; seed?: number; w?: number}> = ({
+export const CircleMark: React.FC<{cx: number; cy: number; rx: number; ry: number; k: number; color?: string; seed?: number; w?: number; pen?: boolean | number}> = ({
   cx,
   cy,
   rx,
@@ -245,10 +259,11 @@ export const CircleMark: React.FC<{cx: number; cy: number; rx: number; ry: numbe
   color = P.coral,
   seed = 5,
   w = 7,
-}) => <Stroke pts={ellipsePts(cx, cy, rx, ry, seed, 30, 0.18)} draw={k} color={color} seed={seed} w={w} />;
+  pen = true,
+}) => <Stroke pts={ellipsePts(cx, cy, rx, ry, seed, 30, 0.18)} draw={k} color={color} seed={seed} w={w} pen={pen} />;
 
 /** Wavy hand underline. */
-export const Underline: React.FC<{x: number; y: number; len: number; k: number; color?: string; seed?: number; w?: number}> = ({
+export const Underline: React.FC<{x: number; y: number; len: number; k: number; color?: string; seed?: number; w?: number; pen?: boolean | number}> = ({
   x,
   y,
   len,
@@ -256,10 +271,11 @@ export const Underline: React.FC<{x: number; y: number; len: number; k: number; 
   color = P.coral,
   seed = 7,
   w = 7,
+  pen = true,
 }) => {
   const pts: Pt[] = [];
   for (let i = 0; i <= 12; i++) pts.push([x + (len * i) / 12, y + Math.sin(i * 0.9 + seed) * 3 + i * 0.4]);
-  return <Stroke pts={pts} draw={k} color={color} seed={seed} w={w} />;
+  return <Stroke pts={pts} draw={k} color={color} seed={seed} w={w} pen={pen} />;
 };
 
 /** Two-stroke cross-out (second stroke starts when the first is half done). */
@@ -274,13 +290,13 @@ export const CrossOut: React.FC<{x: number; y: number; w: number; h: number; k: 
   sw = 9,
 }) => (
   <g>
-    <Stroke pts={linePts([x, y + h * 0.1], [x + w, y + h * 0.9], 8, 6, seed)} draw={clamp01(k * 2)} color={color} seed={seed} w={sw} />
-    <Stroke pts={linePts([x + w * 0.96, y], [x + w * 0.04, y + h], 8, -5, seed + 1)} draw={clamp01(k * 2 - 0.8)} color={color} seed={seed + 1} w={sw} />
+    <Stroke pts={linePts([x, y + h * 0.1], [x + w, y + h * 0.9], 8, 6, seed)} draw={clamp01(k * 2)} color={color} seed={seed} w={sw} pen={k < 0.45} />
+    <Stroke pts={linePts([x + w * 0.96, y], [x + w * 0.04, y + h], 8, -5, seed + 1)} draw={clamp01(k * 2 - 0.8)} color={color} seed={seed + 1} w={sw} pen={k >= 0.45} />
   </g>
 );
 
 /** Strike-through line across text. */
-export const Strike: React.FC<{x: number; y: number; len: number; k: number; color?: string; seed?: number; sw?: number}> = ({
+export const Strike: React.FC<{x: number; y: number; len: number; k: number; color?: string; seed?: number; sw?: number; pen?: boolean | number}> = ({
   x,
   y,
   len,
@@ -288,10 +304,11 @@ export const Strike: React.FC<{x: number; y: number; len: number; k: number; col
   color = P.coral,
   seed = 13,
   sw = 8,
-}) => <Stroke pts={linePts([x - 6, y + 4], [x + len + 6, y - 6], 10, 3, seed)} draw={k} color={color} seed={seed} w={sw} />;
+  pen = true,
+}) => <Stroke pts={linePts([x - 6, y + 4], [x + len + 6, y - 6], 10, 3, seed)} draw={k} color={color} seed={seed} w={sw} pen={pen} />;
 
 /** Hand arrow with a two-stroke head. */
-export const Arrow: React.FC<{from: Pt; to: Pt; k: number; color?: string; seed?: number; bow?: number; w?: number}> = ({
+export const Arrow: React.FC<{from: Pt; to: Pt; k: number; color?: string; seed?: number; bow?: number; w?: number; pen?: boolean | number}> = ({
   from,
   to,
   k,
@@ -299,6 +316,7 @@ export const Arrow: React.FC<{from: Pt; to: Pt; k: number; color?: string; seed?
   seed = 17,
   bow = -30,
   w = 6,
+  pen = true,
 }) => {
   const body = linePts(from, to, 14, bow, seed);
   const end = body[body.length - 1];
@@ -310,8 +328,8 @@ export const Arrow: React.FC<{from: Pt; to: Pt; k: number; color?: string; seed?
   const kh = clamp01((k - 0.8) / 0.2);
   return (
     <g>
-      <Stroke pts={body} draw={clamp01(k / 0.8)} color={color} seed={seed} w={w} />
-      <Stroke pts={[h1, end]} draw={kh} color={color} seed={seed + 2} w={w} />
+      <Stroke pts={body} draw={clamp01(k / 0.8)} color={color} seed={seed} w={w} pen={pen && k < 0.8} />
+      <Stroke pts={[h1, end]} draw={kh} color={color} seed={seed + 2} w={w} pen={pen && k >= 0.8} />
       <Stroke pts={[h2, end]} draw={kh} color={color} seed={seed + 3} w={w} />
     </g>
   );

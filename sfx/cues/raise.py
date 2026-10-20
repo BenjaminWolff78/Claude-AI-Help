@@ -408,6 +408,40 @@ def build_sfx():
     for i in range(4):
         step(st, e['action'] + i * 0.35, 0.18, 0.2)
     rip(st, e['wipe'], DUR - e['wipe'], 0.4)
+    # ---- upgrade pass: sounds for the new motion (from things on screen)
+    SCN = TL['scenes']
+    for sc in ('maya', 'cost'):  # graphite scribble wipes
+        pencil(st, SCN[sc]['start'] + 0.02, 0.8, 0.42, 0.0)
+    for sc in ('math', 'move'):  # page turns
+        paper(st, SCN[sc]['start'] + 0.05, 0.7, 0.32, 0.4)
+    paper(st, SCN['dan']['start'] + 0.1, 0.5, 0.2, 0.0)  # the sheet drops onto the desk
+    thud(st, SCN['dan']['start'] + 0.62, 0.32, 0.0, f=95)
+    paper(st, s['raise_'] + 0.25, 0.35, 0.18, 0.1)  # little paper burst from the envelope
+    for i in range(7):  # bills drop onto the stack
+        paper(st, cl['thousands'] + i * 1.2 / 7 + 0.26, 0.08, 0.16, 0.45)
+    pencil(st, m['single'], 0.6, 0.3, 0.35)
+    pencil(st, m['taxable'] + 1.5, 0.8, 0.26, 0.35)
+    for i in range(8):
+        tick(st, m['salary'] + i * 0.12, 0.08, 0.35)
+    pencil(st, bk['same'] - 0.6, 1.0, 0.26, -0.1)
+    pencil(st, k['keeps'] - 0.75, 0.8, 0.3, 0.3)
+    pencil(st, k['total'] + 1.0, 0.6, 0.3, 0.2)
+    for i in range(8):
+        tick(st, k['keeps'] + i * 0.1, 0.08, 0.3)
+    for i in range(6):  # pebbles off the edge as the cliff slams up
+        tick(st, p['cliffs'] + 0.2 + i * 0.12, 0.12 * (1 - i * 0.12), 0.4)
+    pencil(st, p['almost'] - 0.4, 1.0, 0.28, -0.4)
+    pencil(st, d['freelance'], 0.8, 0.26, -0.1)
+    pencil(st, d['premium'] - 0.4, 0.9, 0.26, 0.4)
+    pencil(st, d['y2025'], 0.7, 0.26, 0.3)
+    pencil(st, d['old'] - 0.3, 1.2, 0.26, 0.2)
+    for i in range(5):
+        tick(st, f['gone'] - 0.05 + i * 0.12, 0.12, 0.1)
+    for i in range(10):
+        paper(st, co['amount'] - 0.3 + i * 0.15 + 0.24, 0.07, 0.14, 0.45)
+    pencil(st, co['poorer'] - 0.35, 0.75, 0.28, -0.4)
+    pencil(st, mv['magi'] + 0.4, 1.2, 0.24, 0.2)
+    pencil(st, ss['senate'] + 0.75, 0.65, 0.28, 0.4)
     return add_reverb(st, 0.08, 0.6)
 
 

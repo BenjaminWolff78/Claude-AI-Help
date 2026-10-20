@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {continueRender, delayRender, staticFile} from 'remotion';
 import {FONT, P, clamp01, easeOut} from './lib';
+import {useCurrentFrame} from 'remotion';
+import {PencilSvg} from '../mg/pencil';
 
 const FACE = `@font-face{font-family:"Shantell Sans";src:url(${staticFile('fonts/ShantellSans.ttf')}) format("truetype");font-weight:300 800;font-display:block;}`;
 
@@ -41,6 +43,7 @@ export type TxtProps = {
   opacity?: number;
   wrap?: number; // max width -> allows wrapping
   lineHeight?: number;
+  pen?: boolean | number; // the carrier pencil writes the letters while 0 < k < 1 (number = pencil length)
 };
 
 /** Hand-lettered text: letters pop in one after another with a tiny overshoot; riso offset shadow. */
@@ -62,12 +65,29 @@ export const Txt: React.FC<TxtProps> = ({
   opacity = 1,
   wrap,
   lineHeight = 1.1,
+  pen = false,
 }) => {
+  const frame = useCurrentFrame();
   if (k <= 0 || out >= 1 || opacity <= 0) return null;
   const chars = Array.from(children);
   const n = chars.length;
+  let pencil: React.ReactNode = null;
+  if (pen && k < 1 && !wrap) {
+    const total = measure(children, size, weight);
+    const left = x - total * (align === 'center' ? 0.5 : align === 'right' ? 1 : 0);
+    const fi = Math.max(0, Math.min(n, k * (n + 6) - 3.5));
+    const i0 = Math.floor(fi);
+    const pre = measure(chars.slice(0, i0).join(''), size, weight);
+    const cw = i0 < n ? measure(chars[i0], size, weight) : 0;
+    const nx = left + pre + cw * (fi - i0);
+    const ny = y + size * (0.72 + 0.1 * Math.sin(fi * 2.1));
+    const lift = k < 0.12 ? 1 - k / 0.12 : k > 0.9 ? (k - 0.9) / 0.1 : 0;
+    const L = typeof pen === 'number' ? pen : Math.max(200, Math.min(380, size * 3.6));
+    pencil = <PencilSvg x={nx} y={ny} L={L} frame={frame} lift={lift} />;
+  }
   const tx = align === 'left' ? '0%' : align === 'center' ? '-50%' : '-100%';
   return (
+    <>
     <div
       data-qa={qa ? `text:${qa}` : undefined}
       data-qa-type={qa ? 'text' : undefined}
@@ -110,6 +130,8 @@ export const Txt: React.FC<TxtProps> = ({
         );
       })}
     </div>
+      {pencil}
+    </>
   );
 };
 

@@ -334,3 +334,26 @@ Delivering files: send the small MP4 and the small files in chat; files over 30 
 - My PC: `Test Videos/claude-motion` and `Test Videos/motionmaxxing`; `Bucket or Cliff Ep1` (episode 1 srt and thumbnail).
 - Launch pack doc for episode 1 (older): https://claude.ai/artifact/9b5efKfMQ4icAvgPrEM3Ge. Figma file used for the very first Python-built episode 1 art: https://www.figma.com/design/xCItFZbjfHC8dgMoWx0bAJ (pages Ep1 / Characters / Props / Lettering); the current videos are drawn in code (Remotion), not Figma.
 - Reference video I once gave (could not be opened by the sandbox): https://www.youtube.com/watch?v=yf2OwchM9nw. If you can open it, take editing/visual/animation notes; otherwise ask me to paste a transcript or description.
+
+---
+
+## 12. THE MOTION-GRAPHICS UPGRADE (October 2026) — the kit and what was learned
+
+Both episodes were upgraded to a "lots of high-quality motion graphics, still hand-made, all-ages" style. Reuse this kit for every new episode instead of starting over.
+
+**Shared kit (`src/mg/`):**
+- `pencil.tsx`: the carrier pencil, drawn in Figma and exported as SVG paths (`exportAsync({format:'SVG_STRING'})` -> paths pasted into code). `PencilG({x,y,rot,L,frame,lift})` puts the nib exactly on a point; `penLift` fades it in and out. Ink primitives (`Stroke`, `CircleMark`, `Underline`, `Strike`, `CrossOut`, `Arrow`) and `Txt` take a `pen` prop so a visible pencil draws every mark and handwritten word.
+- `kit.tsx`: `Odo` (odometer digit wheels for every money number, with carry), `Burst`, `Puff` (soft dust from landings), `ImpactLines`, `Splash` (water), `Pebbles` (cliff crumbs), `landSquash`, `pageTurnClip`/`PageCurl`, `scribblePath`/`ScribblePencil`/`ScribbleTone` (Figma-drawn scribble path).
+- `transitions.tsx`: `Incoming` / `outgoingStyle` with `'page'` (notebook leaf turns), `'scribble'` (pencil scribbles graphite over the frame, next scene underneath), `'drop'` (new sheet falls with gravity, squashes, kicks up dust) plus the older torn/slide/push/split. Every seam is a physical action on paper; no generic wipes.
+- Crash words (WRONG, CLIFF, FULL!, EXPIRED, ZERO, YES) scale 2.6 -> 1 with a camera shake (`Cam shakeAt`), impact lines and a burst; one per idea, never two at once.
+- `studio/tools/shutter_plan.py` (picks motion-blur frames by measuring frame-to-frame motion; thresholds above the stepped-layer floor) and `studio/tools/finalize_mm.py` (float-averages sub-frames, hard-links the rest). This replaces the missing selection script noted in section 8.
+
+**Rules learned in this pass (do not repeat these mistakes):**
+- `Cam` keys `{x,y,z}` are zoom ANCHORS (that point stays fixed on screen), not centers. Anchor on the side where the content is, or a 1.15x zoom crops labels at the frame edge. Check every zoomed frame for cropping on the contact sheet.
+- One pencil at a time. When a `Txt pen` and an ink mark overlap in time, two pencils appear; set `pen={false}` on one or shift its timing.
+- Physics must touch the right surface: coins and splashes land on the moving water level (compute it with the same formula as the prop), dust puffs sit on the floor line, not mid-air. Soft puffs on small objects read as eggs: keep puffs for big landings only.
+- Money numbers roll (odometer) instead of popping; dates flip (calendar pages, OCTOBER -> NOVEMBER) instead of cutting.
+- Keep every animation pure in time and keep the stepped layers (characters on twos, boil, grain, captions) on integer frames so the shutter pass only blurs smooth motion.
+- Check the user's PC (device bridge) before calling a tool impossible: the `node_modules` came from the PC, packed in groups that finish within one bridge call (background tar dies when the call ends); zstd is not in the container, so gzip on the device.
+- Adobe: `at.adobe.com` uploads return 403 from the container and from the device, and Adobe tools reject raw.githubusercontent.com URLs; only the `asset_add_file` picker (the user picks the file) gets a file into Adobe. Say honestly which Adobe tools processed something.
+- Figma: build parts in Figma, export SVG strings, paste the paths into code. That is the round trip that works; Remotion draws the final frames.

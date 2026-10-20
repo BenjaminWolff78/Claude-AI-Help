@@ -8,6 +8,7 @@ import {Bill, Bucket, Capitol, Card, CliffBlock, Clock, Clouds, Coin, Envelope, 
 import {Cam, Paper} from './stage';
 import {Source, Tag, Txt, money} from './text';
 import {SceneProps} from './scenesA';
+import {Burst, ImpactLines, Odo, Pebbles, Puff, Splash} from '../mg/kit';
 
 const fr = frF;
 
@@ -37,7 +38,24 @@ export const DanScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color="#D9EAEC" id="dan" />
-      <Cam t0={d.start} t1={B.cliff.start} push={0.03} focus={[1100, 480]}>
+      <Cam
+        t0={d.start}
+        t1={B.cliff.start}
+        push={0}
+        shakeAt={[d.expired + 0.05]}
+        keys={[
+          {t: d.start, x: 520, y: 560, z: 1.16},
+          {t: d.age + 0.4, x: 520, y: 540, z: 1.14},
+          {t: d.freelance + 0.6, x: 760, y: 500, z: 1.06},
+          {t: d.market + 0.2, x: 1650, y: 300, z: 1.14},
+          {t: d.credit + 0.4, x: 1550, y: 460, z: 1.1},
+          {t: d.extra + 0.3, x: 1500, y: 600, z: 1.12},
+          {t: d.expired + 0.4, x: 1480, y: 640, z: 1.16},
+          {t: d.old - 0.2, x: 1300, y: 360, z: 1.04},
+          {t: d.back + 0.4, x: 1500, y: 160, z: 1.1},
+          {t: B.cliff.start, x: 1500, y: 180, z: 1.12},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Window x={60} y={60} w={340} h={300} seed={73} blinds={false}>
             <rect x={60} y={60} width={340} height={300} fill={P.sky} />
@@ -62,28 +80,32 @@ export const DanScene: React.FC<SceneProps> = ({t}) => {
               })
             : null}
           <Capitol x={1740} y={760} s={0.55 * prog(t, d.expired - 0.3, d.expired + 0.2, easeOut)} />
+          <ImpactLines t={t} t0={d.expired + 0.04} x={1330} y={680} r={240} n={9} seed={440} color={P.coral} arc={Math.PI * 1.7} />
+          <Burst t={t} t0={d.expired + 0.05} x={1330} y={680} n={10} seed={441} spread={480} up={460} scale={0.9} />
         </svg>
         <Tag x={250} y={258} text="DAN, 60" fill={P.mustard} k={prog(t, d.dan - 0.1, d.dan + 0.3, easeOut)} qa="danTag" rot={-4} size={44} />
-        <Txt x={600} y={420} size={40} k={prog(t, d.freelance, d.freelance + 0.5, easeOut)} color={P.teal} qa="freelance" rot={-3}>
+        <Txt x={600} y={420} size={40} k={prog(t, d.freelance, d.freelance + 0.8)} color={P.teal} qa="freelance" rot={-3} pen>
           freelance designer
         </Txt>
         <Txt x={1300} y={212} size={44} k={prog(t, d.market - 0.5, d.market + 0.2, easeOut)} color={P.teal} qa="aca" weight={800}>
           ACA marketplace
         </Txt>
-        <Txt x={1310} y={290} size={40} k={prog(t, d.premium - 0.3, d.premium + 0.3, easeOut)} qa="premium">
+        <Txt x={1310} y={290} size={40} k={prog(t, d.premium - 0.4, d.premium + 0.5)} qa="premium" pen>
           monthly premium
         </Txt>
         <Tag x={1150} y={474} text="tax credit" fill={P.mustard} k={prog(t, d.credit - 0.2, d.credit + 0.2, easeOut)} qa="credit" rot={-3} size={40} />
         <div style={{position: 'absolute', left: 0, top: 0, transform: `translate(${peel * 120}px, ${peel * 500}px) rotate(${peel * 40}deg)`, opacity: clamp01(1 - peel * 1.8), transformOrigin: '1400px 660px'}}>
           <Tag x={1150} y={640} text="+ extra help (2021)" fill={P.teal} color={P.white} k={prog(t, d.extra, d.extra + 0.4, easeOut)} qa="extra" rot={-4} size={40} />
-          <Txt x={1150} y={626} size={88} k={prog(t, d.expired, d.expired + 0.25, easeOut)} color={P.coral} riso={P.ink} qa="expired" rot={-9} weight={800} bounce={70}>
-            EXPIRED
-          </Txt>
-          <Txt x={1230} y={760} size={40} k={prog(t, d.y2025, d.y2025 + 0.4, easeOut)} qa="end2025" rot={-3}>
+          <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1330px 680px', transform: `scale(${(t < d.expired ? 1 : 2.3 - 1.3 * prog(t, d.expired - 0.02, d.expired + 0.22, easeOut)).toFixed(3)})`}}>
+            <Txt x={1150} y={626} size={88} k={prog(t, d.expired, d.expired + 0.15, easeOut)} color={P.coral} riso={P.ink} qa="expired" rot={-9} weight={800} bounce={70}>
+              EXPIRED
+            </Txt>
+          </div>
+          <Txt x={1230} y={760} size={40} k={prog(t, d.y2025, d.y2025 + 0.7)} qa="end2025" rot={-3} pen>
             end of 2025
           </Txt>
         </div>
-        <Txt x={1120} y={70} size={48} k={prog(t, d.old - 0.3, d.old + 0.5, easeOut)} qa="oldRule" weight={800}>
+        <Txt x={1120} y={70} size={48} k={prog(t, d.old - 0.3, d.old + 0.9)} qa="oldRule" weight={800} pen>
           2026: the old rule is back
         </Txt>
       </Cam>
@@ -119,7 +141,28 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.sky} id="cliff" />
-      <Cam t0={c.start} t1={B.cost.start} push={0.03} focus={[1000, 480]}>
+      <Cam
+        t0={c.start}
+        t1={B.cost.start}
+        push={0}
+        shakeAt={[c.zero + 0.05, c.gone + 0.1]}
+        keys={[
+          {t: c.start, x: 760, y: 520, z: 1.04},
+          {t: c.four - 0.3, x: 900, y: 460, z: 1.04},
+          {t: c.four + 0.8, x: 1400, y: 300, z: 1.12},
+          {t: c.zero - 0.2, x: 1600, y: 320, z: 1.08},
+          {t: c.single - 0.2, x: 1180, y: 400, z: 1.06},
+          {t: c.line + 0.4, x: 1080, y: 360, z: 1.14},
+          {t: c.income - 1.0, x: 960, y: 520, z: 1.06},
+          {t: c.income + 0.4, x: 1000, y: 520, z: 1.14},
+          {t: c.job + 0.4, x: 1150, y: 500, z: 1.1},
+          {t: c.now + 0.8, x: 1240, y: 560, z: 1.14},
+          {t: c.over + 0.6, x: 1240, y: 680, z: 1.18},
+          {t: c.gone - 0.3, x: 1100, y: 560, z: 1.06},
+          {t: c.gone + 1.2, x: 1000, y: 560, z: 1.0},
+          {t: B.cost.start, x: 1000, y: 540, z: 1.0},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clouds t={t} y={60} n={4} speed={8} seed={71} s={0.7} />
           <Shape pts={[[1100, 900], [1300, 720], [1480, 800], [1700, 690], [1980, 820], [1980, 1100], [1100, 1100]]} fill={P.skyDeep} seed={500} w={3} misreg={0} />
@@ -137,6 +180,9 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
                 return <Coin key={i} x={fall > 0 ? fx : bx} y={fall > 0 ? fy : by} r={18} seed={540 + i} rot={fall * (200 + i * 90)} />;
               })
             : null}
+          <Pebbles t={t} t0={c.gone - 0.1} x={EDGE - 10} y={TOPY + 10} n={8} seed={575} fall={460} />
+          <Burst t={t} t0={c.gone - 0.05} x={EDGE + 40} y={TOPY - 20} n={10} seed={576} spread={420} up={520} scale={0.8} />
+          <ImpactLines t={t} t0={c.zero + 0.04} x={1560} y={320} r={250} n={9} seed={577} color={P.coral} />
           <Dan name="dan" a={dan} x={danX} y={TOPY} s={0.82} legs walk={walking} walkPhase={t * 9} />
           {prog(t, c.single - 0.2, c.single + 0.3) > 0 ? (
             <>
@@ -163,12 +209,14 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
             </g>
           ) : null}
         </svg>
-        <Txt x={EDGE + 22} y={104} size={40} k={prog(t, c.four, c.four + 0.6, easeOut)} color={P.coral} qa="fpl" weight={700}>
+        <Txt x={EDGE + 22} y={104} size={40} k={prog(t, c.four, c.four + 1.0)} color={P.coral} qa="fpl" weight={700} pen>
           400% of the poverty line
         </Txt>
-        <Txt x={1560} y={220} size={170} align="center" k={prog(t, c.zero, c.zero + 0.25, easeOut)} color={P.ink} riso={P.coral} qa="zero" weight={800} bounce={80} rot={-4 + (t > c.zero2 && t < c.zero2 + 0.3 ? 3 : 0)}>
-          ZERO.
-        </Txt>
+        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '1560px 320px', transform: `scale(${(t < c.zero ? 1 : 2.5 - 1.5 * prog(t, c.zero - 0.02, c.zero + 0.24, easeOut)).toFixed(3)})`}}>
+          <Txt x={1560} y={220} size={170} align="center" k={prog(t, c.zero, c.zero + 0.16, easeOut)} color={P.ink} riso={P.coral} qa="zero" weight={800} bounce={80} rot={-4 + (t > c.zero2 && t < c.zero2 + 0.3 ? 3 : 0)}>
+            ZERO.
+          </Txt>
+        </div>
         <Txt x={EDGE - 80} y={TOPY - 376} size={58} align="center" k={prog(t, c.line, c.line + 0.5, easeOut)} color={P.white} qa="sign" weight={800}>
           $62,600
         </Txt>
@@ -176,7 +224,7 @@ export const CliffScene: React.FC<SceneProps> = ({t}) => {
           {flagX > EDGE + 100 ? '$63,000' : '$62,000'}
         </Txt>
         <Tag x={1250} y={520} text="+$1,000 job" fill={P.white} color={P.teal} k={prog(t, c.job, c.job + 0.4, easeOut) * (1 - prog(t, c.now - 0.3, c.now + 0.1))} qa="job" rot={3} size={40} />
-        <Txt x={EDGE + 30} y={TOPY + 160} size={44} k={prog(t, c.over, c.over + 0.5, easeOut)} color={P.coral} qa="over" weight={800}>
+        <Txt x={EDGE + 30} y={TOPY + 160} size={44} k={prog(t, c.over + 0.35, c.over + 1.0)} color={P.coral} qa="over" weight={800} pen>
           $400 over
         </Txt>
         <Txt x={96} y={330} size={58} k={prog(t, c.gone, c.gone + 0.4, easeOut)} color={P.coral} riso={P.ink} qa="gone" weight={800} rot={-4}>
@@ -212,7 +260,23 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.paper} id="cost" lines="grid" />
-      <Cam t0={c.start} t1={B.move.start} push={0.03} focus={[1300, 480]}>
+      <Cam
+        t0={c.start}
+        t1={B.move.start}
+        push={0}
+        shakeAt={[c.yes + 0.05]}
+        keys={[
+          {t: c.start, x: 1200, y: 560, z: 1.08},
+          {t: c.amount - 0.3, x: 1300, y: 520, z: 1.04},
+          {t: c.amount + 1.2, x: 1650, y: 360, z: 1.12},
+          {t: c.ten - 0.2, x: 1500, y: 440, z: 1.12},
+          {t: c.ten + 1.6, x: 1300, y: 460, z: 1.06},
+          {t: c.poorer - 0.3, x: 760, y: 360, z: 1.06},
+          {t: c.yes + 0.6, x: 560, y: 300, z: 1.14},
+          {t: c.move, x: 760, y: 480, z: 1.04},
+          {t: B.move.start, x: 760, y: 480, z: 1.04},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clock x={120} y={120} r={56} t={t} />
           <Shape pts={rectPts(990, 40, 170, 190, 600, 8)} fill={P.white} seed={600} />
@@ -221,9 +285,13 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
           {/* job paid: one bill */}
           <Bill x={1090} y={620} w={200} h={86} seed={610} />
           {/* credit lost: a stack of ~10 bills */}
-          {Array.from({length: nBills}).map((_, i) => (
-            <Bill key={i} x={1460 + ((i * 7) % 3) * 6} y={620 - i * 36} w={200} h={86} seed={620 + i} rot={((i * 5) % 3) - 1} />
-          ))}
+          {Array.from({length: 10}).map((_, i) => {
+            const at = c.amount - 0.3 + (i / 10) * 1.5;
+            if (t < at) return null;
+            const d = clamp01((t - at) / 0.24);
+            return <Bill key={i} x={1460 + ((i * 7) % 3) * 6} y={620 - i * 36 - (1 - d * d) * 380} w={200} h={86} seed={620 + i} rot={((i * 5) % 3) - 1 + (1 - d) * 16} />;
+          })}
+          <ImpactLines t={t} t0={c.yes + 0.04} x={640} y={180} r={200} n={8} seed={630} color={P.coral} arc={Math.PI * 1.6} />
           <CircleMark cx={1370} cy={420} rx={110} ry={62} k={prog(t, c.ten, c.ten + 0.5, easeOut)} color={P.teal} />
         </svg>
         <Txt x={1075} y={110} size={52} align="center" k={1} weight={800} qa="month" color={P.ink}>
@@ -238,21 +306,21 @@ export const CostScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1560} y={728} size={40} align="center" k={prog(t, c.start + 0.4, c.start + 0.9, easeOut)} qa="creditLbl">
           credit he lost
         </Txt>
-        <Txt x={1560} y={150} size={70} align="center" k={grow > 0 ? 1 : 0} color={P.coral} weight={800} qa="creditAmt" riso={P.ink}>
-          {'≈ ' + money(9700 * grow) + '/yr'}
-        </Txt>
+        <Odo x={1560} y={150} size={70} align="center" from={0} to={9700} k={prog(t, c.amount - 0.3, c.amount + 1.2)} fmt={(v) => '≈ $' + Math.round(v).toLocaleString('en-US') + '/yr'} color={P.coral} weight={800} qa="creditAmt" riso={P.ink} />
         <Txt x={1560} y={232} size={34} align="center" k={prog(t, c.amount + 0.4, c.amount + 0.9, easeOut)} color={P.ink} weight={700} qa="estimate">
           estimate · varies by county
         </Txt>
         <Txt x={1370} y={380} size={64} align="center" k={prog(t, c.ten - 0.1, c.ten + 0.3, easeOut)} color={P.teal} weight={800} qa="tenX">
           {'≈ 10×'}
         </Txt>
-        <Txt x={220} y={130} size={78} k={prog(t, c.poorer - 0.2, c.poorer + 0.3, easeOut)} qa="poorer" weight={800} rot={-3}>
+        <Txt x={220} y={130} size={78} k={prog(t, c.poorer - 0.35, c.poorer + 0.4)} qa="poorer" weight={800} rot={-3} pen>
           poorer?
         </Txt>
-        <Txt x={540} y={130} size={86} k={prog(t, c.yes, c.yes + 0.25, easeOut)} color={P.coral} riso={P.ink} qa="yes" weight={800} rot={-6} bounce={70}>
-          YES.
-        </Txt>
+        <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformOrigin: '640px 180px', transform: `scale(${(t < c.yes ? 1 : 2.4 - 1.4 * prog(t, c.yes - 0.02, c.yes + 0.22, easeOut)).toFixed(3)})`}}>
+          <Txt x={540} y={130} size={86} k={prog(t, c.yes, c.yes + 0.15, easeOut)} color={P.coral} riso={P.ink} qa="yes" weight={800} rot={-6} bounce={70}>
+            YES.
+          </Txt>
+        </div>
       </Cam>
       <Source x={1880} y={790} align="right" text={'KFF 2026 avg benchmark $625/mo at 40 × CMS age curve (60 vs 40) − 9.96% of $62,000 (IRS)'} k={prog(t, c.amount, c.amount + 0.5)} qa="srcCost" />
     </AbsoluteFill>
@@ -284,7 +352,24 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.paper} id="move" lines="ruled" />
-      <Cam t0={m.start} t1={B.status.start} push={0.03} focus={[1250, 480]}>
+      <Cam
+        t0={m.start}
+        t1={B.status.start}
+        push={0}
+        keys={[
+          {t: m.start, x: 1200, y: 260, z: 1.14},
+          {t: m.paycheck + 0.4, x: 1240, y: 240, z: 1.16},
+          {t: m.magi + 0.4, x: 1380, y: 260, z: 1.1},
+          {t: m.lower - 0.3, x: 1300, y: 420, z: 1.06},
+          {t: m.ira + 0.4, x: 1250, y: 620, z: 1.1},
+          {t: m.hsa + 0.8, x: 1350, y: 640, z: 1.1},
+          {t: m.slide, x: 1150, y: 420, z: 1.14},
+          {t: m.under + 0.6, x: 1100, y: 420, z: 1.18},
+          {t: m.job - 0.4, x: 600, y: 300, z: 1.04},
+          {t: m.money + 0.4, x: 520, y: 260, z: 1.14},
+          {t: B.status.start, x: 520, y: 260, z: 1.16},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           {[0, 1].map((i) => (
             <g key={i} transform={`rotate(${Math.sin(t * 1.6 + i * 2) * 2.5 + (i ? 5 : -4)} ${i ? 1840 : 760} ${i ? 840 : 70})`}>
@@ -306,6 +391,9 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
           <Shape pts={[[mx, 420], [mx - 24, 380], [mx + 24, 380]]} fill={v <= 62600 ? P.teal : P.coral} seed={671} />
           <Arrow from={[mx + 60, 330]} to={[mx - 60, 340]} k={prog(t, m.lower, m.lower + 0.5, easeOut) * (1 - prog(t, m.under, m.under + 0.4))} color={P.teal} bow={20} />
           <Jar x={1150} y={800} level={ira * 0.8} lid={P.teal} seed={680} />
+          {[0, 1, 2, 3, 4].map((i) => (
+            <ImpactLines key={i} t={t} t0={m.ira + i * 0.25 + 0.5} x={1150} y={720} r={70} n={5} seed={690 + i} color={P.mustard} />
+          ))}
           <Jar x={1520} y={800} level={prog(t, m.hsa, m.hsa + 1.2, easeOut) * 0.4} lid={P.coral} seed={690} />
           {t > m.ira && t < m.ira + 1.6
             ? Array.from({length: 5}).map((_, i) => {
@@ -317,7 +405,7 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
           {[0, 1, 2].map((i) => {
             const at = [m.job, m.money, m.credit][i];
             return (
-              <Stroke key={i} pts={[[110, 130 + i * 84], [128, 152 + i * 84], [168, 104 + i * 84]]} draw={prog(t, at - 0.1, at + 0.3, easeOut)} color={P.teal} w={8} seed={710 + i} />
+              <Stroke key={i} pts={[[110, 130 + i * 84], [128, 152 + i * 84], [168, 104 + i * 84]]} draw={prog(t, at - 0.1, at + 0.35, easeOut)} color={P.teal} w={8} seed={710 + i} pen />
             );
           })}
         </svg>
@@ -327,7 +415,7 @@ export const MoveScene: React.FC<SceneProps> = ({t}) => {
         <Txt x={1400} y={92} size={140} align="center" k={prog(t, m.magi, m.magi + 0.4, easeOut)} qa="magi" weight={800} riso={P.mustard}>
           MAGI
         </Txt>
-        <Txt x={1400} y={268} size={36} align="center" k={prog(t, m.magi + 0.2, m.magi + 1.2, easeOut)} color={P.inkSoft} qa="magiLong">
+        <Txt x={1400} y={268} size={36} align="center" k={prog(t, m.magi + 0.4, m.magi + 1.6)} color={P.inkSoft} qa="magiLong" pen>
           modified adjusted gross income
         </Txt>
         <Txt x={lineX} y={530} size={34} align="center" k={prog(t, m.start, m.start + 0.5, easeOut)} color={P.coral} qa="lineLbl" weight={700}>
@@ -364,7 +452,19 @@ export const StatusScene: React.FC<SceneProps> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.sky} id="status" />
-      <Cam t0={s.start} t1={B.close.start} push={0.03} focus={[1100, 460]}>
+      <Cam
+        t0={s.start}
+        t1={B.close.start}
+        push={0}
+        keys={[
+          {t: s.start, x: 800, y: 520, z: 1.08},
+          {t: s.moving + 0.4, x: 1300, y: 300, z: 1.1},
+          {t: s.house + 0.6, x: 1600, y: 330, z: 1.14},
+          {t: s.senate + 0.4, x: 1600, y: 460, z: 1.14},
+          {t: s.check + 0.3, x: 1400, y: 560, z: 1.1},
+          {t: B.close.start, x: 1100, y: 540, z: 1.0},
+        ]}
+      >
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clouds t={t} y={60} n={5} speed={12} seed={91} s={0.8} />
           <Shape pts={rectPts(-40, 800, W + 80, 320, 720, 6)} fill={P.grass} seed={720} />
@@ -375,23 +475,23 @@ export const StatusScene: React.FC<SceneProps> = ({t}) => {
           <Dan name="dan" a={dan} x={250} y={1080} s={1.0} pose="phone" />
         </svg>
         <Txt x={1220} y={170} size={40} k={prog(t, s.start, s.start + 0.6, easeOut)} color={P.teal} qa="asOf" weight={800}>
-          status as of Oct 16, 2026
+          status as of Oct 19, 2026
         </Txt>
-        <Txt x={1220} y={270} size={44} k={prog(t, s.house - 0.1, s.house + 0.6, easeOut)} qa="house">
+        <Txt x={1220} y={270} size={44} k={prog(t, s.house - 0.1, s.house + 0.9)} qa="house" pen>
           {'House: passed 230–196'}
         </Txt>
         <Txt x={1240} y={328} size={34} k={prog(t, s.house + 0.3, s.house + 0.8, easeOut)} color={P.inkSoft} qa="houseDate">
           (Jan 8, 2026)
         </Txt>
-        <Txt x={1220} y={410} size={44} k={prog(t, s.senate - 0.1, s.senate + 0.5, easeOut)} color={P.coral} qa="senate" weight={800}>
+        <Txt x={1220} y={410} size={44} k={prog(t, s.senate - 0.1, s.senate + 0.7)} color={P.coral} qa="senate" weight={800} pen>
           Senate: no vote
         </Txt>
-        <Txt x={1220} y={490} size={52} k={prog(t, s.senate + 0.5, s.senate + 1.0, easeOut)} qa="notLaw" weight={800}>
+        <Txt x={1220} y={490} size={52} k={prog(t, s.senate + 0.75, s.senate + 1.4)} qa="notLaw" weight={800} pen>
           not law yet
         </Txt>
         <Tag x={1220} y={600} text="check before you plan" fill={P.teal} color={P.white} k={prog(t, s.check, s.check + 0.4, easeOut)} qa="check" size={38} />
       </Cam>
-      <Source x={1880} y={46} align="right" text="Ballotpedia (Jan 12) · Sen. Heinrich (Jan 14) · healthinsurancenetwork.org (Sept 2026)" k={prog(t, s.house, s.house + 0.5)} qa="srcStatus" />
+      <Source x={1880} y={46} align="right" text="CNBC (Jan 8) · Sen. Heinrich (Jan 14) · healthinsurancenetwork.org (rechecked Oct 19, 2026)" k={prog(t, s.house, s.house + 0.5)} qa="srcStatus" />
     </AbsoluteFill>
   );
 };
@@ -435,6 +535,9 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
                 return <Coin key={i} x={640 + (hash2(780, i) - 0.5) * 120} y={-30 + d * (500 + 330 * (1 - fill))} r={16} seed={780 + i} rot={d * 300} />;
               })
             : null}
+          {t > e.action && t < e.action + 2.2
+            ? Array.from({length: 8}).map((_, i) => <Splash key={i} t={t} t0={e.action + i * 0.17 + 0.5} x={640 + (hash2(780, i) - 0.5) * 120} y={470 + 330 * (1 - fill)} n={5} seed={795 + i} s={0.7} />)
+            : null}
           <CliffBlock x={1180} y={600} w={420} h={520} seed={790} />
           <Maya name="maya" a={maya} x={230} y={1080} s={1.0} />
           <Dan name="dan" a={dan} x={1760} y={1080} s={1.0} flip />
@@ -463,7 +566,7 @@ export const CloseScene: React.FC<SceneProps> = ({t}) => {
           Educational, not tax advice.
         </Txt>
         <Txt x={960} y={982} size={28} align="center" k={disclaim} qa="sources" weight={600} color={P.inkSoft}>
-          {'Sources: IRS · HHS · KFF · CMS · Congress (status checked Oct 16, 2026)'}
+          {'Sources: IRS · HHS · KFF · CMS · Congress (status checked Oct 19, 2026)'}
         </Txt>
       </Cam>
     </AbsoluteFill>

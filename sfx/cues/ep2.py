@@ -424,6 +424,30 @@ def build_sfx():
     for i in range(3):
         step(st, END['action'] + i * 0.4, 0.18, 0.3)
     rip(st, END['wipe'], DUR - END['wipe'], 0.4)
+    # ---- upgrade pass: sounds for the new motion (all from things on screen)
+    # seams: graphite scribble wipes, page turns, the sheet that drops onto the desk
+    for sc in ('linda', 'note'):
+        pencil(st, S(sc) + 0.02, 0.8, 0.42, 0.0)
+    for sc in ('rule', 'fix'):
+        paper(st, S(sc) + 0.05, 0.7, 0.32, 0.4)
+    paper(st, S('couple') + 0.1, 0.5, 0.2, 0.0)
+    thud(st, S('couple') + 0.62, 0.32, 0.0, f=95)
+    # cold: pebbles off the edge
+    for i in range(5):
+        tick(st, WT('c3', 'cliff') + 0.15 + i * 0.13, 0.12 * (1 - i * 0.15), 0.6)
+    # the pencil writes the labels and numbers it now writes on screen
+    pencil(st, WT('l5', 'pushed') - 0.15, 0.8, 0.28, -0.2)
+    pencil(st, WT('l5', '$109,500') + 0.05, 0.65, 0.26, -0.2)
+    for i in range(6):
+        tick(st, WT('m2', '$284.10') - 0.1 + i * 0.16, 0.09, 0.1)
+    paper(st, WT('m2', 'January') - 1.2, 0.5, 0.26, -0.5)
+    pencil(st, WT('m4', '$1,148') + 0.9, 0.5, 0.24, 0.0)
+    for j in range(2):
+        paper(st, WT('r2', 'two') + 0.1 + j * 0.28, 0.2, 0.18, -0.3)
+    pencil(st, WT('r3', 'income') + 0.85, 0.65, 0.28, 0.3)
+    pencil(st, WT('x2', 'SSA-44') - 0.25, 0.85, 0.3, 0.0)
+    pencil(st, WT('x2', 'newer'), 0.85, 0.28, 0.0)
+    pencil(st, WT('n2', '2026') - 0.3, 0.85, 0.28, 0.0)
     return add_reverb(st, 0.08, 0.6)
 
 
