@@ -66,10 +66,11 @@ export const Cam: React.FC<{
   drift?: number;
   shakeAt?: number[];
   keys?: {t: number; x: number; y: number; z: number}[]; // explicit camera moves
+  at?: number; // freeze the camera at this time (a scene replayed out of its slot, e.g. the loop's first frame)
   children: React.ReactNode;
-}> = ({t0, t1, push = 0.03, focus = [960, 540], drift = 8, shakeAt = [], keys, children}) => {
+}> = ({t0, t1, push = 0.03, focus = [960, 540], drift = 8, shakeAt = [], keys, at, children}) => {
   const frame = useCurrentFrame();
-  const t = (frame + SUB) / FPS; // camera is smooth motion: sampled at the shutter sub-frame
+  const t = at ?? (frame + SUB) / FPS; // camera is smooth motion: sampled at the shutter sub-frame
   const k = clamp01((t - t0) / Math.max(0.1, t1 - t0));
   let z = 1 + push * easeInOut(k);
   let cx = focus[0];

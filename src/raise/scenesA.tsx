@@ -48,6 +48,7 @@ type OfficeState = {
   keys?: {t: number; x: number; y: number; z: number}[];
   wrongAt?: number; // time WRONG. lands (impact)
   raiseAt?: number; // time the raise envelope lands
+  camAt?: number; // freeze the camera (the loop's first frame replayed at the end)
 };
 
 const Office: React.FC<{s: OfficeState}> = ({s}) => {
@@ -59,7 +60,7 @@ const Office: React.FC<{s: OfficeState}> = ({s}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.tealPale} id="office" />
-      <Cam t0={s.push[0]} t1={s.push[1]} push={s.keys ? 0 : 0.035} focus={[980, 520]} keys={s.keys} shakeAt={s.wrongAt !== undefined ? [s.wrongAt + 0.06] : []}>
+      <Cam t0={s.push[0]} t1={s.push[1]} push={s.keys ? 0 : 0.035} focus={[980, 520]} keys={s.keys} shakeAt={s.wrongAt !== undefined ? [s.wrongAt + 0.06] : []} at={s.camAt}>
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Window x={110} y={70} w={470} h={380} seed={71}>
             <rect x={110} y={70} width={470} height={380} fill={P.sky} />
@@ -150,7 +151,7 @@ const coldState = (t: number): OfficeState => {
 export const Cold: React.FC<SceneProps> = ({t}) => <Office s={coldState(t)} />;
 
 /** The first frame of the video, used under the final loop wipe. */
-export const ColdFirstFrame: React.FC = () => <Office s={coldState(0)} />;
+export const ColdFirstFrame: React.FC = () => <Office s={{...coldState(0), camAt: 0}} />;
 
 export const Setup: React.FC<SceneProps> = ({t}) => {
   const s = B.setup;

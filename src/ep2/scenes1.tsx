@@ -18,7 +18,7 @@ const fr = frF;
 const EDGE = 1250;
 const LINE_X = 870;
 
-const ColdBody: React.FC<{t: number}> = ({t}) => {
+const ColdBody: React.FC<{t: number; frozen?: boolean}> = ({t, frozen}) => {
   const f = fr(t);
   const over = WT('c1', 'over');
   const lineW = WT('c1', 'line');
@@ -53,7 +53,7 @@ const ColdBody: React.FC<{t: number}> = ({t}) => {
   return (
     <AbsoluteFill>
       <Paper color={P.sky} id="cold" />
-      <Cam t0={0} t1={14} push={0} keys={zoomKeys} shakeAt={[cost + 0.05, cliff + 0.15]}>
+      <Cam t0={0} t1={14} push={0} keys={zoomKeys} shakeAt={[cost + 0.05, cliff + 0.15]} at={frozen ? t : undefined}>
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           <Clouds t={t} y={130} n={5} seed={210} />
           {/* sea far below the edge */}
@@ -113,7 +113,7 @@ const ColdBody: React.FC<{t: number}> = ({t}) => {
 
 export const Cold: React.FC<SceneProps> = ({t}) => <ColdBody t={t} />;
 /** The first frame of the video, used under the final loop wipe. */
-export const ColdFirstFrame: React.FC = () => <ColdBody t={0} />;
+export const ColdFirstFrame: React.FC = () => <ColdBody t={0} frozen />;
 
 /* ======================= LINDA: the leaking roof ======================= */
 
