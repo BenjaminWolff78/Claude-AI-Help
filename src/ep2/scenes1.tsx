@@ -230,7 +230,7 @@ export const LindaScene: React.FC<SceneProps> = ({t}) => {
         </svg>
         {/* the name tag leaves before the camera pushes left, so it is never half-cropped at the frame edge */}
         <div style={{position: 'absolute', inset: 0, opacity: 1 - prog(t, leak - 0.3, leak + 0.15, easeIn)}}>
-        <Tag x={1560} y={220} text="LINDA, 66" k={prog(t, meet - 0.1, meet + 0.3)} fill={P.lavender} color={P.white} size={44} rot={-3} qa="lindaTag" />
+        <Tag x={1510} y={220} text="LINDA, 66" k={prog(t, meet - 0.1, meet + 0.3)} fill={P.lavender} color={P.white} size={44} rot={-3} qa="lindaTag" />
         <Txt x={1830} y={316} size={38} align="right" k={prog(t, WT('l2', 'retired') - 0.2, WT('l2', 'single') + 0.3)} color={P.inkSoft} qa="lindaSub">
           retired · files single
         </Txt>
