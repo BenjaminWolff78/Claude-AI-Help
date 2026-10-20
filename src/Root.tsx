@@ -7,6 +7,8 @@ import {CharTest} from './raise/CharTest';
 import {RaiseVideo} from './raise/RaiseVideo';
 import {CharTest2} from './ep2/CharTest2';
 import {Ep2Video} from './ep2/Ep2Video';
+import {FloatVideo} from './float/FloatVideo';
+import {NFRAMES as FLOAT_N} from './float/lib';
 import {Ep2Thumb} from './ep2/Thumb2';
 import ep2TL from './ep2/timeline.json';
 import {BrandBanner, BrandPfp, BrandWatermark} from './brand/Brand';
@@ -24,6 +26,7 @@ export const Root: React.FC = () => (
     />
     <Composition id="RaiseVideo" component={RaiseVideo} durationInFrames={Math.round(raiseTL.duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="CharTest" component={CharTest} durationInFrames={90} fps={30} width={1920} height={1080} />
+    <Composition id="FloatVideo" component={FloatVideo} durationInFrames={FLOAT_N} fps={30} width={1920} height={1080} />
     <Composition id="Ep2Video" component={Ep2Video} durationInFrames={Math.round(ep2TL.duration * 30)} fps={30} width={1920} height={1080} />
     <Composition id="CharTest2" component={CharTest2} durationInFrames={90} fps={30} width={1920} height={1080} />
     <Still id="Ep2Thumb" component={Ep2Thumb} width={1280} height={720} />
