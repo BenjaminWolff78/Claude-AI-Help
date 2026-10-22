@@ -1,0 +1,422 @@
+{
+ "meta": {
+  "title": "The Long Way Out",
+  "w": 1920,
+  "h": 1080,
+  "fps": 60,
+  "bpm": 120,
+  "dur": 186.0
+ },
+ "scenes": {
+  "hook": {
+   "t0": 0.0,
+   "t1": 16.0,
+   "strike": 5.8,
+   "dive": 10.0,
+   "title": 13.0
+  },
+  "leg": {
+   "t0": 16.0,
+   "t1": 40.0,
+   "arrive": 18.6,
+   "fly0": 21.0,
+   "fly1": 33.0
+  },
+  "inside": {
+   "t0": 40.0,
+   "t1": 62.0,
+   "open": 40.6,
+   "core": 44.5,
+   "rad": 47.0,
+   "conv": 49.5,
+   "surf": 52.0,
+   "push": 56.5
+  },
+  "core": {
+   "t0": 62.0,
+   "t1": 88.0,
+   "converge": 67.0,
+   "pair": 69.0,
+   "merge": 70.2,
+   "flash": 72.2,
+   "zoom": 75.0
+  },
+  "walk": {
+   "t0": 88.0,
+   "t1": 130.0,
+   "launch": 89.0,
+   "hit1": 94.6,
+   "fast": 99.0,
+   "pull": 104.0,
+   "far": 114.0
+  },
+  "conv": {
+   "t0": 130.0,
+   "t1": 152.0,
+   "rise": 140.0,
+   "skim": 145.0
+  },
+  "escape": {
+   "t0": 152.0,
+   "t1": 172.0,
+   "breach": 152.4,
+   "land": 160.0,
+   "ghost": 163.0
+  },
+  "outro": {
+   "t0": 172.0,
+   "t1": 186.0,
+   "card": 181.5
+  }
+ },
+ "captions": [
+  {
+   "t0": -0.9,
+   "t1": 3.6,
+   "text": "The sunlight on your face",
+   "style": "big",
+   "y": 0.4
+  },
+  {
+   "t0": 1.4,
+   "t1": 3.6,
+   "text": "is *old.*",
+   "style": "big",
+   "y": 0.56
+  },
+  {
+   "t0": 4.0,
+   "t1": 7.0,
+   "text": "You've heard it's 8 minutes old.",
+   "style": "mid",
+   "strike": [
+    18,
+    27
+   ]
+  },
+  {
+   "t0": 7.2,
+   "t1": 9.7,
+   "text": "It's *thousands of years* old.",
+   "style": "mid"
+  },
+  {
+   "t0": 13.4,
+   "t1": 15.6,
+   "text": "the journey of a sunbeam",
+   "style": "kicker",
+   "y": 0.15
+  },
+  {
+   "t0": 16.5,
+   "t1": 19.5,
+   "text": "Let's start at the end.",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 20.0,
+   "t1": 23.6,
+   "text": "The last leg is *150 million km.*",
+   "style": "mid",
+   "y": 0.82
+  },
+  {
+   "t0": 30.0,
+   "t1": 33.6,
+   "text": "At light speed: *8 min 20 s.*",
+   "style": "mid",
+   "y": 0.82
+  },
+  {
+   "t0": 34.0,
+   "t1": 37.6,
+   "text": "That's the *easy* part.",
+   "style": "big",
+   "y": 0.5
+  },
+  {
+   "t0": 40.8,
+   "t1": 43.8,
+   "text": "The hard part is getting *out.*",
+   "style": "mid",
+   "y": 0.86
+  },
+  {
+   "t0": 57.0,
+   "t1": 61.0,
+   "text": "Our light is born in the *core.*",
+   "style": "mid",
+   "y": 0.86
+  },
+  {
+   "t0": 63.0,
+   "t1": 66.6,
+   "text": "15 million °C. Crushed by the|weight of the *whole Sun.*",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 67.0,
+   "t1": 74.6,
+   "text": "Four hydrogen nuclei…",
+   "style": "mid",
+   "y": 0.16
+  },
+  {
+   "t0": 70.2,
+   "t1": 74.6,
+   "text": "…end up as one *helium.*",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 72.4,
+   "t1": 74.6,
+   "text": "Plus a flash of *energy.*",
+   "style": "kicker",
+   "y": 0.93
+  },
+  {
+   "t0": 75.6,
+   "t1": 80.6,
+   "text": "This happens to *600 million tonnes*|of hydrogen. Every second.",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 81.0,
+   "t1": 87.0,
+   "text": "About *4 million tonnes* of it simply|vanishes, turned into energy.",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 89.2,
+   "t1": 92.0,
+   "text": "Our energy sets off at *light speed.*",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 92.3,
+   "t1": 95.0,
+   "text": "It gets *a few millimetres*…",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 95.3,
+   "t1": 98.6,
+   "text": "…hits a particle and is flung|somewhere *random.*",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 99.0,
+   "t1": 100.4,
+   "text": "Again.",
+   "style": "pop",
+   "y": 0.5,
+   "x": 0.3
+  },
+  {
+   "t0": 100.5,
+   "t1": 101.9,
+   "text": "And again.",
+   "style": "pop",
+   "y": 0.36,
+   "x": 0.68
+  },
+  {
+   "t0": 102.0,
+   "t1": 103.6,
+   "text": "And *again.*",
+   "style": "pop",
+   "y": 0.7,
+   "x": 0.5
+  },
+  {
+   "t0": 104.6,
+   "t1": 108.6,
+   "text": "This is a *random walk.*",
+   "style": "big",
+   "y": 0.84
+  },
+  {
+   "t0": 109.0,
+   "t1": 113.6,
+   "text": "Crossing the Sun like this takes|*billions of trillions* of bounces.",
+   "style": "mid",
+   "y": 0.82
+  },
+  {
+   "t0": 114.4,
+   "t1": 121.6,
+   "text": "Estimates range from about 10,000 to 170,000 years",
+   "style": "kicker",
+   "y": 0.86
+  },
+  {
+   "t0": 122.4,
+   "t1": 129.2,
+   "text": "Strictly, no single photon makes the trip: each one is absorbed|and a new one sent on. The *energy* is what makes the journey.",
+   "style": "note",
+   "y": 0.82
+  },
+  {
+   "t0": 130.5,
+   "t1": 134.0,
+   "text": "Near the top, the Sun starts to *boil.*",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 134.4,
+   "t1": 139.6,
+   "text": "Hot plasma rises. Cools. Sinks. *Rises again.*",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 140.0,
+   "t1": 144.6,
+   "text": "Carried like this, the last 200,000 km|takes just *months.*",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 145.4,
+   "t1": 151.2,
+   "text": "Each bubble on the surface is|about the size of *Texas.*",
+   "style": "mid",
+   "y": 0.8
+  },
+  {
+   "t0": 152.6,
+   "t1": 155.6,
+   "text": "Then, finally, it's *free.*",
+   "style": "big",
+   "y": 0.5
+  },
+  {
+   "t0": 156.0,
+   "t1": 159.6,
+   "text": "8 minutes 20 seconds later…",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 160.0,
+   "t1": 162.7,
+   "text": "…it lands on *you.*",
+   "style": "mid",
+   "y": 0.84
+  },
+  {
+   "t0": 163.0,
+   "t1": 167.2,
+   "text": "Neutrinos from the same core skip all of it.|They're out in about *2 seconds.*",
+   "style": "mid",
+   "y": 0.82
+  },
+  {
+   "t0": 167.5,
+   "t1": 171.8,
+   "text": "About *65 billion* of them pass through|your fingernail every second.",
+   "style": "mid",
+   "y": 0.82
+  },
+  {
+   "t0": 172.6,
+   "t1": 176.6,
+   "text": "So next time the Sun is on your face…",
+   "style": "mid",
+   "y": 0.5
+  },
+  {
+   "t0": 177.0,
+   "t1": 181.0,
+   "text": "remember it set off before|history was *written.*",
+   "style": "big",
+   "y": 0.5
+  },
+  {
+   "t0": 183.0,
+   "t1": 186.5,
+   "text": "the journey of a sunbeam",
+   "style": "kicker",
+   "y": 0.72
+  }
+ ],
+ "labels": [
+  {
+   "t0": 44.5,
+   "t1": 57.0,
+   "text": "CORE",
+   "sub": "15 million °C",
+   "r": 0.12,
+   "lx": 1380,
+   "ly": 330
+  },
+  {
+   "t0": 47.0,
+   "t1": 57.0,
+   "text": "RADIATIVE ZONE",
+   "sub": "energy crawls",
+   "r": 0.48,
+   "lx": 540,
+   "ly": 300
+  },
+  {
+   "t0": 49.5,
+   "t1": 57.0,
+   "text": "CONVECTIVE ZONE",
+   "sub": "plasma boils",
+   "r": 0.85,
+   "lx": 1380,
+   "ly": 800
+  },
+  {
+   "t0": 52.0,
+   "t1": 57.0,
+   "text": "SURFACE",
+   "sub": "5,500 °C",
+   "r": 1.0,
+   "lx": 540,
+   "ly": 860
+  }
+ ],
+ "type3d": [
+  {
+   "t0": 10.0,
+   "t1": 12.9,
+   "text": "170,000",
+   "sub": "YEARS"
+  },
+  {
+   "t0": 13.0,
+   "t1": 16.0,
+   "text": "THE LONG",
+   "sub": "WAY OUT"
+  },
+  {
+   "t0": 114.0,
+   "t1": 122.0,
+   "text": "COUNT",
+   "sub": "YEARS"
+  },
+  {
+   "t0": 160.0,
+   "t1": 172.0,
+   "text": "YOU",
+   "sub": ""
+  },
+  {
+   "t0": 181.5,
+   "t1": 186.0,
+   "text": "THE LONG",
+   "sub": "WAY OUT"
+  }
+ ]
+}
