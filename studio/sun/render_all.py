@@ -8,6 +8,8 @@ FPS, N = 60, int(round(TL['meta']['dur'] * 60))
 CH = 300
 OUT = '/root/sun/chunks'; os.makedirs(OUT, exist_ok=True)
 WORKERS = int(sys.argv[1]) if len(sys.argv) > 1 else 2
+BUDGET = float(sys.argv[2]) if len(sys.argv) > 2 else 1e9  # seconds: no new chunk starts after this
+T_START = time.time()
 ARGS = ['--ignore-gpu-blocklist', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
 chunks = [c for c in range((N + CH - 1) // CH) if not os.path.exists(f'{OUT}/c{c:03d}.mp4')]
 def encode(c, d):
@@ -19,7 +21,7 @@ async def worker(p, wid, queue):
     b = await p.chromium.launch(args=ARGS)
     pg = await b.new_page(viewport={'width': 1920, 'height': 1080})
     await pg.goto('file:///root/sun/sun.html'); await pg.evaluate('window.ready')
-    while queue:
+    while queue and time.time() - T_START < BUDGET:
         c = queue.pop(0); d = f'{OUT}/w{c:03d}'; os.makedirs(d, exist_ok=True)
         t0 = time.time()
         for f in range(c * CH, min(N, (c + 1) * CH)):
