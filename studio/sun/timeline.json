@@ -356,7 +356,7 @@
    "text": "CORE",
    "sub": "15 million °C",
    "r": 0.12,
-   "lx": 1380,
+   "lx": 1440,
    "ly": 330
   },
   {
@@ -365,7 +365,7 @@
    "text": "RADIATIVE ZONE",
    "sub": "energy crawls",
    "r": 0.48,
-   "lx": 540,
+   "lx": 480,
    "ly": 300
   },
   {
@@ -374,7 +374,7 @@
    "text": "CONVECTIVE ZONE",
    "sub": "plasma boils",
    "r": 0.85,
-   "lx": 1380,
+   "lx": 1440,
    "ly": 800
   },
   {
@@ -383,7 +383,7 @@
    "text": "SURFACE",
    "sub": "5,500 °C",
    "r": 1.0,
-   "lx": 540,
+   "lx": 480,
    "ly": 860
   }
  ],

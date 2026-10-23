@@ -130,7 +130,7 @@ def build_music():
     st = st + echo(ar, delay=0.75 * BEAT, fb=0.3)
     st = add_reverb(st, 0.2, 1.8)
     t = np.arange(N) / SR
-    fade = np.clip(t / 0.05, 0, 1) * np.clip((DUR - t) / 1.2, 0, 1)
+    fade = np.clip(t / 0.05, 0, 1) * np.clip((DUR + 0.15 - t) / 0.75, 0, 1)
     return st * fade[None]
 
 

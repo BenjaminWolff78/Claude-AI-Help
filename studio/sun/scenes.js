@@ -114,18 +114,20 @@ const DUST = (() => { const R = rng(7), d = []; for (let i = 0; i < 700; i++) { 
 const MARK = [['50 MILLION KM', 15], ['100 MILLION KM', 8], ['150 MILLION KM', 3.7]];
 const AZ0 = Math.atan2(EN[2], EN[0]), EL0 = Math.asin(EN[1]);
 function orbitEye(t) {
-  const az = AZ0 + (t - 33.6) * .018, d = lerp(2.75, 3.5, I(t, 33.6, 41, 0, 1, E.inOutCubic)), el = I(t, 33.6, 41, EL0, .36, E.inOutCubic);
+  // after the wedge opens the camera keeps swinging and bobbing so the cutaway never sits still
+  const sw = t > 41 ? .16 * (1 - Math.cos((t - 41) * .42)) : 0, bob = t > 41 ? .05 * (1 - Math.cos((t - 41) * .55)) : 0;
+  const az = AZ0 + (t - 33.6) * .018 + sw, d = lerp(2.75, 3.5, I(t, 33.6, 41, 0, 1, E.inOutCubic)) - (t > 41 ? .08 * (1 - Math.cos((t - 41) * .3)) : 0), el = I(t, 33.6, 41, EL0, .36, E.inOutCubic) + bob;
   return [d * Math.cos(el) * Math.cos(az), d * Math.sin(el), d * Math.cos(el) * Math.sin(az)];
 }
 function flightDist(t) { return logLerp(22.16, 2.75, E.inOutCubic(I(t, 21.6, 33.6))); }
 function sLeg(F, t) {
-  F.earth = {c: EP, r: RE, L: V.mul(EN, -1), rot: rotInv(1.2 + t * .02), hit: I(t, 18.6, 20.4), hitN: V.mul(EN, -1)};
+  F.earth = {c: EP, r: RE, L: V.mul(EN, -1), rot: rotInv(1.2 + t * .05), hit: I(t, 18.6, 20.4), hitN: V.mul(EN, -1)};
   F.glows.push({c: EP, r: RE, col: CV.cyan, k: .45, fall: 22});
   F.sun = {c: [0, 0, 0], r: 1, rot: rotInv(.6 + t * .03, .12), gran: 34, heat: 1.05, alpha: 1};
   corona(F, [0, 0, 0], 1, 1);
   // camera
   const side = V.add(V.add(V.add(EP, V.mul(SIDE, .12)), [0, .028, 0]), V.mul(EN, .03));
-  const rotA = (t - 16) * .03;
+  const rotA = (t - 16) * .075;
   const sideR = V.add(EP, xfd(rotOf(rotA), V.sub(side, EP)));
   const behind = V.add(V.add(EP, V.mul(EN, .17)), V.add(V.mul(SIDE, .05), [0, .035, 0]));
   let eye, tgt;
@@ -472,7 +474,8 @@ function sEscape(F, t) {
     const k = I(t, 155.6, 156.5, 0, 1, E.inOutCubic);
     eye = V.lerp(ahead, behind, k);
     tgt = V.lerp(ph, V.add(ph, V.mul(DU, 3)), k);
-    up = LAT;
+    const roll = t > 156.5 ? .38 * Math.sin(Math.PI * (t - 156.5) / 3.5) : 0;
+    up = V.add(V.mul(LAT, Math.cos(roll)), V.mul(sideV, Math.sin(roll)));
   } else {
     const k = I(t, S.land, S.land + 1.2, 0, 1, E.outCubic);
     const a = (t - S.land) * .025;
