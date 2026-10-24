@@ -1,0 +1,11 @@
+# cuts from events cuts.events.json (time s, frame, timecode, source)
+3.133	frame 94	0:03.13	event cut
+10.167	frame 305	0:10.17	event cut
+12.800	frame 384	0:12.80	event cut
+18.300	frame 549	0:18.30	event cut
+22.633	frame 679	0:22.63	event cut
+25.100	frame 753	0:25.10	event cut
+29.433	frame 883	0:29.43	event cut
+33.833	frame 1015	0:33.83	event cut
+# detected but not in events:
+36.033	frame 1081	0:36.03	pixel spike x9.6 diff 41.6 corr 0.58 scene 0.03
