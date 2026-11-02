@@ -1,0 +1,182 @@
+[
+ {
+  "t": 0.0,
+  "sfx": "ice_scrape",
+  "gain_db": -2
+ },
+ {
+  "t": 0.05,
+  "sfx": "wind_soft",
+  "gain_db": -6
+ },
+ {
+  "t": 1.2,
+  "sfx": "ice_scrape",
+  "gain_db": -4
+ },
+ {
+  "t": 3.62,
+  "sfx": "coins_spill",
+  "gain_db": -6
+ },
+ {
+  "t": 5.9,
+  "sfx": "crowd_laugh",
+  "gain_db": -1
+ },
+ {
+  "t": 7.3,
+  "sfx": "paper_rustle",
+  "gain_db": -3
+ },
+ {
+  "t": 9.4,
+  "sfx": "body_land",
+  "gain_db": -2
+ },
+ {
+  "t": 10.3,
+  "sfx": "gulls",
+  "gain_db": -6
+ },
+ {
+  "t": 13.9,
+  "sfx": "waves",
+  "gain_db": -6
+ },
+ {
+  "t": 15.2,
+  "sfx": "door_slam",
+  "gain_db": -8
+ },
+ {
+  "t": 16.2,
+  "sfx": "splash_pour",
+  "gain_db": -3
+ },
+ {
+  "t": 18.6,
+  "sfx": "waves",
+  "gain_db": -5
+ },
+ {
+  "t": 20.9,
+  "sfx": "drip",
+  "gain_db": -3
+ },
+ {
+  "t": 22.6,
+  "sfx": "drip",
+  "gain_db": -4
+ },
+ {
+  "t": 23.95,
+  "sfx": "coins_spill",
+  "gain_db": 0
+ },
+ {
+  "t": 24.5,
+  "sfx": "door_slam",
+  "gain_db": -5
+ },
+ {
+  "t": 25.7,
+  "sfx": "body_land",
+  "gain_db": -3
+ },
+ {
+  "t": 26.0,
+  "sfx": "door_slam",
+  "gain_db": 0
+ },
+ {
+  "t": 29.4,
+  "sfx": "pop",
+  "gain_db": -8
+ },
+ {
+  "t": 30.7,
+  "sfx": "drip",
+  "gain_db": -2
+ },
+ {
+  "t": 31.9,
+  "sfx": "drip",
+  "gain_db": -3
+ },
+ {
+  "t": 32.8,
+  "sfx": "saw_mill",
+  "gain_db": -4
+ },
+ {
+  "t": 34.2,
+  "sfx": "shovel",
+  "gain_db": -3
+ },
+ {
+  "t": 40.25,
+  "sfx": "stinger",
+  "gain_db": 0
+ },
+ {
+  "t": 41.95,
+  "sfx": "soda_open",
+  "gain_db": -2
+ },
+ {
+  "t": 44.4,
+  "sfx": "shovel",
+  "gain_db": -6
+ },
+ {
+  "t": 48.15,
+  "sfx": "body_land",
+  "gain_db": -8
+ },
+ {
+  "t": 49.6,
+  "sfx": "chalk_or_scribble",
+  "gain_db": -4
+ },
+ {
+  "t": 50.5,
+  "sfx": "waves",
+  "gain_db": -4
+ },
+ {
+  "t": 53.2,
+  "sfx": "door_slam",
+  "gain_db": -8
+ },
+ {
+  "t": 54.4,
+  "sfx": "ice_scrape",
+  "gain_db": 0
+ },
+ {
+  "t": 55.33,
+  "sfx": "ice_thud",
+  "gain_db": 0
+ },
+ {
+  "t": 55.6,
+  "sfx": "crowd_murmur",
+  "gain_db": -2
+ },
+ {
+  "t": 58.4,
+  "sfx": "crowd_murmur",
+  "gain_db": -3
+ },
+ {
+  "t": 59.2,
+  "sfx": "crowd_laugh",
+  "gain_db": -5
+ },
+ {
+  "t": 61.6,
+  "sfx": "pop",
+  "gain_db": -8
+ }
+]

@@ -1,0 +1,13 @@
+import type { SetBuilder } from "./types";
+import { boston } from "./boston";
+import { martinique } from "./martinique";
+import { sea } from "./sea";
+import { voyage } from "./voyage";
+import { calcutta } from "./calcutta";
+import { prison } from "./prison";
+import { lab } from "./lab";
+import { sawmill } from "./sawmill";
+import { micro } from "./micro";
+import { beach } from "./beach";
+import { cabin } from "./cabin";
+export const SET_BUILDERS: Record<string, SetBuilder> = { boston, martinique, sea, voyage, calcutta, prison, lab, sawmill, micro, beach, cabin };
