@@ -354,7 +354,7 @@ SHOT_ACTS[6] = (f, s) => {
     cast: [
       ...[0, 1, 2, 3].map((i) => packer(i, f)),
       C("official", S.rear, pose(null, { mode: "sit", expr: yell ? "laugh" : "smug", facing: faceTo(6, s, f, S.rear, packAt(1, f)), mouth: talk(f, 461, 478),
-        armR: yell ? [[24, -26], [30 + 6 * Math.sin(f * 0.6), -62]] as A2 : [[24, 10], [34, 20]] as A2, armRFront: true, hatLift: yell ? 0.8 : 0, headTilt: yell ? 6 : 0 })),
+        armR: yell ? [[24, -26], [30 + 6 * Math.sin(f * 0.6), -62]] as A2 : [[24, 10], [34, 20]] as A2, armRFront: true, hatLift: (0.2 + 0.04 * Math.sin(f * 0.6)) * sm(f, 456, 462), headTilt: yell ? 6 : 0 })),
       C("driver", S.driver, pose(null, { mode: "sit", expr: "smug", facing: -1, armR: [[22, 10], [36, 6]] as A2 }), { idx: 2 }),
       C("farmer2", roadAt(-6.5, 63.2), pose(null, { expr: "dismay", facing: 1, armR: [[26, 10], [20, -26]] as A2, armRFront: true }), { idx: 4 }),
     ],
