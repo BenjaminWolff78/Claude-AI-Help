@@ -122,7 +122,7 @@ lens(1510, 6, 1); lens(1596, 3, 20);
 // pounds lighter" he deflates thin with a big exhale and the coach props him up.
 const WIN: V3 = [FIN_X0 - 1.0, 0, HZ];
 const MEDAL_CARD = (key: string, pos: V3, w: number, rot: number, shine: number): FxSpec => ({
-  kind: "card", key: "bigMedal" + key, pos, w, h: w * 1.45, rot, cw: 320, ch: 464,
+  kind: "card", key: "bigMedal" + key + "_" + Math.round(shine * 16), pos, w, h: w * 1.45, rot, cw: 320, ch: 464,
   draw: (p) => {
     const g = p.g, ink = "#241726";
     // ribbon: red / white / blue V straps
@@ -154,7 +154,8 @@ SHOT_CAMS[21] = () => [
 ];
 SHOT_ACTS[21] = (f, s) => {
   const rise = easeOut(lin(f, 1632, 1642)), hang = sm(f, 1650, 1658), thin = sm(f, 1662, 1672), card = f < 1656;
-  const mpos: V3 = [WIN[0] + 0.14, lerp(0.9, 1.22, rise) + 0.01 * Math.sin(f * 0.2), WIN[2] - 0.92];
+  const onto = sm(f, 1646, 1656);
+  const mpos: V3 = [lerp(WIN[0] + 0.14, WIN[0], onto), lerp(lerp(0.9, 1.22, rise) + 0.01 * Math.sin(f * 0.2), 1.02, onto), lerp(WIN[2] - 0.92, WIN[2] - 0.12, onto)];
   return {
     ctl: { tape: 1, confetti: 1, crowd: 1, temp: 1, smoke: 1, wellGlow: 0 },
     cast: [
@@ -162,8 +163,8 @@ SHOT_ACTS[21] = (f, s) => {
       C("official", [WIN[0] - 0.75, 0, WIN[2] + 0.7], pose(null, { expr: "joy", facing: 1, armR: [[24, -8], [lerp(40, 30, hang), lerp(-20, 0, hang)]] as A2, armRFront: true }), { idx: 4 }),
       C("coach", [WIN[0] + 0.75, 0, WIN[2] + 0.45], pose(null, { expr: thin > 0.5 ? "dismay" : "joy", facing: -1, armL: [[-24, 6], [lerp(-40, -52, thin), lerp(0, -6, thin)]] as A2, armLFront: true }), { idx: 5 }),
     ],
-    fx: fxs(card ? MEDAL_CARD("A", mpos, 0.36, 0.06 * Math.sin(f * 0.15), lin(f, 1640, 1652)) : null,
-      glowBurst("medal", [mpos[0], mpos[1] - 0.05, mpos[2] - 0.05], 0.9, card ? 0.7 * Math.exp(-Math.max(0, f - 1640) / 10) + 0.15 : 0),
+    fx: fxs(card ? MEDAL_CARD("A", mpos, lerp(0.36, 0.13, onto), 0.06 * (1 - onto) * Math.sin(f * 0.15), lin(f, 1640, 1652)) : null,
+      glowBurst("medal", [mpos[0], mpos[1] - 0.05, mpos[2] - 0.05], 0.9, card ? (0.7 * Math.exp(-Math.max(0, f - 1640) / 10) + 0.15) * (1 - onto) : 0),
       card ? sparkle("m1", [mpos[0] + 0.12, mpos[1] + 0.02, mpos[2] - 0.06], f - 1642, 0.14) : null, card ? sparkle("m2", [mpos[0] - 0.1, mpos[1] - 0.12, mpos[2] - 0.06], f - 1648, 0.11) : null),
     focus: card ? mpos : [WIN[0], 1.5, WIN[2]], subj: card ? null : "hicks",
   };

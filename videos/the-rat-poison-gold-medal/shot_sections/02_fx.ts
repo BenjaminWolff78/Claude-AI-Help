@@ -28,7 +28,7 @@ const dustTrail = (key: string, base: V3, dir: [number, number], f: number, n = 
 /** "Z z z" floating up from a sleeper */
 const zzz = (pos: V3, f: number): FxSpec[] => [0, 1, 2].map((i) => {
   const t = ((f + i * 14) % 42) / 42;
-  return { kind: "card", key: "zzz" + i, pos: [pos[0] + 0.15 * i + 0.1 * Math.sin(t * 6), pos[1] + 0.2 + t * 0.7, pos[2]], w: 0.18 + 0.1 * i, h: 0.18 + 0.1 * i, cw: 96, ch: 96,
+  return { kind: "card", key: "zzz" + i + "_" + Math.round(Math.sin(t * Math.PI) * 8), pos: [pos[0] + 0.15 * i + 0.1 * Math.sin(t * 6), pos[1] + 0.2 + t * 0.7, pos[2]], w: 0.18 + 0.1 * i, h: 0.18 + 0.1 * i, cw: 96, ch: 96,
     draw: (p) => { const g = p.g; g.globalAlpha = Math.sin(t * Math.PI); g.font = "900 78px Georgia"; g.lineWidth = 9; g.strokeStyle = INKC; g.fillStyle = "#ffffff"; g.strokeText("Z", 20, 78); g.fillText("Z", 20, 78); g.globalAlpha = 1; } } as FxSpec;
 });
 /** little stars / birds circling a dizzy head */
@@ -84,7 +84,7 @@ const visions = (head: V3, f: number): FxSpec[] => {
 };
 /** a soft round glow burst (payoff light, lamp flare), k = 0..1 */
 const glowBurst = (key: string, pos: V3, size: number, k: number, col = "255,226,140"): FxSpec => ({
-  kind: "card", key: "glow" + key, pos, w: size, h: size, soft: true, cw: 128, ch: 128,
+  kind: "card", key: "glow" + key + "_" + Math.round(Math.max(0, Math.min(1, k)) * 20), pos, w: size, h: size, soft: true, cw: 128, ch: 128,
   draw: (p) => { const g = p.g; const gr = g.createRadialGradient(64, 64, 2, 64, 64, 64); gr.addColorStop(0, `rgba(${col},${0.9 * k})`); gr.addColorStop(0.5, `rgba(${col},${0.35 * k})`); gr.addColorStop(1, `rgba(${col},0)`); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); },
 });
 /** an "!" pop over a head */

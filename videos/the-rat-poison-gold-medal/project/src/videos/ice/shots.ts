@@ -197,7 +197,7 @@ const dustTrail = (key: string, base: V3, dir: [number, number], f: number, n = 
 /** "Z z z" floating up from a sleeper */
 const zzz = (pos: V3, f: number): FxSpec[] => [0, 1, 2].map((i) => {
   const t = ((f + i * 14) % 42) / 42;
-  return { kind: "card", key: "zzz" + i, pos: [pos[0] + 0.15 * i + 0.1 * Math.sin(t * 6), pos[1] + 0.2 + t * 0.7, pos[2]], w: 0.18 + 0.1 * i, h: 0.18 + 0.1 * i, cw: 96, ch: 96,
+  return { kind: "card", key: "zzz" + i + "_" + Math.round(Math.sin(t * Math.PI) * 8), pos: [pos[0] + 0.15 * i + 0.1 * Math.sin(t * 6), pos[1] + 0.2 + t * 0.7, pos[2]], w: 0.18 + 0.1 * i, h: 0.18 + 0.1 * i, cw: 96, ch: 96,
     draw: (p) => { const g = p.g; g.globalAlpha = Math.sin(t * Math.PI); g.font = "900 78px Georgia"; g.lineWidth = 9; g.strokeStyle = INKC; g.fillStyle = "#ffffff"; g.strokeText("Z", 20, 78); g.fillText("Z", 20, 78); g.globalAlpha = 1; } } as FxSpec;
 });
 /** little stars / birds circling a dizzy head */
@@ -253,7 +253,7 @@ const visions = (head: V3, f: number): FxSpec[] => {
 };
 /** a soft round glow burst (payoff light, lamp flare), k = 0..1 */
 const glowBurst = (key: string, pos: V3, size: number, k: number, col = "255,226,140"): FxSpec => ({
-  kind: "card", key: "glow" + key, pos, w: size, h: size, soft: true, cw: 128, ch: 128,
+  kind: "card", key: "glow" + key + "_" + Math.round(Math.max(0, Math.min(1, k)) * 20), pos, w: size, h: size, soft: true, cw: 128, ch: 128,
   draw: (p) => { const g = p.g; const gr = g.createRadialGradient(64, 64, 2, 64, 64, 64); gr.addColorStop(0, `rgba(${col},${0.9 * k})`); gr.addColorStop(0.5, `rgba(${col},${0.35 * k})`); gr.addColorStop(1, `rgba(${col},0)`); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); },
 });
 /** an "!" pop over a head */
@@ -741,7 +741,7 @@ lens(1510, 6, 1); lens(1596, 3, 20);
 // pounds lighter" he deflates thin with a big exhale and the coach props him up.
 const WIN: V3 = [FIN_X0 - 1.0, 0, HZ];
 const MEDAL_CARD = (key: string, pos: V3, w: number, rot: number, shine: number): FxSpec => ({
-  kind: "card", key: "bigMedal" + key, pos, w, h: w * 1.45, rot, cw: 320, ch: 464,
+  kind: "card", key: "bigMedal" + key + "_" + Math.round(shine * 16), pos, w, h: w * 1.45, rot, cw: 320, ch: 464,
   draw: (p) => {
     const g = p.g, ink = "#241726";
     // ribbon: red / white / blue V straps
@@ -773,7 +773,8 @@ SHOT_CAMS[21] = () => [
 ];
 SHOT_ACTS[21] = (f, s) => {
   const rise = easeOut(lin(f, 1632, 1642)), hang = sm(f, 1650, 1658), thin = sm(f, 1662, 1672), card = f < 1656;
-  const mpos: V3 = [WIN[0] + 0.14, lerp(0.9, 1.22, rise) + 0.01 * Math.sin(f * 0.2), WIN[2] - 0.92];
+  const onto = sm(f, 1646, 1656);
+  const mpos: V3 = [lerp(WIN[0] + 0.14, WIN[0], onto), lerp(lerp(0.9, 1.22, rise) + 0.01 * Math.sin(f * 0.2), 1.02, onto), lerp(WIN[2] - 0.92, WIN[2] - 0.12, onto)];
   return {
     ctl: { tape: 1, confetti: 1, crowd: 1, temp: 1, smoke: 1, wellGlow: 0 },
     cast: [
@@ -781,8 +782,8 @@ SHOT_ACTS[21] = (f, s) => {
       C("official", [WIN[0] - 0.75, 0, WIN[2] + 0.7], pose(null, { expr: "joy", facing: 1, armR: [[24, -8], [lerp(40, 30, hang), lerp(-20, 0, hang)]] as A2, armRFront: true }), { idx: 4 }),
       C("coach", [WIN[0] + 0.75, 0, WIN[2] + 0.45], pose(null, { expr: thin > 0.5 ? "dismay" : "joy", facing: -1, armL: [[-24, 6], [lerp(-40, -52, thin), lerp(0, -6, thin)]] as A2, armLFront: true }), { idx: 5 }),
     ],
-    fx: fxs(card ? MEDAL_CARD("A", mpos, 0.36, 0.06 * Math.sin(f * 0.15), lin(f, 1640, 1652)) : null,
-      glowBurst("medal", [mpos[0], mpos[1] - 0.05, mpos[2] - 0.05], 0.9, card ? 0.7 * Math.exp(-Math.max(0, f - 1640) / 10) + 0.15 : 0),
+    fx: fxs(card ? MEDAL_CARD("A", mpos, lerp(0.36, 0.13, onto), 0.06 * (1 - onto) * Math.sin(f * 0.15), lin(f, 1640, 1652)) : null,
+      glowBurst("medal", [mpos[0], mpos[1] - 0.05, mpos[2] - 0.05], 0.9, card ? (0.7 * Math.exp(-Math.max(0, f - 1640) / 10) + 0.15) * (1 - onto) : 0),
       card ? sparkle("m1", [mpos[0] + 0.12, mpos[1] + 0.02, mpos[2] - 0.06], f - 1642, 0.14) : null, card ? sparkle("m2", [mpos[0] - 0.1, mpos[1] - 0.12, mpos[2] - 0.06], f - 1648, 0.11) : null),
     focus: card ? mpos : [WIN[0], 1.5, WIN[2]], subj: card ? null : "hicks",
   };
