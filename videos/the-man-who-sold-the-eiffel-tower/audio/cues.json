@@ -1,0 +1,217 @@
+[
+ {
+  "t": 0.0,
+  "sfx": "crowd_murmur",
+  "gain_db": -9
+ },
+ {
+  "t": 0.1,
+  "sfx": "paint_brush",
+  "gain_db": -7
+ },
+ {
+  "t": 1.6,
+  "sfx": "wind_soft",
+  "gain_db": -10
+ },
+ {
+  "t": 3.42,
+  "sfx": "case_open",
+  "gain_db": -4
+ },
+ {
+  "t": 4.62,
+  "sfx": "cafe_amb",
+  "gain_db": -5
+ },
+ {
+  "t": 6.72,
+  "sfx": "paper_rustle",
+  "gain_db": -3
+ },
+ {
+  "t": 8.9,
+  "sfx": "paper_rustle",
+  "gain_db": -7
+ },
+ {
+  "t": 10.2,
+  "sfx": "fair_crowd",
+  "gain_db": -4
+ },
+ {
+  "t": 13.48,
+  "sfx": "pop",
+  "gain_db": -8
+ },
+ {
+  "t": 14.5,
+  "sfx": "wind_soft",
+  "gain_db": -12
+ },
+ {
+  "t": 15.86,
+  "sfx": "press_thunk",
+  "gain_db": -3
+ },
+ {
+  "t": 16.0,
+  "sfx": "stamp",
+  "gain_db": -2
+ },
+ {
+  "t": 17.05,
+  "sfx": "crowd_murmur",
+  "gain_db": -9
+ },
+ {
+  "t": 17.42,
+  "sfx": "footsteps_wood",
+  "gain_db": -7
+ },
+ {
+  "t": 20.9,
+  "sfx": "paper_rustle",
+  "gain_db": -9
+ },
+ {
+  "t": 23.52,
+  "sfx": "curtain",
+  "gain_db": -3
+ },
+ {
+  "t": 24.42,
+  "sfx": "crowd_ooh",
+  "gain_db": -3
+ },
+ {
+  "t": 26.5,
+  "sfx": "crowd_murmur",
+  "gain_db": -7
+ },
+ {
+  "t": 26.95,
+  "sfx": "car_drive",
+  "gain_db": -3
+ },
+ {
+  "t": 28.9,
+  "sfx": "car_drive",
+  "gain_db": -6
+ },
+ {
+  "t": 29.95,
+  "sfx": "stairs_iron",
+  "gain_db": -4
+ },
+ {
+  "t": 31.0,
+  "sfx": "stairs_iron",
+  "gain_db": -7
+ },
+ {
+  "t": 33.3,
+  "sfx": "wind_soft",
+  "gain_db": -11
+ },
+ {
+  "t": 37.1,
+  "sfx": "wind_soft",
+  "gain_db": -11
+ },
+ {
+  "t": 40.4,
+  "sfx": "coins_spill",
+  "gain_db": -10
+ },
+ {
+  "t": 41.1,
+  "sfx": "stinger",
+  "gain_db": 0
+ },
+ {
+  "t": 42.6,
+  "sfx": "paper_rustle",
+  "gain_db": -6
+ },
+ {
+  "t": 43.3,
+  "sfx": "stamp",
+  "gain_db": -3
+ },
+ {
+  "t": 44.62,
+  "sfx": "stamp",
+  "gain_db": -5
+ },
+ {
+  "t": 45.95,
+  "sfx": "wind_soft",
+  "gain_db": -12
+ },
+ {
+  "t": 47.86,
+  "sfx": "pop",
+  "gain_db": -8
+ },
+ {
+  "t": 49.25,
+  "sfx": "bumper_drop",
+  "gain_db": -2
+ },
+ {
+  "t": 50.6,
+  "sfx": "case_open",
+  "gain_db": -4
+ },
+ {
+  "t": 51.2,
+  "sfx": "coins_spill",
+  "gain_db": -6
+ },
+ {
+  "t": 52.35,
+  "sfx": "train_clack",
+  "gain_db": -5
+ },
+ {
+  "t": 52.9,
+  "sfx": "case_open",
+  "gain_db": -3
+ },
+ {
+  "t": 53.05,
+  "sfx": "cash_count",
+  "gain_db": -2
+ },
+ {
+  "t": 54.6,
+  "sfx": "cash_count",
+  "gain_db": -4
+ },
+ {
+  "t": 55.35,
+  "sfx": "footsteps_wood",
+  "gain_db": -7
+ },
+ {
+  "t": 56.6,
+  "sfx": "footsteps_wood",
+  "gain_db": -9
+ },
+ {
+  "t": 58.05,
+  "sfx": "car_drive",
+  "gain_db": -6
+ },
+ {
+  "t": 58.4,
+  "sfx": "crowd_murmur",
+  "gain_db": -10
+ },
+ {
+  "t": 59.75,
+  "sfx": "stamp",
+  "gain_db": -6
+ }
+]
