@@ -91,8 +91,8 @@ SHOT_ACTS[19] = (f, s) => {
   const open = sm(f, 1584, 1592), count = f >= 1630;
   const lo: P = !count
     ? { mode: "sit", expr: open > 0.5 ? "joy" : "sly", facing: faceTo(19, s, f, LSIT, CASE_TOP), armR: [[26, 10], [lerp(36, 50, open), lerp(30, 0, open)]] as A2, armRFront: true, headTilt: 4 * open, mouth: open > 0.5 ? "laugh" : undefined }
-    : { mode: "sit", expr: "smug", facing: faceTo(19, s, f, LSIT, [0.5, 1.2, 0.5]), propL: "cash", armL: [[-22, 10], [-14, -6]] as A2, armLFront: true,
-      armR: [[22, 4], [lerp(10, 18, Math.abs(Math.sin((f - 1630) * 0.6))), lerp(-30, -8, Math.abs(Math.sin((f - 1630) * 0.6)))]] as A2, armRFront: true, mouth: f < 1636 ? "lick" : talk(f, 1638, 1657) };
+    : { mode: "sit", expr: "smug", facing: faceTo(19, s, f, LSIT, lerp3(CASE_TOP, [0.5, 1.2, 0.5], sm(f, 1630, 1640))), propL: "cash", armL: [[-22, 10], [lerp(-40, -14, sm(f, 1630, 1637)), lerp(10, -6, sm(f, 1630, 1637))]] as A2, armLFront: true,
+      armR: [[lerp(26, 22, sm(f, 1630, 1637)), lerp(10, 4, sm(f, 1630, 1637))], [lerp(50, lerp(10, 18, Math.abs(Math.sin((f - 1630) * 0.6))), sm(f, 1630, 1637)), lerp(0, lerp(-30, -8, Math.abs(Math.sin((f - 1630) * 0.6))), sm(f, 1630, 1637))]] as A2, armRFront: true, mouth: f < 1636 ? "lick" : talk(f, 1638, 1657) };
   const pp: P = f < 1596 ? { mode: "sit", expr: "neutral", facing: -1, propR: "newspaper", armR: [[22, 0], [26, -24]] as A2, armRFront: true }
     : { mode: "sit", expr: "shock", facing: -1, propR: "newspaper", armR: [[22, 14], [26, 22]] as A2, armRFront: false, squash: f < 1602 ? 0.15 : 0 };
   return {

@@ -158,22 +158,22 @@ lens(1058, 7, 1);
 // The biggest view of the tower: low, gold-lit, sunburst and sparkles behind it; the camera tilts down the leg to
 // the handover: Poisson slips over the envelope, then heaves the suitcase over; Lustig hands him a deed.
 SHOT_CAMS[18] = () => [
-  K(1512, (f) => ({ pos: [2.6, 0.5, 52.5], look: [lerp(8.5, 7.0, sm(f, 1512, 1530)), lerp(42, 30, sm(f, 1512, 1530)), lerp(18, 24, sm(f, 1512, 1530))], fov: 46 })),
-  K(1524, F(() => fit([body(L1), body(P1, 0, 2.05, 0.4)], -18, 1, 40, 0.8, 0, -0.1), 1524, 0.002, [[1552, 0.005, 12]]), 38),
+  K(1512, (f) => { const c = fit([body(L1), body(P1, 0, 2.05, 0.4)], -18, 1, 40, 0.8, 0, -0.1); return { pos: [c.pos[0], c.pos[1] - 0.25, c.pos[2]], look: [lerp(8.5, 7.0, sm(f, 1512, 1524)), lerp(42, 30, sm(f, 1512, 1524)), lerp(18, 24, sm(f, 1512, 1524))], fov: 46 }; }),
+  K(1518, F(() => fit([body(L1), body(P1, 0, 2.05, 0.4)], -18, 1, 40, 0.8, 0, -0.1), 1518, 0.002, [[1552, 0.005, 12]]), 26),
 ];
 SHOT_ACTS[18] = (f, s) => {
-  const env = sm(f, 1532, 1540) - sm(f, 1546, 1550), cs = sm(f, 1552, 1560);
+  const env = sm(f, 1536, 1542) - sm(f, 1547, 1550), cs = sm(f, 1552, 1560);
   return {
     ctl: { rust: 1, fair: 0, glow: 1 },
-    cast: [C("lustig", L1, pose(null, { expr: cs > 0.5 ? "joy" : "sly", facing: faceTo(18, s, f, L1, P1), armR: [[26, 6], [lerp(34, 52, Math.max(env, cs)), lerp(30, 10, Math.max(env, cs))]] as A2, armRFront: true, propR: cs > 0.6 ? "suitcase" : env > 0.6 ? "envelope" : undefined,
+    cast: [C("lustig", L1, pose(null, { expr: cs > 0.5 ? "joy" : "sly", facing: faceTo(18, s, f, L1, P1), armR: [[26, 6], [lerp(34, 52, Math.max(env, cs)), lerp(30, 10, Math.max(env, cs))]] as A2, armRFront: true, propR: cs > 0.6 ? "suitcase" : f >= 1541 && env > 0.3 ? "envelope" : undefined,
         armL: f > 1556 ? [[-26, 4], [-46, -4]] as A2 : undefined, propL: f > 1556 ? "deed" : undefined }), { shadow: true }),
-      C("poisson", P1, pose(null, { expr: cs > 0.2 ? "strain" : "grin", facing: faceTo(18, s, f, P1, L1), armR: [[26, 6], [lerp(30, 52, Math.max(env, 1 - cs)), 10]] as A2, armRFront: true, propR: cs < 0.6 && f > 1546 ? "suitcase" : env > 0.3 ? "envelope" : undefined, tilt: -5 * cs })),
+      C("poisson", P1, pose(null, { expr: cs > 0.2 ? "strain" : "grin", facing: faceTo(18, s, f, P1, L1), armR: [[26, 6], [lerp(30, 52, Math.max(env, 1 - cs)), 10]] as A2, armRFront: true, propR: cs < 0.6 && f > 1546 ? "suitcase" : f < 1541 && env > 0.3 ? "envelope" : undefined, tilt: -5 * cs })),
       C("mmePoisson", M1, pose(null, { expr: "dismay", facing: faceTo(18, s, f, M1, P1), armL: [[-20, 20], [8, 26]], armR: [[20, 20], [-8, 30]], armLFront: true, armRFront: true })),
       ...towerExtras(18, s, f, 2)],
-    focus: f < 1530 ? undefined : [6.0, 1.5, 39.5], subj: f < 1552 ? null : undefined,
+    focus: f < 1526 ? undefined : [6.0, 1.5, 39.5], subj: f < 1540 ? null : undefined,
   };
 };
-lens(1512, 0, 1); lens(1530, 5, 16);
+lens(1512, 0, 1); lens(1526, 5, 14);
 
 // ---- S21 (1741-1836) bright morning: "So a month later, / Lustig comes back to Paris, / and guess what he's selling?"
 // Lustig strolls back in with his suitcase past three NEW dealers waiting by the leg; he sets the suitcase down beside

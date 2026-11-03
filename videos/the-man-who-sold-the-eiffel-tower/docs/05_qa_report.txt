@@ -1,0 +1,55 @@
+frames 1836
+HARD CUTS 3 (target <= 4): f733 S9->S9 (10.1 m), f1232 S15->S15 (3.09 m), f1625 S19->S19 (0.64 m)
+FAST CAMERA (> 0.4 m/frame) 23 frames: f733, f1232, f1463, f1464, f1465, f1466, f1467, f1468, f1469, f1470, f1538, f1539, f1540, f1541, f1542, f1543, f1544, f1545, f1546, f1547, f1548, f1549, f1625
+LONGEST DISSOLVE 8 f (target <= 8): {3: 8, 5: 8, 6: 8, 7: 6, 10: 8, 11: 8, 12: 6, 14: 8, 16: 8, 17: 8, 18: 8, 19: 8, 20: 8, 21: 8}
+CAMERA TRANSLATION 77% of frames (target >= 50%)
+HERO CENTRED + FRONTAL 0% of runtime (target <= 30%)
+OCCLUDER BETWEEN CAMERA AND SUBJECT (incl. camera inside an object): 29 frames in 7 runs
+   f190-190 (6.33-6.33s): S3 mesh@16.15
+   f488-488 (16.27-16.27s): S6 mesh@2.22
+   f509-512 (16.97-17.07s): S7 mesh@8.16; S7 mesh@8.18; S7 mesh@8.19; S7 mesh@8.20
+   f514-528 (17.13-17.60s): S7 mesh@7.95; S7 mesh@7.96; S7 mesh@7.97; S7 mesh@7.98; S7 mesh@8.00; S7 mesh@8.01; S7 mesh@8.03; S7 mesh@8.04; S7 mesh@8.05; S7 mesh@8.07; S7 mesh@8.08; S7 mesh@8.09; S7 mesh@8.11; S7 mesh@8.12; S7 m
+   f530-530 (17.67-17.67s): S7 mesh@7.79
+   f1299-1300 (43.30-43.33s): S16 mesh@3.36; S16 mesh@3.46
+   f1653-1657 (55.10-55.23s): S20 mesh@3.07
+SOMETHING TOUCHING THE LENS (near-plane): 0 frames in 0 runs
+SUBJECT OUT OF FRAME: 9 frames in 3 runs
+   f37-41 (1.23-1.37s): S1 head ndc (-0.92,0.19); S1 head ndc (-0.94,0.06); S1 head ndc (-0.96,0.15); S1 head ndc (-0.97,0.09); S1 head ndc (-0.97,0.12)
+   f400-401 (13.33-13.37s): S5 head ndc (-0.91,-0.37); S5 head ndc (-0.98,-0.46)
+   f1472-1473 (49.07-49.10s): S17 head ndc (0.92,0.18); S17 head ndc (0.95,0.19)
+FACE CUT BY THE FRAME EDGE: 827 frames in 34 runs
+   f0-43 (0.00-1.43s): S1 lustig; S1 lustig,mmePoisson; S1 lustig,paris4; S1 mmePoisson; S1 mmePoisson,paris4
+   f45-47 (1.50-1.57s): S1 paris1
+   f52-76 (1.73-2.53s): S1 paris3; S2 mmePoisson; S2 mmePoisson,paris3; S2 paris3
+   f79-82 (2.63-2.73s): S2 paris3
+   f121-131 (4.03-4.37s): S2 paris3
+   f186-189 (6.20-6.30s): S3 lustig; S3 newsboy; S3 newsboy,lustig
+   f253-309 (8.43-10.30s): S4 lustig; S4 lustig,newsboy; S4 lustig,newsboy,paris2; S4 newsboy; S4 newsboy,paris2
+   f340-340 (11.33-11.33s): S5 newsboy
+   f393-403 (13.10-13.43s): S5 clerk2; S5 clerk2,paris4
+   f417-450 (13.90-15.00s): S5 paris4; S6 paris4
+   f495-533 (16.50-17.77s): S6 lustig; S6 lustig,paris4; S6 paris4; S7 lustig; S7 lustig,waiter; S7 waiter
+   f536-536 (17.87-17.87s): S7 waiter
+   f546-554 (18.20-18.47s): S7 dealer3
+   f560-562 (18.67-18.73s): S7 poisson
+   f564-566 (18.80-18.87s): S7 dealer4; S7 dealer4,waiter; S7 waiter
+   f569-571 (18.97-19.03s): S7 dealer2; S7 dealer2,waiter; S7 waiter
+   f574-577 (19.13-19.23s): S7 dealer3; S7 lustig
+   f611-619 (20.37-20.63s): S8 dealer3,poisson; S8 poisson
+   f636-655 (21.20-21.83s): S8 dealer2
+   f679-688 (22.63-22.93s): S9 dealer2; S9 dealer2,poisson
+   f693-732 (23.10-24.40s): S9 dealer2; S9 dealer3,dealer2
+   f953-1018 (31.77-33.93s): S12 mmePoisson
+   f1107-1178 (36.90-39.27s): S14 poisson
+   f1232-1292 (41.07-43.07s): S15 poisson; S15 poisson,lustig; S16 paris3
+   f1296-1299 (43.20-43.30s): S16 clerk2; S16 paris3,clerk1; S16 paris3,clerk2
+   f1303-1381 (43.43-46.03s): S16 buyer; S16 buyer,newsboy; S16 clerk2,clerk3,buyer; S16 clerk2,newsboy; S16 clerk3,buyer; S16 lustig,buyer; S16 lustig,paris2,buyer; S16 newsboy; S16 paris1,paris4; S16 paris2; S16 paris2,buyer; S1
+   f1385-1398 (46.17-46.60s): S17 paris1
+   f1400-1426 (46.67-47.53s): S17 mechanic; S17 salesman; S17 salesman,buyer; S17 salesman,buyer,mechanic; S17 salesman,mechanic
+   f1450-1453 (48.33-48.43s): S17 dealer4; S17 mechanic,dealer4
+   f1457-1479 (48.57-49.30s): S17 buyer; S17 buyer,dealer4; S17 dealer4; S17 paris1; S17 paris3; S17 salesman; S17 salesman,paris1
+   f1569-1608 (52.30-53.60s): S19 lustig
+   f1625-1660 (54.17-55.33s): S19 lustig
+   f1680-1686 (56.00-56.20s): S20 gendarme
+   f1737-1795 (57.90-59.83s): S21 clerk2
+OVERLAPPING BODIES: 0 frames in 0 runs
