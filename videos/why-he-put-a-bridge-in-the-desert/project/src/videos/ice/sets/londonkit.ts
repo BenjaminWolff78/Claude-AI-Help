@@ -275,17 +275,18 @@ export const priceBoard = (parent: THREE.Object3D, x: number, y: number, z: numb
   board.position.set(0, 1.33, 0.16); board.rotation.x = -0.1; board.castShadow = true; g.add(board);
   return g;
 };
-const saleTex = () => ctex("lonForSale", 1024, 288, (g, r) => {
-  g.fillStyle = "#f4ecd8"; g.fillRect(0, 0, 1024, 288);
-  for (let i = 0; i < 400; i++) { g.fillStyle = r() < 0.5 ? "rgba(120,100,70,0.06)" : "rgba(255,255,255,0.08)"; g.fillRect(r() * 1024, r() * 288, 3 + r() * 20, 1); }
-  g.fillStyle = "#b3262e"; g.fillRect(0, 0, 1024, 26); g.fillRect(0, 262, 1024, 26);
-  g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#b3262e"; fitText(g, "FOR SALE", 512, 152, 900, 200, "900 %spx Georgia, serif");
-  g.fillStyle = "rgba(60,30,20,0.25)"; for (const x of [40, 984]) { g.beginPath(); g.arc(x, 60, 10, 0, TAU); g.fill(); }
+const saleTex = () => ctex("lonForSaleV", 600, 800, (g, r) => {
+  g.fillStyle = "#f4ecd8"; g.fillRect(0, 0, 600, 800);
+  for (let i = 0; i < 500; i++) { g.fillStyle = r() < 0.5 ? "rgba(120,100,70,0.06)" : "rgba(255,255,255,0.08)"; g.fillRect(r() * 600, r() * 800, 3 + r() * 20, 1); }
+  g.fillStyle = "#b3262e"; g.fillRect(0, 0, 600, 30); g.fillRect(0, 770, 600, 30);
+  g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#b3262e";
+  fitText(g, "FOR", 300, 255, 500, 270, "900 %spx Georgia, serif"); fitText(g, "SALE", 300, 560, 540, 270, "900 %spx Georgia, serif");
+  g.fillStyle = "rgba(60,30,20,0.25)"; for (const x of [40, 560]) { g.beginPath(); g.arc(x, 64, 10, 0, TAU); g.fill(); }
 });
 /** big hanging cloth banner (w x h) facing +z, top edge at (x, y, z); gentle billow from pose */
 export const saleBanner = (parent: THREE.Object3D, x: number, y: number, z: number, w: number, h: number): Cloth => {
   const m = lam("lonSaleM", () => ({ map: saleTex(), emissiveMap: saleTex(), emissive: new THREE.Color(0.42, 0.38, 0.34), side: THREE.DoubleSide }));
-  const c = cloth(parent, w, h, m, 0.12, 3, 16);
+  const c = cloth(parent, w, h, m, 0.12, 3, 8);
   c.m.position.set(x - w / 2, y, z); c.m.castShadow = true;
   return c;
 };

@@ -40,7 +40,7 @@ import type { SetDef, V3 } from "./types";
 
 const QY = 2.6, EMB = 29.5, DECK = 10.5, ROAD = 10.38;
 // table / inspector geometry (also used by marks + cams)
-const TX = -20.5, TZ = 5.1; // moved next to the inspector landing so the crane-up lands on the deal
+const TX = -20.5, TZ = 5.1; // next to the inspector landing; the tall FOR SALE banner hangs on the river face right below it
 const NOSE: V3 = [-27.25, 0, 9.7]; // pier 1 downstream cutwater nose
 const CWD: [number, number] = [0.64, -0.768], CWN: [number, number] = [0.768, 0.64]; // river-side cutwater face: along, normal
 const onCW = (k: number, off = 0): V3 => [NOSE[0] + CWD[0] * 3.515 * k + CWN[0] * off, 0, NOSE[2] + CWD[1] * 3.515 * k + CWN[1] * off];
@@ -158,9 +158,9 @@ export const london = (): SetDef => {
   dealTable(s3, TX, DECK, TZ);
   chair(s3, TX + 0.95, DECK, TZ, Math.PI); chair(s3, TX - 0.95, DECK, TZ, 0);
   priceBoard(s3, TX - 1.85, DECK, TZ - 0.55, -0.4);
-  const banner = saleBanner(sinkG, 0, 11.55, 7.52, 8.4, 2.2);
+  const banner = saleBanner(sinkG, TX, 11.55, 7.52, 2.4, 3.2);
   const bannerG = banner.m;
-  for (const x of [-4.2, 4.2, 0]) { const rp = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 5), lam("lonBarRope", () => ({ color: "#c94a2e" }))); rp.position.set(x, 11.45, 7.3); rp.rotation.x = 0.9; s3.add(rp); }
+  for (const x of [TX - 1.1, TX + 1.1, TX]) { const rp = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 5), lam("lonBarRope", () => ({ color: "#c94a2e" }))); rp.position.set(x, 11.45, 7.3); rp.rotation.x = 0.9; s3.add(rp); }
   const theCab = makeCab(s3); theCab.position.set(-4.2, ROAD, 2.75); theCab.rotation.y = Math.PI;
   // bus stop (upstream pavement)
   { const pb = new Batch(); pb.add(new THREE.CylinderGeometry(0.045, 0.05, 2.8, 8).translate(-2.6, DECK + 1.4, -4.4), iron()); pb.build(lon);
@@ -253,7 +253,7 @@ export const london = (): SetDef => {
       s3.visible = !later; { const bk = Math.max(0, Math.min(1, c.banner ?? 1)); bannerG.visible = !later && bk > 0.01; bannerG.scale.y = Math.max(0.01, bk); } s4.visible = later; staff.visible = (c.ruler ?? 0) > 0.5;
       // banner: a soft billow, tied along its top
       { const p = bannerG.geometry.attributes.position as THREE.BufferAttribute, a = p.array as Float32Array;
-        for (let i = 0; i < p.count; i++) { const x = banner.base[i * 3], y = banner.base[i * 3 + 1], dn = -y / 2.2; a[i * 3 + 2] = (0.05 + 0.1 * dn) * Math.sin(t * 1.3 + x * 0.9) + 0.06 * dn; a[i * 3 + 1] = y + 0.03 * dn * Math.sin(t * 0.9 + x); }
+        for (let i = 0; i < p.count; i++) { const x = banner.base[i * 3], y = banner.base[i * 3 + 1], dn = -y / 3.2; a[i * 3 + 2] = (0.05 + 0.1 * dn) * Math.sin(t * 1.3 + x * 0.9) + 0.06 * dn; a[i * 3 + 1] = y + 0.03 * dn * Math.sin(t * 0.9 + x); }
         p.needsUpdate = true; bannerG.geometry.computeVertexNormals(); }
       // bus
       const bu = c.bus ?? 0; theBus.g.visible = bu > 0.001 && bu < 0.999; theBus.g.position.set(-120 + 240 * bu, ROAD, -1.9);
