@@ -637,14 +637,16 @@ const B5: V3 = [-3.6, 10.5, 4.9], SA5: V3 = [6.2, 10.5, -4.2], SB5: V3 = [7.5, 1
 const LIZ5: V3[] = [[5.5, 10.5, 1.9], [-11, 10.5, 2.3]];
 const liz5 = (f: number) => polyAt(LIZ5, lin(f, 884, 952)).p;
 const dozer5 = (f: number) => lerp(0, 0.16, sm(f, 1082, 1106));
+const dozCam5 = (f: number) => desertDozer(dozer5(f), 0).pos;
 SHOT_CAMS[5] = () => [
   K(811, F(() => ({ pos: [31, 22, 44] as V3, look: [0, 8.5, 0] as V3, fov: 40 }), 811, 0.0028)),
-  K(828, F(() => ({ pos: [-8.5, 12.4, 5.3] as V3, look: [8, 11.0, 2.6] as V3, fov: 42 }), 828, 0.0016), 14),                     // "Not a car." down the empty roadway
-  K(856, F(() => ({ pos: [1.5, 12.0, -2.4] as V3, look: [7.0, 11.3, -4.0] as V3, fov: 42 }), 856, 0.0018), 16),                    // "Not a tourist."
-  K(880, F((f) => { const p = liz5(f); return { pos: [p[0] + 1.35, 10.78, p[2] - 0.55] as V3, look: [p[0] - 0.6, 10.7, p[2] + 0.35] as V3, fov: 38 }; }, 880, 0.0008), 14), // lizard height
-  K(938, F(() => ({ pos: [11.8, 12.0, -2.0] as V3, look: [6.8, 11.3, -4.0] as V3, fov: 42 }), 938, 0.002, [[944, 0.005, 8]]), 16),   // "Pretty sure he's lost it"
-  K(1000, F(() => ({ pos: [-3.4, 15.0, 12.6] as V3, look: [-3.5, 10.2, 5.8] as V3, fov: 48 }), 1000, 0.0016), 28),               // looks down at the dry sand
-  K(1056, F(() => fit([body(B5, 0.5, 2.2, 0.42), [[0, 0, 15], 0, 4.2, 2.2]], 345, 10, 44, 0.9), 1056, 0.0018, [[1078, 0.005, 10]]), 22), // "Get me a bulldozer."
+  K(815, F(() => fit([body(B5, 0, 2.3, 0.6)], 35, 12, 40, 0.62, -0.15), 815, 0.0022), 11),                       // push in on the boss waving: "And nobody came."
+  K(832, F(() => ({ pos: [-8.5, 12.4, 5.3] as V3, look: [8, 11.0, 2.6] as V3, fov: 42 }), 832, 0.0016), 1, true),    // "Not a car." down the empty roadway
+  K(858, F(() => ({ pos: [1.5, 12.0, -2.4] as V3, look: [7.0, 11.3, -4.0] as V3, fov: 42 }), 858, 0.0018), 1, true),  // "Not a tourist."
+  K(882, F((f) => { const p = liz5(f); return { pos: [p[0] + 1.35, 10.78, p[2] - 0.55] as V3, look: [p[0] - 0.6, 10.7, p[2] + 0.35] as V3, fov: 38 }; }, 882, 0.0008), 1, true), // lizard height
+  K(940, F(() => ({ pos: [11.8, 12.0, -2.0] as V3, look: [6.8, 11.3, -4.0] as V3, fov: 42 }), 940, 0.002, [[944, 0.005, 8]]), 1, true), // "Pretty sure he's lost it"
+  K(1002, F(() => fit([body(B5, 0, 2.3, 0.6)], 14, 12, 42, 0.56, -0.4), 1002, 0.0018, [[1078, 0.005, 10]]), 1, true), // leans on the parapet over the dry riverbed
+  K(1087, F((f) => fit([body(dozCam5(f), 0, 3.2, 1.7)], 62, 6, 40, 0.62, 0, 0.4), 1087, 0.0016), 1, true),       // the bulldozer roars in below
 ];
 SHOT_ACTS[5] = (f, s) => {
   const lp = liz5(f), lizOn = f > 884 && f < 952;
@@ -680,11 +682,11 @@ SHOT_ACTS[5] = (f, s) => {
     ],
     fx: fxs(f >= 1084 && f < 1108 ? dustTrail("dozerIn", desertDozer(dozer5(f), 0).pos, [0, -1], f, 5, 0.8, 0.8) : null,
       f >= 900 && f < 914 ? sparkle("bow", [B5[0] + 0.6, 11.6, B5[2]], f - 900, 0.25) : null),
-    focus: f < 832 ? [0, 9, 0] : f < 858 ? [B5[0], 11.6, B5[2]] : f < 882 ? [SA5[0], 11.6, SA5[2]] : f < 940 ? lp : f < 1000 ? [SA5[0], 11.6, SA5[2]] : [B5[0], 11.8, B5[2]],
-    subj: f < 882 ? "boss" : f < 940 ? "lizard" : f < 1000 ? "salesA" : "boss",
+    focus: f < 815 ? [0, 9, 0] : f < 858 ? [B5[0], 11.6, B5[2]] : f < 882 ? [SA5[0], 11.6, SA5[2]] : f < 940 ? lp : f < 1002 ? [SA5[0], 11.6, SA5[2]] : f < 1087 ? [B5[0], 11.8, B5[2]] : [dozCam5(f)[0], dozCam5(f)[1] + 1.6, dozCam5(f)[2]],
+    subj: f < 882 ? "boss" : f < 940 ? "lizard" : f < 1002 ? "salesA" : f < 1087 ? "boss" : "dozer",
   };
 };
-lens(811, 0.5, 1); lens(832, 5, 20); lens(858, 6, 16); lens(882, 9, 14); lens(940, 6, 16); lens(1000, 3, 24); lens(1056, 5, 20);
+lens(811, 0.5, 1); lens(815, 4, 16); lens(832, 5, 1); lens(858, 6, 1); lens(882, 9, 1); lens(940, 6, 1); lens(1002, 4, 1); lens(1087, 5, 1);
 
 // =====================================================================================================================
 // SCENE 6 (1108-1203, hard cut = days later) HOME BASE A, the frame-1 view. "He dug a mile-long ditch under it and
