@@ -20,7 +20,7 @@ const boats9 = (f: number) => lerp(0.6, 1.0, lin(f, 1615, 1914));
 const plateP = (f: number): V3 => lerp3([P_BOSS[0] + 0.32, 11.55, P_BOSS[2] + 0.1], [P_BOSS[0] + 0.62, 11.78, 6.72], sm(f, 1862, 1872));
 SHOT_CAMS[9] = (s) => [
   K(1615, F(() => ({ pos: [3.0, 2.6, -46] as V3, look: [1.2, 2.6, -8] as V3, fov: 42 }), 1615, 0.0018), 1, true),               // "Boats went under it."
-  K(1640, F(() => ({ pos: [3.5, 12.4, 1.6] as V3, look: [14, 11.3, 3.2] as V3, fov: 42 }), 1640, 0.0016), 26),                       // "Tourists went over it." (they stroll toward us)
+  K(1642, F(() => ({ pos: [3.5, 12.4, 1.6] as V3, look: [14, 11.3, 3.2] as V3, fov: 42 }), 1642, 0.0016), 1, true),                       // "Tourists went over it." (they stroll toward us)
   K(1668, F(() => fit([body(P_SA, 0, 2.1, 0.42), body(P_SB, 0, 2.1, 0.42), [[6.25, 10.5, 6.9], 0, 1.5, 0.3]], 192, 12, 40, 0.8), 1668, 0.0018, [[1704, 0.005, 10]]), 22), // from the deck: full figures at the parapet, river and town behind
   K(1736, F(() => fit([body(s.marks.painterSign, 0, 2.0, 0.42), [SIGN9, 1.2, 5.6, 3.5]], 236, 6, 40, 0.93), 1736, 0.0018, [[1786, 0.006, 10]]), 1, true), // the sign
   K(1818, F(() => fit(FAM.map((m) => body(m.b, 0, 2.0, 0.45)), 216, 8, 40, 0.9), 1818, 0.0018, [[1828, 0.005, 10]]), 1, true), // "ten thousand people": the family on the deck, the busy river and town behind
@@ -63,8 +63,8 @@ SHOT_ACTS[9] = (f, s) => {
       f >= 1800 && f < 1814 ? sparkle("pop", [SIGN9[0], 3.6, SIGN9[2]], f - 1800, 1.0) : null,
       f >= 1846 ? plateCard("para", plateP(f), 1, 0.5) : null,
       f >= 1870 && f < 1884 ? sparkle("plate9", [P_BOSS[0] + 0.62, 11.95, 6.72], f - 1870, 0.35) : null),
-    focus: f < 1640 ? [1.5, 0.5, -28] : f < 1668 ? [FAM[0].b[0], 11.6, FAM[0].b[2]] : f < 1736 ? [P_SA[0], 11.6, P_SA[2]] : f < 1818 ? [SIGN9[0], 3.2, SIGN9[2]] : f < 1862 ? [FAM[0].b[0], 11.6, FAM[0].b[2]] : [P_BOSS[0], 12, P_BOSS[2]],
-    subj: f < 1640 ? null : f < 1668 ? "dad" : f < 1736 ? "salesB" : f < 1818 ? "painter" : f < 1862 ? "dad" : "boss",
+    focus: f < 1642 ? [1.5, 0.5, -28] : f < 1668 ? [FAM[0].b[0], 11.6, FAM[0].b[2]] : f < 1736 ? [P_SA[0], 11.6, P_SA[2]] : f < 1818 ? [SIGN9[0], 3.2, SIGN9[2]] : f < 1862 ? [FAM[0].b[0], 11.6, FAM[0].b[2]] : [P_BOSS[0], 12, P_BOSS[2]],
+    subj: f < 1642 ? null : f < 1668 ? "dad" : f < 1736 ? "salesB" : f < 1818 ? "painter" : f < 1862 ? "dad" : "boss",
   };
 };
-lens(1615, 3, 1); lens(1640, 4, 24); lens(1668, 6, 20); lens(1736, 4, 1); lens(1818, 5, 1); lens(1862, 8, 1);
+lens(1615, 3, 1); lens(1642, 4, 1); lens(1668, 6, 20); lens(1736, 4, 1); lens(1818, 5, 1); lens(1862, 8, 1);
