@@ -1,0 +1,167 @@
+[
+{
+"t": 0,
+"sfx": "summer_amb",
+"gain_db": -5,
+"dur": 3.9
+},
+{
+"t": 3.9,
+"sfx": "market_amb",
+"gain_db": -5,
+"dur": 15.7
+},
+{
+"t": 3.2,
+"sfx": "whoosh_soft",
+"gain_db": -7
+},
+{
+"t": 4.03,
+"sfx": "pig_eat",
+"gain_db": -2
+},
+{
+"t": 7.93,
+"sfx": "pop",
+"gain_db": -7
+},
+{
+"t": 9.33,
+"sfx": "paper_rustle",
+"gain_db": -4
+},
+{
+"t": 10.4,
+"sfx": "apple_crunch",
+"gain_db": -3
+},
+{
+"t": 16.2,
+"sfx": "pig_eat",
+"gain_db": -3
+},
+{
+"t": 16.77,
+"sfx": "crowd_laugh",
+"gain_db": -2,
+"dur": 2.6
+},
+{
+"t": 18.6,
+"sfx": "pig_eat",
+"gain_db": -5
+},
+{
+"t": 23.7,
+"sfx": "stamp",
+"gain_db": -3
+},
+{
+"t": 24.0,
+"sfx": "summer_amb",
+"gain_db": -6,
+"dur": 3.3
+},
+{
+"t": 24.1,
+"sfx": "shovel",
+"gain_db": -7
+},
+{
+"t": 24.6,
+"sfx": "shovel",
+"gain_db": -8
+},
+{
+"t": 25.2,
+"sfx": "body_land",
+"gain_db": -6
+},
+{
+"t": 27.3,
+"sfx": "night_amb",
+"gain_db": -3,
+"dur": 6.7
+},
+{
+"t": 27.45,
+"sfx": "crow",
+"gain_db": -4
+},
+{
+"t": 30.75,
+"sfx": "coins_spill",
+"gain_db": -5
+},
+{
+"t": 32.75,
+"sfx": "man_laugh",
+"gain_db": -3
+},
+{
+"t": 34.0,
+"sfx": "summer_amb",
+"gain_db": -6,
+"dur": 4.7
+},
+{
+"t": 36.8,
+"sfx": "crowd_ooh",
+"gain_db": -3
+},
+{
+"t": 37.87,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 38.7,
+"sfx": "night_amb",
+"gain_db": -6,
+"dur": 7.1
+},
+{
+"t": 44.6,
+"sfx": "snore",
+"gain_db": -4
+},
+{
+"t": 45.3,
+"sfx": "wind_soft",
+"gain_db": -7
+},
+{
+"t": 48.55,
+"sfx": "case_open",
+"gain_db": -4
+},
+{
+"t": 49.0,
+"sfx": "market_amb",
+"gain_db": -6,
+"dur": 2.7
+},
+{
+"t": 51.7,
+"sfx": "crowd_murmur",
+"gain_db": -6,
+"dur": 8.0
+},
+{
+"t": 55.2,
+"sfx": "crowd_ooh",
+"gain_db": -4
+},
+{
+"t": 57.4,
+"sfx": "sprinkle",
+"gain_db": -7
+},
+{
+"t": 59.8,
+"sfx": "summer_amb",
+"gain_db": -7,
+"dur": 4.0
+}
+]
