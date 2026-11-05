@@ -12,13 +12,13 @@
 // hand). "Then he gave the king a potato flower, and the king wore it on his coat. Suddenly every noble wanted one. Today
 // French menus still name potato dishes after him." The king pins it on, the nobles mob the hero holding up flowers,
 // the servants lift the cloches off mountains of potatoes, the menu turns round: HACHIS PARMENTIER; petals, gold light.
-const KING: V3 = [0, 1.12, -12.15], KHEAD: V3 = [0, 2.18, -12.05], HT: V3 = [0, 0, -8.55], GL: V3 = [-3.3, 0, -10], GR: V3 = [3.3, 0, -10];
+const KING: V3 = [0, 1.12, -12.15], KHEAD: V3 = [0, 2.18, -12.05], HT: V3 = [0.2, 0, -7.4], GL: V3 = [-1.55, 0, -9.0], GR: V3 = [1.55, 0, -9.0];
 const MATCH_D = 2.7, MATCH_UP = 0.36; // same framing as the raised potato at the end of shot 1
 SHOT_CAMS[2] = () => [
   K(584, F(() => ({ pos: [KHEAD[0] + MATCH_D * Math.sin(0.12), KHEAD[1] - 0.3, KHEAD[2] + MATCH_D * Math.cos(0.12)] as V3, look: [KHEAD[0], KHEAD[1] - MATCH_UP, KHEAD[2]] as V3, fov: 38 }), 584, 0.0012)),
-  K(596, F(() => fit([body(KING, 0, 1.4, 0.55), body(HT, 0, 2.2, 0.45), body(GL, 0, 2.2, 0.4), body(GR, 0, 2.2, 0.4)], 24, 10, 42, 0.86), 596, 0.0016, [[640, 0.005, 10]]), 30),
-  K(660, F(() => fit([body(GL, 0, 2.3, 0.45), body(KING, 0, 1.4, 0.55), body(GR, 0, 2.3, 0.45)], 352, 6, 42, 0.86), 660, 0.0018, [[668, 0.006, 8]]), 18),
-  K(688, F(() => fit([body(KING, 0.2, 1.45, 0.6)], 14, 4, 38, 0.66, 0, -0.05), 688, 0.0018, [[706, 0.006, 8]]), 16),
+  K(596, F(() => fit([body(KING, 0, 1.4, 0.55), body(HT, 0, 2.2, 0.45), body(GL, 0, 2.2, 0.4), body(GR, 0, 2.2, 0.4)], 8, 8, 42, 0.9), 596, 0.0016, [[640, 0.005, 10]]), 30),
+  K(660, F(() => fit([body(GL, 0, 2.3, 0.45), body(KING, 0, 1.4, 0.55), body(GR, 0, 2.3, 0.45)], 350, 4, 42, 0.92), 660, 0.0018, [[668, 0.006, 8]]), 18),
+  K(688, F(() => fit([body(KING, 0.2, 1.45, 0.6)], 336, 22, 38, 0.66, 0, -0.05), 688, 0.0018, [[706, 0.006, 8]]), 16),
 ];
 SHOT_ACTS[2] = (f) => {
   const stamp = sm(f, 705, 708);
@@ -56,17 +56,19 @@ lens(584, 7, 1); lens(596, 4, 30); lens(660, 5, 18); lens(688, 8, 16);
 // ---------------- 7: the STAFF ONLY corridor ----------------
 const LDOOR: V3 = [18.75, 0, -3.45], LSTART: V3 = [18.55, 0, -0.5];
 SHOT_CAMS[7] = () => [
-  K(1371, F(() => ({ pos: [18.75, 1.4, -0.4] as V3, look: [18.75, 1.3, -4.0] as V3, fov: 44 }), 1371, 0.0016)),                           // the door (shape match)
-  K(1380, F(() => fit([body(LDOOR, 0, 2.4, 0.6), body(LSTART, 0, 2.1, 0.4)], 22, 4, 42, 0.86), 1380, 0.0016, [[1440, 0.005, 10]]), 22),
+  K(1371, F(() => ({ pos: [18.75, 1.3, -0.25] as V3, look: [18.75, 1.3, -3.45] as V3, fov: 44 }), 1371, 0.0016)),                         // the lady at the door, back to us (position match with the hero in the hut doorway)
+  K(1384, F(() => fit([body(LDOOR, 0, 2.4, 0.6)], 24, 4, 42, 0.8), 1384, 0.0018, [[1440, 0.005, 10]]), 22),
   K(1452, (f) => { const k = sm(f, 1452, 1470); return { pos: lerp3([18.95, 1.45, -1.6], [18.85, 1.35, -3.0], k), look: [18.75, 1.3, -4.0] as V3, fov: 40 }; }, 10),
 ];
 SHOT_ACTS[7] = (f, s) => {
-  const w = walkPath(7, s, [LSTART, LDOOR], f, 1382, 1428);
+  const w = { p: LDOOR, moving: false, phase: 0, facing: 1 }; void LSTART; void s;
   return {
     ctl: { lamps: 1, door: sm(f, 1456, 1468) },
     cast: [C("lady18", w.p, w.moving ? pose(null, { mode: "walk", phase: w.phase * 0.7, facing: w.facing, expr: "sly", sweat: 1, tilt: 6, armR: [[16, -2], [2, -34]] as A2, armRTop: true })
-      : f < 1382 ? pose(null, { expr: "sly", facing: 1, look: 0.8 }) : flow(f, [
-        [1428, { expr: "sly", facing: 1, sweat: 1, look: 0.4 }],
+      : flow(f, [
+        [1371, { expr: "sly", back: true }],
+        [1384, { expr: "sly", facing: -1, look: -0.8, armR: [[16, -2], [2, -34]] as A2, armRTop: true }, 3],        // glances back: anyone looking?
+        [1412, { expr: "sly", facing: 1, sweat: 1, look: 0.4 }, 4],
         [1436, { expr: "nervous", facing: 1, sweat: 1, armR: [[30, 20], [50, 18]] as A2, armL: [[-10, 22], [40, 20]] as A2, armRFront: true, armLFront: true }, 6],   // both hands on the knob
         [1455, { expr: "joy", facing: 1, tilt: 14, armR: [[30, 20], [50, 18]] as A2, armL: [[-10, 22], [40, 20]] as A2, armRFront: true, armLFront: true }, 2],      // peeks in, huge grin
       ]), { idx: 70 })],
@@ -85,7 +87,8 @@ SHOT_CAMS[9] = () => [
   K(1548, F(() => { const h = FL9(); return { pos: [h[0] + 2.7 * Math.sin(Math.PI + 0.3), h[1] - 0.3, h[2] + 2.7 * Math.cos(Math.PI + 0.3)] as V3, look: [h[0], h[1] - 0.36, h[2]] as V3, fov: 38 }; }, 1548, 0.0012)),
   K(1562, F(() => fit([body(HB, 0, 2.3, 0.45), body(KB, 0, 2.3, 0.45)], 196, 6, 40, 0.8), 1562, 0.0018, [[1630, 0.005, 10]]), 24),
   K(1650, F(() => fit([body(HB, 0, 2.3, 0.4), body(KB, 0, 2.3, 0.4), ...NOB.map((n) => body(n[2], 0, 2.1, 0.35))], 192, 10, 44, 0.9), 1650, 0.0018, [[1660, 0.006, 10]]), 20),
-  K(1700, F(() => ({ pos: [3.6, 5.2, -1.4] as V3, look: [0.8, 0.9, 5.6] as V3, fov: 46 }), 1700, 0.0016, [[1745, 0.005, 12]]), 34),       // crane up over the banquet + menu
+  K(1700, F(() => ({ pos: [3.6, 5.2, -1.4] as V3, look: [0.8, 0.9, 5.6] as V3, fov: 46 }), 1700, 0.0016), 34),       // crane up over the banquet + menu
+  K(1748, F(() => fit([[[0, 0.8, 5.0], 0, 1.6, 0.95], body(HB, 0, 2.3, 0.4), body(KB, 0, 2.3, 0.4)], 196, 16, 42, 0.92), 1748, 0.0018, [[1770, 0.005, 10]]), 26),   // down to the mountains of potatoes, the king tasting one
 ];
 SHOT_ACTS[9] = (f, s) => {
   const ph12 = (f / 12) % 1, pinned = f >= 1630;
@@ -119,6 +122,7 @@ SHOT_ACTS[9] = (f, s) => {
     ],
     fx: fxs(
       f < 1556 ? flowerCard(FL9(), 0.42) : null,
+      f >= 1712 ? potatoMountain([0, 0.86, 5.0], 2.4 * sm(f, 1712, 1726), f) : null,
       f >= 1630 && f < 1644 ? sparkle("pin", [KB[0] + 0.1, 1.45, KB[2]], f - 1630, 0.3) : null,
       f >= 1740 ? glowBurst("pay" + Math.round(sm(f, 1740, 1760) * 10), [0.4, 2.2, 6.0], 6, 0.35 * sm(f, 1740, 1760)) : null,
       f >= 1700 ? Array.from({ length: 14 }, (_, i) => { const t = ((f - 1700) * 0.012 + i * 0.071) % 1; return { kind: "card", key: "petal" + (i % 3), pos: [-2.6 + (i * 0.43) % 5.2 + 0.3 * Math.sin(f * 0.05 + i), 5.6 - 5.4 * t, 1.2 + (i * 0.77) % 8] as V3, w: 0.16, h: 0.12, rot: f * 0.05 + i, cw: 64, ch: 48,
@@ -129,3 +133,16 @@ SHOT_ACTS[9] = (f, s) => {
   };
 };
 lens(1548, 8, 1); lens(1562, 5, 24); lens(1650, 4, 20); lens(1700, 2, 30);
+
+/** the payoff's mountain of roast potatoes on a silver platter (a painted card like the effects), steaming */
+const potatoMountain = (pos: V3, w: number, f: number): FxSpec => ({ kind: "card", key: "mountain" + Math.floor(f / 3) % 4, pos: [pos[0], pos[1] + w * 0.36, pos[2]], w: Math.max(0.01, w), h: Math.max(0.01, w * 0.78), cw: 512, ch: 400,
+  draw: (p) => { const g = p.g, r = (i: number) => { const x = Math.sin(i * 91.7) * 43758.5; return x - Math.floor(x); };
+    g.fillStyle = INKC; g.beginPath(); g.ellipse(256, 352, 250, 46, 0, 0, 7); g.fill(); g.fillStyle = "#dfe3ea"; g.beginPath(); g.ellipse(256, 348, 238, 38, 0, 0, 7); g.fill();
+    g.fillStyle = "#b8bec8"; g.beginPath(); g.ellipse(256, 352, 200, 22, 0, 0, 7); g.fill();
+    for (let row = 0; row < 7; row++) { const cnt = 10 - row; for (let j = 0; j < cnt; j++) {
+      const x = 256 + (j - (cnt - 1) / 2) * 38 + (r(row * 13 + j) - 0.5) * 8, y = 326 - row * 31 - (r(row * 7 + j) - 0.5) * 6;
+      g.fillStyle = INKC; g.beginPath(); g.ellipse(x, y, 24, 18, r(j + row) * 2, 0, 7); g.fill(); g.fillStyle = r(j * 3 + row) > 0.5 ? "#e0a24a" : "#cf8a38"; g.beginPath(); g.ellipse(x, y, 19, 13, r(j + row) * 2, 0, 7); g.fill();
+      g.fillStyle = "#f6d28c"; g.beginPath(); g.ellipse(x - 6, y - 5, 7, 4, -0.4, 0, 7); g.fill(); } }
+    g.strokeStyle = "rgba(255,255,255,0.8)"; g.lineWidth = 9; g.lineCap = "round";
+    for (let j = 0; j < 3; j++) { const ph = (f / 9 + j) % 3; g.beginPath(); g.moveTo(190 + j * 66, 120 - ph * 8); g.bezierCurveTo(170 + j * 66, 80 - ph * 8, 214 + j * 66, 60 - ph * 8, 194 + j * 66, 20 - ph * 8); g.stroke(); }
+    g.fillStyle = "#2f7a3a"; for (const [x, y] of [[200, 160], [300, 190], [250, 120], [330, 250], [170, 260]]) { g.beginPath(); g.ellipse(x, y, 8, 4, 0.6, 0, 7); g.fill(); } } });

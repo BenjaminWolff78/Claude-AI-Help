@@ -14,15 +14,15 @@ SHOT_CAMS[6] = () => [
   K(1156, (f) => ({ pos: [CANDLE[0] + 0.55, CANDLE[1] + 0.3, CANDLE[2] + 0.75] as V3, look: [CANDLE[0], CANDLE[1] + 0.18, CANDLE[2]] as V3, fov: 40 + 0 * f })),
   K(1166, F(() => ({ pos: [0.9, 1.45, 0.4] as V3, look: [1.0, 1.05, -7.0] as V3, fov: 40 }), 1166, 0.0022, [[1265, 0.006, 10]]), 26),       // through the window
   K(1284, F(() => ({ pos: [2.6, 1.8, 2.25] as V3, look: [-2.2, 1.0, -0.4] as V3, fov: 50 }), 1284, 0.0016), 30),                            // slide back across the bunks
-  K(1352, (f) => { const k = sm(f, 1352, 1375); return { pos: lerp3([-1.2, 1.6, -1.2], [1.0, 1.45, 0.3], k), look: [3.0, 1.15, 0.9] as V3, fov: 42 }; }, 14), // after him to the door
+  K(1344, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.4, 1.5, -0.6], [-0.8, 1.3, 0.9], k), look: [2.4, 1.3, 0.9] as V3, fov: 44 }; }, 14), // he stops in the doorway, back to us
 ];
 SHOT_ACTS[6] = (f, s) => {
   const pat = walkPath(6, s, [PA, PB], f, 1196, 1262);
-  const hw = walkPath(6, s, [HDOOR, [-1.5, 0, 0.0]], f, 1290, 1326), out = walkPath(6, s, [[-1.5, 0, 0.0], HDOOR], f, 1346, 1372);
+  const hw = walkPath(6, s, [HDOOR, [-1.5, 0, 0.0]], f, 1290, 1326), out = walkPath(6, s, [[-1.5, 0, 0.0], [2.4, 0, 0.9]], f, 1342, 1362);
   const tuck = sm(f, 1330, 1338) * (1 - sm(f, 1340, 1346));
   const zz = Math.floor(f / 40) % 4;
   return {
-    ctl: { candle: 1, smoke: 0, moon: 1, door: sm(f, 1288, 1296) * (1 - sm(f, 1300, 1310)) + sm(f, 1362, 1372) },
+    ctl: { candle: 1, smoke: 0, moon: 1, door: sm(f, 1288, 1296) * (1 - sm(f, 1300, 1310)) },
     cast: [
       C("farmer", THA, flow(f, [
         [1156, { mode: "kneel", expr: "bored", facing: 1, look: 0.4 }],
@@ -39,11 +39,12 @@ SHOT_ACTS[6] = (f, s) => {
       ]), { idx: 41 }),
       C("sol5", pat.p, pat.moving ? pose(null, { mode: "walk", phase: pat.phase, facing: pat.facing, expr: "stern", armR: [[24, 26], [20, 40]] as A2, armRFront: true, propR: "musket" }) : pose(null, { expr: "stern", facing: pat.facing, armR: [[24, 26], [20, 40]] as A2, armRFront: true, propR: "musket" }), { idx: 20 }),
       ...BUNKS.map(([who, p], i) => C(who, [p[0], p[1] + 0.27, p[2]], pose(null, { expr: "sleep", mouth: zz === i ? "o" : undefined, armR: [[24, 30], [10, 56]] as A2, armL: [[-24, 30], [-10, 56]] as A2, armRFront: true, armLFront: true }), { idx: 30 + i, roll: -Math.PI / 2, blob: false })),
-      C("parm", f < 1326 ? hw.p : out.p, (hw.moving || out.moving) ? pose(null, { mode: "walk", phase: (f < 1326 ? hw.phase : out.phase) * 0.6, facing: f < 1326 ? hw.facing : out.facing, expr: "sly", tilt: 8, armR: [[16, -2], [2, -34]] as A2, armRTop: true })
+      C("parm", f < 1326 ? hw.p : out.p, (hw.moving || (out.moving && f < 1360)) ? pose(null, { mode: "walk", phase: (f < 1326 ? hw.phase : out.phase) * 0.6, facing: f < 1326 ? hw.facing : out.facing, expr: "sly", tilt: 8, armR: [[16, -2], [2, -34]] as A2, armRTop: true })
         : f < 1290 ? pose(null, { expr: "sly", facing: -1 }) : flow(f, [
           [1326, { expr: "sly", facing: -1, armR: [[16, -2], [2, -34]] as A2, armRTop: true }],
           [1330, { expr: "smile", facing: -1, tilt: 14, armR: [[34, 20], [64, 30 + 10 * tuck]] as A2, armRFront: true }, 4],                 // pulls the blanket up
           [1342, { expr: "smug", facing: 1, armR: [[16, -2], [2, -34]] as A2, armRTop: true }, 3],
+          [1362, { expr: "smug", back: true, armR: [[30, -6], [44, -20]] as A2 }, 3],                                                        // at the door, back to us
         ]), { idx: 1, scale: f < 1288 ? 0.001 : 1 }),
     ],
     fx: fxs(
