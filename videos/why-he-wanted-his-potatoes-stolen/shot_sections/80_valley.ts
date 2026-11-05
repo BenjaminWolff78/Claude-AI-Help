@@ -17,7 +17,7 @@ const flowerCard = (pos: V3, s: number): FxSpec => ({ kind: "card", key: "pflowe
     g.fillStyle = "#f6c430"; g.beginPath(); g.arc(80, 62, 14, 0, 7); g.fill(); g.stroke(); } });
 SHOT_CAMS[8] = () => [
   K(1470, F((f) => { const k = sm(f, 1470, 1528); return { pos: lerp3([-0.5, 10.5, 14.8], [2.6, 4.4, 15.8], k), look: lerp3([-5.0, 0.2, 6.5], [4.4, 0.8, 11.2], k), fov: 48 }; }, 1470, 0.0012)),
-  K(1526, (f) => { const h = FLOWER(), k = sm(f, 1526, 1550); return { pos: lerp3([h[0] + 3.6 * Math.sin(0.4), h[1] - 0.2, h[2] + 3.6 * Math.cos(0.4)], [h[0] + 2.7 * Math.sin(0.4), h[1] - 0.3, h[2] + 2.7 * Math.cos(0.4)], k), look: [h[0], h[1] - 0.36, h[2]], fov: 38 }; }, 18),
+  K(1526, (f) => { const h = FLOWER(), k = sm(f, 1526, 1550); return { pos: lerp3([h[0] + 3.8 * Math.sin(0.4), h[1] - 0.3, h[2] + 3.8 * Math.cos(0.4)], [h[0] + 3.0 * Math.sin(0.4), h[1] - 0.45, h[2] + 3.0 * Math.cos(0.4)], k), look: [h[0], h[1] - 0.8, h[2]], fov: 38 }; }, 18),
 ];
 SHOT_ACTS[8] = (f) => {
   const hoe = 0.5 + 0.5 * Math.sin(((f - 1470) / 13) * Math.PI * 2);
@@ -53,8 +53,8 @@ lens(1470, 1, 1); lens(1526, 8, 14);
 // ---------------- 10: ending ----------------
 const PIGE: V3 = [-9.0, 0, -3.4], FARM10: V3 = [-6.6, 0, -1.4];
 SHOT_CAMS[10] = () => [
-  K(1794, F(() => fit([body(FARM10, 0, 2.1, 0.45), body([-4.4, 0, -0.2], 0, 2.3, 0.45), body(PIGE, 0, 0.9, 0.6)], 34, 6, 40, 0.84), 1794, 0.0018), 1, true),
-  K(1826, F(() => ({ pos: [-8.65, 1.72, -0.55] as V3, look: [-8.65, 0.36, -3.45] as V3, fov: 40 }), 1826, 0.0016), 26),
+  K(1794, F(() => fit([body(FARM10, 0, 2.1, 0.45), body([-4.4, 0, -0.2], 0, 2.3, 0.45)], 34, 6, 40, 0.8), 1794, 0.0018), 1, true),
+  K(1826, FS(() => ({ pos: [-8.65, 1.72, -0.55] as V3, look: [-8.65, 0.36, -3.45] as V3, fov: 40 }), 1826, 0.0016, -0.002, [], 1870), 26),
 ];
 SHOT_ACTS[10] = (f, s) => {
   const hw = walkPath(10, s, [[-1.6, 0, 1.4], [-4.4, 0, -0.2]], f, 1794, 1818);

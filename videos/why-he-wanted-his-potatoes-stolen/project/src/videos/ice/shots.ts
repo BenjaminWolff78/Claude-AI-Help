@@ -87,6 +87,12 @@ const F = (g: (f: number) => { pos: V3; look: V3; fov: number }, f0: number, rat
   const c = g(f), k = creep(f, f0, rate, punches);
   return { pos: lerp3(c.look, c.pos, k), look: c.look, fov: c.fov, roll };
 };
+/** F plus a slow sideways truck (m/frame, + = screen right): camera and aim slide together for parallax on holds */
+const FS = (g: (f: number) => { pos: V3; look: V3; fov: number }, f0: number, rate: number, slide: number, punches: [number, number, number][] = [], c0 = f0) => (f: number): Shot => {
+  const s = F(g, f0, rate, punches)(f), dx = s.look[0] - s.pos[0], dz = s.look[2] - s.pos[2], L = Math.hypot(dx, dz) || 1, o = slide * (f - c0);
+  const r: V3 = [(-dz / L) * o, 0, (dx / L) * o];
+  return { ...s, pos: [s.pos[0] + r[0], s.pos[1], s.pos[2] + r[2]], look: [s.look[0] + r[0], s.look[1], s.look[2] + r[2]] };
+};
 
 export const SHOT_CAMS: Record<number, (s: SetDef) => Key[]> = {};
 export const SHOT_ACTS: Record<number, (f: number, s: SetDef) => Act> = {};
@@ -586,8 +592,8 @@ const HB: V3 = [0.5, 0, 2.5], KB: V3 = [-0.5, 0, 2.5];
 const NOB: [string, V3, V3][] = [["noble1", [-1.75, 0, 2.1], [-1.2, 0, 1.75]], ["noble2", [1.75, 0, 2.1], [1.3, 0, 1.8]], ["noble3", [-2.1, 0, 3.4], [-1.55, 0, 3.15]], ["noble4", [2.1, 0, 3.4], [1.6, 0, 3.2]], ["lady18", [-1.15, 0, 1.25], [-0.65, 0, 1.15]]];
 const FL9 = (): V3 => [HB[0] - 0.28, 2.34, HB[2] - 0.12];
 SHOT_CAMS[9] = () => [
-  K(1548, F(() => { const h = FL9(); return { pos: [h[0] + 2.7 * Math.sin(Math.PI + 0.3), h[1] - 0.3, h[2] + 2.7 * Math.cos(Math.PI + 0.3)] as V3, look: [h[0], h[1] - 0.36, h[2]] as V3, fov: 38 }; }, 1548, 0.0012)),
-  K(1562, F(() => fit([body(HB, 0, 2.3, 0.45), body(KB, 0, 2.3, 0.45)], 196, 6, 40, 0.8), 1562, 0.0018, [[1630, 0.005, 10]]), 24),
+  K(1548, F(() => { const h = FL9(); return { pos: [h[0] + 3.0 * Math.sin(Math.PI + 0.3), h[1] - 0.45, h[2] + 3.0 * Math.cos(Math.PI + 0.3)] as V3, look: [h[0], h[1] - 0.8, h[2]] as V3, fov: 38 }; }, 1548, 0.0012)),
+  K(1562, FS(() => fit([body(HB, 0, 2.3, 0.45), body(KB, 0, 2.3, 0.45)], 196, 6, 40, 0.8), 1562, 0.0018, 0.003, [[1630, 0.005, 10]]), 24),
   K(1650, F(() => fit([body(HB, 0, 2.3, 0.4), body(KB, 0, 2.3, 0.4), ...NOB.map((n) => body(n[2], 0, 2.1, 0.35))], 192, 10, 44, 0.9), 1650, 0.0018, [[1660, 0.006, 10]]), 20),
   K(1700, F(() => ({ pos: [3.6, 5.2, -1.4] as V3, look: [0.8, 0.9, 5.6] as V3, fov: 46 }), 1700, 0.0016), 34),       // crane up over the banquet + menu
   K(1748, F(() => fit([[[0, 0.8, 5.0], 0, 1.6, 0.95], body(HB, 0, 2.3, 0.4), body(KB, 0, 2.3, 0.4)], 196, 16, 42, 0.92), 1748, 0.0018, [[1770, 0.005, 10]]), 26),   // down to the mountains of potatoes, the king tasting one
@@ -675,8 +681,8 @@ const atEase = (o: P = {}): P => ({ armR: [[26, 34], [30, 56]] as A2, propR: "mu
 
 // ---------------- 3: day ----------------
 SHOT_CAMS[3] = () => [
-  K(719, F(() => ({ pos: [-20.6, FYf + 3.3, -23.4] as V3, look: [-27.4, FYf + 0.6, -21.6] as V3, fov: 44 }), 719, 0.0016), 1),
-  K(768, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], 96, 6, 42, 0.8), 768, 0.0016, [[788, 0.005, 10]]), 22),
+  K(719, F(() => ({ pos: [-20.4, FYf + 3.3, -20.5] as V3, look: [-27.4, FYf + 0.6, -22.5] as V3, fov: 44 }), 719, 0.0016), 1),
+  K(768, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], -15, 6, 42, 0.8), 768, 0.0016, [[788, 0.005, 10]]), 22),
 ];
 SHOT_ACTS[3] = (f) => {
   const dig = (f - 719) / 14, dk = 0.5 + 0.5 * Math.sin(dig * TAU), dug = f < 772;
@@ -719,7 +725,7 @@ const crowAt = (f: number): { p: V3; fly: boolean } => {
   return { p: lerp3(B, E, sm(f, 848, 862)), fly: true };
 };
 SHOT_CAMS[4] = () => [
-  K(819, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], 96, 6, 42, 0.8), 819, 0.0016)),
+  K(819, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], -15, 6, 42, 0.8), 819, 0.0016)),
   K(824, F(() => ({ pos: [-21.0, FYf + 3.6, -15.2] as V3, look: [-28.0, FYf + 0.9, -24.0] as V3, fov: 46 }), 824, 0.0014), 30),         // the whole field at night
   K(876, F(() => fit([body(MK.drum, 0, 0.7, 0.5), body(DICE.sergeant, 0, 1.6, 0.4), body(DICE.sol5, 0, 1.6, 0.4), body(DICE.sol4, 0, 1.6, 0.4)], 52, 12, 40, 0.82), 876, 0.0018, [[920, 0.005, 10]]), 30),
   K(958, F(() => fit([body(DICE.sergeant, 0, 2.0, 0.4), body(DICE.sol5, 0, 2.0, 0.4), body(DICE.sol4, 0, 2.0, 0.4), body([-23.5, FYf, -23.0], 0, 2.1, 0.4)], 62, 8, 40, 0.86), 958, 0.0018, [[982, 0.006, 8]]), 18),
@@ -818,7 +824,7 @@ const BUNKS: [string, V3][] = [["sergeant", [-2.56, 0.48, -0.6]], ["sol1", [-2.5
 const CANDLE: V3 = [1.42, 0.76, -1.18], HDOOR: V3 = [2.35, 0, 0.9];
 SHOT_CAMS[6] = () => [
   K(1156, (f) => ({ pos: [CANDLE[0] + 0.55, CANDLE[1] + 0.3, CANDLE[2] + 0.75] as V3, look: [CANDLE[0], CANDLE[1] + 0.18, CANDLE[2]] as V3, fov: 40 + 0 * f })),
-  K(1166, F(() => ({ pos: [0.9, 1.45, 0.4] as V3, look: [1.0, 1.05, -7.0] as V3, fov: 40 }), 1166, 0.0022, [[1265, 0.006, 10]]), 26),       // through the window
+  K(1166, FS(() => ({ pos: [0.9, 1.45, 0.4] as V3, look: [1.0, 1.05, -7.0] as V3, fov: 40 }), 1166, 0.0022, -0.0018, [[1265, 0.006, 10]], 1225), 26),       // through the window
   K(1284, F(() => ({ pos: [2.6, 1.8, 2.25] as V3, look: [-2.2, 1.0, -0.4] as V3, fov: 50 }), 1284, 0.0016), 30),                            // slide back across the bunks
   K(1344, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.4, 1.5, -0.6], [-0.8, 1.3, 0.9], k), look: [2.4, 1.3, 0.9] as V3, fov: 44 }; }, 14), // he stops in the doorway, back to us
 ];
@@ -882,7 +888,7 @@ const flowerCard = (pos: V3, s: number): FxSpec => ({ kind: "card", key: "pflowe
     g.fillStyle = "#f6c430"; g.beginPath(); g.arc(80, 62, 14, 0, 7); g.fill(); g.stroke(); } });
 SHOT_CAMS[8] = () => [
   K(1470, F((f) => { const k = sm(f, 1470, 1528); return { pos: lerp3([-0.5, 10.5, 14.8], [2.6, 4.4, 15.8], k), look: lerp3([-5.0, 0.2, 6.5], [4.4, 0.8, 11.2], k), fov: 48 }; }, 1470, 0.0012)),
-  K(1526, (f) => { const h = FLOWER(), k = sm(f, 1526, 1550); return { pos: lerp3([h[0] + 3.6 * Math.sin(0.4), h[1] - 0.2, h[2] + 3.6 * Math.cos(0.4)], [h[0] + 2.7 * Math.sin(0.4), h[1] - 0.3, h[2] + 2.7 * Math.cos(0.4)], k), look: [h[0], h[1] - 0.36, h[2]], fov: 38 }; }, 18),
+  K(1526, (f) => { const h = FLOWER(), k = sm(f, 1526, 1550); return { pos: lerp3([h[0] + 3.8 * Math.sin(0.4), h[1] - 0.3, h[2] + 3.8 * Math.cos(0.4)], [h[0] + 3.0 * Math.sin(0.4), h[1] - 0.45, h[2] + 3.0 * Math.cos(0.4)], k), look: [h[0], h[1] - 0.8, h[2]], fov: 38 }; }, 18),
 ];
 SHOT_ACTS[8] = (f) => {
   const hoe = 0.5 + 0.5 * Math.sin(((f - 1470) / 13) * Math.PI * 2);
@@ -918,8 +924,8 @@ lens(1470, 1, 1); lens(1526, 8, 14);
 // ---------------- 10: ending ----------------
 const PIGE: V3 = [-9.0, 0, -3.4], FARM10: V3 = [-6.6, 0, -1.4];
 SHOT_CAMS[10] = () => [
-  K(1794, F(() => fit([body(FARM10, 0, 2.1, 0.45), body([-4.4, 0, -0.2], 0, 2.3, 0.45), body(PIGE, 0, 0.9, 0.6)], 34, 6, 40, 0.84), 1794, 0.0018), 1, true),
-  K(1826, F(() => ({ pos: [-8.65, 1.72, -0.55] as V3, look: [-8.65, 0.36, -3.45] as V3, fov: 40 }), 1826, 0.0016), 26),
+  K(1794, F(() => fit([body(FARM10, 0, 2.1, 0.45), body([-4.4, 0, -0.2], 0, 2.3, 0.45)], 34, 6, 40, 0.8), 1794, 0.0018), 1, true),
+  K(1826, FS(() => ({ pos: [-8.65, 1.72, -0.55] as V3, look: [-8.65, 0.36, -3.45] as V3, fov: 40 }), 1826, 0.0016, -0.002, [], 1870), 26),
 ];
 SHOT_ACTS[10] = (f, s) => {
   const hw = walkPath(10, s, [[-1.6, 0, 1.4], [-4.4, 0, -0.2]], f, 1794, 1818);

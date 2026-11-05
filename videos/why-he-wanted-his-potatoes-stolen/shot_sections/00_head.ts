@@ -87,6 +87,12 @@ const F = (g: (f: number) => { pos: V3; look: V3; fov: number }, f0: number, rat
   const c = g(f), k = creep(f, f0, rate, punches);
   return { pos: lerp3(c.look, c.pos, k), look: c.look, fov: c.fov, roll };
 };
+/** F plus a slow sideways truck (m/frame, + = screen right): camera and aim slide together for parallax on holds */
+const FS = (g: (f: number) => { pos: V3; look: V3; fov: number }, f0: number, rate: number, slide: number, punches: [number, number, number][] = [], c0 = f0) => (f: number): Shot => {
+  const s = F(g, f0, rate, punches)(f), dx = s.look[0] - s.pos[0], dz = s.look[2] - s.pos[2], L = Math.hypot(dx, dz) || 1, o = slide * (f - c0);
+  const r: V3 = [(-dz / L) * o, 0, (dx / L) * o];
+  return { ...s, pos: [s.pos[0] + r[0], s.pos[1], s.pos[2] + r[2]], look: [s.look[0] + r[0], s.look[1], s.look[2] + r[2]] };
+};
 
 export const SHOT_CAMS: Record<number, (s: SetDef) => Key[]> = {};
 export const SHOT_ACTS: Record<number, (f: number, s: SetDef) => Act> = {};

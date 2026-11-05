@@ -25,8 +25,8 @@ const atEase = (o: P = {}): P => ({ armR: [[26, 34], [30, 56]] as A2, propR: "mu
 
 // ---------------- 3: day ----------------
 SHOT_CAMS[3] = () => [
-  K(719, F(() => ({ pos: [-20.6, FYf + 3.3, -23.4] as V3, look: [-27.4, FYf + 0.6, -21.6] as V3, fov: 44 }), 719, 0.0016), 1),
-  K(768, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], 96, 6, 42, 0.8), 768, 0.0016, [[788, 0.005, 10]]), 22),
+  K(719, F(() => ({ pos: [-20.4, FYf + 3.3, -20.5] as V3, look: [-27.4, FYf + 0.6, -22.5] as V3, fov: 44 }), 719, 0.0016), 1),
+  K(768, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], -15, 6, 42, 0.8), 768, 0.0016, [[788, 0.005, 10]]), 22),
 ];
 SHOT_ACTS[3] = (f) => {
   const dig = (f - 719) / 14, dk = 0.5 + 0.5 * Math.sin(dig * TAU), dug = f < 772;
@@ -69,7 +69,7 @@ const crowAt = (f: number): { p: V3; fly: boolean } => {
   return { p: lerp3(B, E, sm(f, 848, 862)), fly: true };
 };
 SHOT_CAMS[4] = () => [
-  K(819, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], 96, 6, 42, 0.8), 819, 0.0016)),
+  K(819, F(() => fit([body(MK.hero, 0, 2.3, 0.45), body(MK.serg, 0, 2.3, 0.45)], -15, 6, 42, 0.8), 819, 0.0016)),
   K(824, F(() => ({ pos: [-21.0, FYf + 3.6, -15.2] as V3, look: [-28.0, FYf + 0.9, -24.0] as V3, fov: 46 }), 824, 0.0014), 30),         // the whole field at night
   K(876, F(() => fit([body(MK.drum, 0, 0.7, 0.5), body(DICE.sergeant, 0, 1.6, 0.4), body(DICE.sol5, 0, 1.6, 0.4), body(DICE.sol4, 0, 1.6, 0.4)], 52, 12, 40, 0.82), 876, 0.0018, [[920, 0.005, 10]]), 30),
   K(958, F(() => fit([body(DICE.sergeant, 0, 2.0, 0.4), body(DICE.sol5, 0, 2.0, 0.4), body(DICE.sol4, 0, 2.0, 0.4), body([-23.5, FYf, -23.0], 0, 2.1, 0.4)], 62, 8, 40, 0.86), 958, 0.0018, [[982, 0.006, 8]]), 18),

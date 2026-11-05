@@ -1,0 +1,77 @@
+frames 1914
+HARD CUTS 2 (target <= 4): f1128 S5->S5 (17.22 m), f1794 S9->S10 (8.23 m)
+FAST CAMERA (> 0.4 m/frame) 177 frames: f97, f98, f99, f100, f101, f102, f103, f104, f105, f106, f107, f108, f109, f110, f111, f112, f113, f114, f115, f116, f117, f118, f119, f120, f167, f168, f169, f170, f171, f172
+LONGEST DISSOLVE 8 f (target <= 8): {2: 8, 3: 8, 4: 8, 5: 8, 6: 8, 7: 8, 8: 8, 9: 8}
+CAMERA TRANSLATION 53% of frames (target >= 50%)
+HERO CENTRED + FRONTAL 0% of runtime (target <= 30%)
+OCCLUDER BETWEEN CAMERA AND SUBJECT (incl. camera inside an object): 19 frames in 4 runs
+   f112-112 (3.73-3.73s): S1 mesh@9.66
+   f114-115 (3.80-3.83s): S1 mesh@15.33,mesh@15.07,mesh@14.98; S1 mesh@17.53,mesh@17.50,mesh@17.12
+   f1156-1170 (38.53-39.00s): S6 mesh@0.93; S6 mesh@2.20; S6 mesh@2.23; S6 mesh@2.25; S6 mesh@2.26
+   f1721-1721 (57.37-57.37s): S9 mesh@8.01
+SOMETHING TOUCHING THE LENS (near-plane): 0 frames in 0 runs
+SUBJECT OUT OF FRAME: 286 frames in 16 runs
+   f98-118 (3.27-3.93s): S1 head ndc (-0.02,1.14); S1 head ndc (-0.03,0.64); S1 head ndc (-0.03,1.64); S1 head ndc (-0.03,2.24); S1 head ndc (-0.05,2.92); S1 head ndc (-0.07,-0.24); S1 head ndc (-0.07,3.77); S1 head ndc (-0.1
+   f160-177 (5.33-5.90s): S1 head ndc (0.91,0.19); S1 head ndc (0.99,0.2); S1 head ndc (1.09,0.22); S1 head ndc (1.21,0.23); S1 head ndc (1.35,0.25); S1 head ndc (1.51,0.27); S1 head ndc (1.69,0.3); S1 head ndc (1.88,0.35); S1
+   f214-226 (7.13-7.53s): S1 head ndc (1.11,0.24); S1 head ndc (1.37,0.24); S1 head ndc (1.62,0.24); S1 head ndc (1.84,0.24); S1 head ndc (2.04,0.25); S1 head ndc (2.21,0.25); S1 head ndc (2.35,0.25); S1 head ndc (2.46,0.25); 
+   f252-265 (8.40-8.83s): S1 head ndc (-0.91,0.14); S1 head ndc (-1.05,0.15); S1 head ndc (-1.2,0.15); S1 head ndc (-1.37,0.16); S1 head ndc (-1.55,0.17); S1 head ndc (-1.74,0.18); S1 head ndc (-1.92,0.19); S1 head ndc (-2.1,0
+   f538-545 (17.93-18.17s): S1 head ndc (-0.93,0.19); S1 head ndc (-0.97,0.19); S1 head ndc (-1.01,0.19); S1 head ndc (-1.03,0.18); S1 head ndc (-1.05,0.18); S1 head ndc (-1.06,0.18)
+   f584-609 (19.47-20.30s): S2 head ndc (-0.68,-0.66); S2 head ndc (-1.07,-1.01); S2 head ndc (-2.02,-1.84); S2 head ndc (-7.35,-6.44); S2 head ndc (0.94,0.55); S2 head ndc (0.95,0.55); S2 head ndc (0.95,0.56); S2 head ndc (0.96
+   f777-778 (25.90-25.93s): S3 head ndc (1,0.14); S3 head ndc (1,0.21)
+   f819-835 (27.30-27.83s): S4 head ndc (-0.93,0.28); S4 head ndc (-1.14,0.27); S4 head ndc (-1.35,0.27); S4 head ndc (-1.57,0.31); S4 head ndc (-1.79,0.37); S4 head ndc (-2,0.44); S4 head ndc (-2.19,0.53); S4 head ndc (-2.36,0.
+   f851-897 (28.37-29.90s): S4 head ndc (0.92,0.2); S4 head ndc (0.93,0.35); S4 head ndc (1.01,0.19); S4 head ndc (1.04,0.18); S4 head ndc (1.05,0.18); S4 head ndc (1.06,0.18); S4 head ndc (1.08,0.17); S4 head ndc (1.08,0.43); S
+   f1080-1094 (36.00-36.47s): S5 head ndc (-0.23,-0.07); S5 head ndc (-0.64,0.05); S5 head ndc (-1.18,0.21); S5 head ndc (-1.97,0.42); S5 head ndc (-3.49,0.78); S5 head ndc (-9.33,1.61); S5 head ndc (0.07,-0.15); S5 head ndc (0.25
+   f1166-1171 (38.87-39.03s): S6 head ndc (0.95,0.55); S6 head ndc (1.31,0.58); S6 head ndc (1.62,0.6); S6 head ndc (1.83,0.62); S6 head ndc (1.92,0.63); S6 head ndc (1.93,0.63)
+   f1284-1302 (42.80-43.40s): S6 head ndc (-0.61,0.16); S6 head ndc (-1.12,0.12); S6 head ndc (-1.45,-0.03); S6 head ndc (-1.55,0.08); S6 head ndc (-1.93,0.05); S6 head ndc (-2.26,0.02); S6 head ndc (-2.55,-0.01); S6 head ndc (-2.
+   f1351-1352 (45.03-45.07s): S6 head ndc (-0.11,1.11); S6 head ndc (-0.11,1.32)
+   f1466-1525 (48.87-50.83s): S7 head ndc (-0.41,0.97); S7 head ndc (-0.47,1.1); S7 head ndc (-0.53,1.23); S7 head ndc (-0.58,1.33); S7 head ndc (-0.6,1.37); S8 head ndc (-10.75,-0.44); S8 head ndc (-11.69,-0.56); S8 head ndc (-12
+   f1562-1571 (52.07-52.37s): S9 head ndc (0.91,0.08); S9 head ndc (0.99,0.07); S9 head ndc (1.07,0.05); S9 head ndc (1.14,0.04); S9 head ndc (1.2,0.02); S9 head ndc (1.24,0.01); S9 head ndc (1.28,0); S9 head ndc (1.29,0); S9 head
+   f1839-1846 (61.30-61.53s): S10 head ndc (-0.93,0.38); S10 head ndc (-0.96,0.7); S10 head ndc (-0.98,0.43); S10 head ndc (-1.02,0.48); S10 head ndc (-1.02,0.67); S10 head ndc (-1.05,0.53); S10 head ndc (-1.06,0.62); S10 head ndc
+FACE CUT BY THE FRAME EDGE: 932 frames in 54 runs
+   f0-4 (0.00-0.13s): S1 sol3
+   f79-98 (2.63-3.27s): S1 parm; S1 sol1; S1 sol1,sol2; S1 sol2
+   f118-118 (3.93-3.93s): S1 pig
+   f168-170 (5.60-5.67s): S1 vil1
+   f173-178 (5.77-5.93s): S1 vil1
+   f180-218 (6.00-7.27s): S1 farmer
+   f221-222 (7.37-7.40s): S1 parm; S1 pig
+   f224-227 (7.47-7.57s): S1 vil1; S1 vil2,farmer; S1 vil2,vil4; S1 vil4
+   f229-231 (7.63-7.70s): S1 farmer2; S1 farmer2,vil4; S1 vil4,parm
+   f242-260 (8.07-8.67s): S1 farmer2
+   f263-265 (8.77-8.83s): S1 vil4; S1 vil4,parm
+   f269-360 (8.97-12.00s): S1 farmer; S1 vil2; S1 vil2,farmer; S1 vil4,farmer
+   f365-440 (12.17-14.67s): S1 vil1
+   f447-447 (14.90-14.90s): S1 pig
+   f504-507 (16.80-16.90s): S1 pig; S1 pig,vil2,vil4; S1 vil4
+   f511-511 (17.03-17.03s): S1 farmer2
+   f514-545 (17.13-18.17s): S1 farmer; S1 farmer2,farmer; S1 farmer3,vil5,farmer; S1 vil5,farmer
+   f547-577 (18.23-19.23s): S1 vil1,vil4; S1 vil2; S1 vil4; S1 vil4,farmer
+   f584-602 (19.47-20.07s): S2 king
+   f609-609 (20.30-20.30s): S2 parm
+   f613-617 (20.43-20.57s): S2 pguard1,pguard2; S2 pguard2
+   f693-698 (23.10-23.27s): S2 parm,pguard1; S2 pguard1; S2 pguard1,pguard2
+   f715-779 (23.83-25.97s): S3 parm; S3 parm,sol4; S3 sergeant; S3 sol4
+   f783-784 (26.10-26.13s): S3 sergeant; S3 sergeant,sol5
+   f831-868 (27.70-28.93s): S4 parm; S4 parm,sergeant; S4 parm,sergeant,sol5; S4 parm,sol1; S4 parm,sol4; S4 sol5
+   f885-889 (29.50-29.63s): S4 parm,sergeant; S4 parm,sol1,sergeant; S4 sergeant; S4 sol1
+   f895-898 (29.83-29.93s): S4 sol5
+   f968-969 (32.27-32.30s): S4 sol1
+   f979-981 (32.63-32.70s): S4 parm
+   f1060-1070 (35.33-35.67s): S5 sol2; S5 sol2,sol3,sol5; S5 sol2,sol3,sol5,sol6; S5 sol2,sol3,sol6; S5 sol4
+   f1076-1083 (35.87-36.10s): S5 sol1
+   f1086-1087 (36.20-36.23s): S5 sergeant,sol2; S5 sol1
+   f1092-1113 (36.40-37.10s): S5 sergeant; S5 sergeant,parm; S5 sergeant,sol5; S5 sergeant,sol6; S5 sol2; S5 sol3
+   f1155-1163 (38.50-38.77s): S5 parm
+   f1171-1171 (39.03-39.03s): S6 farmer
+   f1173-1174 (39.10-39.13s): S6 vil1; S6 vil1,sol5
+   f1217-1220 (40.57-40.67s): S6 sol5
+   f1238-1240 (41.27-41.33s): S6 sol5
+   f1273-1293 (42.43-43.10s): S6 vil1
+   f1297-1297 (43.23-43.23s): S6 farmer
+OVERLAPPING BODIES: 87 frames in 6 runs
+   f992-994 (33.07-33.13s): S4 parm+sergeant
+   f997-999 (33.23-33.30s): S4 parm+sol4
+   f1038-1067 (34.60-35.57s): S5 sergeant+sol1,sol2+sol3,sol2+sol5,sol2+sol6,sol3+sol5,sol5+sol6; S5 sergeant+sol1,sol2+sol3,sol3+sol5; S5 sergeant+sol1,sol2+sol3,sol3+sol5,sol5+sol6; S5 sergeant+sol1,sol3+sol5; S5 sergeant+sol2; 
+   f1305-1350 (43.50-45.00s): S6 sergeant+sol1; S6 sergeant+sol1,sergeant+parm,sol2+sol3; S6 sergeant+sol1,sol2+sol3
+   f1761-1761 (58.70-58.70s): S9 noble2+noble4
+   f1764-1767 (58.80-58.90s): S9 kingFlower+lady18
