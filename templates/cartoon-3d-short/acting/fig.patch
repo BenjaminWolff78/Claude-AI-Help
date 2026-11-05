@@ -1,0 +1,42 @@
+--- /home/claude/potato/fig.ts.bak	2026-11-05 10:29:18.925004822 -0500
++++ fig.ts	2026-11-05 10:29:32.871377332 -0500
+@@ -94,7 +94,7 @@
+ };
+ /** features slide up by this much (u) for expressions that tip the head back */
+ const FACE_UP: Record<string, number> = { guffaw: 9, proud: 3 };
+-const faceOf = (e: Face) => (FACE as Record<string, typeof XFACE[string]>)[e] ?? XFACE[e] ?? FACE.neutral;
++export const faceOf = (e: Face) => (FACE as Record<string, typeof XFACE[string]>)[e] ?? XFACE[e] ?? FACE.neutral;
+ 
+ export type Arm = [P2, P2]; // elbow, hand: offsets in u from the shoulder (+x = screen right, +y = down)
+ export type FigOpts = {
+@@ -114,6 +114,8 @@
+   /** 0..1 monocle pops off the eye (0-0.35 flies up), drops and dangles on its cord (0.35-1, damped swing) */ monoclePop?: number;
+   armL?: Arm; armR?: Arm; armLFront?: boolean; armRFront?: boolean;
+   propL?: string; propR?: string; propLAng?: number; propRAng?: number; propK?: number;
++  /** smooth-acting overrides: brow [inner, outer] in u (eases between faces), extra eyelid 0..1 for a swap blink, an in-between mouth */
++  brow?: [number, number]; swapLid?: number; mouthX?: string;
+   mouth?: MouthK; sweat?: number; wet?: number; hatLift?: number; hatTilt?: number; squash?: number; light?: number;
+   noHat?: boolean;
+   /** draw this arm and its prop over the head (camera at the eye, paper up to the nose) */ armLTop?: boolean; armRTop?: boolean;
+@@ -817,8 +819,8 @@
+   if (BK) { // back of the head: hair (or a darker nape) over the lower part of the egg, a centre seam on the coat
+     const nape = hp.filter(([, y]) => y > hc - 0.1 * H.b);
+     if (nape.length > 3) { nape.sort((a, b) => Math.atan2(a[1] - hc, a[0] - 300) - Math.atan2(b[1] - hc, b[0] - 300)); p.shadedFill(nape, o.hair ?? "#e6ddd2", mul(o.hair ?? "#e6ddd2", SH_FELT), light, H.a, 0.35); p.poly(nape, null, ow * 0.6); }
+-  } else face(p, 300, hc, W, expr, facing, look, blink, brim, o, opts.mouth, sweat, headCol,
+-    (FACE_UP[expr] ?? 0) + 9 * clamp(opts.headBack ?? 0, 0, 1), opts.monoclePop ?? 0, phase);
++  } else face(p, 300, hc, W, expr, facing, look, Math.max(blink, opts.swapLid ?? 0), brim, o, (opts.mouth ?? opts.mouthX) as MouthK | undefined, sweat, headCol,
++    (FACE_UP[expr] ?? 0) + 9 * clamp(opts.headBack ?? 0, 0, 1), opts.monoclePop ?? 0, phase, opts.brow);
+   if (!opts.noHat) hat(p, o, H, hc, light, seed, fs, u, ow, thick, hatLift, hatTilt);
+   if (o.monocle && !BK && (opts.monoclePop ?? 0) > 0) monoclePop(p, 300, hc, W, expr, facing, (FACE_UP[expr] ?? 0) + 9 * clamp(opts.headBack ?? 0, 0, 1), opts.monoclePop!);
+   if (o.goggles && !BK && !opts.noHat && o.hat && CAPS.has(o.hat)) { // driving goggles pushed up on the cap
+@@ -888,8 +890,8 @@
+ };
+ 
+ const face = (p: Pen, cx: number, cy0: number, W: number, expr: Face, facing: number, look: number, blink: number, brim: boolean, o: Look, mo: MouthK | undefined, sweat: number, skin = HEAD,
+-  up = 0, mpop = 0, phase = 0) => {
+-  const u = W / 100, F = faceOf(expr), fx = cx + 7 * u * facing, cy = cy0 - up * u;
++  up = 0, mpop = 0, phase = 0, browOv?: [number, number]) => {
++  const u = W / 100, F0 = faceOf(expr), F = browOv ? { ...F0, brow: browOv } : F0, fx = cx + 7 * u * facing, cy = cy0 - up * u;
+   const ex = (F.eye[0] === "shock" || F.eye[0] === "huge" ? 12 : 13) * u, ey = cy;
+   const capped = !!o.hat && CAPS.has(o.hat);
+   for (const side of [-1, 1]) {

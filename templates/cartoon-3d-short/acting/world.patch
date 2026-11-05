@@ -1,0 +1,22 @@
+--- /home/claude/potato/world.ts.bak	2026-11-05 10:29:18.928064634 -0500
++++ world.ts	2026-11-05 10:31:43.823521016 -0500
+@@ -206,7 +206,10 @@
+       if ((Math.abs(p0.x) < 1 + r && Math.abs(p0.x) > 1 - r && Math.abs(p0.y) < 1) || (p0.y > 1 - ry && p0.y < 1 + ry && Math.abs(p0.x) < 1)) cut.push(x.who); }
+     const hero = act.cast.find((x) => x.who === "boss");
+     const frontal = !!hero && !(hero.o?.facing) && !hero.o?.back && Math.abs(ndc(V(hero.pos[0] + off.x, hero.pos[1] + 1.5 + off.y, hero.pos[2] + off.z)).x) < 0.22;
+-    console.log("QA|" + JSON.stringify({ f, id, cam: c.pos.map((v) => +v.toFixed(3)), look: c.look.map((v) => +v.toFixed(3)), occ, near, inFrame: inFrame ? 1 : 0, hx: +hp.x.toFixed(2), hy: +hp.y.toFixed(2), over, cut, frontal: frontal ? 1 : 0 }));
++    console.log("QA|" + JSON.stringify({ f, id, cam: c.pos.map((v) => +v.toFixed(3)), look: c.look.map((v) => +v.toFixed(3)), occ, near, inFrame: inFrame ? 1 : 0, hx: +hp.x.toFixed(2), hy: +hp.y.toFixed(2), over, cut, frontal: frontal ? 1 : 0,
++      faces: act.cast.map((p) => { const o = p.o ?? {}, lk = CAST[p.who] ?? CAST.lustig;
++        const lid = o.blink ?? Math.max(lidAt(f, lk.seed + (p.idx ?? 0) * 7), o.swapLid ?? 0);
++        return [p.who + "#" + (p.idx ?? 0), o.expr ?? "neutral", o.mouth ?? o.mouthX ?? "", o.brow ?? null, +lid.toFixed(2), o.back ? 1 : 0]; }) }));
+   }
+ 
+   private actor(i: number) { while (this.actors.length <= i) this.actors.push(new Actor(this.root)); return this.actors[i]; }
+@@ -227,6 +230,7 @@
+       const dcam = cam.position.distanceTo(this.v.set(x, y + 1.2 * sc, z)) / sc;
+       const [w, h, k] = tier(dcam);
+       const o: FigOpts = { light: lightAng(!!p.mirror), blink: lidAt(f, look.seed + (p.idx ?? 0) * 7), ...p.o };
++      if (p.o && p.o.blink === undefined && p.o.swapLid) { o.blink = Math.max(o.blink ?? 0, p.o.swapLid); delete o.swapLid; }
+       const key = `F|${p.who}|${fkey(o)}`;
+       a.r = this.pool.req(key, w, h, k, (pen: Pen) => figure(pen, look, o));
+       a.mesh.visible = true; a.mesh.position.set(x, y, z);
