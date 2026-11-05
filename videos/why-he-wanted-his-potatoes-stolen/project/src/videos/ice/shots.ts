@@ -373,7 +373,15 @@ SHOT_CAMS[1] = (s) => [
     return { pos: lerp3(chase, STY_CAM, k), look: lerp3([P[0] + d[0] * 2, P[1] - 0.2, P[2] + d[1] * 2], [TRO[0] - 0.7, 0.45, TRO[2]], sm(u, 0.82, 1)), fov: lerp(46, 40, k) }; }, 7),
   K(122, F(() => ({ pos: STY_CAM, look: [TRO[0] - 0.7, 0.45, TRO[2]] as V3, fov: 40 }), 122, 0.002)),
   // "everybody was sure ... pig food": slide right to the woman pinching her nose at the PIG FEED crate
-  K(160, F(() => fit([body(V1, 0, 2.05, 0.4), [[-5.6, 0, -1.0], 0, 1.0, 0.5], body(PIG, 0, 0.9, 0.5)], 28, 8, 40, 0.86), 160, 0.0018, [[182, 0.005, 10]]), 26),
+  // (custom blend: the glide arcs up and to screen-right around the woman instead of passing through her head)
+  K(160, (f) => {
+    const A = F(() => ({ pos: STY_CAM, look: [TRO[0] - 0.7, 0.45, TRO[2]] as V3, fov: 40 }), 122, 0.002)(f);
+    const B = F(() => fit([body(V1, 0, 2.05, 0.4), [[-5.6, 0, -1.0], 0, 1.0, 0.5], body(PIG, 0, 0.9, 0.5)], 28, 8, 40, 0.86), 160, 0.0018, [[182, 0.005, 10]])(f);
+    if (f >= 186) return B;
+    const t = clamp01((f - 160) / 26), k = sm(f, 160, 186), b = Math.sin(Math.PI * t);
+    const p = lerp3(A.pos, B.pos, k);
+    return { pos: [p[0] + 1.1 * b, p[1] + 1.25 * b, p[2]] as V3, look: lerp3(A.look, B.look, k), fov: lerp(A.fov, B.fov, k) };
+  }, 1),
   // "leprosy": on to the potato stall: the man drops the potato, his neighbour jumps back
   K(214, F(() => fit([body(V2, 0, 2.05, 0.4), body(F2, 0, 2.05, 0.4)], 10, 6, 40, 0.8), 214, 0.002, [[236, 0.006, 10]]), 22),
   // "But this guy": the hero between them, coat thrown open on the prison shirt, crunching a raw potato
@@ -826,7 +834,7 @@ SHOT_CAMS[6] = () => [
   K(1156, (f) => ({ pos: [CANDLE[0] + 0.55, CANDLE[1] + 0.3, CANDLE[2] + 0.75] as V3, look: [CANDLE[0], CANDLE[1] + 0.18, CANDLE[2]] as V3, fov: 40 + 0 * f })),
   K(1166, FS(() => ({ pos: [0.9, 1.45, 0.4] as V3, look: [1.0, 1.05, -7.0] as V3, fov: 40 }), 1166, 0.0022, -0.0018, [[1265, 0.006, 10]], 1225), 26),       // through the window
   K(1284, F(() => ({ pos: [2.6, 1.8, 2.25] as V3, look: [-2.2, 1.0, -0.4] as V3, fov: 50 }), 1284, 0.0016), 30),                            // slide back across the bunks
-  K(1344, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.4, 1.5, -0.6], [-0.8, 1.3, 0.9], k), look: [2.4, 1.3, 0.9] as V3, fov: 44 }; }, 14), // he stops in the doorway, back to us
+  K(1352, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.95, 2.1, -1.15], [-1.0, 1.65, 0.35], k), look: lerp3([1.4, 1.0, 1.2], [2.4, 1.25, 0.9], k), fov: 44 }; }, 1, true), // hard cut as he turns for the door: high behind him, clear of his path
 ];
 SHOT_ACTS[6] = (f, s) => {
   const pat = walkPath(6, s, [PA, PB], f, 1196, 1262);

@@ -14,7 +14,7 @@ SHOT_CAMS[6] = () => [
   K(1156, (f) => ({ pos: [CANDLE[0] + 0.55, CANDLE[1] + 0.3, CANDLE[2] + 0.75] as V3, look: [CANDLE[0], CANDLE[1] + 0.18, CANDLE[2]] as V3, fov: 40 + 0 * f })),
   K(1166, FS(() => ({ pos: [0.9, 1.45, 0.4] as V3, look: [1.0, 1.05, -7.0] as V3, fov: 40 }), 1166, 0.0022, -0.0018, [[1265, 0.006, 10]], 1225), 26),       // through the window
   K(1284, F(() => ({ pos: [2.6, 1.8, 2.25] as V3, look: [-2.2, 1.0, -0.4] as V3, fov: 50 }), 1284, 0.0016), 30),                            // slide back across the bunks
-  K(1344, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.4, 1.5, -0.6], [-0.8, 1.3, 0.9], k), look: [2.4, 1.3, 0.9] as V3, fov: 44 }; }, 14), // he stops in the doorway, back to us
+  K(1352, (f) => { const k = sm(f, 1344, 1372); return { pos: lerp3([-1.95, 2.1, -1.15], [-1.0, 1.65, 0.35], k), look: lerp3([1.4, 1.0, 1.2], [2.4, 1.25, 0.9], k), fov: 44 }; }, 1, true), // hard cut as he turns for the door: high behind him, clear of his path
 ];
 SHOT_ACTS[6] = (f, s) => {
   const pat = walkPath(6, s, [PA, PB], f, 1196, 1262);

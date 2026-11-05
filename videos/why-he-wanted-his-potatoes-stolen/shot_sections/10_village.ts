@@ -40,7 +40,15 @@ SHOT_CAMS[1] = (s) => [
     return { pos: lerp3(chase, STY_CAM, k), look: lerp3([P[0] + d[0] * 2, P[1] - 0.2, P[2] + d[1] * 2], [TRO[0] - 0.7, 0.45, TRO[2]], sm(u, 0.82, 1)), fov: lerp(46, 40, k) }; }, 7),
   K(122, F(() => ({ pos: STY_CAM, look: [TRO[0] - 0.7, 0.45, TRO[2]] as V3, fov: 40 }), 122, 0.002)),
   // "everybody was sure ... pig food": slide right to the woman pinching her nose at the PIG FEED crate
-  K(160, F(() => fit([body(V1, 0, 2.05, 0.4), [[-5.6, 0, -1.0], 0, 1.0, 0.5], body(PIG, 0, 0.9, 0.5)], 28, 8, 40, 0.86), 160, 0.0018, [[182, 0.005, 10]]), 26),
+  // (custom blend: the glide arcs up and to screen-right around the woman instead of passing through her head)
+  K(160, (f) => {
+    const A = F(() => ({ pos: STY_CAM, look: [TRO[0] - 0.7, 0.45, TRO[2]] as V3, fov: 40 }), 122, 0.002)(f);
+    const B = F(() => fit([body(V1, 0, 2.05, 0.4), [[-5.6, 0, -1.0], 0, 1.0, 0.5], body(PIG, 0, 0.9, 0.5)], 28, 8, 40, 0.86), 160, 0.0018, [[182, 0.005, 10]])(f);
+    if (f >= 186) return B;
+    const t = clamp01((f - 160) / 26), k = sm(f, 160, 186), b = Math.sin(Math.PI * t);
+    const p = lerp3(A.pos, B.pos, k);
+    return { pos: [p[0] + 1.1 * b, p[1] + 1.25 * b, p[2]] as V3, look: lerp3(A.look, B.look, k), fov: lerp(A.fov, B.fov, k) };
+  }, 1),
   // "leprosy": on to the potato stall: the man drops the potato, his neighbour jumps back
   K(214, F(() => fit([body(V2, 0, 2.05, 0.4), body(F2, 0, 2.05, 0.4)], 10, 6, 40, 0.8), 214, 0.002, [[236, 0.006, 10]]), 22),
   // "But this guy": the hero between them, coat thrown open on the prison shirt, crunching a raw potato
