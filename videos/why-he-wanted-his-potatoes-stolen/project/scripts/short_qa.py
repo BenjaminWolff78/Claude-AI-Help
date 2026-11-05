@@ -42,7 +42,8 @@ mx, mn = f32.max(-1), f32.min(-1)
 sat = np.where(mx > 0.06, (mx - mn) / np.maximum(mx, 1e-6), 0)
 L = luma.reshape(n, -1)
 stats = {"mean": L.mean(1), "std": L.std(1), "p2": np.percentile(L, 2, 1), "p98": np.percentile(L, 98, 1), "sat": sat.reshape(n, -1).mean(1)}
-diff = np.abs(np.diff(F.astype(np.int16), axis=0)).mean(axis=(1, 2, 3))
+del f32, luma, mx, mn, sat, L
+diff = np.concatenate([np.abs(np.diff(F[i:i + 201].astype(np.int16), axis=0)).mean(axis=(1, 2, 3)) for i in range(0, n - 1, 200)])
 med = np.array([np.median(diff[max(0, i - 8):i + 9]) for i in range(len(diff))])
 pops = [i + 1 for i in range(len(diff)) if diff[i] > 3 * med[i] + 1.0 and (i + 1) not in planned]
 black = [i for i in range(n) if stats["mean"][i] < 0.04]
