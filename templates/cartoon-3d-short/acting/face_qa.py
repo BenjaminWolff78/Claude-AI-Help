@@ -12,7 +12,8 @@ rows.sort(key=lambda r: r["f"])
 prev, flips, bare, brow, swaps = {}, [], [], [], 0
 for r in rows:
     f = r["f"]
-    for who, expr, mouth, br, lid, back in r.get("faces", []):
+    for who0, expr, mouth, br, lid, back in r.get("faces", []):
+        who = (r.get("id"), who0)
         p = prev.get(who)
         if p and p[0] == f - 1 and not back and not p[5] and not r.get("cut"):
             _, e0, m0, b0, l0, _ = p

@@ -1,0 +1,4 @@
+FACE QA frames 1930; expression changes 46
+MOOD FLIP (fail) 0: []
+BARE SWAP 1: [(955, (5, 'picasso#1'), 'stare', 'calm')]
+BROW JUMP 0: []

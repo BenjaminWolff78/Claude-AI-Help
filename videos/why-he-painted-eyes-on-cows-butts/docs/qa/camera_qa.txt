@@ -1,0 +1,74 @@
+frames 1857
+HARD CUTS 2 (target <= 4): f1216 S6->S6 (2.92 m), f1590 S8->S9 (32.75 m)
+FAST CAMERA (> 0.4 m/frame) 105 frames: f324, f325, f326, f327, f328, f329, f330, f331, f332, f333, f334, f462, f463, f464, f465, f466, f467, f468, f469, f672, f673, f674, f675, f676, f677, f678, f679, f680, f681, f682
+LONGEST DISSOLVE 8 f (target <= 8): {2: 8, 3: 8, 4: 8, 5: 8, 6: 8, 7: 8, 8: 8, 10: 8}
+CAMERA TRANSLATION 80% of frames (target >= 50%)
+HERO CENTRED + FRONTAL 0% of runtime (target <= 30%)
+OCCLUDER BETWEEN CAMERA AND SUBJECT (incl. camera inside an object): 35 frames in 9 runs
+   f109-112 (3.63-3.73s): S1 mesh@3.75; S1 mesh@3.83; S1 mesh@4.54,mesh@3.89; S1 mesh@6.26,mesh@3.66
+   f384-384 (12.80-12.80s): S3 mesh@0.44
+   f388-391 (12.93-13.03s): S3 mesh@0.32; S3 mesh@0.38; S3 mesh@0.42; S3 mesh@0.46
+   f408-412 (13.60-13.73s): S3 mesh@0.42; S3 mesh@0.43; S3 mesh@0.85,mesh@0.40; S3 mesh@0.86
+   f419-419 (13.97-13.97s): S3 mesh@0.88
+   f770-777 (25.67-25.90s): S4 mesh@3.22; S4 mesh@3.35; S4 mesh@3.49; S4 mesh@3.66; S4 mesh@3.87; S4 mesh@4.12; S4 mesh@4.38; S4 mesh@4.56
+   f935-937 (31.17-31.23s): S5 mesh@1.87; S5 mesh@2.00; S5 mesh@2.13
+   f1095-1095 (36.50-36.50s): S6 mesh@3.93
+   f1201-1208 (40.03-40.27s): S6 mesh@3.22,mesh@2.77; S6 mesh@3.31,mesh@3.29,mesh@3.10; S6 mesh@3.33,mesh@2.88; S6 mesh@3.36; S6 mesh@3.53,mesh@3.13; S6 mesh@3.69; S6 mesh@3.72,mesh@3.38,mesh@3.23; S6 mesh@3.79
+SOMETHING TOUCHING THE LENS (near-plane): 0 frames in 0 runs
+SUBJECT OUT OF FRAME: 293 frames in 11 runs
+   f100-169 (3.33-5.63s): S1 head ndc (-0.92,0.34); S1 head ndc (-0.99,0.34); S1 head ndc (-1.07,0.34); S1 head ndc (-1.15,0.34); S1 head ndc (-1.23,0.34); S1 head ndc (-1.31,0.35); S1 head ndc (-1.4,0.35); S1 head ndc (-1.48,
+   f186-198 (6.20-6.60s): S1 head ndc (-0.92,0.38); S1 head ndc (-0.99,0.37); S1 head ndc (-1.09,0.36); S1 head ndc (-1.21,0.35); S1 head ndc (-1.35,0.33); S1 head ndc (-1.49,0.31); S1 head ndc (-1.64,0.28); S1 head ndc (-1.77
+   f333-378 (11.10-12.60s): S2 head ndc (-0.1,1.25); S2 head ndc (-0.1,1.51); S2 head ndc (-0.11,1.01); S2 head ndc (-0.12,1.77); S2 head ndc (-0.14,2.07); S2 head ndc (-0.17,2.41); S2 head ndc (-0.19,2.77); S2 head ndc (-0.22,3
+   f452-471 (15.07-15.70s): S3 head ndc (-0.96,0.37); S3 head ndc (-1.27,0.39); S3 head ndc (-1.67,0.4); S3 head ndc (-11.91,0.93); S3 head ndc (-16.13,1.15); S3 head ndc (-163.78,8.99); S3 head ndc (-2.15,0.43); S3 head ndc (-2
+   f595-613 (19.83-20.43s): S3 head ndc (-0.92,0.43); S3 head ndc (-1.07,0.42); S3 head ndc (-1.21,0.42); S3 head ndc (-1.33,0.41); S3 head ndc (-1.41,0.41); S3 head ndc (-1.47,0.41); S3 head ndc (-1.5,0.41); S3 head ndc (-1.51,
+   f660-678 (22.00-22.60s): S3 head ndc (-142.76,-3); S3 head ndc (-41.56,-0.83); S3 head ndc (-41.57,-0.82); S3 head ndc (-43.35,-0.89); S3 head ndc (-43.85,-0.86); S3 head ndc (-47.06,-1); S3 head ndc (-50.13,-0.99); S3 head n
+   f812-832 (27.07-27.73s): S5 head ndc (-1.13,0.45); S5 head ndc (-1.42,0.46); S5 head ndc (-1.76,0.48); S5 head ndc (-10.15,0.84); S5 head ndc (-10.73,0.86); S5 head ndc (-11.14,0.88); S5 head ndc (-11.37,0.89); S5 head ndc (-
+   f908-930 (30.27-31.00s): S5 head ndc (0.96,0.25); S5 head ndc (1.3,0.23); S5 head ndc (1.68,0.22); S5 head ndc (10.63,0.06); S5 head ndc (11.69,0.05); S5 head ndc (12.75,0.04); S5 head ndc (13.78,0.03); S5 head ndc (14.1,0.03
+   f1092-1125 (36.40-37.50s): S6 head ndc (-1.33,0.08); S6 head ndc (-1.34,0.08); S6 head ndc (-1.35,0.08); S6 head ndc (-1.36,0.08); S6 head ndc (-1.37,0.08); S6 head ndc (-1.38,0.08); S6 head ndc (-1.45,0.08); S6 head ndc (-1.62
+   f1686-1700 (56.20-56.67s): S9 head ndc (-0.02,-1.15); S9 head ndc (-0.45,-1.39); S9 head ndc (-0.88,-1.61); S9 head ndc (-1.28,-1.8); S9 head ndc (-1.63,-1.97); S9 head ndc (-1.94,-2.1); S9 head ndc (-2.18,-2.2); S9 head ndc (-
+   f1796-1808 (59.87-60.27s): S10 head ndc (0.91,0.11); S10 head ndc (0.94,0.11); S10 head ndc (0.96,0.11); S10 head ndc (0.98,0.11); S10 head ndc (1,0.1); S10 head ndc (1.01,0.1); S10 head ndc (1.02,0.1); S10 head ndc (1.03,0.1)
+FACE CUT BY THE FRAME EDGE: 1328 frames in 42 runs
+   f0-149 (0.00-4.97s): S1 cow11,cow0; S1 cow2; S1 cow2,cow0; S1 cow2,cow10; S1 cow2,cow10,cow9; S1 cow2,cow11,cow0; S1 cow2,cow3,cow10; S1 cow2,cow3,cow10,cow4; S1 cow2,cow3,cow4; S1 cow2,cow9; S1 cow5,cow11,cow0
+   f154-181 (5.13-6.03s): S1 cow0; S1 cow11; S1 cow3,cow9,fmTall,lion; S1 cow3,lion; S1 cow4,fmAunt; S1 cow7,picasso,fmTall; S1 cow9,fmTall; S1 fmAunt; S1 fmTall; S1 fmThin; S1 fmThin,fmAunt
+   f195-201 (6.50-6.70s): S1 fmBig
+   f211-225 (7.03-7.50s): S1 fmThin
+   f240-249 (8.00-8.30s): S2 picasso
+   f325-327 (10.83-10.90s): S2 lion
+   f332-335 (11.07-11.17s): S2 impala
+   f338-435 (11.27-14.50s): S3 cow0; S3 cow10,cow0; S3 cow10,cow3; S3 cow11; S3 cow2,cow0; S3 cow3; S3 cow3,picasso; S3 cow4; S3 cow4,cow11; S3 cow4,cow11,cow3,picasso; S3 cow4,cow11,picasso; S3 cow4,cow3; S3 cow4,cow3,picasso; 
+   f437-443 (14.57-14.77s): S3 cow1
+   f456-463 (15.20-15.43s): S3 cow0; S3 cow1; S3 cow1,cow11; S3 cow2,cow10,cow3,picasso; S3 cow4; S3 cow5,cow0
+   f465-495 (15.50-16.50s): S3 cow0,kid1; S3 cow11,fmTall,kid2; S3 cow4,cow3,lion; S3 cow7,cow9,kid2; S3 cow9; S3 cow9,fmBig; S3 cow9,fmBig,fmTall; S3 fmAunt,kid1; S3 fmTall; S3 fmThin; S3 picasso
+   f564-597 (18.80-19.90s): S3 cow9; S3 cow9,fmThin,lion; S3 fmAunt; S3 fmBig; S3 fmBig,fmAunt; S3 fmThin,lion
+   f618-624 (20.60-20.80s): S3 cow11; S3 cow3,fmAunt,fmTall; S3 cow3,fmTall; S3 cow4; S3 cow4,cow3,fmAunt,fmTall; S3 cow4,fmAunt,fmTall; S3 fmTall
+   f626-628 (20.87-20.93s): S3 cow7; S3 cow7,cow9; S3 cow9
+   f630-786 (21.00-26.20s): S3 cow0; S3 cow2,cow7; S3 cow2,cow7,cow9; S3 cow3; S3 cow3,picasso; S3 cow4,cow3; S3 cow4,cow3,cow0; S3 cow7; S3 cow7,cow9; S4 cow0,cow2,cow1,picasso; S4 cow0,cow2,cow3,picasso; S4 cow0,cow4,cow1,pica
+   f815-823 (27.17-27.43s): S5 cow0,cow2,cow4; S5 cow0,cow3,picasso; S5 cow10; S5 cow2,picasso; S5 cow3,cow7,picasso; S5 cow9; S5 picasso
+   f825-836 (27.50-27.87s): S5 cow0; S5 cow0,kid2; S5 cow11; S5 cow3,cow4,fmAunt,kid2; S5 cow3,cow4,fmTall; S5 cow9,fmBig; S5 cow9,fmBig,fmTall; S5 cow9,fmTall; S5 fmThin; S5 fmThin,kid1; S5 kid1
+   f842-912 (28.07-30.40s): S5 fmBig
+   f915-923 (30.50-30.77s): S5 cow0,cow11,kid2; S5 cow3,cow4; S5 cow9; S5 cow9,fmThin,fmTall; S5 fmAunt; S5 fmAunt,kid1; S5 fmTall,kid2; S5 kid1
+   f925-932 (30.83-31.07s): S5 cow0,cow4,cow10; S5 cow0,picasso; S5 cow2,cow3; S5 cow5,cow11,picasso; S5 cow7; S5 cow9; S5 picasso
+   f934-935 (31.13-31.17s): S5 cow2,cow6; S5 cow6,cow10
+   f937-938 (31.23-31.27s): S5 cow5
+   f941-946 (31.37-31.53s): S5 picasso
+   f964-1025 (32.13-34.17s): S5 cow6
+   f1028-1052 (34.27-35.07s): S6 cow6; S6 cow6,picasso; S6 picasso
+   f1055-1055 (35.17-35.17s): S6 cow5,cow6
+   f1057-1057 (35.23-35.23s): S6 cow2,cow10
+   f1059-1060 (35.30-35.33s): S6 cow5; S6 cow5,cow7
+   f1062-1066 (35.40-35.53s): S6 cow2; S6 cow2,cow10; S6 cow2,cow10,cow11; S6 cow2,cow11
+   f1079-1079 (35.97-35.97s): S6 cow7
+   f1096-1103 (36.53-36.77s): S6 cow0; S6 cow0,cow11; S6 cow0,cow3; S6 cow0,cow4; S6 cow4; S6 cow9
+   f1106-1141 (36.87-38.03s): S6 cow3,cow4,fmTall; S6 cow9; S6 cow9,fmThin; S6 fmAunt; S6 fmThin; S6 fmThin,fmAunt; S6 fmThin,fmTall; S6 fmThin,lion; S6 lion
+   f1148-1198 (38.27-39.93s): S6 lion
+   f1202-1223 (40.07-40.77s): S6 cow10; S6 cow3,cow8,cow9; S6 cow3,cow9; S6 cow4; S6 cow4,cow10,cow11,cow9; S6 cow5,cow9; S6 cow6,cow9
+   f1272-1299 (42.40-43.30s): S6 lion
+   f1345-1390 (44.83-46.33s): S7 lion
+   f1446-1466 (48.20-48.87s): S7 lion
+   f1480-1519 (49.33-50.63s): S7 impala; S8 pjKid
+   f1553-1763 (51.77-58.77s): S10 cow5; S10 cow5,fmAunt; S8 mum; S9 cow0,cow0,cow6,cow5; S9 cow0,cow1,cow3,cow10,cow4,cow3,picasso,fmBig; S9 cow0,cow2,cow0,cow0,cow5,cow0,cow7; S9 cow0,cow2,cow0,cow0,cow5,cow0,cow7,cow10; S9 cow0,
+   f1766-1810 (58.87-60.33s): S10 cow2,fmThin,picasso; S10 cow2,picasso; S10 fmBig,picasso; S10 fmThin,picasso; S10 picasso
+OVERLAPPING BODIES: 27 frames in 3 runs
+   f1077-1077 (35.90-35.90s): S6 cow11+cow7
+   f1647-1654 (54.90-55.13s): S9 cow0+cow10
+   f1715-1732 (57.17-57.73s): S9 cow6+cow2

@@ -1,0 +1,185 @@
+[
+{
+"t": 0,
+"sfx": "savanna_amb",
+"gain_db": -5,
+"dur": 7.4
+},
+{
+"t": 11.4,
+"sfx": "savanna_amb",
+"gain_db": -5,
+"dur": 12.6
+},
+{
+"t": 26.1,
+"sfx": "savanna_amb",
+"gain_db": -5,
+"dur": 8.299999999999997
+},
+{
+"t": 53.0,
+"sfx": "savanna_amb",
+"gain_db": -5,
+"dur": 5.0
+},
+{
+"t": 58.0,
+"sfx": "savanna_amb",
+"gain_db": -5,
+"dur": 3.8999999999999986
+},
+{
+"t": 7.4,
+"sfx": "wind_soft",
+"gain_db": -6,
+"dur": 4.0
+},
+{
+"t": 24.0,
+"sfx": "night_amb",
+"gain_db": -4,
+"dur": 2.1000000000000014
+},
+{
+"t": 34.4,
+"sfx": "night_amb",
+"gain_db": -4,
+"dur": 15.600000000000001
+},
+{
+"t": 0.15,
+"sfx": "paint_brush",
+"gain_db": -3
+},
+{
+"t": 1.4,
+"sfx": "paint_brush",
+"gain_db": -4
+},
+{
+"t": 2.2,
+"sfx": "moo",
+"gain_db": -1
+},
+{
+"t": 6.6,
+"sfx": "pistol",
+"gain_db": -2
+},
+{
+"t": 6.8,
+"sfx": "crow",
+"gain_db": -8
+},
+{
+"t": 10.0,
+"sfx": "lion_grumble",
+"gain_db": 0
+},
+{
+"t": 12.7,
+"sfx": "paint_brush",
+"gain_db": -3
+},
+{
+"t": 13.2,
+"sfx": "paint_brush",
+"gain_db": -4
+},
+{
+"t": 16.8,
+"sfx": "man_laugh",
+"gain_db": 0
+},
+{
+"t": 18.1,
+"sfx": "crowd_laugh",
+"gain_db": 0
+},
+{
+"t": 21.0,
+"sfx": "moo",
+"gain_db": -3
+},
+{
+"t": 25.4,
+"sfx": "chalk_or_scribble",
+"gain_db": -2
+},
+{
+"t": 26.6,
+"sfx": "chalk_or_scribble",
+"gain_db": -3
+},
+{
+"t": 27.6,
+"sfx": "crowd_laugh",
+"gain_db": 0
+},
+{
+"t": 28.3,
+"sfx": "body_land",
+"gain_db": -3
+},
+{
+"t": 28.6,
+"sfx": "body_land",
+"gain_db": -5
+},
+{
+"t": 35.9,
+"sfx": "whoosh_soft",
+"gain_db": -8
+},
+{
+"t": 36.9,
+"sfx": "gulp",
+"gain_db": -2
+},
+{
+"t": 41.0,
+"sfx": "gulp",
+"gain_db": -3
+},
+{
+"t": 42.4,
+"sfx": "lion_grumble",
+"gain_db": -1
+},
+{
+"t": 43.36,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 49.2,
+"sfx": "lion_grumble",
+"gain_db": 0
+},
+{
+"t": 51.5,
+"sfx": "gulp",
+"gain_db": -2
+},
+{
+"t": 53.4,
+"sfx": "moo",
+"gain_db": -4
+},
+{
+"t": 56.6,
+"sfx": "sprinkle",
+"gain_db": -5
+},
+{
+"t": 58.6,
+"sfx": "moo",
+"gain_db": -4
+},
+{
+"t": 60.6,
+"sfx": "paint_brush",
+"gain_db": -4
+}
+]
