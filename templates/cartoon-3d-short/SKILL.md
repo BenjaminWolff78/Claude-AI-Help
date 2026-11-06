@@ -410,6 +410,7 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
   - Then check the rendered video for one-frame pose jumps at each shot boundary.
 
 ## Gotchas
+- A held prop can vanish behind a set piece next to the character (a door edge, a shelf) or behind the head on a hand-to-mouth pose. Check one still on every prop beat (sip, lift, stamp) and use the arm's Top flag for hand-to-mouth so the prop draws over the face.
 - Remotion bundles copy `public/` into the temp folder every time; point TEMP/TMP at a roomy folder and clean old bundles when done.
 - Ink must be its own pass before the lens blur; character cards go on the NOINK layer.
 - Every hold needs a slow push-in, or QA reads it as a freeze.
