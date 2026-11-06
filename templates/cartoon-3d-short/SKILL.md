@@ -1,0 +1,724 @@
+---
+name: "cartoon-3d-short"
+description: "Make a Rick's Clips-style vertical story short (2D cartoon characters in an ink-outlined, painted 3D world) with three.js + Remotion, using the mromidev/claude-animated-shorts pipeline."
+---
+
+## Before anything else
+- Read the section "MASTER PROMPT v10.9 (full text)" at the end of this file, in full. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
+- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF). Their written summaries are in "Boards" below. For acting, study A, B, X and AC/AD in particular.
+- Where they disagree with this file, the master prompt wins. A newer master prompt pasted or attached in the chat wins over both.
+- Exception: the "Smooth acting" section below is a newer user rule (2026-11-05). It wins over master prompt v10.9 and earlier where they disagree (instant expression swaps, 1-3 frame actions). A newer master prompt overrides it only if it says so explicitly.
+- Exception: the "Channel data" section below is a newer user rule (2026-11-05). Its title, description, tags, topic-priority and length rules win over master prompt v10.9 and over "Script length".
+- Exception: the "Voice" section below is a newer user rule (2026-11-05). It wins over master prompt v10.9 part 1d (the whole-file atempo) and over every earlier voice rule.
+- Do not use the old "User rules" section of the cloned repo's SKILL.md. Instead:
+  - Captions are on.
+  - Output is 1080x1920 at 30 fps.
+  - -14.3 LUFS with the voice loudest; music about 19 dB and SFX about 17 dB under the voice.
+  - The mp4 has the same name as the mp3.
+
+## Key rules (v10.9; never skip)
+**Script**
+- Built on one sentence that sounds stupid but is true.
+- A 9-16 word hook under 3.5 s, then "You see," by 6 s.
+- A fake-out at 30-45% of the runtime.
+- 47-65 s (multi-beat stories 60-65 s, about 225-250 words; see "Channel data").
+
+**Scenes**
+- 9-13 per video, built around one or two home-base places.
+- One scene of 9-17 s in the first 20 s.
+- No montage.
+- No character vanishes on a scene change.
+
+**Acting**
+- Talking mouths change on every frame of the line, matched to the voice. Drive them from the voice track's per-frame loudness, leading the sound by 0-1 frame.
+- Blinks: 3-4 frames (half, shut line, half), every 0.5-1.5 s at irregular times.
+- Expressions never jump from one frame to the next. Each change is a short transition (about 6 frames; 10 frames between opposite moods, through a "realising" face) that finishes 0-3 frames before the word. See "Smooth acting".
+- The character the line is about acts. Everyone else keeps a still body but faces the action with a readable face: no breathing bob, sway or looping wave.
+- Held poses are extreme (squeezed eyes, puffed cheeks, whole-body lean) and end with one small change (one eye opens, a brow lifts).
+- Group reactions happen together on the same word.
+- Bodies move like real people: eased in and out, with the head leading, the torso following and the arms trailing on arcs. Gestures take 8-14 frames. Only impacts and strikes use a 6-frame held wind-up, a 1-3 frame strike, contact on the word and a 4-5 frame effect. Walks are 9-12 frames per step with planted feet.
+- No squash, stretch or overshoot.
+- Every spoken line has a hand gesture (point, lift, wave, count).
+
+**Transitions (pick by situation, board AE)**
+- Object to person: subject-position match dissolve. The new subject fades in on the same spot and size, then the camera reveals the place.
+- Time passes or a disaster: a dissolve hidden inside smoke, dust, steam or light.
+- The story's object exists: go through it (mirror, lens, window, map, painting, newspaper photo).
+- Two places share a shape: shape-match dissolve.
+- Something moves from A to B: ride the motion.
+- Same place with a new angle, or a punchline: hard cut.
+- Everything else: a camera move that carries the character into the next place.
+- Plain crossfades only for a time jump in the same place, with characters in the same screen positions.
+- At most 4 hard cuts.
+- Sideways camera travel in at least 50% of frames.
+
+**Camera holds (v10.9, board AF; corrects part 7 rule 9)**
+- The new event on every phrase happens INSIDE the shot (the subject acts, a prop changes, an effect fires, someone walks in). The camera does not move to a new subject on every phrase.
+- The camera stays on each subject at least 2 s (median 2-3 s; 1.5 s only for a single punch insert). The hook image, mockery, fake-out, climax and explanation each get one shot of 4-8 s where the subject keeps acting.
+- At most one camera relocation per sentence, about 18-25 per video, each an eased glide of 18-40 frames, peak speed under about 22 px per frame at 1080 wide. No whip pans except at most 2 on a punch word.
+- Lists: one wider shot where the items act one after another, or one slow track with each item centred at least 1.2 s.
+- Nothing crosses the lens during a move (cull or move fence posts, poles, trees, people). Groups stand at different depths and angles facing the action, never a straight row facing the camera.
+- Plain crossfades only for a time jump in the same place; dissolves between places are object-to-object matches with no bodies on screen.
+- Shot list: every shot gets its subject, start, end, length (2 s or more) and the action during it, plus the glide into the next. Before animating, print the number of shots under 2 s and the number of camera moves. After rendering, segment the camera path at moves faster than 4 px per frame and print every stop length, the median (2 s or more), the share under 1.2 s (10% or less), the relocation count, the peak speed of each move and any lens-crossing frame.
+
+**QA additions (print them)**
+- The mouth moves on every frame of every spoken line.
+- Blinks and expression swaps (with times) for every character on screen longer than 1.5 s. Flag any face unchanged for more than 2 s while its character is being talked about.
+- Face QA (`scripts/face_qa.py`): 0 mood flips, 0 bare swaps, 0 brow jumps. Also a frame-by-frame preview strip of 3 expression changes and 2 gestures, checked by eye.
+- Every crossfade, with the place before and after.
+- The sideways-travel share and the hard-cut count.
+- Word count, length and the fake-out timestamp.
+
+## Channel data (user rule, 2026-11-05, from vidIQ data on our 8 Shorts; every new video; wins over master prompt v10.9 where they disagree)
+1. **Title = the dumb act + the smart payoff, both halves visible.**
+   - Winners: "They Paid for Rat Tails and Got a Rat Farm" (34.7k), "He Was Dying Mid-Race, Then Won Gold" (12k in a day).
+   - Never hide the payoff behind "Why..." or a vague line. These underperformed: "Why He Put a Bridge in the Desert" and "Her Crew Begged Her to Turn Back. She Didn't."
+   - Short, with one emoji at the end.
+   - Write 5 title options and pick the one that shows both halves most clearly. Show all 5 and the pick in the script checkpoint.
+   - This replaces master prompt 1a's "curiosity question" titles. The mp4 is still named exactly like the mp3.
+2. **Description:**
+   - 1-2 sentences that frame the story as a con, a loophole or a genius move. Never use a dry framing like "landscape engineering".
+   - Then one debate question that sparks comments (e.g. "Genius or criminal?").
+   - Hashtags: #shorts plus 1-2 topic tags.
+3. **Tags:** only tags that match the story and its audience.
+   - Never use auto-generated or unrelated tags. The Bridge video got "baby songs" and "nursery rhymes"; never again.
+   - Check every tag against the story before handing them over, and say they were checked.
+4. **Topic priority:**
+   - a. Incentives that backfired (cobra effect): the cobra bounty in India, the sparrow campaign, the Florida python bounty, Prohibition loopholes.
+   - b. Genius cons that look stupid: selling a landmark twice, faking a country to get a loan.
+   - c. "Everyone said it would fail, then it won" in sport, survival or expeditions.
+   - Verify every fact from sources.
+   - Check the topic isn't already covered by Rick's Clips or zackdfilms (search both channels) before writing.
+5. **Length:** stay within 47-65 s; our best two are 47 s and 60 s.
+   - Multi-beat stories: aim for 60-65 s.
+   - Single-trick stories: 47-52 s.
+   - This replaces the old 62-65 s / 40-68 s numbers everywhere in this file, and master prompt 1d's 56-66 s.
+6. **Debate line:** the script includes one line viewers will want to argue about in the comments (who was right, was it fair, would you have done it).
+7. **Delivery:** with the final mp4, give the picked title, the description and the checked tags.
+
+## Voice (user rule, 2026-11-05; every video; wins over master prompt v10.9 part 1d)
+The user approved this sound: "The Pharaoh 3" raised 3.5 semitones with a clean, formant-preserving shift. Their complaint about pitch shifts is that they usually sound robotic, so the method below is part of the rule, not a suggestion.
+- Voice: "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, the whole script in one take (no stitched clips), default settings.
+- Trim every pause longer than 0.10 s down to about 0.10 s (no gaps in the voice).
+- Then exactly ONE processing pass that does both the speed-up and the pitch raise: ffmpeg `rubberband=tempo=T:pitch=1.224054:formant=preserved:channels=536870912`.
+  - pitch 1.224054 = +3.5 semitones. T is about 1.22-1.28, chosen so the script lands at the target length ("Channel data": 60-65 s multi-beat, 47-52 s one trick).
+  - `channels=536870912` sets Rubber Band's R3 "finer" engine flag (0x20000000; librubberband 3.x). The default R2 engine smears the upper harmonics, and that smear is the robotic sound.
+  - `formant=preserved` keeps the voice's own tone, so it does not turn into a chipmunk.
+  - Never run atempo first and a separate pitch shift after it (two passes double the artifacts). Never use the default engine, and never shift without formant preservation.
+- Template: `templates/cartoon-3d-short/audio/build_voice_r3.py TEMPO` in the user's repo (trim, the one R3 pass, an F0 check, then word timings on the final file).
+- Checks before using the voice:
+  - Median F0 about 200-220 Hz (Rick's narrator measured about 205 Hz; the plain Pharaoh 3 is about 166-180 Hz). If it falls outside 195-225 Hz, change the shift in 0.5-semitone steps.
+  - Compare a 2 s spectrogram of the shifted voice with the unshifted one: the harmonics must stay crisp, with no smear in the upper bands.
+  - Word timings (words.json) are always made from the final shifted file.
+- Rick's own narrator is not any public ElevenLabs voice (checked on 2026-11-05 against 329 library voices with speaker embeddings: best match 0.83, while a true match scores 0.94+). Do not search for it again, and never clone it from his videos.
+
+## Smooth acting (user rule, 2026-11-05; wins over master prompt v10.9 where they disagree)
+The user's notes after "Why He Wanted His Potatoes Stolen":
+- Facial and body animation must be smooth.
+- Faces must flow into each other: never a sad face on one frame and a happy face on the next.
+- Characters must move like real people.
+
+This section replaces v10.9 part 8 B2 ("expressions swap instantly, 1 frame") and the "action in 1-3 frames" timing for everything except impacts. It keeps "no squash, stretch or overshoot", talking mouths that change every frame, irregular blinks, still listener bodies and planted feet.
+
+Study these boards before acting a scene: A (faces), B (lip-sync and head turns, 0.134 s apart), X (whole-body acting) and AC/AD (idle and reactions). In B, the soldier's head turns over about 4 frames while the face slides round the head and the body leans in.
+
+**Faces: never a one-frame jump**
+- An expression change is a transition that finishes on its beat. Put the beat 0-3 frames before the word, so the new face is fully readable on the word. The transition runs from 4 frames before the beat (s-4) to 2 frames after it (s+2):
+  - The brows glide from the old face to the new one with an ease in and out.
+  - The eyes swap inside a 3-frame blink: half at s-2, shut at s-1, half at s.
+  - The mouth shows an in-between shape for 2 frames (s-2, s-1): half-way open and already in the new mood, e.g. smirk -> smile -> laugh.
+  - The head gives a small take of 2-3 degrees.
+- Opposite moods (pleased <-> upset, e.g. sad -> happy, smug -> scared) take 10 frames and pass through a "realising" face:
+  - The brows lift while the old face is still on.
+  - A blink at s-7 swaps to open eyes, raised brows and a small mouth: "o" when heading to pleased, flat when heading to upset.
+  - That face holds about 5 frames.
+  - A half-lid at s-1 brings in the new face on the beat, with a 4-degree head take across the whole move.
+- If the previous face change was less than 12 frames earlier, skip the realising face. The swap still hides inside a blink, with a flat in-between mouth.
+- Every expression change goes through a beat in `flow()`. Never switch `expr` with a ternary or per-frame condition, because that bypasses the transition.
+- Talking mouths still change every frame and override the in-between mouth. That is speech, not an expression change.
+- A held extreme face still ends with one small change (one eye opens, a brow lifts), eased over 4-6 frames.
+
+**Bodies: move like real people**
+- Ease every move in and out with smootherstep. No linear moves, and no squash, stretch or overshoot.
+- Overlapping action: the eyes and head lead by 2 frames, the torso moves on the beat, and the arms and props follow 1 frame late and finish 3 frames later.
+- Arms swing on arcs: blend the elbow in polar coordinates around the shoulder and the hand around the elbow. Never slide the joint positions in a straight line.
+- Gestures (point, lift, wave, shrug, reach, pick up, sit, stand) take 8-14 frames.
+- Only impacts and strikes (a hit, a slam, a throw, a jump take-off) use the fast timing: a wind-up held about 6 frames, the strike in 1-3 frames, contact on the word, then a 4-5 frame effect.
+- Turns: the head turns first and the body follows about 2 frames later. A facing flip happens when the head blend is half-way, never mid-camera-move without a blend.
+- Speakers nod lightly on stressed words (2-3 degrees, about 8 frames, alternating direction) and point or gesture on the key word.
+- Effortful actions rock the whole body with each stroke and bob the head (board X: the sawing worker).
+- Walks:
+  - Start by easing into the first step and stop with a settle step.
+  - Steps take 9-12 frames, with a body bob of 3-7% and a lean of 1-7 degrees.
+  - The stance foot stays planted.
+  - The head turns toward where the character is going before the body does.
+- Listeners: the body stays still, but the head and eyes turn toward the speaker or the object, eased over 6-8 frames, and the face reacts with transitions.
+- A character holding one pose for more than 3 s may shift weight once: a lean of 1-2 degrees eased over 12-18 frames, then held. Never loop it, sway or breathe-bob.
+- Each new beat blends from wherever the previous blend had got to, so there is no jump when beats come close together.
+
+**Implementation** (tested in the potato project; a copy lives in the user's repo BenjaminWolff78/Claude-AI-Help on branch `why-he-wanted-his-potatoes-stolen`, folder `templates/cartoon-3d-short/acting/`: `flow_smooth.ts`, `fig.patch`, `world.patch`, `face_qa.py`. If that repo can't be reached, use the code below.)
+1. **Figure drawer** (`fig.ts` in our pipeline; the matching face and figure code in the repo template's `toon.ts` / `cast.ts`):
+   - Add `brow?: [number, number]; swapLid?: number; mouthX?: string;` to FigOpts.
+   - Export `faceOf`.
+   - In the figure, call the face with `Math.max(blink, opts.swapLid ?? 0)` as the lid, `(opts.mouth ?? opts.mouthX)` as the mouth, and `opts.brow` as a new last argument `browOv`.
+   - In `face()`, use `F = browOv ? { ...F0, brow: browOv } : F0`.
+2. **World** (where each cast entry gets `blink: lidAt(...)`): after building `o`, add `if (p.o && p.o.blink === undefined && p.o.swapLid) { o.blink = Math.max(o.blink ?? 0, p.o.swapLid); delete o.swapLid; }`. In QA mode, add `faces: [[who#idx, expr, mouth ?? mouthX, brow, lid, back]]` for every cast entry to the per-frame QA line.
+3. **Shot header:** replace `mixO` and `flow` with this code. It needs `lerp`, `clamp01`, `pose`, `P`, `Face`, `FigOpts` and `words.json`. Use `talkNod(f, a, b)` by adding it to a speaker's `headTilt` during their line.
+```ts
+const HANG = (side: number): [[number, number], [number, number]] => [[side * 30, 45], [side * 33, 96]];
+/** reference ease: symmetric smootherstep (eases in and out, no overshoot) */
+const glide = (x: number) => { const u = clamp01(x); return u * u * u * (u * (6 * u - 15) + 10); };
+const gl = (f: number, a: number, d: number) => glide((f - a) / Math.max(1, d));
+const bump = (x: number) => (x <= 0 || x >= 1 ? 0 : Math.sin(Math.PI * x));
+/** mood of each face: +1 pleased, -1 upset, 0 neutral */
+const VAL: Record<string, number> = {
+  grin: 1, laugh: 1, relief: 1, relief_open: 1, smile: 1, smile_closed: 1, lick: 1, smug: 1, eureka: 1, sly: 1, joy: 1, guffaw: 1, beam: 1, proud: 1, pitch: 1,
+  stern: -1, nervous: -1, shock: -1, dazed: -1, pained: -1, dismay: -1, sheepish: -1, strain: -1, angry: -1, cold: -1, gulp: -1, wired: -1, dead: -1,
+  yikes: -1, aghast: -1, green: -1, dizzy: -1,
+};
+const OPEN: Record<string, number> = { dash: 0, smirk: 0.05, frown: 0.05, wave: 0.1, smile: 0.2, lick: 0.2, o: 0.4, smileWide: 0.4, content: 0.15, flat: 0,
+  grin: 0.55, teeth: 0.5, beam: 0.6, O: 0.9, laugh: 0.9, guffaw: 1, teethWide: 0.6, queasy: 0.1, puff: 0, tongue: 0.4 };
+/** an in-between mouth: half-way open, in the mood of the face it is heading to */
+const midMouth = (ma: string, mb: string, vb: number) => {
+  const o = ((OPEN[ma] ?? 0.2) + (OPEN[mb] ?? 0.2)) / 2;
+  return vb > 0 ? (o < 0.25 ? "smile" : o < 0.6 ? "smileWide" : "grin") : vb < 0 ? (o < 0.25 ? "wave" : "o") : o < 0.3 ? "dash" : "o";
+};
+const BRIDGE_BROW: [number, number] = [-5, -4];
+const lerpB = (a: [number, number], b: [number, number], k: number): [number, number] => [lerp(a[0], b[0], k), lerp(a[1], b[1], k)];
+type FaceState = { expr?: Face; brow?: [number, number]; swapLid?: number; mouthX?: string; headTake?: number };
+/** the face at frame f for a swap from A to B landing on frame s */
+const faceSwap = (f: number, A: Face, B: Face, s: number, room = 99): FaceState | null => {
+  if (A === B) return null;
+  // opposite moods need about 12 f since the last face change for the "realising" in-between; closer beats use a blink swap
+  const FA = faceOf(A), FB = faceOf(B), va = VAL[A] ?? 0, vb = VAL[B] ?? 0, flip = va * vb < 0 && room >= 12;
+  const lid = (c: number) => (f === c - 1 || f === c + 1 ? 0.5 : f === c ? 1 : 0); // a 3-frame blink centred on c
+  if (!flip) {
+    if (f < s - 4 || f > s + 2) return null;
+    const st: FaceState = { expr: f < s - 1 ? A : B, brow: lerpB(FA.brow, FB.brow, gl(f, s - 4, 6)), swapLid: lid(s - 1), headTake: 2.5 * bump((f - (s - 4)) / 7) };
+    if (f === s - 2 || f === s - 1) st.mouthX = va * vb < 0 ? "dash" : midMouth(FA.mouth, FB.mouth, vb);
+    return st;
+  }
+  // opposite moods: A -> blink -> "realising" face (open eyes, raised brows, small mouth) -> half-lid -> B
+  if (f < s - 10 || f > s + 2) return null;
+  const st: FaceState = { swapLid: Math.max(lid(s - 7), f === s - 1 ? 0.5 : 0), headTake: 4 * bump((f - (s - 10)) / 13) };
+  if (f < s - 7) { st.expr = A; st.brow = lerpB(FA.brow, BRIDGE_BROW, gl(f, s - 10, 6)); }
+  else if (f < s) { st.expr = "neutral"; st.brow = f < s - 3 ? BRIDGE_BROW : lerpB(BRIDGE_BROW, FB.brow, gl(f, s - 3, 5)); st.mouthX = vb > 0 ? "o" : "dash"; }
+  else { st.expr = B; st.brow = lerpB(BRIDGE_BROW, FB.brow, gl(f, s - 3, 5)); }
+  return st;
+};
+/** polar blend of an arm (elbow around the shoulder, hand around the elbow): limbs swing on arcs */
+const arcArm = (A: number[][], B: number[][], k: number): [[number, number], [number, number]] => {
+  const pol = (x: number, y: number) => [Math.hypot(x, y), Math.atan2(y, x)];
+  const ang = (a: number, b: number) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * k; };
+  const [ra, ta] = pol(A[0][0], A[0][1]), [rb, tb] = pol(B[0][0], B[0][1]);
+  const [ha, hta] = pol(A[1][0] - A[0][0], A[1][1] - A[0][1]), [hb, htb] = pol(B[1][0] - B[0][0], B[1][1] - B[0][1]);
+  const r = lerp(ra, rb, k), t = ang(ta, tb), e: [number, number] = [r * Math.cos(t), r * Math.sin(t)];
+  const hr = lerp(ha, hb, k), ht = ang(hta, htb);
+  return [e, [e[0] + hr * Math.cos(ht), e[1] + hr * Math.sin(ht)]];
+};
+const NUMS = /^(shake|feetUp|squash|sweat|tilt|headTilt|headBack|lift|monoclePop|wet|look|propK|propRAng|propLAng|hatLift)$/;
+const HEAD = /^(look|headTilt|headBack|hatLift)$/, LIMB = /^(armR|armL|propK|propRAng|propLAng)$/;
+/** per-part blend: head leads by 2 f, torso on the beat, arms 1 f late and 3 f longer (overlapping action) */
+const mixO = (a: P, b: P, f: number, s = 0, bl = 1): P => {
+  const kH = gl(f, s - 2, bl), kT = gl(f, s, bl), kA = gl(f, s + 1, bl + 3);
+  if (kA >= 1 && kH >= 1) return { ...b };
+  const o: Record<string, unknown> = { ...b };
+  const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+  for (const key of keys) {
+    const va = (a as Record<string, unknown>)[key], vb = (b as Record<string, unknown>)[key];
+    const k = HEAD.test(key) ? kH : LIMB.test(key) ? kA : kT;
+    const arm = key === "armR" || key === "armL";
+    const side = key === "armR" ? 1 : -1;
+    const A = arm ? (va ?? HANG(side)) : va, B = arm ? (vb ?? HANG(side)) : vb;
+    if (arm && Array.isArray(A) && Array.isArray(B)) o[key] = k >= 1 ? B : k <= 0 ? A : arcArm(A as number[][], B as number[][], k);
+    else if (typeof va === "number" && typeof vb === "number" && key !== "facing") o[key] = lerp(va, vb, k);
+    else if (typeof va === "number" && vb === undefined && NUMS.test(key)) o[key] = lerp(va, 0, k);
+    else if (va === undefined && typeof vb === "number" && NUMS.test(key)) o[key] = lerp(0, vb, k);
+    else if (key === "expr" || key === "mouth") o[key] = vb;
+    else if (key === "facing") o[key] = kH < 0.5 ? va : vb; // the head turns first, the body follows
+    else o[key] = kA < 0.5 ? va : vb;
+  }
+  return o as P;
+};
+/** a pose timeline: beats [frame, pose(, blend)]; bodies blend per part, faces swap through a short transition */
+type Beat = [number, P] | [number, P, number];
+const flow = (f: number, beats: Beat[], blend = 8): FigOpts => {
+  let i = 0;
+  for (let j = 0; j < beats.length; j++) if (f >= beats[j][0]) i = j;
+  if (f < beats[0][0]) i = 0;
+  const cur = beats[i][1];
+  // each beat blends from wherever the previous blend had got to (no jump when beats overlap)
+  const stateAt = (j: number, g: number): P => (j === 0 ? { ...beats[0][1] } : mixO(stateAt(j - 1, beats[j][0]), beats[j][1], g, beats[j][0], beats[j][2] ?? blend));
+  let m: P = stateAt(i, f);
+  const nx = beats[i + 1]; // the head leads into the coming beat
+  if (nx && f >= nx[0] - 2) m = mixO(m, nx[1], f, nx[0], nx[2] ?? blend);
+  // faces: the transition into the next beat starts before it, the one from the last beat ends after it
+  const exprAt = (j: number): Face => { for (let q = j; q >= 0; q--) if (beats[q][1].expr) return beats[q][1].expr as Face; return "neutral"; };
+  let fs: FaceState | null = null;
+  for (const j of [i + 1, i]) if (j > 0 && j < beats.length && !fs) fs = faceSwap(f, exprAt(j - 1), exprAt(j), beats[j][0], beats[j][0] - beats[j - 1][0]);
+  const out: P = { ...m, expr: exprAt(i), mouth: cur.mouth };
+  if (fs) {
+    if (fs.expr) out.expr = fs.expr;
+    if (fs.brow) out.brow = fs.brow;
+    if (fs.swapLid) out.swapLid = fs.swapLid;
+    if (fs.mouthX && !cur.mouth) out.mouthX = fs.mouthX;
+    if (fs.headTake) out.headTilt = ((out.headTilt as number) ?? 0) + fs.headTake * ((((out.facing as number) ?? 1) >= 0) ? 1 : -1);
+  }
+  return pose(null, out);
+};
+/** speech accents: a small head nod (2-3 deg, 7 f) on each word onset inside [a, b) - add it to headTilt of the speaker */
+const WF = (WORDS as { w: string; s: number }[]).map((w) => Math.round(w.s * 30));
+const talkNod = (f: number, a: number, b: number, amp = 2.5) => {
+  let n = 0;
+  WF.forEach((o, i) => { if (o >= a && o < b && /[A-Z!?,.]/.test((WORDS as { w: string }[])[i].w)) n += (i % 2 ? 1 : -1) * amp * bump((f - o + 2) / 8); });
+  return n;
+};
+```
+4. **Face QA** (`scripts/face_qa.py <qa.jsonl>`, run on the qa_run output). It flags, per character:
+   - MOOD FLIP: pleased on one frame and upset on the next. This must be 0.
+   - BARE SWAP: an expression change with no blink on either frame. This must be 0, except for the back of the head.
+   - BROW JUMP: more than 2.5 units in one frame. This must be 0.
+```python
+"""Face continuity QA (smooth-acting rule). Usage: python3 scripts/face_qa.py qa.jsonl
+Reads the per-frame QA lines (faces: [who, expr, mouth, brow, lid, back]) and flags, per character:
+  MOOD FLIP  - a pleased face on one frame and an upset face on the next (always a fail)
+  BARE SWAP  - the expression changes between two frames with no blink (lid < 0.5 on both)
+  BROW JUMP  - a brow moves more than 2.5 units in one frame
+Talking mouths are expected to change every frame and are not checked here."""
+import json, sys
+VAL = {k: 1 for k in "grin laugh relief relief_open smile smile_closed lick smug eureka sly joy guffaw beam proud pitch".split()}
+VAL.update({k: -1 for k in "stern nervous shock dazed pained dismay sheepish strain angry cold gulp wired dead yikes aghast green dizzy".split()})
+rows = [json.loads(l) for l in open(sys.argv[1]) if l.strip()]
+rows.sort(key=lambda r: r["f"])
+prev, flips, bare, brow, swaps = {}, [], [], [], 0
+for r in rows:
+    f = r["f"]
+    for who, expr, mouth, br, lid, back in r.get("faces", []):
+        p = prev.get(who)
+        if p and p[0] == f - 1 and not back and not p[5] and not r.get("cut"):
+            _, e0, m0, b0, l0, _ = p
+            if e0 != expr:
+                swaps += 1
+                if VAL.get(e0, 0) * VAL.get(expr, 0) < 0: flips.append((f, who, e0, expr))
+                if max(l0, lid) < 0.5: bare.append((f, who, e0, expr))
+            if b0 and br and max(abs(b0[0] - br[0]), abs(b0[1] - br[1])) > 2.5: brow.append((f, who, b0, br))
+        prev[who] = (f, expr, mouth, br, lid, back)
+print(f"FACE QA frames {len(rows)}; expression changes {swaps}")
+print(f"MOOD FLIP (fail) {len(flips)}: {flips[:30]}")
+print(f"BARE SWAP {len(bare)}: {bare[:30]}")
+print(f"BROW JUMP {len(brow)}: {brow[:30]}")
+```
+5. **Visual check:** before the full render, preview every frame (not every 5th) across 3 expression changes, including one opposite-mood change, and 2 gestures. Check that each face reads as one continuous change and that the arms arc.
+
+## Boards (written summaries; the images live in the chat attachments)
+- **A:** character close-ups.
+  - Egg heads with a heavy ink outline, dot or lidded eyes, tapered brows and small mouths, plus blush.
+  - Noodle arms with ball hands.
+  - The face carries the acting: a sly squint, a squeezed-eye grin, a deadpan.
+- **B:** acting and lip-sync sampled every 0.134 s (4 frames).
+  - The mouth shape changes on every sample.
+  - The head turns over a few frames, with the face sliding round it and the body leaning in.
+  - Expressions progress through the line (neutral -> open -> smirk) instead of jumping between opposite moods.
+- **X:** Rick moves the whole body and face.
+  - The sawing worker rocks with every stroke, his head bobs and his face changes almost every sample (smirk, eyes closed, grin, wink, squint).
+  - Ours held one frozen face for 2.4 s with no struggle.
+- **O:** side-by-side of an earlier video vs Rick.
+  - Characters act from frame 1 and heads fill about 45% of the frame in close-ups.
+  - Reaction close-ups have a big face, a sweat drop and coloured light.
+  - The final beat is a quiet close-up with a changed face.
+
+- **AA:** scene lengths (one bar = one place and time with one continuous camera path).
+  - Rick: 10-13 scenes per 65 s, median about 4.5 s, shortest about 2 s (single punch images only). The opening scene is one continuous camera path of 11.7-12.3 s (hook + "You see," + setup), and 1-2 more long scenes of 9-12 s carry the big moments.
+  - Ours (Rat Poison): 16 scenes in 59 s; a 29 s montage of 13 places at the start; the hook characters vanish until 29.4 s.
+- **AB:** scene lengths in five of Rick's Shorts (Jar, Railroads, Storm Oil, Mirror, Button) vs Rat Poison.
+  - 9-13 scenes each, with a 9 s+ scene in the first 20 s.
+  - Long scenes sit in a home-base place the story returns to; short 2.5-4 s scenes are time jumps or punch images.
+  - The explanation is 4-7 s in its own place; the climax is long.
+- **AC:** character acting and idle, Rick vs Bridge in the Desert.
+  - Rick: the speaker's mouth changes every frame and the listener is completely still with a deadpan face and one blink.
+  - Ours: one frozen face through whole lines, a frozen laughing group, and plain crossfades between unrelated rooms (ghost bodies).
+- **AD:** acting in six kinds of scenes.
+  1. A group reacts together on one word.
+  2. A character talks down at someone with a new face on every phrase while the second character only smiles (one actor, one reactor).
+  3. Idle with one cue action: a still smug sit, then one lift of the object on the key word.
+  4. An expression on every phrase (sweat drop, fake cry, smug grin), with the body barely moving.
+  5. A whole-body pose (a 40-degree tilt to look under something) while the background character stands still facing the action.
+  6. A held extreme pose (puffed cheeks, squeezed eyes, whole-body lean) that ends with one eye opening.
+- **AF:** camera holds, "Why He Painted Eyes on Cows' Butts" vs "The Pink Prison Cell Experiment" (optical flow on every frame). Cows: median stop 1.0 s, 61% of stops under 1.2 s, 39 relocations in 62 s at 45-90 px per frame, fence posts sweeping across the lens, ghost crossfades, farmers in a row facing the camera. Rick: stops of 2-5 s (median about 2.3 s), big beats as one 4-8 s shot where the subject keeps acting, 16-20 relocations in 46 s, glides of about 23 frames.
+- **AE:** transitions that fit any story: subject-position match dissolve, smoke/dust/light dissolve, through the story object, shape-match dissolve, plus "pick by situation" (see the transitions rules above).
+
+# Cartoon 3D story short (installed from github.com/mromidev/claude-animated-shorts, MIT)
+
+This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animated Shorts Using Claude". Its author had Claude measure 20 of Rick's Clips' Shorts at 30 fps. Then it built a three.js + Remotion renderer for the look: ink lines on the 3D world, card-lit 2D characters, lens blur, a grade and camera glides.
+
+## Step 0: get the files (every new session)
+1. `git clone --depth 1 https://github.com/mromidev/claude-animated-shorts.git` into a fresh folder in the working directory (e.g. `./cas`).
+2. Read, in full: `cas/SKILL.md` (pipeline, final look values, gotchas, readability traps) and `cas/references/STYLE_BIBLE.md`.
+3. Read the reports in `cas/references/reports/`. Read `characters.md`, `motion.md`, `outlines.md` and `lighting.md` before building, and `depth.md`, `grade.md` and `textures.md` before the look pass. They hold the measured numbers.
+4. Look at the reference frames in `cas/references/frames/` and sheets in `cas/references/sheets/` before drawing anything.
+5. Set up Remotion with @remotion/three, @react-three/fiber, @react-three/postprocessing and postprocessing. Use the versions listed in `cas/references/reports/CONTEXT.md`. Copy `cas/templates/bridge/` to `src/videos/<name>/` and `cas/templates/scripts/` to `scripts/`. The Kenney CC0 props (`public/bridge/kenney/*.glb`) are not in the repo: get them from kenney.nl if the network allows, otherwise model the props in code (the loader skips missing files).
+
+## Precedence
+- The master prompt wins over this skill and over the repo's SKILL.md. Ignore the repo's "User rules" section (see "Before anything else"), and also use 1-2 word captions in a white heavy font with a black outline at about 70% of frame height, one stinger about 11 dB under the voice, few ringing sounds and no loud swooshes.
+- Keep the tested look values here and in templates/ (ink, light, colour, lens blur, grade, camera glides, character drawing) unless the master prompt changes them. v10.8-v10.9 change the acting, transitions and camera holds (no squash, stretch or overshoot; still idles) and the transitions.
+- Story, characters, names and shots are always original. Never copy Rick's characters or shots, never upload or publish the repo's reference frames or boards containing Rick's frames, and never say the channel's name in the video.
+- Make every decision yourself; tell the user what you decided.
+
+## Pipeline (summary; details in cas/SKILL.md)
+1. Topic and facts (topic priority from "Channel data", every fact verified, Rick's Clips and zackdfilms checked; 5 titles showing the dumb act + the payoff, best one picked) -> hook workshop (6 scored candidates, shown to the user) -> script ("You see," by 6 s, everyday analogy, callback ending; about 3.8 words/s). Follow "Script length" and "Script craft".
+2. Voice (see "Voice": The Pharaoh 3, gaps trimmed, one Rubber Band R3 pass with the speed-up and +3.5 semitones) and word timings (words.json) from the final file; everything is timed to the words.
+3. Scene table (shown to the user before animating), then the shot plan in `story.ts` (SHOTS, XFADE, CAMS, KICKS, DOF, FOREGROUND). Reactions and expression changes finish their transition 0-3 frames before their word ("Smooth acting").
+4. World (`lights.ts`, `shade.ts`, `build.ts`, `paint.ts`, `world.ts`), characters (`toon.ts`, `cast.ts`, `cardshade.ts`), post (`Bridge.tsx`, `ink.ts`, `lensblur.ts`, `grade.ts`).
+5. Style lock before animating: render stills and make side-by-side sheets with `scripts/sbs_sheet.py` against the reference frames and the user's boards. Fix until the characters and sets match.
+6. Look-match loop: score colour, lighting, ink, textures, characters, depth and composition out of 10 from the side-by-side sheets, with a numbered fix list. Repeat until every area is at least 7.
+7. Sound (`cas/templates/audio/`), using the user's levels.
+8. Render, mux with `-map 0:v:0 -map 1:a:0`, then run the checks:
+   - `scripts/short_qa.py` (black, white, frozen and pop frames, loudness).
+   - The per-frame camera QA (collisions, occluders, subject out of frame, faces cut by the edge, overlaps).
+   - The v10.9 QA additions.
+   Fix everything they find.
+9. Send the user progress checkpoints as files as soon as each is ready (script, style-lock sheet, storyboard, first side-by-side review), then the final mp4.
+
+## Script length (user rule, every video; updated 2026-11-05 by "Channel data")
+- Stay within 47-65 s. Multi-beat stories: 60-65 s (about 225-250 words at 3.8 words/s). One-trick stories: 47-52 s (about 180-200 words).
+- Hard limits: never under 47 s or over 65 s.
+- Length comes from the three escalating beats and the fake-out, never from extra setup. Better 58 s with every line pulling its weight than 65 s with filler.
+
+## Script craft (user rule, every video, master prompt v10.9)
+1. Fake-out at 30-45% of the runtime: one beat where the hero's plan seems to fail and the doubters look right, then the real payoff.
+2. The hero never explains himself: cryptic one-liners only ("Trust the oil."). The viewer learns the reason at the reveal, together with the doubters.
+3. Mockery escalates: one person laughs, then a group, then the whole town or room.
+4. The doubters give the hero a mocking nickname, and it comes back at the payoff.
+5. Plant one specific detail early (a number, an object, a story) that returns changed at the end (47 scratches become 48).
+6. Use a rule of three where the third beat breaks the pattern.
+7. Replace adjectives with one concrete picture ("not even a ripple in the emperor's wine").
+8. Casual spoken words ("goes", "pretty sure", "a guy"). Quoted lines under 10 words; no sentence over 25 words.
+9. The real mechanism takes 2-3 sentences at most, then straight back to the story.
+10. Write the last sentence so it runs into the hook when the Short loops.
+11. One debate line viewers will want to argue about in the comments (who was right, was it fair, would you have done it). See "Channel data".
+
+## Character continuity (user rule, every video)
+- **Actions flow into each other.** When a character goes from one action to the next (running -> stumbling -> falling -> lying down, standing -> sitting, walking -> stopping), play every in-between beat: the wind-up, the transition action itself and the settle.
+  - Never switch pose modes from one frame to the next (e.g. a `run` pose on frame N and a `lie` pose on frame N+1). Play a transition action (trip, stagger, sit-down, collapse) that hands off to the new mode.
+  - Gestures follow the "Smooth acting" timing: 8-14 frames, eased, with overlapping parts. Only impacts use the 6-frame wind-up and 1-3 frame strike.
+- **Characters stay in the scene.** Within one set, every character who is in the story at that moment exists on every frame and keeps their position and state across shot boundaries.
+  - A new shot reframes the camera; it never removes and re-adds characters, and nobody blinks out for a few frames.
+  - Keep one persistent per-set cast list (positions and states as functions of the global frame) that all shots in the set read from, instead of separate casts per shot.
+- **Characters only leave by acting it:** walking out of frame, being driven or carried off, or the scene changing place through a motivated transition.
+- **QA:**
+  - Before rendering, run a continuity check over every frame. For each set, list any character present on frame N and absent on N+1 (or the reverse) without an exit or entrance action, and any pose-mode change between consecutive frames without a transition. Fix every hit.
+  - Then check the rendered video for one-frame pose jumps at each shot boundary.
+
+## Gotchas
+- Remotion bundles copy `public/` into the temp folder every time; point TEMP/TMP at a roomy folder and clean old bundles when done.
+- Ink must be its own pass before the lens blur; character cards go on the NOINK layer.
+- Every hold needs a slow push-in, or QA reads it as a freeze.
+- Effect-card textures are cached by key: any card whose drawing changes over time (fade, glow strength, shine sweep) must put the changing value, quantised, into its key, or it freezes on its first drawing.
+- The full render takes about 6 hours and each background job stops at 2 hours: render in resumable chunks and relaunch until every chunk exists. A chunk moved away after the loop has passed it is only redone on the next run.
+- Never wait on a render with `pgrep -f <script name>`: the wait loop matches its own command line and never ends. Wait for a chunk file or a log line instead.
+- A camera key built from a helper that calls screenSide()/walkPath() for the same shot recurses forever; compute positions with polyAt() inside SHOT_CAMS.
+- Check stills in the middle of long camera blends and cranes, not only at the keys: a crane can pass through a wall or bridge face and leave frames with no character.
+
+## MASTER PROMPT v10.9 (full text, as given by the user on 2026-11-05; replaces v10.8)
+(Where part 8 B2 and B4 say expressions swap instantly and actions take 1-3 frames, the "Smooth acting" section above overrides it, except for impacts. Where it gives title, length or voice rules, the "Channel data" and "Voice" sections above override it.)
+
+RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
+
+PRIORITY when two rules seem to conflict: 1 characters look like Rick, 2 the story's thing is shown clearly, 3 acting and camera flow, 4 sets and colour, 5 everything else. Numbers in this prompt are checks, not goals. A video can pass every number and still look wrong; your side-by-side review (step 5) decides.
+
+THE WORKFLOW (all five steps, in order, every video)
+
+STEP 1. TOPIC AND SCRIPT
+a. Title first: a curiosity question or strange claim the viewer cannot answer from the title ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Burglar Who Only Moved Furniture"). Real, checkable fact with a human twist. Do not reuse the last three formats or settings.
+b. Hook (first sentence, at most 5.6 s): one strange concrete action plus a stake, already happening at frame 1.
+c. Structure: hook, a doubter or problem by 10 s, a spoken open question by 20 s, three escalating beats, the trick named at 60-72% of the runtime, one everyday comparison, the payoff, a callback ending. Every sentence has one concrete thing we can picture.
+d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice.
+
+STEP 2. STYLE LOCK (before any animation)
+a. Build the cast and one frame of every set first.
+b. Render a side-by-side sheet: each of our characters next to a Rick character from board V at the same size, and each set frame next to a Rick set from boards S and A-O.
+c. Check each pair against the CHARACTER SPEC and SET SPEC below and write pass or fail per item. Redraw and re-render until every item passes. Only then animate. Keep the approved kit and reuse it in later videos.
+
+STEP 3. STORYBOARD
+For every shot write: the words, the subject, the action the subject does, the camera move, how the shot connects to the next one, and the Rick reference it copies in technique (for example "W: Storm Oil slow push-in to the two-shot", "P: ride the motion", "X: sawing rock"). No shot without a Rick reference.
+
+STEP 4. ANIMATE AND RENDER
+
+STEP 5. SIDE-BY-SIDE REVIEW (two rounds minimum)
+Render one frame every 2 s of our video next to the matching Rick reference frame from the storyboard. For each pair list every visible difference (head colour and size, outline, face, pose, body action, light, detail, colour, framing). Fix and render again. Then run the QA list at the end.
+
+CHARACTER SPEC (board V, plus A-O)
+1. Heads are WHITE or off-white for every character, never skin-coloured, tan or pink. No blush, no coloured ears.
+2. Head is a big round egg, about 35-45% of the whole figure height (hat included), widest near the eye line, with a thick black outline that wobbles slightly like a brush line. Never boxy, flat-topped, wide-jawed or pointed. It may squash and stretch a little with strong expressions.
+3. Face: small black oval or dot eyes (wide circles with pupils only when shocked), short thick eyebrow strokes that do most of the acting, a small mouth line or simple open mouth with teeth. Sweat drops and ^^ eyes for jokes. Faces change on almost every spoken phrase.
+4. Hair, beards, hats, caps sit ON the egg as separate shapes with their own outline and pattern (striped cap, bowler, top hat, chef hat).
+5. Body: a small rounded bean or capsule, shorter than or about as tall as the head, with a lot of costume detail (vest, buttons, watch chain, scarf, apron, stripes, collar).
+6. Arms and legs: thin black noodles, often bent, ball or mitten hands, small feet.
+7. Each character is recognisable by silhouette (hat shape plus costume colour). Costume colours contrast with the background.
+
+ACTING (board X, T)
+1. Every verb in the narration is acted by the whole body, not just the face: sawing rocks the whole body with every stroke; "gets stuck" means kicking legs, arms pushing, the object pressing down, a strained face; "laughs" means the body shakes and the head tips back; "shrugs" means both shoulders up, palms up, brows up.
+2. Use anticipation (a short move the other way), a fast action, a small overshoot, follow-through (hat, cloth, hair, dust, sparks), then a held reaction face.
+3. Nobody stands still. Speakers move head and brows on stressed words; listeners blink, squint or lean at least every 0.5-1 s.
+4. Action and danger share the frame when the story allows (board X: he saws while the train light grows behind him).
+
+CAMERA FLOW AND TRANSITIONS (boards W, P, Q, R)
+1. Every place is already full of people doing things. When the story moves to another character, the camera travels TO them where they already stand (W: Storm Oil 5.8-11.3 s, one slow push-in of about 5 s from far to a two-shot, no cut; Railroads 43.6-46.1 s, from the prop up to the two characters standing behind it).
+2. One continuous move may carry 2-3 lines. Hold each composition at least 1.5 s; most moves last 2-5 s, slow, eased in and out.
+3. Between places use a motivated transition: ride the motion, push through a window or door, into an object, shape or texture match dissolve, fly-through, slide-dissolve, walk into the lens. A hard cut is for a new angle in the same place, a punchline or a time jump.
+4. Never an empty frame: every frame shows a character or the object the narration names (no plain wall, no empty scaffolding, no wardrobe filling the frame).
+5. Never cut off a face at the frame edge. Faces sit in the upper-middle of the frame, above the caption line.
+6. Foreground pieces (a cat, a hull, a lamp) frame the edge and cover at most 15% of the frame. No big blobs, trees or poles across the frame or across a face.
+7. No camera roll, shake or sway.
+
+SHOW THE STORY (boards Y, T)
+1. The title thing is on screen at least 4 times, exaggerated so a child sees it in half a second, and it is the biggest thing in the payoff shot. (Leaning Houses never showed a house leaning.) Show it next to a normal version for comparison when it is a difference (a leaning house next to a straight one or a plumb line).
+2. Explain by changing the object itself (the rail turns yellow as the calendar goes from MAY to JULY; a caliper measures the gap). In-world diagrams only: a cutaway, a model, a board, a top-down view.
+3. The noun in each line is on screen while it is said. Each joke has its own small, full set (the rival in a deck chair under a striped umbrella with a drink and a sweat drop).
+
+SET SPEC AND COLOUR (boards S, A-O)
+1. Each set has at least 4 textured materials, at least 2 visible light sources with glow and shadow, at least 10 props, depth (a window, a door, a street behind), and wear.
+2. Colour script: each scene has its own dominant colour key, and neighbouring scenes contrast (Railroads: red canyon under a blue sky, a brick station in sun, a red and blue carriage). A whole video in one orange-brown key is a fail.
+3. Particles only when the place calls for it (snow outdoors in winter, dust in a sun beam, sparks from metal). Never weather indoors, never particles over a face.
+
+CAPTIONS AND AUDIO
+1-2 words per caption (at most 3), white heavy font with a black outline, about 68-72% of the frame height, on the spoken word, never lagging. Nothing important in the bottom 20%. -14.3 LUFS integrated, voice loudest, music about 19 dB under the voice and ducked, sound effects about 17 dB under, one stinger at the pivot about 11 dB under. Few ringing sounds, no loud swooshes. The mp4 has the same name as the mp3.
+
+QA BEFORE DELIVERY (print all of it; fix every fail, do not just report it)
+a. The style-lock sheet with pass or fail for each character and set item.
+b. The storyboard table with the Rick reference for each shot.
+c. Both side-by-side review rounds and what was fixed.
+d. Frame scan: no frame darker than 15 or brighter than 245 mean; no near-empty frame (very low contrast for more than 0.3 s); no face cut by an edge.
+e. Motion sanity: each third of the video has median motion of at least 15 (Leaning Houses' middle third was 7.3); no stretch longer than 1.5 s where both camera and characters are still, except a held reaction of at most 1 s.
+f. Title-thing count and the timestamps where it is shown.
+g. Length, words, trick position, loudness.
+Delivery message: put any failed item in the first line, then the decisions, then the numbers.
+
+DETAILS THAT MAKE IT SHINE (part of v10; check every one in QA, they are easy to lose)
+1. Look: the sets are lit 3D worlds with soft shadows, warm and cool light, and a slightly soft background (depth of field). The characters are drawn 2D shapes living inside them: they take the scene's light and colour, cast a soft shadow on the ground, and the background behind them is a little blurred.
+2. Frame 1: no logo, no title card, no fade-in, no black frame. The hook subject is already moving and fills at least 25% of the frame height.
+3. Script voice: Rick uses "You see," once, right before the explanation of the setup ("You see, two companies..."). Include one short quoted line from a doubter or rival ("We're about to get boarded and you're making soup?").
+4. Lip-sync: while the narrator describes a character talking or reacting, that character's mouth changes shape about every 0.13 s and the head bobs on stressed words.
+5. Living world: each shot has one main mover plus two small ambient loops (smoke, flags, water, steam, birds, swaying lamps). Background extras do small things (walk, point, chat) instead of standing like statues.
+6. Variety: at least 10 sets or lighting setups and at least 6 shot types per video (wide with depth, medium acting shot, big reaction face, prop close-up, top-down, cutaway or diorama, through a window or frame). No shot longer than 5 s.
+7. Objects travel and never pop in or vanish: thrown things fly in an arc, falling things bounce and settle, lifted things swing on their rope.
+8. Lasting changes stay visible: soot, wet clothes, dents, mud, a broken plank stay for the rest of the scene.
+9. Props have invented names and signs (FIRST LINE IN GETS IT ALL!, VANDERGOLD, STORM OIL). Text always fits inside its sign or tag. No real brands. The only other text on screen is the caption: no small text at the top, no labels floating in the air.
+10. Scale gags: once or twice per video, show something at a funny scale (people crawling on a giant map, a tiny model house next to the real one).
+11. Payoff: the biggest, brightest, most detailed shot of the video. The title thing fills at least half the frame, with particles and a strong light change, for at least 2.5 s, followed by one quick reaction shot.
+12. Ending: a calm close-up of at least 1.5 s with a changed expression and the callback prop, no fireworks in the last 2 s, and a last line that loops smoothly into the first line.
+13. Change the accent colour (caption highlight, key props) from the previous video.
+14. Title: short and curious, with one emoji at the end.
+
+PROGRESS CHECKPOINTS (do not stop and wait; send and keep working)
+As soon as each is ready, send it to me as a file in the chat so I can catch problems early: (1) the script with the title, (2) the style-lock sheet (our cast and sets next to Rick's), (3) the storyboard table, (4) the first side-by-side review sheet. If I reply with a correction, apply it before going further.
+
+PIPELINE AND MEASURED LOOK (part of v10; where this disagrees with anything above, this wins)
+Source: the free skill github.com/mromidev/claude-animated-shorts (MIT). Its author had Claude measure 20 of Rick's Shorts at 30 fps and then built a working three.js + Remotion pipeline that copies the look. Use it as the starting point instead of building a renderer from scratch.
+A. Clone the repo. Read SKILL.md, references/STYLE_BIBLE.md and the seven reports in references/reports/ (motion, depth, textures, characters, lighting, outlines, grade); they hold the measured numbers. Start the renderer from templates/bridge/ (ink pass, lens blur, grade, card-lit 2D characters, painted textures, camera glides) and templates/scripts/ (stills, side-by-side sheets, frame QA). Replace the story, sets and characters with ours.
+B. Ignore the skill's own "user rules": we DO use captions, 1080x1920 output, our audio levels (voice loudest, music about 19 dB under, SFX about 17 dB under, -14.3 LUFS) and our voice. Story, characters and shots stay original. Never upload or publish the reference frames in that repo. The Kenney CC0 3D props it loads are not in the repo; download them from kenney.nl if the network allows, otherwise model the props yourself.
+C. Ink on the 3D world: thin near-black lines (#0b0a0c, about 3 px at 1080 wide) on silhouettes, depth jumps and creases of every 3D object (houses, crates, rails, furniture), drawn before the lens blur so they blur with the background. Characters are NOT outlined by this pass; they carry their own dark plum outline (#241726), thicker on the shadow side.
+D. Light: two-tone shading. Lit side warm; shadows light and blue-violet (never brown or grey), about 3.5:1 lit to shadow. Day sun from the side and frozen per shot. Golden hour is backlit by a low sun with a peach horizon and violet shadows. Characters are lit by the scene (no glow, no emissive), with a soft contact shadow under the feet.
+E. Depth: lens blur on about one third of screen time (close-ups, medium shots, inserts), focus on the eyes; wide shots stay sharp. Fog colour equals the horizon colour, so distant things fade toward the sky.
+F. Colour: saturated, never crushed black (no black materials; darks are coloured). Day sky deep blue at the top, pale at the horizon.
+G. Characters (refines the character spec): about 3.5 head-heights tall (head 1 : torso 1.1 : legs 1.4); bean head about 0.94 high per width, slightly tapered with a little asymmetry and tilt, never a perfect circle; stick limbs about 0.055 of the head width; ink-dot hands; no blush and no eye highlights; blink every 0.5-2.3 s; walking bobs 3-7% and leans 1-7 degrees with planted feet.
+H. Camera (CORRECTS my earlier shot-rate rules; this was measured frame by frame on 20 Shorts): hard cuts are rare, 0-1 per video in most of them. About 80% of frames the camera holds, and every hold slowly pushes in (0.15-0.35% per frame, 0.6% on punch words), so nothing is ever frozen. Moves are smooth glides of 18-40 frames that ease in and out. Changes of place use camera moves, follow an object, a fly-through a window, a whip with motion blur, or a 6-8 frame dissolve. Rolls of 4-5 degrees only on emphasis beats, glided in; short shakes that decay over 7 frames on impacts; no hand-held float or whole-frame sway. This replaces "18-26 shot changes per minute", "no shot longer than 5 s" and "no camera roll".
+I. Effects are flat 2D cartoon sprites in the 3D scene: dust puffs, sparkles on impact, splashes, speed lines, glow bursts, stars, light shafts.
+J. Look-match loop (how the skill's author got close): measure the reference by topic, change one area at a time, render stills, and have a fresh reviewer score each area out of 10 (colour, lighting, ink, textures, characters, depth, composition) from side-by-side sheets against the reference frames, with a numbered fix list. Repeat until every area scores at least 7.
+
+LESSONS FROM THE TUTORIAL VIDEO (part of v10; where this disagrees with anything above, this wins)
+From "How to Make Viral Animated Shorts Using Claude (Full Workflow)" by Mr omi, the author of the skill above, who trained Claude on Rick's style.
+1. MEASURE, DON'T OPINE. Never judge Rick's videos or ours by "what you think". Look at every frame at 30 fps (sampling a few frames misses the micro-animations, tiny camera moves, shading and light changes that make it look real). Turn every 2 s into one 60-frame contact sheet, track the camera frame to frame (phase correlation), and measure brightness, contrast and saturation. Compare numbers, then fix the biggest gap.
+2. HEAD SHAPE CORRECTION. Measured on 38 of Rick's heads: they are ROUND, slightly wider than tall (height about 0.94 of the width), with a little taper and asymmetry. They are not tall eggs. Where the character spec says "egg", read "round bean, slightly wider than tall". Bodies are 3.5 heads tall; arms and legs are thin single strokes (the author's first version had limbs 5 times too thick and bodies under 3 heads tall).
+3. CAMERA CORRECTION. The camera is moving in about 65% of frames, mostly very slow push-ins that a quick look misses. It is almost never fully still. A move from one spot to another glides over about 23 frames, slow in and slow out, never a snap of 3 frames.
+4. LIGHT FOLLOWS THE STORY. Warm and bright while the story is set up, then a deep night blue right when the explanation ("You see,") begins, then back to light for the payoff.
+5. INK AND COLOUR. Black ink lines on about three out of four edges of the 3D world. No pure black anywhere in the picture. At sunset the shadows are purple, never brown. Wood and stone look hand-painted: visible grain and dark gaps between planks.
+6. TOPIC CHECK. Before writing, check Rick's channel titles. If he already covered the topic or the same experiment, pick another one.
+7. FACTS MAKE JOKES. Check every fact (dates, numbers, depths). A precise fact often becomes the best joke, e.g. the deadpan double line "Luckily, the river was only 2 ft deep. Unluckily, the river was only 2 ft deep."
+8. CHECK STILLS BEFORE RENDERING VIDEO. Typical faults the author found: the camera stuck inside a building, free 3D assets in the wrong colour (teal trees), a chain or prop in front of faces, a camera push that flies past the character. Fix them in stills first.
+9. WORK AS A TEAM WHEN THE LOOK IS OFF. Seven analysts (colour, ink lines, light and shadow, textures, characters, depth and framing, motion) each put our frames next to Rick's and measure the gap; one handles sound. Then four builders (camera, world, characters, final look), each with its own copy of the project and its own files, merged back file by file. Split the files, not just the jobs.
+10. GIVE IT TIME. The author gave Claude about 10 hours to learn the style and finish one video. Do not rush the look-match rounds.
+
+FIXES FROM "WHY BOSTON SHIPPED ICE TO INDIA" (part of v10; where this disagrees with anything above, this wins; reference images Z1, Z2)
+What worked and must stay: the cartoon-3d-short look (ink on the 3D world, white heads, bean bodies, scene light on characters, painted sets), the topic, the hook line, "You see," at the pivot, the beach-cooler comparison, the sawdust air-pocket close-up, the map and calendar beats, the India crowd behind ropes, the jump on "That's the trick!", the fall into the debtors' prison, -14.3 LUFS, 64.7 s.
+1. SHOT VARIETY (biggest gap, board Z1). The hero stood centred, facing the camera, at the same size for most of the video; the camera only pushed in (zooming in 94% of frames, travelling sideways in 32%). Rule: no two shots in a row with the same subject size and angle. Rotate: over-the-shoulder, low angle, high angle, profile two-shot, extreme close-up of a prop or face, wide with a foreground framing piece, view from behind the character, tracking alongside a walking character. Characters face three-quarter or in profile at least half the time, looking at each other or at the object, not at the camera.
+2. THE CAMERA TRAVELS THROUGH THE SCENE. In every place, at least one move per scene carries the camera from one character or object to another that is already there (pan, track or crane across the set, landing on the next subject on its word). Holds still creep in, but a scene longer than 4 s may not be one push-in on one person.
+3. HARD CUTS. This video had 14 hard cuts and about 11 dissolves. Target: at most 4 hard cuts, used only for punchlines and impacts. Every change of place is a camera move (follow an object, through a window or door, into an object, fly-through, whip with blur) or a dissolve of at most 8 frames. The 1.2 s ghost dissolve at 26.8-28.0 s must never happen.
+4. CAMERA COLLISION CHECK (board Z2). Run a per-frame check on every camera path: the camera never passes through or ends inside a character, a prop or a wall (55.2 s inside the ice block, 28.2 s through crates, 57.6-57.9 s through the rope line); no translucent object over the subject (17.1 s hatch); the named subject is in frame on its word (15.2 s empty deck while "he opens"); characters never overlap or interpenetrate (9.2 s). Fix with near-plane culling, sight-line culling and path changes, then re-render stills.
+5. EVERY VERB IS ACTED, WITH HANDS AND LEGS. Missing in this video: "he tries again" and "more melts" (he stands still), "he packs blocks in rice husks" (the ice is already packed, his hands never move), "he passes a sawmill" (he never walks; legs must walk with planted feet), "dumping mountains of sawdust" (nothing is dumped), "people line up just to touch it" (show hands touching the ice). Each verb gets a visible body action of at least 0.6 s, starting 0-3 frames before the word.
+6. BACKGROUND LIFE. Every set has 3-8 extras already doing something (loading crates, rowing, sweeping, chatting, carrying sacks), at different depths, so the camera can travel to them. In the tropics dock the people stood in a line facing the camera; give them work and reactions instead.
+7. LIGHT ARC. Warm, bright light for the setup; a deep night-blue look when the explanation begins (the sawdust science), back to bright for the payoff.
+8. ENDING. The final shot (61.4-64.7 s) is 3.3 s of one push-in on the hero. Keep the callback, but give it a small action (he places the last ice block, the crown slips) and a held reaction of 1-1.5 s, and end on the last spoken word.
+9. QA additions: print the camera translation share (target at least 50% of frames, not only zoom), the hard-cut count (at most 4), the longest dissolve (at most 8 frames), the number of shots where the hero is centred and frontal (at most 30% of runtime), and the collision check results.
+
+HOOK AND SCRIPT FORMULA, MEASURED ON 17 OF RICK'S SHORTS (part of v10; where this disagrees with anything above, this wins)
+Study only: learn the pattern, never copy his lines, stories or characters.
+
+A. WHAT THE 17 SHORTS SHOW
+Hook (sentence 1), and when "You see," starts:
+- "He saw gaps into a railroad every 39 ft." (9 words) -> "You see," at 3 s. 14M views.
+- "They buried a man alive with a bell tied to his finger." (12) -> "You see," at 3 s, and again for the final twist. 11M.
+- "He put a bronze ball in a dragon's mouth and told the emperor, 'If this ever falls out, run.'" (19) -> one reaction line ("The whole court burst out laughing."), then "You see," at 5 s. 31M.
+- "A knight paid a priest to forgive a crime he hadn't committed yet." (12) -> "You see," at 3 s.
+- "He sold his happiest memory to a stranger behind a counter." (11) -> "You see," at 3 s.
+- "It's impossible to get fired in Japan, but companies found something way worse." (13) -> "Imagine..." 16M.
+- "Gambling is illegal in Japan. Yet, there's a gambling hall on almost every street." (14) 13M.
+- "He bet his life savings on the slowest horse in the race." (12)
+- "A man snuck into a family's house every night and moved every single thing one inch to the left." (19)
+- "The fastest gun in the west had one rule. Never draw first." (12)
+- "There's a button in the middle of town and nobody's allowed to press it." (14)
+- "If your ship got hit by a cannonball, you'd actually be one of the lucky ones." (16)
+Patterns:
+1. The hook is ONE sentence of 9-16 words (median 12), spoken in 3.5 s or less. It states a finished, absurd act or a rule that contradicts common sense, as plain fact. It is never a scene description, never a question, never "Did you know".
+2. The subject is anonymous: He / A man / They / A knight / There's a... No names, years or places in sentence 1 (names and dates come later, if at all; first names only for invented people: Eddie, Gary, Jerry).
+3. Past tense in the hook, present tense for the story after it ("He saw gaps... You see, two companies ARE racing...").
+4. The absurd part comes LAST in the sentence ("...a crime he hadn't committed yet", "...one inch to the left", "...tied to his finger").
+5. "Sounds stupid, is actually smart" (or the reverse): the act sounds dumb on its own, and a real reason makes it clever. That gap is what makes people watch to the end.
+6. Two places for "You see,":
+   EARLY (5 of 17, including two of his three biggest): sentence 2, starting 2.5-6 s in, with no pause after the hook. It explains the world or the rule that makes the hook possible, and the setting (time, place) lives inside this sentence.
+   LATE (9 of 17): at 60-80% of the runtime it reveals the mechanism or the twist. Some videos use both.
+   When "You see" is not used, the bridge is "Imagine you're...", "But how? Well, picture...", "Wait, X? Well,...".
+7. Inside the story: 1-2 short in-character lines of mockery in quotes ("You're wrecking my railroad!", "Hey, it's the toy guy."); 1-2 exaggeration jokes ("That horse lost a race to the milk cart, and it was pulling the milk cart."); odd specific numbers (39 ft, 47 scratches, 3:00 a.m.); escalation with time markers (the first night / by the end of the week / by the end of the month); one spoken question at 15-35 s ("How is that possible?", "Wait, practiced?"); an everyday comparison that starts with "Ever...?", "Think about the last time..." or "Picture...".
+8. The last sentence is the twist or the callback, short, ending on its key word. No moral, no summary, no "and that's why".
+9. Pace 3.6-4.1 words per second with no pauses; sentences are short, linked by "So", "But", "Then".
+
+B. OUR DEFAULT FORMULA (use for most videos; the user wants this one)
+0.0-3.5 s HOOK: one paradox sentence as in A1-A5.
+3.0-6.0 s "You see," + the rule of the world that makes the hook make sense, with the setting folded in. No sentence of plain scene-setting before it.
+6-20 s the plan or the problem, plus one mocking line in quotes.
+15-35 s one spoken question that deepens the mystery.
+Escalation in three beats with time markers and one exaggeration joke.
+60-75% the real reason ("That's the trick." or a second "You see,") plus one everyday comparison.
+Last 3-6 s the twist or callback, ending on the key word, looping into the hook if possible.
+Use the late-only "You see" or "Imagine you're..." for at most 1 in 4 videos, for variety.
+
+C. HOOK WORKSHOP (do it every time, print it)
+1. Write 6 hook candidates. Score each 0-1 on: 9-16 words; finished absurd act or contradiction; one concrete object (a bell, a gap, a button, a suitcase); the absurd part at the end; no name, year or place; a stranger would ask "wait, why?". Keep the best (6/6).
+2. Read the hook plus the "You see," sentence aloud at 3.8 words per second: the hook must end by 3.5 s and "You see," must start by 6 s.
+3. Then cut the whole script: every sentence must raise a question, escalate or pay off. Delete scene-setting sentences that do none of these.
+
+D. EXAMPLE, REWRITING "THE MAN WHO SOLD THE EIFFEL TOWER"
+Ours: "This man is selling the Eiffel Tower, and the buyer is about to hand him a suitcase of cash. It's Paris, 1925, and the newspapers say the tower is rusting and costs a fortune to paint. You see, it was built for a world's fair..." ("You see" at 10.4 s; the hook is a scene, not a paradox; 6 s of setting before "You see").
+Rick-style: "A man sold the Eiffel Tower, and the buyer paid him extra to be robbed. You see, in 1925 the tower was rusting, it cost a fortune to paint, and Paris was quietly talking about tearing it down." ("You see" at about 4 s; the paradox is "paid extra to be robbed", which the bribe trick explains at 67%.)
+Add one exaggeration joke ("a hotel so fancy the doorman had a doorman") and one mocking line from a rival dealer.
+
+E. TOPIC TEST (stupid but interesting)
+The topic must survive this sentence: "[Someone] did [something that sounds dumb or impossible], and it [worked / was the smartest move / ruined them]." True, checkable examples in this shape (verify before scripting): a soldier who kept fighting for 29 years after his war ended because nobody told him (Hiroo Onoda); a state senator who sued God, and the case was thrown out because God could not be served (Ernie Chambers, Nebraska 2007-08); a man who ate an entire airplane over two years (Michel Lotito, Cessna 150); a plan to set off a nuclear bomb on the Moon to impress the world (Project A119). Fictional "what if" stories in Rick's style (the memory shop, the button town) are fine when labelled as stories.
+
+MOTION FIXES FROM "THE MAN WHO SOLD THE EIFFEL TOWER" (keep everything else; it measured well: 61.2 s, 3.82 words/s, no voice gaps, -14.3 LUFS, 6 hard cuts, camera travelling in 74% of frames, no frozen frames, trick named at 67%)
+1. Hook frame: show the absurd act itself, big, at frame 1 (the handshake over a deed with the tower behind, the suitcase of cash opening). Main characters at least 30% of frame height; not a row of people facing the camera.
+2. Dissolves: about 13 in this video, several with half-transparent people in the middle of the frame (4.6, 14.2, 26.8, 37.0, 52.4, 55.2, 58.0 s). At most 5 per video, 6-8 frames each, only between places, ideally shape-matched; all other changes are camera moves.
+3. No shot of 2 s or more without a character or a moving prop (10.2-13.2 s was 3 s of bare tower lattice). Put life in it (a painter on a rope, fair crowds, the "20 years" permit held by someone).
+4. Two-shots longer than 3 s need gestures from both people (34-37 s: the wife stands still with arms down; give her crossed arms, a raised eyebrow, a point at the letter) and a small camera travel.
+5. Over-the-shoulder foreground heads cover at most 25% of the frame and must read as a person (hat brim, ear, collar), not a featureless blob (22.8-24.2 s).
+6. Keep the collision check: the camera skims the table flowers at 18.8-19.0 s.
+7. Keep: the money burst on the train, the scratch sparkle, the newspaper headline, the permit signs, the "guess what he's selling?" callback.
+
+SCENE STRUCTURE AND FLOW (part of v10; for the NEXT video and every one after; where this disagrees with anything above, this wins; reference images AA and AB)
+Measured frame by frame (0.5 s sheets plus a 0.1 s colour-change scan) on five of Rick's Shorts: The Ancient Jar That Warned an Empire (31M, his biggest), Why Perfect Railroads Don't Work (14M), Why Sailors Carried Storm Oil (12M), How a Mirror Rigged a Horse Race (4.8M) and The Town Built Around a Button (3.3M), then checked on the skill's reference sheets. A SCENE = one place and one time. The timings below are a pattern, not a template: the script and topic decide the exact lengths.
+A. WHAT RICK DOES
+- 9-13 scenes per 64-65 s. Most scenes 3-7 s. Scenes of 2-3 s are only time jumps (that night, the next morning) or a single punch image (a beam, a number, a jaw snapping).
+- Every one of the five has a long scene (9 s or more) inside the first 20 s, carrying the hook, "You see," or the setup: Jar 0-13.5 s (throne hall), Railroads 0-11.7 s (one camera flight from tunnel to station), Button 0-12.3 s (guards, whole town, back to the button), Storm Oil 6-23 s (17 s on the ship's deck after a 6 s opening flight from the cook to the pirate ship), Mirror 3.5-12.7 s (the betting room after a 3.5 s hook).
+- Long scenes (9-17 s) happen in a HOME-BASE place the story keeps returning to: the betting room appears 4 times in Mirror, the deck carries most of Storm Oil, the palace carries the start of Jar. Each return to the home base is again 5-8 s long.
+- Inside a long scene the camera may change angle (close-up, two-shot, reverse), but the place, the light and the people stay, and everyone keeps acting. Railroads and Button do it as one unbroken camera move; Jar and Storm Oil cut between angles inside the same room or deck. Both are fine; jumping to a new place is not.
+- The explanation gets its own place (the galley, the inside of the jar, the telegraph room), 4-7 s. The climax spectacle is long: Storm Oil 12.1 s, Railroads 7.2 s, Jar 6.5 s.
+- Characters are never lost: the hook's worker is back at 13.6 s; the betting-room regulars are there every time we return.
+B. WHAT "THE RAT POISON GOLD MEDAL" DID
+- 16 scenes in 59 s. The first 29 s is a montage of 13 places averaging 2.3 s each (car, starter, map, thermometer, organiser, well, road, runner 15, the runner who nearly dies, mailman, dog, road).
+- Hicks and his coach, the hook characters, vanish at 3.5 s and do not return until 29.4 s.
+- Empty frames on scene changes: 38.3-38.7 s (the camera swings off the official to empty sky), 46.0-46.6 s (an empty drugstore before anyone appears), the bare grass at 12.0 s and the bare road at 21.2 s.
+- The second half is already right: car 11.8 s, drugstore 8.9 s, stadium 6.3 s, each one continuous path with the characters acting throughout. Keep that.
+C. RULES
+1. Plan 9-13 scenes for 60-65 s (7-10 for 45-55 s). Print a scene table before animating: start, end, length, place, the camera path or angles in one line, characters present at the start and at the end, and the events inside.
+2. Pick one or two HOME-BASE places for the story (where the hero and the doubters are) and return to them. At least one scene of 9-17 s must fall in the first 20 s; it carries the hook, "You see," or the setup in one place. A short 3-6 s opening flight or hook shot before it is fine.
+3. 2-3 scenes of 9 s or more in total, the climax spectacle 6-12 s, the explanation 4-7 s in its own place, other scenes 3-7 s. A scene under 3 s only for a time jump or a single punch image; never 3 scenes under 3 s in a row; no montage stretch. Let the script decide: a beat with dialogue, mockery or a plan in one place gets a long scene; a jump in time gets a short one.
+4. A list in the script (several runners, several problems, several steps) is shown in ONE scene: the camera travels along the road, the line or the room from one example to the next, and each example is already there acting. Do not give each item its own place.
+5. CHARACTER CONTINUITY. No character vanishes on a scene change. The main characters either travel with the camera into the next place (walk, ride, get carried), or the next scene opens on them already there; if the story leaves them, show them leaving (walk off, door shuts, car drives away). The hook's characters are back on screen within 12 s.
+6. ACTION FLOW. Each character's action ends in the pose the next action starts from (no pose snaps across a cut or a dissolve). Actions overlap: one character starts reacting while the other is still finishing. A scene change starts on a motion that continues into the next scene in the same direction and speed.
+7. Every frame of a scene change shows a character or the named object. No empty sky, empty room, bare grass or bare road, even for 0.3 s.
+8. QA: print the scene table with real timings from the render; the count of scenes under 3 s; the length of the long scene in the first 20 s and of each home-base scene; for every scene change, who is on screen in the last frame before and the first frame after; and any frame without a character.
+9. CONSTANT ACTION INSIDE EVERY SCENE (a long scene is never a long hold). What Rick's long scenes contain, from the frame sheets:
+   - Railroads opening (11.7 s): the worker saws with his whole body, the train's light grows behind him, the train bursts past, the camera rides it over the canyon, smoke pours out, the camera drops to the desert floor, and a station full of people under a "FIRST LINE IN GETS IT ALL" banner swings into view. That is a new visible event about every 1.5 s.
+   - The gambling hall prize counter (about 14 s, skill sheet short16): the clerk hands over cookies, then chocolate, then shampoo, then tokens, one item per spoken word, while the hero's face reacts to each.
+   - The Burglar living room (skill sheet short10): he pushes the couch, the ruler shows one inch, the light changes to morning, the fridge has slid, the dad stares, each on its line.
+   Rule: inside a scene, something new and visible happens on every spoken phrase, about every 1-1.5 s: a character starts an action, a prop changes or moves, a second character walks into frame, an effect fires (dust, sparkles, sweat drops, music notes); the camera itself stays on each subject at least 2 s (part 9). The main action is tied to the words; a character who just spoke reacts while the next one acts.
+   This is NOT everyone moving all the time: background extras hold still or do one small loop and only act on cue (the skill's motion report measured Rick's background crowds as frozen except on cue), and the camera keeps its slow creep. Busy, jittery extras look cheap; one clear new event per phrase looks alive.
+   QA: in every scene of 6 s or longer, list the events with their times; flag any gap of more than 2 s with no new event.
+
+CHARACTER ACTING, IDLE AND TRANSITIONS, PLUS SCRIPT CRAFT AND LENGTH (part of v10; where this disagrees with anything above, this wins; reference images AC, AD (acting and idle in six kinds of scenes) and AE (transitions picked by situation), with P, Q, R)
+Measured on Rick's Shorts frame by frame (Storm Oil 6.5-7.9 s at 0.2 s steps, Railroads sawing at 0.25 s steps) and in the skill's references/reports/motion.md and characters.md (20 Shorts measured at 30 fps). This part REPLACES the squash, overshoot and "nobody stands still / listeners lean every 0.5-1 s" wording in the earlier parts: Rick uses no squash and stretch, no overshoot frames and no wobbling idles.
+
+A. WHAT "WHY HE PUT A BRIDGE IN THE DESERT" DID (keep everything else; it measured well: 63.8 s, -14.3 LUFS, Lake Mirage sign callback, Mr. Nowhere nickname, map gag, visitor counter)
+- Characters hold one pose and one face through whole lines: the hero at 33.6-35.1 s on "So what's a bridge with no river for?" (no mouth, brow, blink or hand), the laughing salesmen at 16.9-18.4 s (one frozen laugh face, bodies still, the hero does not react). The hero keeps the same smug half-lidded face for most of the video.
+- About 9 plain 6-8 frame crossfades between unrelated rooms (office to London 10.2 s, nickname to map 21.0 s, map to bridge 26.8 s, lake to office 39.9 s), so a half-transparent hero floats over another room; plus 12 hard cuts. The camera travels sideways in only 34% of frames (Eiffel Tower: 74%); the rest is push-in only.
+
+B. HOW RICK'S CHARACTERS ACT (measured)
+1. Speech: a character who speaks (in quotes or "he goes...") moves the mouth on every frame of the line, matched to the voice (line, open with teeth, round O, wide), with brows and moustache moving on stressed words. The mouth leads the sound by 0-1 frame.
+2. Expressions swap instantly (1 frame), 0-3 frames BEFORE the word that causes them, and a blink often hides the swap. Each character changes expression on almost every phrase that concerns them: smug, shocked (big white eyes with small pupils), deadpan lidded, squint-laugh, angry V brows, sweat drop, panic.
+3. Blinks: 3-4 frames (half, shut as a line, half), every 0.5-1.5 s (Rick: 6-7 blinks in 4 s on a face in close-up), irregular, never on a fixed timer.
+4. Actions are fast and sharp: a short wind-up held for about 6 frames, then the action in 1-3 frames, contact exactly on the word, an effect (dust, spark, splash, impact star) for 4-5 frames. No squash and stretch, no overshoot, no rubbery smears. Walks: 9-12 frames per step, body bob 3-7%, lean 1-7 degrees, feet planted.
+5. Body turns take 1-4 frames with the face sliding round the head; never a sudden flip during a camera move.
+6. WHEN A CHARACTER HAS NOTHING TO DO: the body is completely still (no breathing bob, no swaying, no looping wave). What keeps it alive is the face: blinks, the eyes looking at whoever is speaking or at the object being talked about, and an instant expression swap on each line about them. The stillness is often the joke (the cook's deadpan while the captain yells). Only motivated idles move: a sleeper's head lolls, a bored guard taps a foot once.
+7. Reactions overlap: while one character finishes an action, the other's face has already changed. A line about a group ("his salesmen laughed", "the whole town laughed") is shown as a group acting together: bodies shake, heads tip back, someone points at the hero or slaps the desk, and the hero reacts with a face (unbothered smirk, eye-roll).
+8. Every question or claim a character makes gets a hand: points, palms up, counts on fingers, taps the map, holds up the object.
+
+C. TRANSITIONS (fixes the plain crossfades)
+1. Between places, use a motivated move (boards P, Q, R): ride a motion (a car, a boat, a thrown object, a walking character carries the camera into the next place), push through a window, door or frame, dive into an object, or a shape-match dissolve (the toy bridge on the desk dissolves into the real bridge; the drawn lake on the map into the real lake; the sign's number into the next sign).
+2. A plain crossfade is allowed only for a time jump in the SAME place (the same lot by day and then years later), 6-8 frames, with characters standing in the same screen positions so nothing ghosts.
+3. Never crossfade between two shots that both have a character in a different screen position (no ghost bodies). If a transition would ghost a body, change it to a motivated move or a hard cut on a punch word.
+4. Hard cuts: at most 4, only for punchlines, impacts and reaction close-ups.
+5. Keep the camera travelling sideways or around the action in at least half the frames; a hold is a slow push-in of 0.15-0.35% per frame, not a static frame and not the only move.
+
+D. SCRIPT CRAFT (from 17 transcripts)
+1. A fake-out at 30-45%: one beat where the hero's plan seems to fail and the doubters look right (a ball falls and nothing happens; the gaps shrink and the boss gloats). Then the real payoff.
+2. The hero never explains himself; only cryptic one-liners ("Trust the oil.", "Attack and find out."). The viewer learns the reason at the reveal, together with the doubters.
+3. Mockery escalates: one person laughs, then a group, then the whole town or room ("the regulars are betting on whether he'll bet").
+4. The doubters give the hero a mocking nickname, and it returns at the payoff (Bridge did this well with Mr. Nowhere).
+5. Plant one specific detail early that returns changed at the end (47 scratches become 48; Bridge's POP. 300 becoming 10,000 is a good example).
+6. Rule of three with the third beat breaking the pattern ("Then one night a ball dropped. Then another. Then all eight at once.").
+7. One concrete picture instead of an adjective ("not even a ripple in the emperor's wine").
+8. Casual spoken words ("goes", "pretty sure", "a guy", "Pal"); quoted lines under 10 words; no sentence over 25 words.
+9. The real mechanism takes 2-3 sentences, then straight back to the story.
+10. Write the last sentence so it runs into the hook when the Short loops (Rick: "We'll build our town right..." loops into "There's a button in the middle of town").
+
+E. LENGTH
+Aim for 62-65 s (about 235-250 words at 3.8 words per second); Rick's biggest Shorts are 63.5-65.5 s. A story with only one trick: 44-50 s (170-190 words). Never under 40 s or over 68 s. Get the length from escalating beats and the fake-out, not from extra setup.
+
+F. QA ADDITIONS
+a. For every shot with a speaking character: confirm the mouth moves on every frame of the line.
+b. For every character on screen longer than 1.5 s: list the blinks and expression swaps with times; flag any face unchanged for more than 2 s while its character is being talked about.
+c. List every crossfade with the place before and after; flag any between different places or with a ghosted body.
+d. Print the camera sideways-travel share (at least 50%) and the hard-cut count (at most 4).
+e. Print the word count, the length and the fake-out timestamp.
+G. PICKING ACTING AND TRANSITIONS FOR ANY STORY (boards AD and AE)
+Acting: the character the line is about acts; everyone else is still but faces the action. A new face on every phrase about that character, with a blink between. Idle = a still body with a readable face, never a looping sway. A held pose must be extreme (squeezed eyes, puffed cheeks, whole-body lean) and ends with one small change (one eye opens, a brow lifts). Group reactions happen together on the same word. Every spoken line has a hand.
+Transitions: object to person = subject-position match dissolve (the new subject fades in on the same spot and size, then the camera reveals the place). Time passes or a disaster = dissolve inside smoke, dust, steam or light. The story's object exists = go through it (mirror, lens, window, map, painting, newspaper photo). Two places share a shape = shape-match dissolve. Something moves from A to B = ride the motion. Same place, new angle, or a punchline = hard cut. Everything else = a camera move that carries the character into the next place.
+
+CAMERA HOLDS: HOW LONG THE CAMERA STAYS ON EACH SUBJECT (part of v10; where this disagrees with anything above, this wins; reference image AF)
+Measured frame by frame on "Why He Painted Eyes on Cows' Butts" (optical flow on every frame) and on Rick's "The Pink Prison Cell Experiment" (3.7M, frame sheets every 0.5 s), checked against the Shorts measured earlier (Ancient Jar, Railroads, Storm Oil, Mirror Race, Button) and the skill's motion report.
+
+A. WHAT "WHY HE PAINTED EYES ON COWS' BUTTS" DID
+Keep: the hook ("A guy saved a bunch of lions by painting eyes on cows' butts!", "You see," at 3.3 s), the "Butt Picasso" nickname, the farmers falling off the fence laughing, the 62 to 61 night count, "Trust the eyes", the lion explanation, the cookie-jar comparison, the 0 vs 15 scoreboard, the village lining up for a job, 61.9 s, -14.3 LUFS, 6 hard cuts.
+Problems:
+- Inside a "continuous" scene the camera lands on a subject for well under a second and whips to the next one. Measured: the camera stays on one subject for a median of 1.0 s, and 61% of its stops last under 1.2 s. There are 39 camera relocations in 62 s (one every 1.6 s), with peak speeds of 45-90 px per frame (1080 wide), 2-4 times faster than Rick's glides. Examples: 3.75-7.5 s shows hero, cows, farmers, shooting and the lion in under 4 s; 12.5-16.25 s shows cow face, hero, herd, a fence post, a tiny hero and farmers; 34.5-38.25 s shows hero, a ghost dissolve, cows, farmers, a row of farmers and the lion.
+- Fence posts sweep across the lens during moves (14.75 s, 31.0 s).
+- Ghost crossfades between different places at 7.25, 11.25, 34.25 and 43.0 s.
+- Farmers stand in a straight row facing the camera (16-20 s, 37 s).
+- Cause: the earlier rule "something new happens on every phrase... a new character is reached by the camera" was read as "move the camera to a new subject every 1-1.5 s". It is corrected below.
+
+B. WHAT RICK DOES (measured)
+- The camera stays on each subject 2-5 s; the median stop is about 2.3 s and almost none are under 1.5 s. Big beats are one shot of 4-8 s (Pink Prison: the inmate laughing at the pink walls while cracks spread, 4.8 s; the arm wrestle, 7.8 s; the aerial flight over the country, 4.8 s).
+- While the camera is on a subject, the subject DOES something: the prisoner walks in and comes back out, the scientist lifts the stopwatch, the inmate flexes, the cracks spread. That is where the "new event every phrase" comes from.
+- The camera relocates only when the sentence moves to a new subject: about 16-20 relocations in 46 s, roughly one every 2.5-3 s.
+- Each relocation is a glide of about 18-40 frames (typically 23) with slow in and slow out; between relocations the camera creeps with a slow push-in (0.15-0.35% per frame).
+
+C. RULES
+1. CORRECTION TO PART 7 RULE 9: the new event on every phrase happens INSIDE the shot (the subject acts, a prop changes, an effect fires, a second character walks into frame). The camera does not move to a new subject on every phrase.
+2. HOLD LENGTH: the camera stays on each subject at least 2 s (1.5 s only for a single punch insert such as a number or a jaw snapping). Aim for a median of 2-3 s. The hook image, the mockery moment, the fake-out, the climax and the explanation each get one shot of 4-8 s.
+3. RELOCATION BUDGET: at most one camera relocation per sentence, about 18-25 in a 60-65 s video. A 10 s scene is 3-4 holds of 2.5-3 s, not 8-10 stops.
+4. HOW TO RELOCATE: a glide of 18-40 frames with ease in and ease out, peak speed under about 22 px per frame at 1080 wide (about 2% of the frame width per frame). No whip pans, except at most 2 deliberate whip transitions on a punch word per video.
+5. LISTS AND GROUPS: when the script lists several things (lions eating cows, farmers shooting lions), frame them together in one wider shot and let them act one after another, or make one slow track past them with each item centred for at least 1.2 s. Never whip from item to item.
+6. NOTHING CROSSES THE LENS: no fence post, pole, tree or character passes between the camera and the subject during a move; cull or move occluders.
+7. GROUPS AT DIFFERENT DEPTHS: crowds and doubters stand at different distances and angles, turned toward the action, never a straight row facing the camera.
+8. PLAN IT: the shot list gives every shot its subject, start, end, length (2 s or more), the action the subject does during it, and the glide into the next shot (frames). Before animating, print the count of shots under 2 s and the relocation count.
+9. QA from the render: segment the camera path at moves faster than 4 px per frame and print every stop length, the median (target 2 s or more), the share under 1.2 s (target 10% or less), the number of relocations, the peak speed of each move, and any frame where an object crosses the lens.
