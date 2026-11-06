@@ -206,6 +206,13 @@ export const drawProp = (p: Pen, name: string, h: P2, u: number, ang = 0, k = 0)
       p.band(R([[6, -50], [2, -18]]), "#e2483c", 1.6 * u, 0.6 * u, "round");
       break;
     }
+    case "juiceGlass": { // short tumbler of purple grape "juice"
+      p.poly(R([[-18, -46], [18, -46], [15, 5], [-15, 5]]), "rgba(214,240,252,0.75)", ow * u);
+      p.poly(R([[-16, -27], [16, -27], [14, 4], [-14, 4]]), "#7a2a96", 0);
+      p.poly(R([[-16, -27], [16, -27], [16, -22], [-16, -22]]), "#a54cc4", 0);
+      p.stroke(R([[-11, -38], [-9, -8]]), 2.8 * u, "rgba(255,255,255,0.7)");
+      break;
+    }
     case "magnifier":
       p.band(R([[0, 6], [0, -34]]), "#7a4a24", 4.6 * u, 1.2 * u, "round");
       E(0, -58, 26, 26, "rgba(200,238,255,0.35)", 0); E(0, -58, 26, 26, null, 5.5); E(0, -58, 23, 23, null, 1.2);

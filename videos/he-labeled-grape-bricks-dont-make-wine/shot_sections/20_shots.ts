@@ -295,7 +295,7 @@ lens(1485, 7, 1); lens(1512, 3, 40); lens(1630, 5, 1); lens(1752, 6, 30);
 // =====================================================================================================================
 // SHOT 7 (1810-1930) = H16, the ending (calm, callback prop): the pantry jugs glow purple, the calendar reads 21, Mum
 // pours herself a glass and sips with a calm smile; the camera pushes into the glowing jug on "And it all started...".
-const MUM7: V3 = [1.45, 0, -1.05];
+const MUM7: V3 = [1.1, 0, -1.05];
 SHOT_CAMS[7] = (s) => {
   const h16 = fit([body(MUM7, 0, 2.0, 0.4), [[2.7, 0, -1.9], 0.1, 2.3, 0.7]], -10, 4, 42, 0.86), j: V3 = [2.7, 0.95, -1.9];
   const S16 = F(() => h16, 1810, 0.0018);
@@ -304,9 +304,9 @@ SHOT_CAMS[7] = (s) => {
 SHOT_ACTS[7] = (f, s) => ({
   ctl: { cupboard: 1, jugGlow: 0.6 + 0.4 * sm(f, 1810, 1860), day: 21, shelf: 0, jugHide: 1 },
   cast: [C("mum20", MUM7, flow(f, [
-    [1810, { expr: "calm", facing: 1, armR: AR.liftR, armRFront: true, propR: "glass" }],
-    [1858, { expr: "smile_closed", facing: 1, armR: [[22, -10], [10, -40]] as A2, armRFront: true, propR: "glass", headBack: 0.3 }, 10],   // sips
-    [1884, { expr: "smug", facing: 1, armR: AR.liftR, armRFront: true, propR: "glass", look: 0.4 }, 10],
+    [1810, { expr: "calm", facing: 1, armR: [[22, 10], [34, -6]] as A2, armRFront: true, propR: "juiceGlass" }],
+    [1858, { expr: "smile_closed", facing: 1, armR: [[26, -4], [16, -30]] as A2, armRFront: true, armRTop: true, propR: "juiceGlass", headBack: 0.3 }, 10],   // sips
+    [1884, { expr: "smug", facing: 1, armR: [[22, 10], [34, -6]] as A2, armRFront: true, propR: "juiceGlass", look: 0.4 }, 10],
   ]), { idx: 1 })],
   fx: [],
   focus: f < 1866 ? [MUM7[0], 1.4, MUM7[2]] : [2.7, 0.95, -1.9],
