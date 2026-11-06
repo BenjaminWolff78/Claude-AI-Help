@@ -221,14 +221,14 @@ SHOT_ACTS[5] = (f, s) => {
         [1362, { expr: "smug", facing: -1, armR: AR.shrugR, armL: AR.shrugL, armRFront: true, armLFront: true, headTilt: 6 }, 8],     // "well, that's your juice"
       ]), { idx: 1 }),
       C("kid20", kw.p, kw.moving ? pose(null, { expr: "sly", mode: "walk", phase: ph(f, 10), facing: screenSide(5, s, f, kw.d[0], kw.d[1]), armR: AR.holdR, armRFront: true, propR: "cakeBox" }) : f < 1392 ? flow(f, [[958, { expr: "grin", facing: 1 }], [1135, { expr: "stare", facing: 1, look: -0.4 }, 6], [1230, { expr: "grin", facing: 1 }, 6]])
-        : flow(f, [[1392, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox" }], [1452, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox", headTilt: 6, look: 0.6 }, 4]]), { idx: 2 }),
+        : flow(f, [[1392, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox" }], [1463, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox", headTilt: 6, look: 0.6 }, 4]]), { idx: 2 }),
     ],
     fx: fxs(
       ...[0, 1, 2, 3, 4, 5].map((i) => { const a = 964 + i * 5; return f >= a && f < a + 12 ? sparkle("sh" + i, [-0.1 + i * 0.22, 1.66, -1.95], f - a, 0.22, "#e8c8ff") : null; }),
       f >= 1070 && f < 1092 ? dustCard("steam", [1.0, 1.3, -1.3], 1.6, 0.85 * Math.sin(Math.PI * (f - 1070) / 22), 5) : null,
       noWine("nw5", camPt(5, s, f, 2.6, 0.3, 0.62), f, 1132, 1146, 1178),
       gallons("gal", camPt(5, s, f, 2.2, 0.1, 0.42), f, 1180, 1276),
-      f >= 1452 && f < 1470 ? sparkle("box350", [KIDC[0] + 0.2, 1.05, KIDC[2] + 0.2], f - 1452, 0.25, "#ffd27a") : null,
+      f >= 1466 && f < 1484 ? sparkle("box350", [KIDC[0] + 0.2, 1.05, KIDC[2] + 0.2], f - 1466, 0.25, "#ffd27a") : null,
     ),
     focus: f < 1000 ? MK(s, "shelf") : f < 1100 ? [SVC(s)[2][0], 1.3, SVC(s)[2][2]] : f < 1277 ? [MUM5[0], 1.3, MUM5[2]] : f < 1392 ? [MUM_P[0], 1.3, MUM_P[2]] : [KIDC[0], 1.1, KIDC[2]],
     subj: f < 1000 ? "mum20" : f < 1100 ? "service" : f < 1405 ? "mum20" : "kid20",
@@ -305,8 +305,8 @@ SHOT_ACTS[7] = (f, s) => ({
   ctl: { cupboard: 1, jugGlow: 0.6 + 0.4 * sm(f, 1810, 1860), day: 21, shelf: 0, jugHide: 1 },
   cast: [C("mum20", MUM7, flow(f, [
     [1810, { expr: "calm", facing: 1, armR: AR.liftR, armRFront: true, propR: "glass" }],
-    [1838, { expr: "smile_closed", facing: 1, armR: [[22, -10], [10, -40]] as A2, armRFront: true, propR: "glass", headBack: 0.3 }, 10],   // sips
-    [1872, { expr: "smug", facing: 1, armR: AR.liftR, armRFront: true, propR: "glass", look: 0.4 }, 10],
+    [1858, { expr: "smile_closed", facing: 1, armR: [[22, -10], [10, -40]] as A2, armRFront: true, propR: "glass", headBack: 0.3 }, 10],   // sips
+    [1884, { expr: "smug", facing: 1, armR: AR.liftR, armRFront: true, propR: "glass", look: 0.4 }, 10],
   ]), { idx: 1 })],
   fx: [],
   focus: f < 1866 ? [MUM7[0], 1.4, MUM7[2]] : [2.7, 0.95, -1.9],

@@ -107,7 +107,7 @@ The user approved this sound: "The Pharaoh 3" raised 3.5 semitones with a clean,
   - Never run atempo first and a separate pitch shift after it (two passes double the artifacts). Never use the default engine, and never shift without formant preservation.
 - Template: `templates/cartoon-3d-short/audio/build_voice_r3.py TEMPO` in the user's repo (trim, the one R3 pass, an F0 check, then word timings on the final file).
 - Checks before using the voice:
-  - Median F0 about 200-220 Hz (Rick's narrator measured about 205 Hz; the plain Pharaoh 3 is about 166-180 Hz). If it falls outside 195-225 Hz, change the shift in 0.5-semitone steps.
+  - Median F0 about 200-220 Hz (Rick's narrator measured about 205 Hz; the plain Pharaoh 3 is about 166-180 Hz). If it falls outside 195-225 Hz, change the shift in 0.5-semitone steps. Takes differ: the grape-brick take read lower and needed +5 semitones (202.6 Hz) where +3.5 gave only 186 Hz, so always measure; never assume +3.5.
   - Compare a 2 s spectrogram of the shifted voice with the unshifted one: the harmonics must stay crisp, with no smear in the upper bands.
   - Word timings (words.json) are always made from the final shifted file.
 - Rick's own narrator is not any public ElevenLabs voice (checked on 2026-11-05 against 329 library voices with speaker embeddings: best match 0.83, while a true match scores 0.94+). Do not search for it again, and never clone it from his videos.
