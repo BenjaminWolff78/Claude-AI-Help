@@ -23,8 +23,32 @@ SHOT_CAMS[1] = (s) => {
     K(358, F((f) => { const k = sm(f, 402, 445); return { pos: lerp3(h4.pos, lerp3(h4.look, h4.pos, 0.8), k), look: h4.look, fov: 34 }; }, 358, 0.0026), 1, true),   // hard cut 2: the smug reaction, push in on "label"
   ];
 };
+/** remake: two neighbours ripping out vines further back in Hank's field ("His neighbors rip out their vines"), each on
+ *  its own irregular strain -> yank -> toss -> bend cycle (a task, not a loop). Placed along the wide's view line. */
+let NB1: V3[] | null = null;
+/** the wide (cam ~[-11.6, 2.6, 5.9] looking east over Hank's field) only has room in Hank's field on its left edge, between
+ *  his fence and the first row: one neighbour rips vines there; the second works further back along the same row */
+const neighboursAt = (s: SetDef): V3[] => {
+  if (NB1) return NB1;
+  const hk = HANK_Y(s);
+  NB1 = [[-6.66, hk[1], 2.6], [-7.2, hk[1], 0.6]];
+  return NB1;
+};
+const ripCycle = (f: number, i: number): FigOpts => {
+  const beats: Beat[] = [[0, { expr: "strain", facing: i ? -1 : 1, tilt: 12, armR: [[20, 22], [28, 42]] as A2, armRFront: true, armL: [[-6, 24], [14, 42]] as A2, armLFront: true }]];
+  let t = 20 + i * 23;
+  for (let k = 0; t < 470; k++) {
+    const g = 58 + ((k * 37 + i * 19) % 23);
+    beats.push([t, { expr: "strain", facing: i ? -1 : 1, tilt: 15, armR: [[20, 26], [24, 46]] as A2, armRFront: true, armL: [[-4, 26], [12, 44]] as A2, armLFront: true }, 10]);
+    beats.push([t + 18, { expr: "grin", facing: i ? -1 : 1, tilt: -5, armR: AR.liftHiR, armRFront: true, propR: "vineYank" }, 3]);          // yank
+    beats.push([t + 30, { expr: "grin", facing: i ? 1 : -1, tilt: 3, armR: [[-10, -14], [-34, -30]] as A2, armRFront: true }, 6]);        // toss
+    beats.push([t + 44, { expr: "strain", facing: i ? -1 : 1, tilt: 12, armR: [[20, 22], [28, 42]] as A2, armRFront: true, armL: [[-6, 24], [14, 42]] as A2, armLFront: true }, 10]);   // bends to the next vine
+    t += g;
+  }
+  return flow(f, beats);
+};
 SHOT_ACTS[1] = (f, s) => {
-  const bb = BB_PRESS(s), hk = HANK_Y(s), crank = f < 58 ? f / 46 : 58 / 46;
+  const bb = BB_PRESS(s), hk = HANK_Y(s), crank = f < 58 ? f / 46 : f < 160 ? 58 / 46 : 58 / 46 + (Math.min(f, 326) - 160) / 46;
   return {
     ctl: { press: crank, juice: f < 62 ? 1 : 0, bricks: f < 70 ? 20 : 21, agentCar: -1, spread: 0 },
     cast: [
@@ -34,29 +58,36 @@ SHOT_ACTS[1] = (f, s) => {
         [66, { expr: "smug", facing: -1, armR: AR.liftR, armRFront: true, propR: "grapeBrick", propK: 0 }, 10],    // a fresh brick
         [84, { expr: "sly", facing: -1, armR: AR.liftHiR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 10], // WARNING!
         [150, { expr: "smug", facing: -1, armR: AR.carryR, armRFront: true, propR: "grapeBrick", propK: 0 }, 10],
+        [160, { expr: "determined", facing: 1, tilt: 4 + 3 * Math.sin(f * 0.45), armR: AR.crankR, armRFront: true, armL: [[-10, 4], [18, -16]] as A2, armLFront: true }, 10],   // back to cranking out bricks (far yard)
+        [326, { expr: "calm", facing: -1, armR: AR.downR, armRFront: true }, 8],
+        [338, { expr: "smug", facing: -1, armR: AR.carryR, armRFront: true, propR: "grapeBrick", propK: 0 }, 10],
         [358, { expr: "smug", facing: -1, look: -0.4, armR: AR.carryR, armRFront: true, propR: "grapeBrick", propK: 0 }],
         [383, { expr: "sly", facing: -1, armR: AR.liftHiR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 3 }, 10],   // "Read the label."
       ]), { idx: 1 }),
       C("hank", hk, flow(f, [
-        [0, { expr: "strain", facing: 1, tilt: 10, armR: [[20, 20], [30, 40]] as A2, armRFront: true, armL: [[-6, 24], [16, 40]] as A2, armLFront: true }],
+        [0, { expr: "strain", facing: 1, tilt: 10 + 4 * Math.max(0, Math.sin(f * 0.38)) ** 2, armR: [[20, 20 + 4 * Math.max(0, Math.sin(f * 0.38)) ** 2], [30, 40 + 5 * Math.max(0, Math.sin(f * 0.38)) ** 2]] as A2, armRFront: true, armL: [[-6, 24], [16, 40]] as A2, armLFront: true, headTilt: -3 * Math.max(0, Math.sin(f * 0.38)) ** 2 }],   // tugs: each pull rocks the whole body
         [236, { expr: "strain", facing: 1, tilt: 14, armR: [[20, 24], [26, 44]] as A2, armRFront: true, armL: [[-4, 26], [14, 44]] as A2, armLFront: true }, 6],
         [252, { expr: "grin", facing: 1, tilt: -4, armR: AR.liftHiR, armRFront: true, propR: "vineYank" }, 3],    // yank (impact timing)
         [266, { expr: "grin", facing: -1, tilt: 4, armR: [[-10, -14], [-34, -30]] as A2, armRFront: true }, 6],   // tosses it on the heap
         [280, { ...laughP(f, 280, 0), facing: 1, armR: AR.hipR, armL: AR.hipL }, 4],                               // "One laughs"
         [299, { expr: "grin", facing: 1, armR: AR.pointR, armRFront: true, mouth: talk(f, 300, 352), headTilt: 3 * Math.sin(f * 0.3) }, 4],
       ]), { idx: 2 }),
+      ...(f >= 118 && f < 358 ? neighboursAt(s).map((p, i) => C(i ? "town2" : "town1", p, ripCycle(f, i), { idx: 30 + i })) : []),
     ],
     fx: fxs(
-      (() => { const c = camAt(1, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1; return noWine("nw1", [c.pos[0] + d[0] / L * 6, c.pos[1] + d[1] / L * 6 + 1.45, c.pos[2] + d[2] / L * 6], f, 140, 150, 226); })(),
+      ...(f >= 118 && f < 358 ? neighboursAt(s).map((p, i) => { const y = (f - 20 - i * 23) % 70; return y >= 18 && y < 28 ? dustCard("nbY" + i, [p[0] + 0.2, 0.3, p[2]], 0.8, 0.6 * (1 - (y - 18) / 10), 2) : null; }) : []),
+      (() => { const q = cardNearFocus(1, s, f, [hk[0], 1.4, hk[2]], 6, 0, 1.45); return noWine("nw1", q.pos, f, 140, 150, 226, q.k); })(),
       f >= 252 && f < 264 ? dustCard("yank", [hk[0] + 0.3, 0.3, hk[2]], 0.9, 0.8 * (1 - (f - 252) / 12), 2) : null,
       f >= 268 && f < 280 ? dustCard("heap", [hk[0] - 1.6, 0.5, hk[2] + 3.6], 1.0, 0.7 * (1 - (f - 268) / 12), 3) : null,
       f >= 383 && f < 400 ? sparkle("lab1", brickAt(bb, rtOf(-150), 0.44), f - 383, 0.28) : null,
     ),
-    focus: f < 118 ? [bb[0], 1.2, bb[2]] : f < 358 ? [hk[0], 1.4, hk[2]] : brickAt(bb, rtOf(-150), 0.44),
+    focus: f < 118 ? [bb[0], 1.55, bb[2]]                                                     // H1: his eyes (MS)
+      : f < 358 ? follow(f, [[118, [hk[0], 1.4, hk[2]]], [269, [hk[0], 1.55, hk[2]], 40]])       // wide, then the glide in to Hank
+      : follow(f, [[358, [bb[0], 1.55, bb[2]]], [445, brickAt(bb, rtOf(-150), 0.44), 43]]),      // CU, then the push lands on the label (insert)
     subj: f < 118 ? "brickBoy" : f < 358 ? "hank" : "brickBoy",
   };
 };
-lens(0, 6, 1); lens(118, 2, 1); lens(229, 5, 20); lens(358, 7, 1);
+lens(0, DOF_MS, 1); lens(118, DOF_WS, 1); lens(229, DOF_MS, 40); lens(358, DOF_CU, 1); lens(402, DOF_INSERT, 43);
 
 // =====================================================================================================================
 // SHOT 2 (445-582) = H5, the night kitchen (home base B), one slow track: the warning acted out. Opens on the brick over
@@ -83,14 +114,21 @@ SHOT_ACTS[2] = (f, s) => {
         [540, { expr: "calm", facing: 1, armR: [[24, -2], [44, -8]] as A2, armRFront: true, propR: f < 548 ? "jug" : undefined }, 6],   // into the pantry
         [552, { expr: "smug", facing: -1, look: 0.6, armR: AR.downR }, 8],
       ]), { idx: 1 }),
-      C("kid20", MK(s, "kidTable"), flow(f, [[445, { expr: "neutral", facing: -1, look: -0.3 }], [500, { expr: "stare", facing: 1, look: 0.4 }, 6]]), { idx: 2 }),
+      C("kid20", MK(s, "kidTable"), flow(f, [
+        [445, { expr: "neutral", facing: 1, look: 0.3, tilt: 2 }],
+        [458, { expr: "stare", facing: 1, look: 0.5, tilt: 6, headTilt: 3 }, 8],            // leans in as the brick fizzes
+        [488, { expr: "grin", facing: 1, look: 0.4, tilt: 3, armR: [[22, -2], [34, -20]] as A2, armRFront: true }, 8],   // it turned purple: points
+        [506, { expr: "grin", facing: 1, look: 0.7, tilt: 1 }, 10],                           // follows Mum to the pantry
+        [550, { expr: "stare", facing: 1, look: 0.8, headTilt: -3 }, 8],                      // the calendar flips
+        [572, { expr: "grin", facing: 1, look: 0.5 }, 6],
+      ]), { idx: 2 }),
     ],
     fx: fxs(f >= 456 && f < 470 ? sparkle("plop", add3(MK(s, "jug"), 0, 0.5, 0), f - 456, 0.22, "#d8b0f0") : null),
-    focus: f < 494 ? add3(MK(s, "jug"), 0, 0.4, 0) : [walk.p[0], 1.4, walk.p[2]],
+    focus: follow(f, [[445, add3(MK(s, "jug"), 0, 0.4, 0)], [530, (g) => { const w = along([m0, [2.25, 0, -1.08]], 0.075, 500, g); return [w.p[0], 1.5, w.p[2]]; }, 40], [570, add3(MK(s, "calendar"), 0, -0.4, 0), 24]]),   // all inside the one slow track
     subj: "mum20",
   };
 };
-lens(445, 5, 1); lens(486, 3, 20);
+lens(445, DOF_INSERT, 1); lens(500, DOF_MS, 40);
 
 // =====================================================================================================================
 // SHOT 3 (582-893) = H6, G3, H7 at day (home base A). H6 582-722: from the brick in Lou's hands (town3) pull back along
@@ -124,6 +162,7 @@ SHOT_ACTS[3] = (f, s) => {
       [592 + i, { ...laughP(f, 592, i), facing: 1, armR: i % 2 ? AR.pointR : AR.hipR, armRFront: true, ...(who === "town3" ? { armR: AR.liftHiR, propR: "grapeBrick", propK: 1 } : {}) }, 3],   // the whole town laughs
       [622, who === "town3" ? { expr: "grin", facing: 1, armR: AR.liftHiR, armRFront: true, propR: "grapeBrick", propK: 1, mouth: talk(f, 625, 660) } : { ...laughP(f, 622, i + 2), facing: 1 }, 4],
       [690 + i * 2, { expr: "stare", facing: lookAgent, look: -0.5 }, 6],                                                       // the sedan
+      [772 + i * 2, i === 4 ? { expr: "grin", facing: -1, look: -0.3, armR: AR.pointR, armRFront: true } : i % 2 ? { expr: "grin", facing: -1, tilt: 4 * (i === 1 ? 1 : -1), headTilt: 4 } : { ...laughP(f, 772, i), facing: -1 }, 6],   // "...get arrested": Hank points, the others nudge and snicker
       [790 + i, { expr: "grin", facing: -1, look: -0.4, ...(i % 2 ? { armR: AR.hipR, armL: AR.hipL } : {}) }, 4],                    // here comes the arrest
       [878 + i, { expr: "dismay", facing: -1, sweat: i === 4 ? 1 : 0 }, 4],                                                       // he put it back
     ]), { idx: 10 + i });
@@ -133,7 +172,18 @@ SHOT_ACTS[3] = (f, s) => {
     ctl: { agentCar: carU, bricks: 21, press: 0, juice: 0 },
     cast: [
       ...crowd,
-      C("brickBoy", BB3, flow(f, [[582, { expr: "calm", facing: -1, armR: AR.hipR, armL: AR.hipL }], [700, { expr: "stare", facing: -1, look: -0.6 }, 6], [880, { expr: "smug", facing: -1, armR: AR.hipR, armL: AR.hipL }, 6]]), { idx: 1 }),
+      C("brickBoy", BB3, flow(f, [
+        [582, { expr: "calm", facing: -1, armR: AR.hipR, armL: AR.hipL }],
+        [700, { expr: "stare", facing: -1, look: -0.6 }, 6],
+        // remake: he keeps working while the agent walks up (restacks the bricks: reach, lift, set down), cool as ever
+        [720, { expr: "calm", facing: -1, armR: AR.downR, armRFront: true }, 10],
+        [734, { expr: "calm", facing: -1, armR: AR.liftR, armRFront: true, propR: "grapeBrick", propK: 0 }, 10],
+        [748, { expr: "calm", facing: -1, armR: [[24, 12], [40, 18]] as A2, armRFront: true, propR: "grapeBrick", propK: 0, tilt: 4 }, 10],
+        [760, { expr: "sly", facing: -1, look: -0.5, armR: AR.downR, armRFront: true }, 8],
+        [776, { expr: "sly", facing: -1, look: -0.5, armR: AR.hipR, armL: AR.hipL, headTilt: 3 }, 10],
+        [836, { expr: "calm", facing: -1, look: -0.6, armR: AR.hipR, armL: AR.hipL, headTilt: -3 }, 8],
+        [880, { expr: "smug", facing: -1, armR: AR.hipR, armL: AR.hipL }, 6],
+      ]), { idx: 1 }),
       ...(f >= 700 ? [aw.moving ? C("agent", aw.p, pose(null, { expr: "stern", mode: "walk", phase: ph(f, 11), facing: screenSide(3, s, f, aw.d[0], aw.d[1]) }), { idx: 20 }) : C("agent", aw.p, flow(f, [
         [790, { expr: "stern", facing: 1, armR: AR.downR }],
         [796, { expr: "stern", facing: 1, armR: AR.liftR, armRFront: true, propR: "grapeBrick", propK: 0 }, 10],                     // picks up a brick
@@ -146,11 +196,12 @@ SHOT_ACTS[3] = (f, s) => {
       f >= 668 && f < 712 ? dustTrail("car", [2.7, 0, 30 - 36 * sm(f, 668, 700)], [0, 1], f, 6, 0.8 * (1 - sm(f, 700, 712)), 0.8) : null,
       f >= 868 && f < 882 ? dustCard("putback", add3(MK(s, "agentTable"), 0.55, 0.95, 0), 0.45, 0.6 * (1 - (f - 868) / 14), 4) : null,
     ),
-    focus: f < 718 ? add3(CROWD_P[2], 0, 1.3, 0) : [aw.p[0], 1.3, aw.p[2]],
+    focus: f < 718 ? follow(f, [[582, add3(CROWD_P[2], 0, 1.5, 0)], [668, add3(CROWD_P[2], 0, 1.4, 0), 28]])   // Lou (MS), then the whole fence (FS)
+      : follow(f, [[718, add3(lerp3(BB3, MK(s, "agentTable"), 0.4), 0, 1.5, 0)], [893, add3(MK(s, "brickStack"), 0, 0.1, 0), 27]]),   // Brick Boy (near) and the agent across the table both read; the push lands on the bricks   // the agent; the push on "puts it back" lands on the bricks
     subj: f < 718 ? "town3" : "agent",
   };
 };
-lens(582, 5, 1); lens(640, 3, 24); lens(718, 5, 30);
+lens(582, DOF_MS, 1); lens(640, DOF_FS, 28); lens(718, 6, 1); lens(866, DOF_MS, 27);
 
 // =====================================================================================================================
 // SHOT 4 (893-958) = H8, Washington (hard cut 2): the lawyer winds up and slams LEGAL on the ruling ("legal"), push to
@@ -165,10 +216,10 @@ SHOT_ACTS[4] = (f, s) => ({
     [934, { expr: "proud", facing: 1, armR: AR.stampDown, armRFront: true, propR: "legalStamp", propK: 1, tilt: 6 }, 2],     // SLAM
   ]), { idx: 1 })],
   fx: fxs(legalMark(add3(MK(s, "paper"), 0, 0.01, 0.05), f, 935), f >= 935 && f < 945 ? bang(add3(MK(s, "paper"), 0.25, 0.25, 0), f - 935) : null),
-  focus: f < 934 ? [0, 1.3, -1.05] : MK(s, "paper"),
+  focus: follow(f, [[893, [0, 1.5, -1.05]], [950, MK(s, "paper"), 14]]),   // her eyes; the push on the slam lands on the ruling
   subj: "lawyer",
 });
-KICKS.push([935 / 30, 0.6]); lens(893, 5, 1);
+KICKS.push([935 / 30, 0.6]); lens(893, DOF_MS, 1); lens(936, DOF_INSERT, 14);
 
 // =====================================================================================================================
 // SHOT 5 (958-1485) = H9-H12, the kitchen. H9 958-1104: from the shelf (object match with the stamped paper) the bricks
@@ -211,7 +262,12 @@ SHOT_ACTS[5] = (f, s) => {
           [1082, { expr: "beam", facing: 1, armR: AR.liftHiR, armRFront: true, propR: "wineBottle", propK: 1 }, 6],  // later: corked
         ]), { idx: 5 })] : []),
       C("mum20", mw.moving ? mw.p : f >= 1277 ? mw.p : MUM5, mw.moving ? pose(null, { expr: "sly", mode: "walk", phase: ph(f, 11), facing: 1 }) : flow(f, [
-        [958, { expr: "smile", facing: 1, look: 0.5 }],
+        [958, { expr: "joy", facing: 1, look: 0.6, headTilt: -5 }],                                      // watches the bricks fly off the shelf
+        [974, { expr: "joy", facing: 1, look: 0.85, headTilt: -2 }, 10],
+        [988, { expr: "grin", facing: 1, look: 0.6, armR: [[22, -4], [10, -22]] as A2, armRFront: true, armL: [[-22, -4], [-10, -22]] as A2, armLFront: true }, 8],   // claps once: sold out
+        [1006, { expr: "smile", facing: 1, look: 0.9 }, 10],                                           // the serviceman comes in
+        [1050, { expr: "smile", facing: 1, look: 0.8, headTilt: 5 }, 8],                               // nods along: "set up the jug"
+        [1084, { expr: "smile_closed", facing: 1, look: 0.7, headBack: 0.3 }, 8],                      // smells the bottle
         [1104, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1 }, 8],
         [1110, { expr: "smug", facing: 1, armR: AR.slapR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 3],          // "That's the trick."
         [1135, { expr: "stern", facing: 1, armR: [[26, -6], [36, -30]] as A2, armRFront: true }, 6],                                  // "bans selling wine"
@@ -220,21 +276,36 @@ SHOT_ACTS[5] = (f, s) => {
         [1300, { expr: "sly", facing: 1, armR: [[26, -10], [46, -16]] as A2, armRFront: true }, 6],                                   // opens the doors
         [1362, { expr: "smug", facing: -1, armR: AR.shrugR, armL: AR.shrugL, armRFront: true, armLFront: true, headTilt: 6 }, 8],     // "well, that's your juice"
       ]), { idx: 1 }),
-      C("kid20", kw.p, kw.moving ? pose(null, { expr: "sly", mode: "walk", phase: ph(f, 10), facing: screenSide(5, s, f, kw.d[0], kw.d[1]), armR: AR.holdR, armRFront: true, propR: "cakeBox" }) : f < 1392 ? flow(f, [[958, { expr: "grin", facing: 1 }], [1135, { expr: "stare", facing: 1, look: -0.4 }, 6], [1230, { expr: "grin", facing: 1 }, 6]])
+      C("kid20", kw.p, kw.moving ? pose(null, { expr: "sly", mode: "walk", phase: ph(f, 10), facing: screenSide(5, s, f, kw.d[0], kw.d[1]), armR: AR.holdR, armRFront: true, propR: "cakeBox" }) : f < 1392 ? flow(f, [
+          [958, { expr: "stare", facing: 1, look: 0.7, headTilt: -5 }],                                  // looks up at the flying bricks
+          [976, { expr: "grin", facing: 1, look: 0.8, headTilt: -2 }, 8],
+          [990, { expr: "grin", facing: 1, look: 0.6, armR: [[24, -10], [30, -40]] as A2, armRFront: true }, 8],   // cheers
+          [1006, { expr: "stare", facing: 1, look: 0.9 }, 10],                                           // the stranger with the jug
+          [1056, { expr: "stare", facing: 1, look: 0.9, tilt: 5 }, 10],                                  // leans in to see
+          [1086, { expr: "grin", facing: 1, look: 0.8, armR: AR.pointR, armRFront: true }, 8],           // the bottle!
+          [1135, { expr: "stare", facing: 1, look: -0.4 }, 6],
+          [1196, { expr: "eureka", facing: 1, look: 0.5, armR: [[24, -10], [30, -40]] as A2, armRFront: true }, 8],   // counts along
+          [1230, { expr: "grin", facing: 1 }, 6]])
         : flow(f, [[1392, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox" }], [1463, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox", headTilt: 6, look: 0.6 }, 4]]), { idx: 2 }),
     ],
     fx: fxs(
       ...[0, 1, 2, 3, 4, 5].map((i) => { const a = 964 + i * 5; return f >= a && f < a + 12 ? sparkle("sh" + i, [-0.1 + i * 0.22, 1.66, -1.95], f - a, 0.22, "#e8c8ff") : null; }),
       f >= 1070 && f < 1092 ? dustCard("steam", [1.0, 1.3, -1.3], 1.6, 0.85 * Math.sin(Math.PI * (f - 1070) / 22), 5) : null,
-      noWine("nw5", camPt(5, s, f, 2.6, 0.3, 0.62), f, 1132, 1146, 1178),
-      gallons("gal", camPt(5, s, f, 2.2, 0.1, 0.42), f, 1180, 1276),
+      (() => { const q = cardNearFocus(5, s, f, [MUM5[0], 1.5, MUM5[2]], 2.6, 0.36, 0.7); return noWine("nw5", q.pos, f, 1132, 1146, 1178, q.k * 0.85); })(),
+      (() => { const q = cardNearFocus(5, s, f, [MUM5[0], 1.5, MUM5[2]], 2.2, 0.1, 0.6); return gallons("gal", q.pos, f, 1180, 1276, q.k); })(),
       f >= 1466 && f < 1484 ? sparkle("box350", [KIDC[0] + 0.2, 1.05, KIDC[2] + 0.2], f - 1466, 0.25, "#ffd27a") : null,
     ),
-    focus: f < 1000 ? MK(s, "shelf") : f < 1100 ? [SVC(s)[2][0], 1.3, SVC(s)[2][2]] : f < 1277 ? [MUM5[0], 1.3, MUM5[2]] : f < 1392 ? [MUM_P[0], 1.3, MUM_P[2]] : [KIDC[0], 1.1, KIDC[2]],
+    focus: follow(f, [
+      [958, lerp3(MK(s, "shelf"), [MUM5[0], 1.5, MUM5[2]], 0.5)],                                                        // the shelf and Mum in front of it both read
+      [1040, (g) => { const w = along(SVC(s), 0.09, 1003, g); return [w.p[0], 1.5, w.p[2]]; }, 40],                     // pull back to the serviceman
+      [1140, [MUM5[0], 1.5, MUM5[2]], 40],                                                                               // ease in to Mum (explanation)
+      [1315, (g) => { const w = along([MUM5, MUM_P], 0.11, 1277, g); return [w.p[0], 1.5, w.p[2]]; }, 40],              // follow her to the pantry
+      [1490, [KIDC[0] + 0.2, 1.0, KIDC[2] + 0.15], 38],                                                                  // the push lands on the cake-mix box
+    ]),
     subj: f < 1000 ? "mum20" : f < 1100 ? "service" : f < 1405 ? "mum20" : "kid20",
   };
 };
-lens(958, 6, 1); lens(1000, 3, 30); lens(1100, 4, 30); lens(1275, 4, 30); lens(1458, 6, 20);
+lens(958, 9, 1); lens(1000, DOF_FS, 40); lens(1100, DOF_MS, 40); lens(1275, DOF_MS, 40); lens(1452, DOF_INSERT, 38);
 
 // =====================================================================================================================
 // SHOT 6 (1485-1810) = H13-H15, the payoff at golden light (home base A). H13 1485-1552: from a grape cluster (object
@@ -265,20 +336,31 @@ SHOT_ACTS[6] = (f, s) => {
     cast: [
       C("hank", HANK_Y(s), flow(f, [
         [1485, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[20, 20], [24, 44]] as A2, armRFront: true, propR: "vineYank" } as P],
+        // remake: he tucks the soil round the new vine (pat, pat, pat) before he pushes it in on "back"
+        [1532, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[20, 20], [24, 44]] as A2, armRFront: true, propR: "vineYank", armL: [[-14, 22], [-4, 48]] as A2, armLFront: true, tilt: 6 } as P, 8],
+        [1546, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[20, 20], [24, 44]] as A2, armRFront: true, propR: "vineYank", armL: [[-14, 16], [-6, 36]] as A2, armLFront: true, tilt: 4 } as P, 8],
+        [1558, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[20, 20], [24, 44]] as A2, armRFront: true, propR: "vineYank", armL: [[-14, 22], [-4, 48]] as A2, armLFront: true, tilt: 6 } as P, 8],
+        [1572, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[20, 20], [24, 44]] as A2, armRFront: true, propR: "vineYank", armL: [[-14, 16], [-6, 36]] as A2, armLFront: true, tilt: 4 } as P, 8],
         [1588, { expr: "sheepish", facing: -1, mode: "kneel", kneelK: 1, armR: [[18, 28], [20, 54]] as A2, armRFront: true, propR: "vineYank", tilt: 8 } as P, 10],   // pushes it in
-        [1612, { expr: "pained", facing: -1, mode: "kneel", kneelK: 1, armR: AR.hipR, sweat: 1 } as P, 8],
+        [1612, { expr: "pained", facing: -1, mode: "kneel", kneelK: 1, armR: [[18, -20], [6, -46]] as A2, armRFront: true, sweat: 1 } as P, 10],   // wipes his brow
+        [1626, { expr: "pained", facing: -1, mode: "kneel", kneelK: 1, armR: AR.hipR, sweat: 1 } as P, 8],
       ]), { idx: 2 }),
       C("brickBoy", bb, flow(f, [
         [1485, { expr: "smug", facing: -1, armR: AR.carryR, armRFront: true, propR: "grapeBrick" }],
-        [1700, { expr: "proud", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1 }, 8],
-        [1752, { expr: "sly", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 12],   // lifts it to us
+        [1650, { expr: "smug", facing: -1, look: -0.5, armR: AR.carryR, armRFront: true, propR: "grapeBrick", armL: [[-22, -18], [-8, -54]] as A2, armLFront: true }, 10],   // tips his hat to the lawyer
+        [1666, { expr: "smug", facing: -1, look: -0.4, armR: AR.carryR, armRFront: true, propR: "grapeBrick" }, 10],
+        [1684, { expr: "proud", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1 }, 10],                       // holds it out for the stamp
+        [1744, { expr: "sly", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1, armL: AR.shrugL, armLFront: true, headTilt: 5 }, 8],   // "a criminal?" shrug
+        [1764, { expr: "sly", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 12],   // lifts it to us
+        [1784, { expr: "smug", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1, armL: [[-12, 0], [14, -8]] as A2, armLFront: true, headTilt: 4 }, 8],   // taps the label: "read the law"
       ]), { idx: 1 }),
       lwk.moving ? C("lawyer", lwk.p, pose(null, { expr: "proud", mode: "walk", phase: ph(f, 11), facing: screenSide(6, s, f, lwk.d[0], lwk.d[1]), armR: AR.carryR, armRFront: true, propR: "legalStamp" }), { idx: 3 })
         : C("lawyer", lwk.p, flow(f, [
           [1600, { expr: "proud", facing: 1, armR: AR.carryR, armRFront: true, propR: "legalStamp" }],
           [1682, { expr: "determined", facing: 1, armR: AR.stampUp, armRFront: true, propR: "legalStamp", propK: 1 }, 8],
           [1700, { expr: "proud", facing: 1, armR: AR.stampDown, armRFront: true, propR: "legalStamp", propK: 1 }, 2],   // stamps his brick
-          [1730, { expr: "smug", facing: 1, armR: AR.hipR, armL: AR.hipL }, 8],
+          [1730, { expr: "smug", facing: 1, armR: [[16, -14], [4, -40]] as A2, armRFront: true, propR: "legalStamp", propK: 1, mouth: f >= 1736 && f < 1748 ? "o" : undefined }, 8],   // blows on the stamp
+          [1756, { expr: "smug", facing: 1, armR: AR.carryR, armRFront: true, propR: "legalStamp", armL: AR.hipL }, 10],
         ]), { idx: 3 }),
     ],
     fx: fxs(
@@ -286,11 +368,12 @@ SHOT_ACTS[6] = (f, s) => {
       f >= 1770 && f < 1792 ? sparkle("glint", [bb[0], 1.38, bb[2] - 0.32], f - 1770, 0.4) : null,
       f >= 1772 ? glowBurst("pay" + Math.round(lin(f, 1772, 1810) * 6), [bb[0] - 0.1, 1.27, bb[2] - 0.32], 1.2, 0.5 * lin(f, 1772, 1790), "255,226,170") : null,
     ),
-    focus: f < 1630 ? add3(HANK_Y(s), 0, 0.9, 0) : f < 1752 ? add3(bb, -0.5, 1.4, 0.4) : [bb[0], 1.35, bb[2] - 0.3],
+    focus: f < 1630 ? follow(f, [[1485, add3(HANK_Y(s), 0, 0.9, 0)], [1552, add3(HANK_Y(s), 0, 1.2, 0), 40]])        // his hands and the vine (insert), then the pull back
+      : follow(f, [[1630, (g) => { const w = along(LAW_W, 0.085, 1560, g); return [w.p[0], 1.5, w.p[2]]; }], [1808, [bb[0], 1.35, bb[2] - 0.3], 56]]),   // the lawyer walks in; the push lands on the brick
     subj: f < 1630 ? "hank" : f < 1662 ? "brickBoy" : f < 1752 ? "lawyer" : "brickBoy",
   };
 };
-lens(1485, 7, 1); lens(1512, 3, 40); lens(1630, 5, 1); lens(1752, 6, 30);
+lens(1485, DOF_INSERT, 1); lens(1512, DOF_WS, 40); lens(1552, DOF_FS, 30); lens(1630, DOF_MS, 1); lens(1752, DOF_INSERT, 56);
 
 // =====================================================================================================================
 // SHOT 7 (1810-1930) = H16, the ending (calm, callback prop): the pantry jugs glow purple, the calendar reads 21, Mum
@@ -309,7 +392,7 @@ SHOT_ACTS[7] = (f, s) => ({
     [1884, { expr: "smug", facing: 1, armR: [[22, 10], [34, -6]] as A2, armRFront: true, propR: "juiceGlass", look: 0.4 }, 10],
   ]), { idx: 1 })],
   fx: [],
-  focus: f < 1866 ? [MUM7[0], 1.4, MUM7[2]] : [2.7, 0.95, -1.9],
+  focus: follow(f, [[1810, [MUM7[0], 1.5, MUM7[2]]], [1930, [2.7, 0.95, -1.9], 78]]),   // Mum; the push into the glowing jug carries the focus with it
   subj: f < 1880 ? "mum20" : null,
 });
-lens(1810, 5, 1);
+lens(1810, DOF_MS, 1); lens(1852, DOF_INSERT, 78);

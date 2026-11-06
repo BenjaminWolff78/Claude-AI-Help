@@ -38,6 +38,7 @@
 //   both verges (offset -2.5..-5.2 and +2.5..+3.8 / +5.2 outside the ditch zone) at 1-2 m, all air above the road,
 //   and the corridor from the dust zone over the left fence into the orchard (offset -4..-11, z 24..36, y > 1.5).
 import * as THREE from "three";
+import { swayMaterial } from "../sway";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { Batch, boxGeo, V, lam } from "../build";
 import { ctex, rng, stoneHD, roofHD, beamHD, cloudHD, CLOUD_DAY, CLOUD_GOLD } from "../paint";
@@ -452,7 +453,7 @@ const signPost = (b: Batch, parent: THREE.Object3D, key: string, lines: string[]
 // brickTable), the GRAPE BRICKS sign by the gate. Controls: c.press (crank turns, plate sinks 0..1 per pressing),
 // c.bricks (0..36 bricks stacked on the table), c.agentCar (-1 hidden, 0..1 the black sedan drives from z 46 to the
 // gate, stops at z -3.6 on the near lane), c.carDoor 0..1 (rear door opens), c.juice 0..1 (juice runs from the spout).
-const vineLeaf = () => tex("vineLeaf", () => leafTex("rdVine", "#4f9a3a", "#7cbd4e", "#2f6e30"));
+const vineLeaf = () => swayMaterial(tex("vineLeaf", () => leafTex("rdVine", "#4f9a3a", "#7cbd4e", "#2f6e30")));   // remake: leaves ripple in the breeze (sway.ts)
 const vinePlant = (b: Batch, p: V3, seed: number, ripe = true, h = 1.0) => {
   const r = rng(seed), bark = col("#6e4a32"), grape = shiny("grape", "#5a2470", 70), grape2 = shiny("grape2", "#7a3a8e", 70);
   const top: V3 = [p[0] + (r() - 0.5) * 0.12, p[1] + 0.8 * h, p[2] + (r() - 0.5) * 0.12];
@@ -527,6 +528,7 @@ const buildVineyard = (b: Batch, root: THREE.Object3D) => {
   signPost(b, root, "grBricks", ["GRAPE BRICKS", "$1"], at(6.5, -5.7), -Math.PI / 2, 1.9, 0.9, 1.3, { bg: "#fbf3dc", fg: "#6a2c7e", fg2: "#c8352e" });
   // the agents' black 1920s sedan (federal car); hidden unless c.agentCar >= 0
   const car = limo(root, [0, 0, 0], 0, "#1c1e26"), CZ0 = 46, CZ1 = -7.0, CO = 1.25;
+  const exhaust = [0, 1, 2, 3].map(() => mist(root, [0, -10, 0], 0.5, "#d8d4dc", 0.3));
   const carAt = (u: number) => { const z = CZ0 + (CZ1 - CZ0) * (1 - (1 - cl(u)) ** 2.2), x = roadX(z) + CO; return { pos: [x, groundY(x, z), z] as V3, yaw: Math.atan2(-roadXd(z), -1), dist: Math.abs(z - CZ0) }; };
   const marks: Record<string, V3> = {
     brickPress: at(7.55, -8.4), pressTop: [P[0], P[1] + 1.8, P[2]], brickTable: at(8.8, -11.6), brickStack: [T[0], T[1] + 1.0, T[2]], gateSign: at(6.5, -5.7),
@@ -541,7 +543,12 @@ const buildVineyard = (b: Batch, root: THREE.Object3D) => {
     const nb = Math.round(c.bricks ?? 18); bricks.forEach((m, i) => (m.visible = i < nb));
     const sp = c.spread ?? 0; spread.forEach((g, i) => { const k = cl(sp * 1.6 - (i / Math.max(1, spread.length)) * 0.6); g.visible = k > 0.001; g.position.y = -2.3 * (1 - k * k * (3 - 2 * k)); }); // rows rise out of the ground
     const u = c.agentCar ?? -1; car.g.visible = u >= 0;
-    if (u >= 0) { const q = carAt(u); car.g.position.set(...q.pos); car.g.rotation.y = q.yaw; car.set(q.dist, t, { bob: u > 0.001 && u < 0.999 ? 0.8 : 0.15, lights: 0 }); }
+    if (u >= 0) { const q = carAt(u); car.g.position.set(...q.pos); car.g.rotation.y = q.yaw; car.set(q.dist, t, { bob: u > 0.001 && u < 0.999 ? 0.8 : 0.45, lights: 0 }); }
+    // remake: the parked sedan idles (engine running): exhaust puffs drift up from the tailpipe
+    exhaust.forEach((m, i) => { const on = u >= 0.98 ? 1 : 0, k = (t * 0.55 + i / exhaust.length) % 1; m.visible = on > 0;
+      if (!on) return; const back = 2.9 + k * 0.9, side = -0.45; const yaw = car.g.rotation.y;
+      m.position.set(car.g.position.x + side * Math.cos(yaw) - back * Math.sin(yaw), car.g.position.y + 0.32 + k * 0.9, car.g.position.z - side * Math.sin(yaw) - back * Math.cos(yaw));   // local (side, -back): behind the rear bumper
+      (m.material as THREE.SpriteMaterial).opacity = 0.38 * Math.sin(Math.PI * k); const sc = 0.35 + k * 0.9; m.scale.set(sc, sc * 0.75, 1); });
   };
   return { marks, pose, car };
 };

@@ -8,6 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { staticFile } from "remotion";
 import { Kit, V } from "./build";
 import { ctex, cloudHD } from "./paint";
+import { SWAY_T } from "./sway";
 import { LIGHTS, LOOK, LightName } from "./lights";
 import { TONE, CHAR, untone } from "./shade";
 import { NOINK } from "./ink";
@@ -121,6 +122,7 @@ export class World {
 
   update(id: number, f: number, cam: THREE.PerspectiveCamera, scene: THREE.Scene) {
     const t = f / FPS, s: ShotDef = STORY_BY_ID(id), L = LIGHTS[s.light], K = LOOK[s.light];
+    SWAY_T.value = t;
     const set = this.sets[s.set];
     for (const k in this.sets) this.sets[k].def.root.visible = k === s.set;
     if (!set) return V(0, 0, 0);

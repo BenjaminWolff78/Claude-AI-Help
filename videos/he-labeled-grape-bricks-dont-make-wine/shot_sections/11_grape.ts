@@ -26,14 +26,14 @@ const inkRound = (g: CanvasRenderingContext2D, x: number, y: number, w: number, 
   g.fillStyle = fill; g.fill(); g.lineWidth = lw; g.strokeStyle = INKC; g.stroke();
 };
 /** a wine bottle with a red "no" stamp that lands on frame `hit` (mini animation for "wine just became illegal") */
-const noWine = (key: string, pos: V3, f: number, a: number, hit: number, b: number) => popCard(key, pos, 0.9, 0.9, f, a, b, (g) => {
+const noWine = (key: string, pos: V3, f: number, a: number, hit: number, b: number, k = 1) => popCard(key, pos, 0.9 * k, 0.9 * k, f, a, b, (g) => {
   g.lineJoin = "round"; g.fillStyle = "#24503a"; g.strokeStyle = INKC; g.lineWidth = 12;
   g.beginPath(); g.moveTo(232, 60); g.lineTo(280, 60); g.lineTo(280, 150); g.quadraticCurveTo(340, 190, 340, 250); g.lineTo(340, 450); g.lineTo(172, 450); g.lineTo(172, 250); g.quadraticCurveTo(172, 190, 232, 150); g.closePath(); g.fill(); g.stroke();
   g.fillStyle = "#fbf3dc"; g.fillRect(190, 290, 132, 92); g.strokeRect(190, 290, 132, 92); g.fillStyle = "#6a2c7e"; g.font = "900 40px DejaVu Sans"; g.textAlign = "center"; g.fillText("WINE", 256, 350);
   if (f >= hit) { const s = 1 + 0.6 * (1 - sm(f, hit, hit + 5)); g.save(); g.translate(256, 256); g.scale(s, s); g.strokeStyle = "#e0303a"; g.lineWidth = 38; g.beginPath(); g.arc(0, 0, 190, 0, 7); g.stroke(); g.beginPath(); g.moveTo(-134, -134); g.lineTo(134, 134); g.stroke(); g.restore(); }
 });
 /** "200 GALLONS": jug icons popping in a row, the counter ticking up to 200 (mini animation) */
-const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCard(key, pos, 0.8, 0.4, f, a, b, (g) => {
+const gallons = (key: string, pos: V3, f: number, a: number, b: number, k = 1) => popCard(key, pos, 0.8 * k, 0.4 * k, f, a, b, (g) => {
   const n = Math.round(200 * sm(f, a + 4, a + 40)), jugs = Math.min(5, Math.floor(sm(f, a + 2, a + 36) * 5.99));
   for (let i = 0; i < jugs; i++) { const x = 40 + i * 92; g.fillStyle = "#d8ecf4"; g.strokeStyle = INKC; g.lineWidth = 7; g.fillRect(x, 70, 70, 96); g.strokeRect(x, 70, 70, 96); g.fillStyle = "#6a1f78"; g.fillRect(x + 6, 110, 58, 52); g.fillStyle = "#c9a27a"; g.fillRect(x + 22, 52, 26, 20); g.strokeRect(x + 22, 52, 26, 20); }
   inkRound(g, 96, 184, 320, 64, 22, VIO, 8); g.fillStyle = "#ffffff"; g.font = "900 46px DejaVu Sans"; g.textAlign = "center"; g.fillText(n + " GALLONS", 256, 232);
@@ -57,4 +57,26 @@ const camPt = (id: number, s: SetDef, f: number, dist: number, dx = 0, dy = 0): 
   const c = camAt(id, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1;
   const fw = [d[0] / L, d[1] / L, d[2] / L], rl = Math.hypot(fw[0], fw[2]) || 1, rt = [-fw[2] / rl, 0, fw[0] / rl];
   return [c.pos[0] + fw[0] * dist + rt[0] * dx, c.pos[1] + fw[1] * dist + dy, c.pos[2] + fw[2] * dist + rt[2] * dx];
+};
+/** FOCUS (remake 2026-11-06, references: depth report on 539 frames of 20 reference Shorts, boards G, T, V, W, X, Y).
+ *  The references never pull focus inside a held shot. Focus sits on the subject's eyes, or on the story object in an insert,
+ *  and it only moves while the camera moves (a glide or a push) or at a cut. So `follow` lists [frame the focus ARRIVES,
+ *  target, frames it takes] and each change is timed to ride an existing camera move. Targets may be functions of the
+ *  frame (a walking subject). */
+type FT = V3 | ((f: number) => V3);
+const follow = (f: number, pulls: ([number, FT] | [number, FT, number])[]): V3 => {
+  const at = (x: FT) => (typeof x === "function" ? x(f) : x);
+  let i = 0; for (let j = 1; j < pulls.length; j++) if (f >= pulls[j][0] - (pulls[j][2] ?? 1)) i = j;
+  if (i === 0) return at(pulls[0][1]);
+  const d = pulls[i][2] ?? 1;
+  return lerp3(at(pulls[i - 1][1]), at(pulls[i][1]), glide((f - (pulls[i][0] - d)) / d));
+};
+/** reference blur levels (radius at infinity, px at 1080x1920): inserts / CU / MS 12-14, full shots 8, wides 5 */
+const DOF_INSERT = 14, DOF_CU = 13, DOF_MS = 12, DOF_FS = 8, DOF_WS = 5;
+/** an illustration card placed just in front of the focus plane (0.9 x the subject's distance), scaled so it keeps the
+ *  size it had at `dist0` m: with the reference DOF levels the card stays sharp instead of blurring as a near object */
+const cardNearFocus = (id: number, s: SetDef, f: number, subj: V3, dist0: number, dx: number, dy: number) => {
+  const c = camAt(id, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1;
+  const D = 0.9 * Math.max(1, ((subj[0] - c.pos[0]) * d[0] + (subj[1] - c.pos[1]) * d[1] + (subj[2] - c.pos[2]) * d[2]) / L), k = D / dist0;
+  return { pos: camPt(id, s, f, D, dx * k, dy * k), k };
 };

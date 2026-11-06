@@ -78,9 +78,15 @@ export const office: SetBuilder = () => {
   // the ceiling fan
   const fan = new THREE.Group(); fan.position.set(0, 3.2, 0.4); root.add(fan);
   { const fb = new Batch(); fb.add(new THREE.CylinderGeometry(0.1, 0.12, 0.16, 12), lam("ofBrass", () => ({ color: "#e0b04a" }))); for (let i = 0; i < 4; i++) fb.add(new THREE.BoxGeometry(0.9, 0.02, 0.16).translate(0.5, -0.04, 0).rotateY((i * Math.PI) / 2), oak); fb.build(fan); }
+  // remake: the fan's draught lifts the loose top sheets on the in-tray (hinged at their far edge), the flag ripples
+  const sheets = [0, 1].map((i) => { const g = new THREE.Group(); g.position.set(-1.2, 0.95 + i * 0.004, -0.52 + i * 0.03); root.add(g);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.29).rotateX(-Math.PI / 2).translate(0.2, 0, 0.145), lam("ofSheet", () => ({ color: "#fbf6e8", side: THREE.DoubleSide }))); g.add(m); return g; });
+  const fpos = flag.geometry.attributes.position as THREE.BufferAttribute, fbase = Float32Array.from(fpos.array as Float32Array);
   const lamps = [lamp(root, [0.95, 1.4, 0.0], "#ffe0a0", 3, 5, "table")];
   void lamps;
   const marks: Record<string, V3> = { lawyer: [0.0, 0, -1.05], paper: [0, 0.85, 0.0], door: [2.6, 0, 2.6], stamp: [0.2, 0.85, 0.0] };
   const cams: SetDef["cams"] = { main: { pos: [0.4, 1.5, 3.1], look: [0, 1.1, -0.6], fov: 42 } };
-  return { name: "office", root, marks, cams, pose: (t, c) => { fan.rotation.y = t * 2.2 * (c.fan ?? 1); flag.rotation.y = 0.5 + 0.03 * Math.sin(t * 0.8); } };
+  return { name: "office", root, marks, cams, pose: (t, c) => { fan.rotation.y = t * 2.2 * (c.fan ?? 1); flag.rotation.y = 0.5 + 0.03 * Math.sin(t * 0.8);
+    sheets.forEach((g, i) => { g.rotation.z = 0.05 + 0.07 * Math.max(0, Math.sin(t * 4.4 + i * 1.3)) ** 2; });   // the free edge lifts
+    const a = fpos.array as Float32Array; for (let i = 0; i < fpos.count; i++) { const x = fbase[i * 3]; a[i * 3 + 2] = fbase[i * 3 + 2] + 0.05 * x * Math.sin(t * 3.2 - x * 5.5); } fpos.needsUpdate = true; } };
 };

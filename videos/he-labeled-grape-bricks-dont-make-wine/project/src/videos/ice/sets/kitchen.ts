@@ -5,7 +5,9 @@
 import * as THREE from "three";
 import { Batch, boxGeo, V, lam } from "../build";
 import { ctex, rep, planksHD, beamHD } from "../paint";
-import { lamp, flicker, sign, glow } from "../setkit";
+import { lamp, flicker, sign, glow, mist } from "../setkit";
+import { dotTex } from "./innerkit_b";
+import { NOINK } from "../ink";
 import type { SetDef, SetBuilder, V3 } from "./types";
 
 const tileTex = () => ctex("ktTile", 512, 512, (g) => {
@@ -52,7 +54,9 @@ export const kitchen: SetBuilder = () => {
   // window with the night outside, curtains
   b.add(new THREE.PlaneGeometry(1.2, 0.9).translate(-1.8, 2.15, -2.19), lam("ktWinM", () => ({ map: nightWin(), emissive: "#20306a" })));
   b.add(boxGeo(V(-2.45, 1.65, -2.2), V(-1.15, 1.72, -2.1)), lam("ktSill", () => ({ map: beamHD() })));
-  for (const s of [-1, 1]) b.add(new THREE.BoxGeometry(0.35, 1.1, 0.04).translate(-1.8 + s * 0.72, 2.15, -2.14), lam("ktCurtain", () => ({ color: "#e8664a" })));
+  // remake: the curtains hang from their top edge (hinged groups) and stir in a draught from the window
+  const curtains = [-1, 1].map((sd) => { const g = new THREE.Group(); g.position.set(-1.8 + sd * 0.72, 2.7, -2.14); root.add(g);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.35, 1.1, 0.04).translate(0, -0.55, 0), lam("ktCurtain", () => ({ color: "#e8664a" }))); m.castShadow = true; g.add(m); return g; });
   // fridge on the left, a table with a chair in front, a fruit bowl
   // the black iron stove (replaces the fridge): oven door facing +x, a pot, the stovepipe up into the ceiling
   const ironM = lam("ktIron", () => ({ color: "#2c2a34" })), chromeM = lam("ktChrome", () => ({ color: "#c9ced6" }));
@@ -62,7 +66,8 @@ export const kitchen: SetBuilder = () => {
   b.add(boxGeo(V(-2.82, 0.66, -1.15), V(-2.78, 0.7, -0.85)), chromeM);
   b.add(new THREE.CylinderGeometry(0.2, 0.18, 0.2, 14).translate(-3.25, 1.05, -1.0), lam("ktPot", () => ({ color: "#c8352e" })));
   b.add(new THREE.CylinderGeometry(0.08, 0.08, 2.5, 10).translate(-3.5, 2.2, -1.3), ironM);
-  glow(root, [-2.84, 0.48, -1.0], "#ff9a40", 0.35, 0.5);
+  const ovenGlow = glow(root, [-2.84, 0.48, -1.0], "#ff9a40", 0.35, 0.5);
+  const steam = [0, 1, 2].map(() => mist(root, [-3.25, 1.2, -1.0], 0.35, "#f4f0f6", 0.3));   // remake: the pot simmers
   b.add(boxGeo(V(-2.2, 0.72, 0.6), V(-0.4, 0.78, 1.8), 1), wood);
   for (const [x, z] of [[-2.1, 0.7], [-0.5, 0.7], [-2.1, 1.7], [-0.5, 1.7]]) b.add(boxGeo(V(x - 0.04, 0, z - 0.04), V(x + 0.04, 0.72, z + 0.04)), wood);
   b.add(new THREE.SphereGeometry(0.28, 14, 8, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2).translate(-1.3, 1.06, 1.2), lam("ktBowl", () => ({ color: "#5a8ad0" })));
@@ -89,13 +94,31 @@ export const kitchen: SetBuilder = () => {
     const db = new Batch(); db.add(boxGeo(V(s2 < 0 ? 0 : -0.7, 0, -0.03), V(s2 < 0 ? 0.7 : 0, 2.17, 0.03), 1), lam("ktDoorP", () => ({ color: "#c96a3a" })));
     db.add(boxGeo(V(s2 < 0 ? 0.08 : -0.62, 0.15, 0.03), V(s2 < 0 ? 0.62 : -0.08, 2.02, 0.05)), lam("ktDoorPanel", () => ({ color: "#b85a30" })));
     db.add(new THREE.SphereGeometry(0.035, 6, 4).translate(s2 < 0 ? 0.62 : -0.62, 1.1, 0.07), lam("ktKnob", () => ({ color: "#f2c230" }))); db.build(g); }
+  // remake: a pendulum wall clock between the window and the shelf (the pendulum never stops; time passes in this story)
+  const CLK: V3 = [-0.62, 2.42, -2.16];
+  { const cb = new Batch(), caseM = lam("ktClockCase", () => ({ map: rep(planksHD(), 0.3, 0.6), color: "#a8603a" }));
+    cb.add(boxGeo(V(CLK[0] - 0.19, CLK[1] - 0.52, CLK[2] - 0.03), V(CLK[0] + 0.19, CLK[1] + 0.2, CLK[2] + 0.05), 1), caseM);
+    cb.add(new THREE.CylinderGeometry(0.15, 0.15, 0.02, 24).rotateX(Math.PI / 2).translate(CLK[0], CLK[1] + 0.02, CLK[2] + 0.06), lam("ktClockFace", () => ({ map: ctex("ktClockF", 128, 128, (g) => {
+      g.fillStyle = "#fbf6e8"; g.fillRect(0, 0, 128, 128); g.strokeStyle = "#2a2a3a"; g.lineWidth = 5; g.beginPath(); g.arc(64, 64, 58, 0, 7); g.stroke();
+      for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; g.lineWidth = i % 3 ? 3 : 6; g.beginPath(); g.moveTo(64 + Math.cos(a) * 46, 64 + Math.sin(a) * 46); g.lineTo(64 + Math.cos(a) * 54, 64 + Math.sin(a) * 54); g.stroke(); }
+      g.lineWidth = 6; g.beginPath(); g.moveTo(64, 64); g.lineTo(64, 28); g.stroke(); g.lineWidth = 7; g.beginPath(); g.moveTo(64, 64); g.lineTo(90, 76); g.stroke(); }) })));
+    cb.add(new THREE.PlaneGeometry(0.26, 0.4).translate(CLK[0], CLK[1] - 0.3, CLK[2] + 0.052), lam("ktClockWin", () => ({ color: "#3a2a30" })));
+    cb.build(root); }
+  const pend = new THREE.Group(); pend.position.set(CLK[0], CLK[1] - 0.14, CLK[2] + 0.06); root.add(pend);
+  { const pb = new Batch(), brass = lam("ktBrassP", () => ({ color: "#e0b04a" }));
+    pb.add(new THREE.BoxGeometry(0.015, 0.3, 0.01).translate(0, -0.15, 0), brass); pb.add(new THREE.CylinderGeometry(0.05, 0.05, 0.015, 18).rotateX(Math.PI / 2).translate(0, -0.31, 0), brass); pb.build(pend); }
+  // remake: the juice ferments (21 days in the cupboard): bubbles rise in every pantry jug and in the counter jug
+  const bubM = new THREE.SpriteMaterial({ map: dotTex(), color: "#f0d8ff", transparent: true, opacity: 0.85, depthWrite: false });
+  const bubbles: { s: THREE.Sprite; x: number; y0: number; h: number; z: number; ph: number; sp: number; jug: boolean }[] = [];
+  let bi = 0;
+  for (const y of [0.12, 0.79, 1.54]) for (const x of [2.3, 2.7, 3.1]) for (let k = 0; k < 3; k++) { const s2 = new THREE.Sprite(bubM); s2.scale.set(0.028, 0.028, 1); s2.layers.set(NOINK); s2.renderOrder = 3; root.add(s2); bubbles.push({ s: s2, x: x + ((bi * 37) % 9 - 4) * 0.014, y0: y + 0.03, h: 0.22, z: -1.778, ph: ((bi * 0.618) % 1), sp: 0.5 + ((bi * 13) % 7) * 0.08, jug: false }); bi++; }
   // the wall calendar (c.day 1..21: the big day number on a JUNE page, a red ring on 21)
     const calTex = (d: number) => ctex("ktCal" + d, 256, 320, (g) => { g.fillStyle = "#fbf6e8"; g.fillRect(0, 0, 256, 320); g.fillStyle = "#c8352e"; g.fillRect(0, 0, 256, 64);
     g.fillStyle = "#fbf6e8"; g.font = "900 40px DejaVu Serif, Georgia"; g.textAlign = "center"; g.fillText("JUNE", 128, 47);
     g.fillStyle = d >= 21 ? "#6a2c7e" : "#2a2a3a"; g.font = "900 170px DejaVu Serif, Georgia"; g.fillText(String(d), 128, 250);
     if (d >= 21) { g.strokeStyle = "#c8352e"; g.lineWidth = 10; g.beginPath(); g.ellipse(128, 196, 104, 90, -0.1, 0, 7); g.stroke(); }
     g.fillStyle = "#7a5432"; g.fillRect(118, 2, 20, 10); });
-  const cal = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.58), new THREE.MeshLambertMaterial({ color: "#ffffff", map: calTex(1) })); cal.position.set(2.7, 2.84, -2.185); root.add(cal);
+  const cal = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.58).translate(0, -0.29, 0), new THREE.MeshLambertMaterial({ color: "#ffffff", map: calTex(1) })); cal.position.set(2.7, 3.13, -2.185); root.add(cal);
   // the gallon jug on the counter (c.jugFill 0..1 = the purple level), c.jugGlow also lights it
   const JUG: V3 = [0.15, 0.97, -1.86];
   const jugG = new THREE.Group(); root.add(jugG);
@@ -104,13 +127,27 @@ export const kitchen: SetBuilder = () => {
   jb.add(new THREE.TorusGeometry(0.08, 0.02, 6, 12, Math.PI).rotateZ(-Math.PI / 2).translate(JUG[0] + 0.19, JUG[1] + 0.42, JUG[2]), jugGlass); jb.build(jugG); }
   const jugIn = new THREE.Mesh(new THREE.CylinderGeometry(0.155, 0.175, 1, 16).translate(0, 0.5, 0), jugJuice); jugIn.position.set(JUG[0], JUG[1] + 0.02, JUG[2]); root.add(jugIn);
   const water = new THREE.Mesh(new THREE.CylinderGeometry(0.155, 0.175, 1, 16).translate(0, 0.5, 0), new THREE.MeshLambertMaterial({ color: "#a8d8ea", transparent: true, opacity: 0.6 })); water.position.copy(jugIn.position); root.add(water);
+  for (let k = 0; k < 4; k++) { const s2 = new THREE.Sprite(bubM); s2.scale.set(0.03, 0.03, 1); s2.layers.set(NOINK); s2.renderOrder = 3; root.add(s2); bubbles.push({ s: s2, x: JUG[0] + (k - 1.5) * 0.05, y0: JUG[1] + 0.05, h: 0.34, z: JUG[2] + 0.172, ph: k * 0.27, sp: 0.7 + k * 0.1, jug: true }); }
   b.build(root);
   const lamps = [lamp(root, [-0.6, 2.9, 0.2], "#ffc070", 7, 9, "hang"), lamp(root, [3.7, 2.0, -1.0], "#ffb060", 3, 6, "wall")];
+  // remake: the hanging lamp swings a little on its cord (pivot at the ceiling hook)
+  const lampPiv = new THREE.Group(); lampPiv.position.set(-0.6, 3.65, 0.2); root.add(lampPiv); lampPiv.add(lamps[0]); lamps[0].position.set(0, -0.75, 0);
   const marks: Record<string, V3> = { kid: [0.6, 0.42, -1.18], mom: [3.3, 0, 1.3], door: [3.9, 0, 1.3], jug: JUG, mumCounter: [0.15, 0, -1.12], kidTable: [-1.7, 0, 0.32],
     pantry: [2.7, 0, -1.05], stove: [-2.45, 0, -0.95], oven: [-2.82, 0.48, -1.0], calendar: [2.7, 2.84, -2.18], shelf: [0.45, 1.62, -2.0], serviceIn: [3.6, 0, 1.3], serviceJug: [0.85, 0, -1.15] };
   const cams: SetDef["cams"] = { main: { pos: [1.8, 1.6, 4.6], look: [1.0, 1.3, -1.0], fov: 44 } };
   return { name: "kitchen", root, marks, cams, pose: (t, c) => {
     for (const l of lamps) flicker(l, t);
+    // remake: ambient life (motivated, never a character loop): lamp drift, curtains in a draught, the clock, steam,
+    // the stove glow, the calendar page, fermenting bubbles
+    lampPiv.rotation.z = 0.022 * Math.sin(t * 1.15) + 0.008 * Math.sin(t * 2.9); lampPiv.rotation.x = 0.016 * Math.sin(t * 0.83 + 1);
+    curtains.forEach((g, i) => { g.rotation.x = -0.05 - 0.04 * Math.sin(t * 0.9 + i * 1.7) - 0.02 * Math.sin(t * 2.3 + i); g.rotation.z = 0.02 * Math.sin(t * 0.7 + i * 2); });
+    pend.rotation.z = 0.32 * Math.sin(t * Math.PI);
+    steam.forEach((m, i) => { const u = (t * 0.32 + i / 3) % 1; m.position.set(-3.25 + 0.12 * Math.sin(t * 0.8 + i * 2) * u, 1.18 + u * 0.75, -1.0 + 0.05 * u); (m.material as THREE.SpriteMaterial).opacity = 0.32 * Math.sin(Math.PI * u); const sc = 0.22 + u * 0.4; m.scale.set(sc, sc * 0.8, 1); });
+    (ovenGlow.material as THREE.SpriteMaterial).opacity = 0.75 + 0.25 * Math.sin(t * 7.3) * Math.sin(t * 3.1 + 1);
+    cal.rotation.x = -(0.06 * Math.max(0, Math.sin(t * 1.1)) ** 2 + 0.015 * (1 + Math.sin(t * 2.7)));   // the page lifts off the wall, never into it
+    const fillNow = Math.max(0.001, c.jugFill ?? 0), hideNow = (c.jugHide ?? 0) > 0.5;
+    bubbles.forEach((q) => { const u = (t * q.sp + q.ph) % 1; q.s.visible = q.jug ? !hideNow && fillNow > 0.3 : true;
+      const h = q.jug ? q.h * fillNow * 0.42 / 0.42 : q.h; q.s.position.set(q.x + 0.01 * Math.sin(t * 5 + q.ph * 9), q.y0 + u * h, q.z); (q.s.material as THREE.SpriteMaterial).opacity = 0.85; q.s.scale.setScalar((q.jug ? 0.03 : 0.028) * (0.6 + 0.4 * u)); });
     const nb = Math.round(c.shelf ?? 6); shelfBricks.forEach((m, i) => (m.visible = i < nb));
     const op = c.cupboard ?? 0; doors[0].rotation.y = -op * 1.9; doors[1].rotation.y = op * 1.9;
     const gl = c.jugGlow ?? 0; jugJuice.emissive.setRGB(0.42 * gl, 0.08 * gl, 0.5 * gl);
