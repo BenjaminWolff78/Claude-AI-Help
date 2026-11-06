@@ -106,7 +106,7 @@ export const kitchen: SetBuilder = () => {
   const water = new THREE.Mesh(new THREE.CylinderGeometry(0.155, 0.175, 1, 16).translate(0, 0.5, 0), new THREE.MeshLambertMaterial({ color: "#a8d8ea", transparent: true, opacity: 0.6 })); water.position.copy(jugIn.position); root.add(water);
   b.build(root);
   const lamps = [lamp(root, [-0.6, 2.9, 0.2], "#ffc070", 7, 9, "hang"), lamp(root, [3.7, 2.0, -1.0], "#ffb060", 3, 6, "wall")];
-  const marks: Record<string, V3> = { kid: [0.6, 0.42, -1.18], mom: [3.3, 0, 1.3], door: [3.9, 0, 1.3], jug: JUG, mumCounter: [0.15, 0, -1.12], kidTable: [-1.0, 0, 2.3],
+  const marks: Record<string, V3> = { kid: [0.6, 0.42, -1.18], mom: [3.3, 0, 1.3], door: [3.9, 0, 1.3], jug: JUG, mumCounter: [0.15, 0, -1.12], kidTable: [-1.7, 0, 0.32],
     pantry: [2.7, 0, -1.05], stove: [-2.45, 0, -0.95], oven: [-2.82, 0.48, -1.0], calendar: [2.7, 2.84, -2.18], shelf: [0.45, 1.62, -2.0], serviceIn: [3.6, 0, 1.3], serviceJug: [0.85, 0, -1.15] };
   const cams: SetDef["cams"] = { main: { pos: [1.8, 1.6, 4.6], look: [1.0, 1.3, -1.0], fov: 44 } };
   return { name: "kitchen", root, marks, cams, pose: (t, c) => {

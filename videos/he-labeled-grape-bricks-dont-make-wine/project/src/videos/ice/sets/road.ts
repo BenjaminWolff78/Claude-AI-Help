@@ -470,7 +470,7 @@ const vineRow = (b: Batch, off: number, z0: number, z1: number, seed: number, sk
 const buildVineyard = (b: Batch, root: THREE.Object3D) => {
   // Brick Boy's big vineyard behind the barn (the old corn parcel) + the two rows inside his road fence
   for (let k = 0; k < 10; k++) vineRow(b, 7.2 + k * 2.4, -21, -52, 300 + k);
-  for (let k = 0; k < 2; k++) vineRow(b, 7.4 + k * 1.6, 7.5, -3.6, 330 + k);
+  for (let k = 0; k < 2; k++) vineRow(b, 7.4 + k * 1.6, 7.5, 3.5, 330 + k);
   // Hank's vineyard across the road; the near rows half ripped out
   const ripped = (o: number, z: number) => o > -13 && z < 15 && z > 0.8;
   for (let k = 0; k < 10; k++) { const off = -7.6 - k * 2.4; if (off > -13) { vineRow(b, off, 31, 1, 400 + k, ripped); vineRow(b, off, 31, 15.5, 450 + k); } else vineRow(b, off, 31, 1, 400 + k); }
@@ -531,7 +531,7 @@ const buildVineyard = (b: Batch, root: THREE.Object3D) => {
   const marks: Record<string, V3> = {
     brickPress: at(7.55, -8.4), pressTop: [P[0], P[1] + 1.8, P[2]], brickTable: at(8.8, -11.6), brickStack: [T[0], T[1] + 1.0, T[2]], gateSign: at(6.5, -5.7),
     hankYank: at(-7.9, 4.2), hankFence: at(-6.3, 3.0), vineHeap: at(-9.6, 8.6), heroFence: at(6.3, -1.2),
-    fence1: at(4.9, -6.1), fence2: at(4.1, -4.8), fence3: at(5.0, -3.6), fence4: at(3.8, -2.3), fence5: at(4.6, -1.0), bbTable: at(10.55, -11.6), agentTable: at(8.65, -11.3), lawyerGate: at(6.9, -9.6), bbGate: at(8.1, -9.0),
+    fence1: at(4.9, -6.1), fence2: at(4.1, -4.8), fence3: at(5.0, -3.6), fence4: at(3.8, -2.3), fence5: at(4.6, -1.0), bbTable: at(10.55, -11.6), agentTable: at(8.65, -11.3), lawyerGate: at(6.2, -9.0), bbGate: at(7.2, -10.2),
     carStop: carAt(1).pos, agentOut: at(3.7, -7.6), agentRead: at(8.65, -11.3),
   };
   const pose = (t: number, c: Record<string, number>) => {

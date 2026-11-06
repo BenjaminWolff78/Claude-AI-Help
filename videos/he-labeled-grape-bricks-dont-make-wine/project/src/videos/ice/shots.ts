@@ -450,7 +450,7 @@ const noWine = (key: string, pos: V3, f: number, a: number, hit: number, b: numb
   if (f >= hit) { const s = 1 + 0.6 * (1 - sm(f, hit, hit + 5)); g.save(); g.translate(256, 256); g.scale(s, s); g.strokeStyle = "#e0303a"; g.lineWidth = 38; g.beginPath(); g.arc(0, 0, 190, 0, 7); g.stroke(); g.beginPath(); g.moveTo(-134, -134); g.lineTo(134, 134); g.stroke(); g.restore(); }
 });
 /** "200 GALLONS": jug icons popping in a row, the counter ticking up to 200 (mini animation) */
-const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCard(key, pos, 1.4, 0.7, f, a, b, (g) => {
+const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCard(key, pos, 0.8, 0.4, f, a, b, (g) => {
   const n = Math.round(200 * sm(f, a + 4, a + 40)), jugs = Math.min(5, Math.floor(sm(f, a + 2, a + 36) * 5.99));
   for (let i = 0; i < jugs; i++) { const x = 40 + i * 92; g.fillStyle = "#d8ecf4"; g.strokeStyle = INKC; g.lineWidth = 7; g.fillRect(x, 70, 70, 96); g.strokeRect(x, 70, 70, 96); g.fillStyle = "#6a1f78"; g.fillRect(x + 6, 110, 58, 52); g.fillStyle = "#c9a27a"; g.fillRect(x + 22, 52, 26, 20); g.strokeRect(x + 22, 52, 26, 20); }
   inkRound(g, 96, 184, 320, 64, 22, VIO, 8); g.fillStyle = "#ffffff"; g.font = "900 46px DejaVu Sans"; g.textAlign = "center"; g.fillText(n + " GALLONS", 256, 232);
@@ -461,6 +461,12 @@ const legalMark = (pos: V3, f: number, hit: number): FxSpec | null => f < hit ? 
     g.fillStyle = "#d4252e"; g.font = "900 64px DejaVu Sans"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("LEGAL", 0, 4); g.restore(); } });
 /** the cupboard calendar day for a quick 1 -> 21 flip over [a, b] */
 const dayFlip = (f: number, a: number, b: number) => 1 + Math.round(20 * sm(f, a, b));
+/** a world point `dist` m in front of the shot's camera, shifted dx right / dy up (m) in screen space (cards that must stay in frame) */
+const camPt = (id: number, s: SetDef, f: number, dist: number, dx = 0, dy = 0): V3 => {
+  const c = camAt(id, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1;
+  const fw = [d[0] / L, d[1] / L, d[2] / L], rl = Math.hypot(fw[0], fw[2]) || 1, rt = [-fw[2] / rl, 0, fw[0] / rl];
+  return [c.pos[0] + fw[0] * dist + rt[0] * dx, c.pos[1] + fw[1] * dist + dy, c.pos[2] + fw[2] * dist + rt[2] * dx];
+};
 
 // =====================================================================================================================
 // SHOT 1 (0-445) = H1-H4, the press yard at golden morning (home base A). v10.9 holds: H1 0-118 Brick Boy at the press
@@ -474,11 +480,11 @@ const brickAt = (p: V3, rt: [number, number], k = 0.3): V3 => [p[0] + rt[0] * k,
 const rtOf = (az: number): [number, number] => { const a = (az * Math.PI) / 180; return [Math.cos(a), -Math.sin(a)]; };
 SHOT_CAMS[1] = (s) => {
   const bb = BB_PRESS(s), hk = HANK_Y(s), press = MK(s, "pressTop"), heap = MK(s, "vineHeap");
-  const h1 = fit([body(bb), [[press[0], 0, press[2]], 0, 2.1, 0.8]], -28, 5, 40, 0.86, 0, 0.15);
+  const h1 = fit([body(bb, 0, 2.05, 0.45)], 168, 4, 40, 0.8, 0.35, 0.1); void press;
   const h2 = fit([body(bb), body(hk), body(heap, 0, 1.2, 1.0)], 42, 20, 44, 0.9);
-  const h3 = fit([body(hk), body(heap, 0, 1.0, 0.8)], 64, 4, 40, 0.84, 0.2, 0.1);
-  const h4 = fit([body(bb, 0.95, 2.1, 0.34)], -38, 2, 34, 0.86, 0, 0.12);
-  const lab = brickAt(bb, rtOf(-38), 0.32);
+  const h3 = fit([body(hk, 0, 2.05, 0.5)], -62, 4, 40, 0.8, 0, 0.1); void heap;
+  const h4 = fit([body(bb, 0.95, 2.1, 0.34)], -150, 2, 34, 0.86, 0, 0.12);
+  const lab = brickAt(bb, rtOf(-150), 0.44);
   return [
     K(0, F(() => h1, 0, 0.0024, [[52, 0.006, 10]])),
     K(118, F(() => h2, 118, 0.0014), 32),
@@ -510,12 +516,12 @@ SHOT_ACTS[1] = (f, s) => {
       ]), { idx: 2 }),
     ],
     fx: fxs(
-      noWine("nw1", [3.6, 2.6, -1.6], f, 150, 160, 226),
+      (() => { const c = camAt(1, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1; return noWine("nw1", [c.pos[0] + d[0] / L * 7, c.pos[1] + d[1] / L * 7 + 0.9, c.pos[2] + d[2] / L * 7], f, 150, 160, 226); })(),
       f >= 252 && f < 264 ? dustCard("yank", [hk[0] + 0.3, 0.3, hk[2]], 0.9, 0.8 * (1 - (f - 252) / 12), 2) : null,
       f >= 268 && f < 280 ? dustCard("heap", [hk[0] - 1.6, 0.5, hk[2] + 3.6], 1.0, 0.7 * (1 - (f - 268) / 12), 3) : null,
-      f >= 383 && f < 400 ? sparkle("lab1", brickAt(bb, rtOf(-38), 0.32), f - 383, 0.28) : null,
+      f >= 383 && f < 400 ? sparkle("lab1", brickAt(bb, rtOf(-150), 0.44), f - 383, 0.28) : null,
     ),
-    focus: f < 118 ? [bb[0], 1.2, bb[2]] : f < 229 ? [hk[0] * 0.5 + bb[0] * 0.5, 1, (hk[2] + bb[2]) / 2] : f < 358 ? [hk[0], 1.4, hk[2]] : brickAt(bb, rtOf(-38), 0.32),
+    focus: f < 118 ? [bb[0], 1.2, bb[2]] : f < 229 ? [hk[0] * 0.5 + bb[0] * 0.5, 1, (hk[2] + bb[2]) / 2] : f < 358 ? [hk[0], 1.4, hk[2]] : brickAt(bb, rtOf(-150), 0.44),
     subj: f < 118 ? "brickBoy" : f < 229 ? null : f < 358 ? "hank" : "brickBoy",
   };
 };
@@ -531,7 +537,7 @@ SHOT_CAMS[2] = (s) => {
   return [
     K(445, F((f) => { const k = sm(f, 445, 486), k2 = sm(f, 496, 540);
       const a = { pos: [jug[0] + 0.35, jug[1] + 0.75, jug[2] + 1.1] as V3, look: [jug[0], jug[1] + 0.45, jug[2]] as V3 };
-      const b = { pos: [1.3, 1.5, 2.3] as V3, look: [0.9, 1.25, -1.6] as V3 }, c = { pos: [2.6, 1.55, 2.4] as V3, look: [2.2, 1.45, -1.6] as V3 };
+      const b = { pos: [1.3, 1.5, 2.3] as V3, look: [0.9, 1.25, -1.6] as V3 }, c = { pos: [2.5, 1.8, 2.5] as V3, look: [2.25, 1.8, -1.6] as V3 };
       return { pos: lerp3(lerp3(a.pos, b.pos, k), c.pos, k2), look: lerp3(lerp3(a.look, b.look, k), c.look, k2), fov: lerp(36, 44, k) }; }, 445, 0.0016)),
   ];
 };
@@ -568,8 +574,8 @@ const agentWalk = (s: SetDef): V3[] => [MK(s, "agentOut"), [7.3, 0, -8.8] as V3,
 SHOT_CAMS[3] = (s) => {
   const t3 = MK(s, "fence3"), at3 = add3(t3, 0, 1.3, 0), table = MK(s, "agentTable");
   const crowdBoxes = ["fence1", "fence2", "fence3", "fence4", "fence5"].map((k) => body(MK(s, k)));
-  const h6 = fit(crowdBoxes, 118, 6, 42, 0.88, -0.4, 0.15);
-  const h7 = fit([body(table), body(MK(s, "fence1")), body(MK(s, "fence2"))], 150, 5, 40, 0.86, 0.3, 0.1);
+  const h6 = { pos: [10.4, 2.2, 3.6] as V3, look: [5.8, 1.3, -3.6] as V3, fov: 44 }; void crowdBoxes;
+  const h7 = { pos: [11.9, 1.65, -14.4] as V3, look: [8.9, 1.3, -8.9] as V3, fov: 38 }; void table;
   return [
     K(582, F((f) => { const k = sm(f, 584, 626); return { pos: lerp3([at3[0] + 0.9, at3[1] + 0.1, at3[2] + 0.4], h6.pos, k), look: lerp3(at3, h6.look, k), fov: lerp(34, 42, k) }; }, 582, 0.0018)),
     K(715, F((f) => { const w = along(agentWalk(s), 0.075, 702, f).p, k = sm(f, 715, 790); return { pos: lerp3([w[0] + 3.2, 1.5, w[2] + 2.6], h7.pos, k), look: lerp3([w[0], 1.2, w[2]], h7.look, k), fov: 42 }; }, 715, 0.0012), 30),
@@ -644,14 +650,14 @@ const MUM5: V3 = [-0.55, 0, -1.08];
 SHOT_CAMS[5] = (s) => {
   const shelf = MK(s, "shelf"), jug = MK(s, "jug");
   const h9 = { pos: [2.6, 1.6, 2.9] as V3, look: [1.3, 1.2, -1.1] as V3, fov: 46 };
-  const h10 = fit([body(MUM5), body(MK(s, "kidTable"))], 28, 6, 42, 0.86, 0.2, 0.1);
+  const h10 = { pos: [1.5, 1.5, 1.7] as V3, look: [-0.75, 1.22, -0.9] as V3, fov: 44 };
   const h11 = fit([body([2.3, 0, -1.08]), [[2.7, 0, -1.9], 0, 3.1, 0.75]], 14, 4, 42, 0.86);
-  const h12 = fit([body([-2.1, 0, -0.62], 0, 1.6, 0.3), [MK(s, "oven"), -0.48, 0.5, 0.3]], 52, 6, 36, 0.84, 0, 0.1);
+  const h12 = { pos: [-0.35, 1.2, 1.35] as V3, look: [-1.85, 1.05, -0.6] as V3, fov: 40 };
   return [
     K(958, F((f) => { const k = sm(f, 990, 1030); return { pos: lerp3([shelf[0] + 0.3, shelf[1] + 0.15, shelf[2] + 1.35], h9.pos, k), look: lerp3(shelf, h9.look, k), fov: lerp(38, 46, k) }; }, 958, 0.0016)),
     K(1100, F(() => h10, 1100, 0.0022, [[1110, 0.006, 10]]), 30),
     K(1275, F(() => h11, 1275, 0.0022), 25),
-    K(1392, F((f) => { const k = sm(f, 1450, 1485), bx: V3 = [-2.0, 1.25, -0.5]; return { pos: lerp3(h12.pos, [bx[0] + 0.55, bx[1] + 0.05, bx[2] + 0.6], k), look: lerp3(h12.look, bx, k), fov: 36 }; }, 1392, 0.0024, [[1458, 0.007, 10]]), 1, true),
+    K(1392, F((f) => { const k = sm(f, 1450, 1485), bx: V3 = [-1.6, 1.05, -0.5]; return { pos: lerp3(h12.pos, [bx[0] + 0.55, bx[1] + 0.05, bx[2] + 0.6], k), look: lerp3(h12.look, bx, k), fov: 36 }; }, 1392, 0.0024, [[1458, 0.007, 10]]), 1, true),
   ];
   void jug;
 };
@@ -680,13 +686,13 @@ SHOT_ACTS[5] = (f, s) => {
         [1362, { expr: "smug", facing: -1, armR: AR.shrugR, armL: AR.shrugL, armRFront: true, armLFront: true, headTilt: 6 }, 8],     // "well, that's your juice"
       ]), { idx: 1 }),
       C("kid20", f < 1392 ? MK(s, "kidTable") : [-2.1, 0, -0.62], f < 1392 ? flow(f, [[958, { expr: "grin", facing: 1 }], [1135, { expr: "stare", facing: 1, look: -0.4 }, 6], [1230, { expr: "grin", facing: 1 }, 6]])
-        : flow(f, [[1392, { expr: "sly", facing: 1, armR: AR.liftHiR, armRFront: true, propR: "cakeBox" }], [1452, { expr: "sly", facing: 1, armR: AR.liftHiR, armRFront: true, propR: "cakeBox", headTilt: 6, look: 0.6 }, 4]]), { idx: 2 }),
+        : flow(f, [[1392, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox" }], [1452, { expr: "sly", facing: 1, armR: AR.holdR, armRFront: true, propR: "cakeBox", headTilt: 6, look: 0.6 }, 4]]), { idx: 2 }),
     ],
     fx: fxs(
       ...[0, 1, 2, 3, 4, 5].map((i) => { const a = 964 + i * 5; return f >= a && f < a + 12 ? sparkle("sh" + i, [-0.1 + i * 0.22, 1.66, -1.95], f - a, 0.22, "#e8c8ff") : null; }),
       f >= 1070 && f < 1092 ? dustCard("steam", [1.0, 1.3, -1.3], 1.6, 0.85 * Math.sin(Math.PI * (f - 1070) / 22), 5) : null,
-      noWine("nw5", [0.6, 2.05, -0.9], f, 1132, 1146, 1178),
-      gallons("gal", [0.45, 1.7, -0.6], f, 1180, 1276),
+      noWine("nw5", [0.45, 1.9, -0.4], f, 1132, 1146, 1178),
+      gallons("gal", camPt(5, s, f, 2.2, 0.1, 0.42), f, 1180, 1276),
       f >= 1460 && f < 1474 ? glowBurst("oven" + (f - 1460), MK(s, "oven"), 0.5, 1 - (f - 1460) / 14, "255,170,90") : null,
     ),
     focus: f < 1000 ? MK(s, "shelf") : f < 1100 ? [sv.p[0], 1.3, sv.p[2]] : f < 1277 ? [MUM5[0], 1.3, MUM5[2]] : f < 1392 ? [2.3, 1.3, -1.1] : [-2.0, 1.2, -0.55],
@@ -701,21 +707,21 @@ lens(958, 7, 1); lens(1000, 3, 24); lens(1100, 4, 20); lens(1392, 6, 1);
 // Hank; H14 1575-1640 he kneels and plants a vine back. G7 1630-1665 rides the lawyer's walk to the gate. H15 1665-1810:
 // she stands beside Brick Boy, stamps LEGAL on his brick on "lawyer"; the debate line; he lifts the brick until it fills
 // half the frame (sparkle + glint); object dissolve to the glowing jug.
-const LAW_W: V3[] = [[2.2, 0, 4.0], [3.0, 0, -4.0], [6.6, 0, -8.6], [8.39, 0, -9.6]];
+const LAW_W: V3[] = [[4.0, 0, -3.0], [6.0, 0, -8.6], [7.69, 0, -9.0]];
 SHOT_CAMS[6] = (s) => {
   const row: V3 = [8.75, 0, 2.0], hk = HANK_Y(s), bb = MK(s, "bbGate"), lw = MK(s, "lawyerGate");
   const h14 = fit([body(hk, 0, 1.6, 0.4)], 70, 8, 40, 0.84, 0, 0.1);
-  const h15 = fit([body(bb), body(lw)], -60, 4, 40, 0.86, 0, 0.12);
-  const brick: V3 = [bb[0] - 0.35, 1.45, bb[2] + 0.2];
+  const h15 = { pos: [13.3, 1.75, -10.3] as V3, look: [8.2, 1.25, -9.75] as V3, fov: 42 }; void lw;
+  const brick: V3 = [bb[0], 1.27, bb[2] - 0.32];
   return [
     K(1485, F((f) => { const k = sm(f, 1490, 1546); return { pos: lerp3([row[0] - 1.1, 1.05, row[2] + 0.2], [-4, 15, 22], k), look: lerp3([row[0] - 0.3, 0.92, row[2]], [8, 0, -14], k), fov: lerp(36, 46, k) }; }, 1485, 0.0012)),
     K(1545, F(() => h14, 1545, 0.0022), 30),
-    K(1630, F((f) => { const w = along(LAW_W, 0.07, 1600, f).p, k = sm(f, 1660, 1700); return { pos: lerp3([w[0] - 3.4, 1.55, w[2] + 3.4], h15.pos, k), look: lerp3([w[0], 1.2, w[2]], h15.look, k), fov: 40 }; }, 1630, 0.0012), 35),
-    K(1750, F((f) => { const k = sm(f, 1750, 1800); return { pos: lerp3(h15.pos, [brick[0] - 1.2, brick[1] + 0.05, brick[2] + 0.9], k), look: lerp3(h15.look, brick, k), fov: lerp(40, 34, k) }; }, 1750, 0.0016), 1),
+    K(1630, F((f) => { const w = along(LAW_W, 0.085, 1590, f).p, k = sm(f, 1660, 1700); return { pos: lerp3([w[0] + 0.5, 1.6, w[2] + 4.2], h15.pos, k), look: lerp3([w[0], 1.2, w[2]], h15.look, k), fov: 40 }; }, 1630, 0.0012), 1, true),   // hard cut 4: the lawyer walks in
+    K(1750, F((f) => { const k = sm(f, 1750, 1800); return { pos: lerp3(h15.pos, [brick[0] + 1.45, brick[1] + 0.12, brick[2] + 0.1], k), look: lerp3(h15.look, brick, k), fov: lerp(40, 34, k) }; }, 1750, 0.0016), 1),
   ];
 };
 SHOT_ACTS[6] = (f, s) => {
-  const lwk = along(LAW_W, 0.07, 1600, f), bb = MK(s, "bbGate");
+  const lwk = along(LAW_W, 0.085, 1590, f), bb = MK(s, "bbGate");
   return {
     ctl: { spread: sm(f, 1495, 1548), bricks: 21, agentCar: 1, press: 0 },
     cast: [
@@ -727,7 +733,7 @@ SHOT_ACTS[6] = (f, s) => {
       C("brickBoy", bb, flow(f, [
         [1485, { expr: "smug", facing: -1, armR: AR.carryR, armRFront: true, propR: "grapeBrick" }],
         [1700, { expr: "proud", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1 }, 8],
-        [1752, { expr: "sly", facing: -1, armR: [[26, -6], [36, -30]] as A2, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 12],   // lifts it to us
+        [1752, { expr: "sly", facing: -1, armR: AR.holdR, armRFront: true, propR: "grapeBrick", propK: 1, headTilt: 4 }, 12],   // lifts it to us
       ]), { idx: 1 }),
       lwk.moving ? C("lawyer", lwk.p, pose(null, { expr: "proud", mode: "walk", phase: ph(f, 11), facing: screenSide(6, s, f, lwk.d[0], lwk.d[1]), armR: AR.carryR, armRFront: true, propR: "legalStamp" }), { idx: 3 })
         : C("lawyer", f < 1600 ? LAW_W[0] : lwk.p, flow(f, [
@@ -736,14 +742,13 @@ SHOT_ACTS[6] = (f, s) => {
           [1700, { expr: "proud", facing: 1, armR: AR.stampDown, armRFront: true, propR: "legalStamp", propK: 1 }, 2],   // stamps his brick
           [1730, { expr: "smug", facing: 1, armR: AR.hipR, armL: AR.hipL }, 8],
         ]), { idx: 3 }),
-      C("agent", add3(MK(s, "agentOut"), 0.2, 0, 0.6), flow(f, [[1600, { expr: "bored", facing: 1 }], [1704, { expr: "dismay", facing: 1, armR: AR.shrugR, armL: AR.shrugL, armRFront: true, armLFront: true }, 8]]), { idx: 4 }),
     ],
     fx: fxs(
       f >= 1700 && f < 1712 ? bang([bb[0] - 0.3, 1.5, bb[2] + 0.1], f - 1700) : null,
-      f >= 1770 && f < 1792 ? sparkle("glint", [bb[0] - 0.35, 1.5, bb[2] + 0.2], f - 1770, 0.4) : null,
-      f >= 1772 ? glowBurst("pay" + Math.round(lin(f, 1772, 1810) * 6), [bb[0] - 0.3, 1.45, bb[2] + 0.25], 1.2, 0.5 * lin(f, 1772, 1790), "255,226,170") : null,
+      f >= 1770 && f < 1792 ? sparkle("glint", [bb[0], 1.38, bb[2] - 0.32], f - 1770, 0.4) : null,
+      f >= 1772 ? glowBurst("pay" + Math.round(lin(f, 1772, 1810) * 6), [bb[0] - 0.1, 1.27, bb[2] - 0.32], 1.2, 0.5 * lin(f, 1772, 1790), "255,226,170") : null,
     ),
-    focus: f < 1545 ? [8.5, 0.9, 2.0] : f < 1640 ? add3(HANK_Y(s), 0, 1.0, 0) : f < 1750 ? add3(bb, -0.6, 1.4, 0) : [bb[0] - 0.35, 1.45, bb[2] + 0.2],
+    focus: f < 1545 ? [8.5, 0.9, 2.0] : f < 1640 ? add3(HANK_Y(s), 0, 1.0, 0) : f < 1690 ? [along(LAW_W, 0.085, 1590, f).p[0], 1.4, along(LAW_W, 0.085, 1590, f).p[2]] : f < 1750 ? add3(bb, -0.5, 1.4, 0.4) : [bb[0], 1.27, bb[2] - 0.32],
     subj: f < 1545 ? null : f < 1640 ? "hank" : "brickBoy",
   };
 };

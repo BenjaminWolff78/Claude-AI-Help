@@ -280,7 +280,7 @@ export const CAST: Record<string, Look> = {
   // the federal agent: charcoal fedora, grey trench coat, dark red tie, tall
   agent: { seed: 1367, hat: "fedora", hatCol: "#2a2a38", band: "#14141c", moustache: "#2a1d14", moStyle: "neat", coat: "#7d8590", lapel: "#646b76", collar: "#ffffff", tie: "#8a2a2a", belt: "#646b76", legs: "#2c2e38", build: "tall" },
   // the government's top Prohibition lawyer: slate cloche, grey suit, pearl collar, bob
-  lawyer: { seed: 1373, hat: "cloche", hatCol: "#3a4a6a", band: "#24304a", jewel: "#ffffff", hair: "#3a2a1a", hairStyle: "bob", coat: "#6f7a8e", lapel: "#56607a", dress: "#6f7a8e", collar: "#fbf3e3", build: "thin" },
+  lawyer: { seed: 1373, hat: "cloche", hatCol: "#7a4a6a", band: "#c9a24a", hair: "#3a2a1a", hairStyle: "bob", coat: "#6f7a8e", lapel: "#56607a", dress: "#6f7a8e", collar: "#fbf3e3", build: "thin" },
   // the bottling serviceman: violet peaked cap, white coverall with a violet belt
   service: { seed: 1381, hat: "kepi", hatCol: "#9b3fd0", band: "#f4f1ea", coat: "#f4f1ea", belt: "#9b3fd0", buttons: "#9b3fd0", legs: "#e8e4da", boots: "#3a2a1a" },
   // the family in the kitchen

@@ -33,7 +33,7 @@ const noWine = (key: string, pos: V3, f: number, a: number, hit: number, b: numb
   if (f >= hit) { const s = 1 + 0.6 * (1 - sm(f, hit, hit + 5)); g.save(); g.translate(256, 256); g.scale(s, s); g.strokeStyle = "#e0303a"; g.lineWidth = 38; g.beginPath(); g.arc(0, 0, 190, 0, 7); g.stroke(); g.beginPath(); g.moveTo(-134, -134); g.lineTo(134, 134); g.stroke(); g.restore(); }
 });
 /** "200 GALLONS": jug icons popping in a row, the counter ticking up to 200 (mini animation) */
-const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCard(key, pos, 1.4, 0.7, f, a, b, (g) => {
+const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCard(key, pos, 0.8, 0.4, f, a, b, (g) => {
   const n = Math.round(200 * sm(f, a + 4, a + 40)), jugs = Math.min(5, Math.floor(sm(f, a + 2, a + 36) * 5.99));
   for (let i = 0; i < jugs; i++) { const x = 40 + i * 92; g.fillStyle = "#d8ecf4"; g.strokeStyle = INKC; g.lineWidth = 7; g.fillRect(x, 70, 70, 96); g.strokeRect(x, 70, 70, 96); g.fillStyle = "#6a1f78"; g.fillRect(x + 6, 110, 58, 52); g.fillStyle = "#c9a27a"; g.fillRect(x + 22, 52, 26, 20); g.strokeRect(x + 22, 52, 26, 20); }
   inkRound(g, 96, 184, 320, 64, 22, VIO, 8); g.fillStyle = "#ffffff"; g.font = "900 46px DejaVu Sans"; g.textAlign = "center"; g.fillText(n + " GALLONS", 256, 232);
@@ -44,3 +44,9 @@ const legalMark = (pos: V3, f: number, hit: number): FxSpec | null => f < hit ? 
     g.fillStyle = "#d4252e"; g.font = "900 64px DejaVu Sans"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("LEGAL", 0, 4); g.restore(); } });
 /** the cupboard calendar day for a quick 1 -> 21 flip over [a, b] */
 const dayFlip = (f: number, a: number, b: number) => 1 + Math.round(20 * sm(f, a, b));
+/** a world point `dist` m in front of the shot's camera, shifted dx right / dy up (m) in screen space (cards that must stay in frame) */
+const camPt = (id: number, s: SetDef, f: number, dist: number, dx = 0, dy = 0): V3 => {
+  const c = camAt(id, s, f), d = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(d[0], d[1], d[2]) || 1;
+  const fw = [d[0] / L, d[1] / L, d[2] / L], rl = Math.hypot(fw[0], fw[2]) || 1, rt = [-fw[2] / rl, 0, fw[0] / rl];
+  return [c.pos[0] + fw[0] * dist + rt[0] * dx, c.pos[1] + fw[1] * dist + dy, c.pos[2] + fw[2] * dist + rt[2] * dx];
+};
