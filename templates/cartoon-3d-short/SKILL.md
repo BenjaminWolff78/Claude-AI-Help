@@ -418,6 +418,15 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
 - Never wait on a render with `pgrep -f <script name>`: the wait loop matches its own command line and never ends. Wait for a chunk file or a log line instead.
 - A camera key built from a helper that calls screenSide()/walkPath() for the same shot recurses forever; compute positions with polyAt() inside SHOT_CAMS.
 - Check stills in the middle of long camera blends and cranes, not only at the keys: a crane can pass through a wall or bridge face and leave frames with no character.
+- **Camera holds in practice (learned on the grape-brick video, 2026-11-06):**
+  - Measure with `scripts/stops.py out/t/qa.jsonl` after the per-frame QA run (copy it from the grape-brick project). It prints every stop, the median, the share under 1.2 s, each move with its peak px/frame (about 44 px per degree of image motion), and the breaks. Dissolve frames count as breaks, not stops.
+  - 22 px/frame peak means a 30-40 frame glide may change the view by only about 10-13 degrees. Relocate by pushing or pulling along the same axis (wide shot to subject, subject to object), not by swinging around. Any relocation over about 15 m (across a road, to another building) is a hard cut, and those count toward the 4-cut limit. Plan which 4 relocations get them before animating.
+  - Write glides as `K(f0, glideTo(prevShot, f0, nextShot, f1, lift, bulge, yLead, lookLead), 1)` so they start exactly where the previous framing (including its creep) ended. A `K(f, ..., 1)` without that is a one-frame jump that QA reads as a hard cut.
+  - Never start a move right on a dissolve: open every shot on a hold of at least 1.2 s.
+  - Long holds: keep the creep at 0.0012 or less for holds over 4 s, or the push crops the people at the frame edges.
+  - In 9:16, two people standing side by side force fit() to put the camera far away, because the width is the binding limit. Stagger them in depth instead (about 1 m sideways, 1.5-2 m in depth). Check where fit() puts the camera against the set's solids (barn, house, walls) with a quick port of fit() before rendering stills.
+  - A group framed from along a fence line puts the posts across the lens. Film straight across the fence from a raised camera, so the rails sit below every face.
+  - Clear the camera paths of props that sit between two characters (a stacked table, a doghouse). Stills at the start, middle and end of every hold catch them.
 
 ## MASTER PROMPT v10.9 (full text, as given by the user on 2026-11-05; replaces v10.8)
 (Where part 8 B2 and B4 say expressions swap instantly and actions take 1-3 frames, the "Smooth acting" section above overrides it, except for impacts. Where it gives title, length or voice rules, the "Channel data" and "Voice" sections above override it.)

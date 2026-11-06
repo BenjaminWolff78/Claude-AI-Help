@@ -42,6 +42,14 @@ const gallons = (key: string, pos: V3, f: number, a: number, b: number) => popCa
 const legalMark = (pos: V3, f: number, hit: number): FxSpec | null => f < hit ? null : ({ kind: "card", key: "legalMk" + Math.min(6, f - hit), pos, w: 0.42, h: 0.21, flat: true, cw: 256, ch: 128,
   draw: (p) => { const g = p.g, s = 1 + 0.5 * (1 - sm(f, hit, hit + 4)); g.save(); g.translate(128, 64); g.scale(s, s); g.rotate(-0.12); g.strokeStyle = "#d4252e"; g.lineWidth = 9; g.strokeRect(-104, -44, 208, 88);
     g.fillStyle = "#d4252e"; g.font = "900 64px DejaVu Sans"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("LEGAL", 0, 4); g.restore(); } });
+/** v10.9 glide (one move, 18-40 f): from the previous framing frozen at f0 to `to` (whose own creep starts at f1), eased over
+ *  [f0, f1]. `lift` (m) arcs the path up and `bulge` (world m) sideways, both peaking mid-move; `yLead` 0..1 makes the
+ *  height arrive early (to clear a fence or rail right next to the start). Used as K(f0, glideTo(...), 1). */
+const glideTo = (from: (f: number) => Shot, f0: number, to: (f: number) => Shot, f1: number, lift = 0, bulge: V3 = [0, 0, 0], yLead = 0, lookLead = 0) => (f: number): Shot => {
+  const a = from(f0), b = to(f), k = sm(f, f0, f1), ky = yLead ? sm(f, f0, f0 + (f1 - f0) * (1 - yLead)) : k, kl = lookLead ? sm(f, f0, f0 + (f1 - f0) * (1 - lookLead)) : k, s = Math.sin(Math.PI * k);
+  return { pos: [lerp(a.pos[0], b.pos[0], k) + bulge[0] * s, lerp(a.pos[1], b.pos[1], ky) + (lift + bulge[1]) * s, lerp(a.pos[2], b.pos[2], k) + bulge[2] * s],
+    look: lerp3(a.look, b.look, kl), fov: lerp(a.fov ?? 40, b.fov ?? 40, k), roll: 0 };
+};
 /** the cupboard calendar day for a quick 1 -> 21 flip over [a, b] */
 const dayFlip = (f: number, a: number, b: number) => 1 + Math.round(20 * sm(f, a, b));
 /** a world point `dist` m in front of the shot's camera, shifted dx right / dy up (m) in screen space (cards that must stay in frame) */

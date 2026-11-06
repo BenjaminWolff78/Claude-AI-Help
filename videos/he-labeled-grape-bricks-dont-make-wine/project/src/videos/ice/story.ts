@@ -31,7 +31,7 @@ export const PREVIEW = (getInputProps() as { preview?: Preview }).preview;
 const ONLY = (getInputProps() as { only?: number[] }).only;
 export const SHOTS: ShotDef[] = PREVIEW ? [S(1, 0, TOTAL, PREVIEW.set, PREVIEW.light, "preview")] : ONLY ? STORY_SHOTS.filter((s) => ONLY.includes(s.id)) : STORY_SHOTS;
 /** crossfades (frames) where the place or time changes (6-8 f dissolves, measured) */
-export const XFADE: Record<number, number> = PREVIEW ? {} : { 2: 8, 3: 8, 5: 8, 6: 8, 7: 8 };
+export const XFADE: Record<number, number> = PREVIEW ? {} : { 2: 8, 3: 8, 4: 8, 5: 8, 6: 8, 7: 8 };
 export const FLASH_AT = -1000; // no flash in this video
 export const STORY_BY_ID = (id: number) => SHOTS.find((s) => s.id === id) ?? SHOTS[0];
 export const shotAt = (f: number) => SHOTS.find((s) => f >= s.a && f < s.b) ?? SHOTS[SHOTS.length - 1];
