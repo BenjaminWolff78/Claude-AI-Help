@@ -372,15 +372,17 @@ const lion = (p: Pen, o: Look, opts: FigOpts, light: number) => {
   const { expr = "neutral", mode = "stand", phase = 0, blink = 0 } = opts;
   const t = two * phase, fur = o.fur ?? "#d9a24a", mane = o.patch ?? "#a8582a", dark = mix(fur, INK, 0.22), belly = shade(fur, 1.12);
   const STALK = mode === "stride", CROUCH = mode === "kneel", SIT = mode === "sit", LIE = mode === "lie", WALK = mode === "walk" || STALK;
-  const low = STALK ? 60 : CROUCH ? 92 : LIE ? 150 : 0, ground = 968, bob = WALK ? (STALK ? 2 : 4) * Math.sin(2 * t) : 0;
+  // crouchK (0..1, stride only): blends the stalk into the full crouch so kneel <-> stride never snaps (leg sweep, lift and bob fade out)
+  const ck = CROUCH ? 1 : STALK ? Math.max(0, Math.min(1, opts.crouchK ?? 0)) : 0, mv = 1 - (STALK ? ck : 0);
+  const low = STALK || CROUCH ? 60 + 32 * ck : LIE ? 150 : 0, ground = 968, bob = WALK ? (STALK ? 2 : 4) * mv * Math.sin(2 * t) : 0;
   const SAD = expr === "dismay" || expr === "sheepish", SHOCK = expr === "shock" || expr === "yikes" || expr === "aghast";
   const by = 760 + low * 0.9 + bob;
   const leg = (x: number, far: boolean, ph: number, front: boolean) => {
     if (LIE) { const fx = front ? x + 60 : x - 10; p.band([[x, by + 30], [fx, ground - 8]], far ? dark : fur, 30, ow * 0.7, "round"); p.ell(fx + 8, ground - 10, 22, 12, far ? dark : fur, ow * 0.6); return; }
-    const amp = STALK ? 30 : 24, sw = WALK ? amp * Math.sin(t + ph) : 0, lift = WALK ? Math.max(0, Math.cos(t + ph)) * (STALK ? 8 : 14) : 0;
+    const amp = STALK ? 30 : 24, sw = WALK ? amp * mv * Math.sin(t + ph) : 0, lift = WALK ? Math.max(0, Math.cos(t + ph)) * (STALK ? 8 : 14) * mv : 0;
     const raise = front && !far ? Math.max(0, Math.min(1, opts.lift ?? 0)) : 0;
     if (raise > 0) { const top: P2 = [x, by + 50], knee: P2 = [x + 46 * raise + 10, by + 70 - 30 * raise], ft: P2 = [x + 70 * raise + 10, by + 120 - 40 * raise]; p.band([top, knee, ft], fur, 32, ow * 0.75, "round"); p.ell(ft[0] + 12, ft[1] + 4, 22, 13, fur, ow * 0.6); return; }
-    const top: P2 = [x, by + 50], knee: P2 = [x + sw * 0.5 + (front ? 10 : -14) + (STALK || CROUCH ? (front ? 30 : -30) : 0), by + 50 + (ground - by - 50) * 0.5 - (STALK || CROUCH ? 10 : 0)], ft: P2 = [x + sw + (CROUCH ? (front ? 40 : -10) : 0), ground - lift];
+    const top: P2 = [x, by + 50], knee: P2 = [x + sw * 0.5 + (front ? 10 : -14) + (STALK || CROUCH ? (front ? 30 : -30) : 0), by + 50 + (ground - by - 50) * 0.5 - (STALK || CROUCH ? 10 : 0)], ft: P2 = [x + sw + ck * (front ? 40 : -10), ground - lift];
     if (SIT && !front) { p.ell(x + 10, ground - 40, 60, 44, far ? dark : fur, ow * 0.7); p.ell(x + 60, ground - 8, 30, 12, far ? dark : fur, ow * 0.6); return; }
     p.band([top, knee, ft], far ? dark : fur, 32, ow * 0.75, "round");
     p.ell(ft[0] + 10, ft[1] - 8, 22, 12, far ? dark : fur, ow * 0.6);
@@ -389,17 +391,17 @@ const lion = (p: Pen, o: Look, opts: FigOpts, light: number) => {
   leg(140, true, Math.PI, false); leg(420, true, 0, true);
   // tail: long, curving up, dark tuft; flicks
   const tf = 18 * Math.sin(t * (STALK || CROUCH ? 1.6 : 0.8));
-  const tail = curve([70, by - 10], [10, by + 60 + tf * 0.4], [-20 + tf, by - 30 - (CROUCH ? 30 : 0)], 12);
+  const tail = curve([70, by - 10], [10, by + 60 + tf * 0.4], [-20 + tf, by - 30 - 30 * ck], 12);
   p.stroke(tail, 5 * u, INK); p.stroke(tail, 2.6 * u, fur);
   p.ell(tail[tail.length - 1][0], tail[tail.length - 1][1] - 8, 13, 20, mane, 2 * u);
   // body
-  const bp = blobPts(270, by, { a: 200, b: 76, nTop: 2.2, nBot: 2.2, egg: 0.06, asym: 0.04, rot: sitRot + (CROUCH ? 0.06 : 0), noise: 0.01, seed: o.seed });
+  const bp = blobPts(270, by, { a: 200, b: 76, nTop: 2.2, nBot: 2.2, egg: 0.06, asym: 0.04, rot: sitRot + 0.06 * ck, noise: 0.01, seed: o.seed });
   p.shadedFill(bp, fur, mul(fur, SH_SKIN), light, 60);
   p.clip(bp, () => p.ell(270, by + 60, 170, 26, belly, 0));
   p.inkRing(bp, ow, thick, 0.4);
   leg(170, false, 0, false); leg(450, false, Math.PI, true);
   // head with a shaggy mane
-  const hx = 486 + (SIT ? -20 : 0), hy = by - 54 - (SIT ? 90 : 0) + (CROUCH ? 24 : 0) + (LIE ? 40 : 0);
+  const hx = 486 + (SIT ? -20 : 0), hy = by - 54 - (SIT ? 90 : 0) + 24 * ck + (LIE ? 40 : 0);
   const mp: P2[] = []; for (let i = 0; i < 26; i++) { const a = (i / 26) * two, rr = 104 + (i % 2 ? 18 : 0) + 6 * Math.sin(i * 1.7 + o.seed); mp.push([hx - 18 + Math.cos(a) * rr, hy + 8 + Math.sin(a) * rr * 0.95]); }
   p.shadedFill(mp, mane, mul(mane, SH_FELT), light, 80); p.inkRing(mp, ow, thick, 0.4);
   const hp = blobPts(hx + 6, hy + 6, { a: 66, b: 70, nTop: 2.2, nBot: 1.9, egg: -0.12, asym: 0.05, rot: 0.1, noise: 0.01, seed: o.seed + 4 });

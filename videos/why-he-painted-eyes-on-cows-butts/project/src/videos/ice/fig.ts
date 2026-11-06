@@ -108,6 +108,8 @@ export type FigOpts = {
   /** 0..1 head tipped back (features slide up, chin up); expr "guffaw" implies 1 */ headBack?: number;
   /** mode "sit": 0 = feet on the floor, 1 = legs stretched out level toward the facing side (feet up on a desk) */ feetUp?: number;
   /** mode "hop": 0..1 height of the jump (1 = feet 0.3 head-heights off the ground) */ lift?: number;
+  /** mode "kneel": 0 = standing, 1 = full kneel (in-between for kneeling down / standing up). Lion: crouchK, mode "stride": 0 = stalk, 1 = crouch */
+  kneelK?: number; crouchK?: number;
   /** mode "stride": step length in design units (default 0.55 HH ~ 120); bobK = vertical bob, fraction of the height
    *  (peak-to-peak, default 0.05). Feet are planted: move the card forward strideM() metres per phase unit. */
   stride?: number; bobK?: number;
@@ -447,6 +449,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
     sweat = 0, wet = 0, hatLift = 0, hatTilt = 0, squash = 0 } = opts;
   const LIE = mode === "lie", RUN = mode === "run", STAG = mode === "stagger", CARR = mode === "carried", NEW = LIE || RUN || STAG || CARR;
   const STRIDE = mode === "stride", KNEEL = mode === "kneel", PUSH = mode === "push", HOP = mode === "hop";
+  const KK = KNEEL ? clamp(opts.kneelK ?? 1, 0, 1) : 0;
   const facing = LIE && !opts.facing ? 1 : opts.facing ?? 0;
   const light = (opts.light ?? rad(-120)) + (LIE ? Math.PI / 2 : 0);
   const shake = clamp(opts.shake ?? 0, 0, 1), shT = Math.PI * 2 * phase;
@@ -463,7 +466,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
   const strideBob = STRIDE ? 0.5 * (opts.bobK ?? 0.05) * tall * Math.cos(2 * two * phase) : 0; // low at each heel strike
   const drop = RUN ? 0.07 * HH + 0.06 * HH * Math.sin(two * phase) ** 2 : STAG ? 0.13 * HH + 0.035 * HH * Math.sin(two * phase) ** 2
     : CARR ? -0.34 * HH + 0.02 * HH * Math.sin(two * phase)
-    : KNEEL ? Bd.legs * HH - 0.5 * LtotA : PUSH ? 0.12 * HH : HOP ? -0.3 * HH * clamp(opts.lift ?? 0.6, 0, 1.2) - 0.08 * HH
+    : KNEEL ? KK * (Bd.legs * HH - 0.5 * LtotA) : PUSH ? 0.12 * HH : HOP ? -0.3 * HH * clamp(opts.lift ?? 0.6, 0, 1.2) - 0.08 * HH
     : STRIDE ? 0.04 * HH + strideBob : 0;
   const shakeBob = shake * 0.035 * HH * Math.sin(4 * shT);
   const torsoBot = (mode === "sit" ? sole - 0.25 * HH : sole - Bd.legs * HH * (mode === "brace" ? 0.88 : 1)) + walkBob + bob * u + drop + shakeBob;
@@ -525,6 +528,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
         const front = fs ? side === d : side > 0;
         if (front) { k = fs ? [hx + d * 0.46 * Ltot, hipY + 0.02 * HH] : [hx + 4 * u, hipY + 0.3 * HH]; f = fs ? [k[0] + d * 2 * u, sole - 4 * u] : [hx + 8 * u, sole - 4 * u]; }
         else { k = fs ? [hx - d * 0.04 * Ltot, sole - 6 * u] : [hx - 4 * u, sole - 5 * u]; f = fs ? [k[0] - d * 0.44 * Ltot, sole - 7 * u] : [hx - 8 * u, sole - 0.14 * HH]; toe = fs ? [-d * 0.3, 0.95] : [side, 0]; }
+        if (KK < 1) { const f0: P2 = [300 + side * 22 * u, sole - 4 * u], k0: P2 = [(hx + f0[0]) / 2 + side * 1.5 * u, (hipY + f0[1]) / 2]; k = lerp2(k0, k, KK); f = lerp2(f0, f, KK); if (KK < 0.5) toe = null; }
       } else if (PUSH) { // lunge: front knee bent under the push, back leg straight behind
         const front = side === d;
         f = front ? [300 + d * 0.5 * HH, sole - 4 * u] : [300 - d * 0.85 * HH, sole - 4 * u];
@@ -579,7 +583,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
   }
   // ---- upper body rotates about the hips ----
   const lean = RUN ? fs * 13 + 1.5 * Math.sin(2 * two * phase) : STAG ? fs * 5 + 7 * Math.sin(two * phase) + 2.5 * Math.sin(3 * two * phase + 1) : CARR ? fs * 4 + 3 * Math.sin(two * phase) : 0;
-  const lean2 = PUSH ? (fs || 1) * 17 : KNEEL ? (fs || 0) * 4 : HOP ? -(fs || 0) * 6 : STRIDE ? (fs || 0) * 3 : 0;
+  const lean2 = PUSH ? (fs || 1) * 17 : KNEEL ? (fs || 0) * 4 * KK : HOP ? -(fs || 0) * 6 : STRIDE ? (fs || 0) * 3 : 0;
   const sway = mode === "walk" || STRIDE ? 1.4 * Math.sin(two * phase) : 0, A = tilt + sway + lean + lean2 + shake * 4.5 * Math.sin(2 * shT);
   p.rot = A ? [rad(A), 300, hipY] : null;
   const T: Blob = { a: Ta, b: 0.5 * (torsoBot - (chin - 0.25 * HH)), nTop: 2.2, nBot: 2.6, egg: o.build === "stout" ? 0.17 : 0.12,

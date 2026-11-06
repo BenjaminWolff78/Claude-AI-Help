@@ -112,6 +112,9 @@ SHOT_CAMS[5] = () => [
   K(908, F((f) => { const k = sm(f, 908, 950); return { pos: lerp3([7.0, 1.75, 13.6], [0.8, 1.6, 8.4], k), look: lerp3([2.4, 1.1, 7.0], [3.4, 0.9, 4.6], k), fov: 42 }; }, 908, 0.0014), 30),
   K(952, FS(() => ({ pos: [0.6, 1.35, 7.0] as V3, look: [3.5, 0.95, 4.5] as V3, fov: 40 }), 952, 0.0022, 0.0015, [[1008, 0.007, 10]], 990), 24),
 ];
+/** hero kneel window [a, b): eases down over 9 f, back up over the last 10 f; returns the fields to merge into the pose */
+const kneelIn = (f: number, a: number, b: number): Partial<FigOpts> | null =>
+  f >= a && f < b ? { mode: "kneel", kneelK: Math.min(sm(f, a, a + 9), 1 - sm(f, b - 10, b)) } : null;
 SHOT_ACTS[5] = (f, s) => {
   const walk = along([HERO_BOARD, [2.9, 0, 7.0], HERO5_SPOT], 0.12, 912, f);
   const nervous = (who: string): P => ({ ...flow(f, [[783, { expr: "neutral" }], [982 + who.length, { expr: "nervous", sweat: 1 }, 4]]) });
@@ -119,7 +122,7 @@ SHOT_ACTS[5] = (f, s) => {
     ctl: { night: 0, fire: 1, smoke: 1 },
     cast: [
       ...herdCast(5, s, f, ["cow1"], { cow2: nervous("cow2"), cow8: nervous("cow8"), cow5: nervous("cow5") }),
-      C("picasso", f < 912 ? HERO_BOARD : walk.p, f >= 912 && walk.moving ? pose(null, { mode: "walk", phase: ph(f, 14), facing: screenSide(5, s, f, walk.d[0], walk.d[1]), expr: "stare", armR: [[20, 20], [26, 40]] as A2, armRFront: true, propR: "notebook" }) : flow(f, [
+      C("picasso", f < 912 ? HERO_BOARD : walk.p, { ...(f >= 912 && walk.moving ? pose(null, { mode: "walk", phase: ph(f, 14), facing: screenSide(5, s, f, walk.d[0], walk.d[1]), expr: "stare", armR: [[20, 20], [26, 40]] as A2, armRFront: true, propR: "notebook" }) : flow(f, [
         [783, { expr: "calm", facing: 1, armR: [[26, -10], [48, -26]] as A2, armRFront: true, propR: "chalk" }],
         [792, { expr: "calm", facing: 1, armR: [[26, -6], [50, -14]] as A2, armRFront: true, propR: "chalk" }, 5],     // wipes the 2
         [799, { expr: "stare", facing: 1, armR: [[26, -10], [48, -26]] as A2, armRFront: true, propR: "chalk" }, 4],    // chalks 61
@@ -128,7 +131,7 @@ SHOT_ACTS[5] = (f, s) => {
         [980, { expr: "smug", facing: -1, mode: "kneel", armR: [[16, 10], [10, -12]] as A2, armRFront: true, propR: "notebook" }, 4],                 // no eyes
         [998, { expr: "smug", facing: 1, mode: "stand", armR: [[20, -16], [12, -46]] as A2, armRFront: true, armL: [[-18, 20], [-26, 40]] as A2, propL: "notebook" }, 10],   // stands, finger up
         [1006, { expr: "sly", facing: 1, mode: "stand", mouth: talk(f, 1007, 1030), armR: [[20, -16], [12, -46]] as A2, armRFront: true, armL: [[-18, 20], [-26, 40]] as A2, propL: "notebook" }, 3], // "Trust the eyes."
-      ]), { idx: 1 }),
+      ])), ...kneelIn(f, 955, 1006) }, { idx: 1 }),
       fallOff("fmBig", f, 834, 10, 873, 905), fallOff("fmThin", f, 838, 11), fallOff("fmAunt", f, 842, 12), fallOff("fmTall", f, 846, 13),
       ...Object.entries(KIDS).map(([who, p], i) => C(who, p, flow(f, [[783, { expr: "smile", facing: -1 }], [826, { ...laughFace(f, 826, 4 + i) }, 4], [900, { expr: "grin", facing: -1 }, 8]]), { idx: 20 + i })),
     ],

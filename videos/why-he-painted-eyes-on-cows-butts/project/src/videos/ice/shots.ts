@@ -684,6 +684,9 @@ SHOT_CAMS[5] = () => [
   K(908, F((f) => { const k = sm(f, 908, 950); return { pos: lerp3([7.0, 1.75, 13.6], [0.8, 1.6, 8.4], k), look: lerp3([2.4, 1.1, 7.0], [3.4, 0.9, 4.6], k), fov: 42 }; }, 908, 0.0014), 30),
   K(952, FS(() => ({ pos: [0.6, 1.35, 7.0] as V3, look: [3.5, 0.95, 4.5] as V3, fov: 40 }), 952, 0.0022, 0.0015, [[1008, 0.007, 10]], 990), 24),
 ];
+/** hero kneel window [a, b): eases down over 9 f, back up over the last 10 f; returns the fields to merge into the pose */
+const kneelIn = (f: number, a: number, b: number): Partial<FigOpts> | null =>
+  f >= a && f < b ? { mode: "kneel", kneelK: Math.min(sm(f, a, a + 9), 1 - sm(f, b - 10, b)) } : null;
 SHOT_ACTS[5] = (f, s) => {
   const walk = along([HERO_BOARD, [2.9, 0, 7.0], HERO5_SPOT], 0.12, 912, f);
   const nervous = (who: string): P => ({ ...flow(f, [[783, { expr: "neutral" }], [982 + who.length, { expr: "nervous", sweat: 1 }, 4]]) });
@@ -691,7 +694,7 @@ SHOT_ACTS[5] = (f, s) => {
     ctl: { night: 0, fire: 1, smoke: 1 },
     cast: [
       ...herdCast(5, s, f, ["cow1"], { cow2: nervous("cow2"), cow8: nervous("cow8"), cow5: nervous("cow5") }),
-      C("picasso", f < 912 ? HERO_BOARD : walk.p, f >= 912 && walk.moving ? pose(null, { mode: "walk", phase: ph(f, 14), facing: screenSide(5, s, f, walk.d[0], walk.d[1]), expr: "stare", armR: [[20, 20], [26, 40]] as A2, armRFront: true, propR: "notebook" }) : flow(f, [
+      C("picasso", f < 912 ? HERO_BOARD : walk.p, { ...(f >= 912 && walk.moving ? pose(null, { mode: "walk", phase: ph(f, 14), facing: screenSide(5, s, f, walk.d[0], walk.d[1]), expr: "stare", armR: [[20, 20], [26, 40]] as A2, armRFront: true, propR: "notebook" }) : flow(f, [
         [783, { expr: "calm", facing: 1, armR: [[26, -10], [48, -26]] as A2, armRFront: true, propR: "chalk" }],
         [792, { expr: "calm", facing: 1, armR: [[26, -6], [50, -14]] as A2, armRFront: true, propR: "chalk" }, 5],     // wipes the 2
         [799, { expr: "stare", facing: 1, armR: [[26, -10], [48, -26]] as A2, armRFront: true, propR: "chalk" }, 4],    // chalks 61
@@ -700,7 +703,7 @@ SHOT_ACTS[5] = (f, s) => {
         [980, { expr: "smug", facing: -1, mode: "kneel", armR: [[16, 10], [10, -12]] as A2, armRFront: true, propR: "notebook" }, 4],                 // no eyes
         [998, { expr: "smug", facing: 1, mode: "stand", armR: [[20, -16], [12, -46]] as A2, armRFront: true, armL: [[-18, 20], [-26, 40]] as A2, propL: "notebook" }, 10],   // stands, finger up
         [1006, { expr: "sly", facing: 1, mode: "stand", mouth: talk(f, 1007, 1030), armR: [[20, -16], [12, -46]] as A2, armRFront: true, armL: [[-18, 20], [-26, 40]] as A2, propL: "notebook" }, 3], // "Trust the eyes."
-      ]), { idx: 1 }),
+      ])), ...kneelIn(f, 955, 1006) }, { idx: 1 }),
       fallOff("fmBig", f, 834, 10, 873, 905), fallOff("fmThin", f, 838, 11), fallOff("fmAunt", f, 842, 12), fallOff("fmTall", f, 846, 13),
       ...Object.entries(KIDS).map(([who, p], i) => C(who, p, flow(f, [[783, { expr: "smile", facing: -1 }], [826, { ...laughFace(f, 826, 4 + i) }, 4], [900, { expr: "grin", facing: -1 }, 8]]), { idx: 20 + i })),
     ],
@@ -730,13 +733,15 @@ const LION6 = (f: number) => {
   if (f < 1262) return { p: [-9.6, 0, 1.4] as V3, mode: "kneel", ph: 0, facing: 1, expr: (f < 1214 ? "sly" : "shock") as Face, sweat: f >= 1222 ? 1 : 0, lift: 0 };
   const k = sm(f, 1262, 1296); return { p: lerp3([-9.6, 0, 1.4], [-14.6, 0, 1.0], k), mode: "stride", ph: 1 - (((f - 1262) / 34) % 1), facing: 1, expr: "shock" as Face, sweat: 1, lift: 0 };
 };
+/** 1 = full crouch, 0 = stalking (only read in stride mode) */
+const LION6_CK = (f: number) => f < 1196 ? Math.max(1 - sm(f, 1140, 1150), sm(f, 1186, 1196)) : 1 - sm(f, 1262, 1272);
 const COW9_RUMP: V3 = [herdOf("cow9").pos[0], 0, herdOf("cow9").pos[2]];
 SHOT_CAMS[6] = () => [
   K(1032, F(() => ({ pos: [0.6, 1.35, 7.0] as V3, look: [3.5, 0.95, 4.5] as V3, fov: 40 }), 952, 0.0022)),
   K(1046, FS(() => ({ pos: [1.4, 1.8, 7.3] as V3, look: [-3.0, 0.9, -3.0] as V3, fov: 46 }), 1046, 0.0012, -0.002, [], 1070), 30),
   K(1092, FS(() => ({ pos: [0.2, 1.8, 16.6] as V3, look: [-4.9, 1.35, 10.6] as V3, fov: 46 }), 1092, 0.0018, 0.002, [[1109, 0.006, 10]], 1110), 22),
-  K(1126, F((f) => { const lp = LION6(f).p; return { pos: [lp[0] + 1.6, 1.25, lp[2] + 5.4] as V3, look: [lp[0] + 0.9, 0.75, lp[2]] as V3, fov: 42 }; }, 1126, 0.0012), 30),
-  K(1196, F(() => ({ pos: [-12.3, 1.05, 1.9] as V3, look: [-6.0, 0.95, 1.6] as V3, fov: 40 }), 1196, 0.0026, [[1228, 0.007, 12]]), 16),
+  K(1136, F((f) => { const lp = LION6(f).p; return { pos: [lp[0] + 1.6, 1.25, lp[2] + 5.4] as V3, look: [lp[0] + 0.9, 0.75, lp[2]] as V3, fov: 42 }; }, 1136, 0.0012), 1, true),   // "Then, a lion" (hard cut 2 f before "Then,"; the old 30 f blend flew through the farmers)
+  K(1196, F(() => ({ pos: [-12.3, 1.05, 1.9] as V3, look: [-6.0, 0.95, 1.6] as V3, fov: 40 }), 1196, 0.0026, [[1228, 0.007, 12]]), 1, true),   // over the lion's shoulder (hard cut: the blend crossed the thorn fence)
   K(1216, F(() => ({ pos: [-11.8, 1.1, 4.8] as V3, look: [-9.4, 0.95, 1.4] as V3, fov: 34 }), 1216, 0.0028), 1, true),       // reaction close-up (hard cut)
   K(1260, F((f) => { const k = sm(f, 1260, 1296); return { pos: lerp3([-7.0, 1.3, 4.6], [-11.4, 1.0, 4.4], k), look: lerp3([-9.8, 0.8, 1.4], [-14.6, 0.7, 0.9], k), fov: 42 }; }, 1260, 0.0012), 14),
 ];
@@ -760,17 +765,17 @@ SHOT_ACTS[6] = (f, s) => {
         [1078, { expr: "stare", facing: -1, look: -1, armL: [[-14, 26], [-4, 46]] as A2, propL: "lantern" }, 6],
       ]), { idx: 1 }),
       lanternF("fmBig", 0), lanternF("fmThin", 1), lanternF("fmAunt", 2), lanternF("fmTall", 3),
-      C("lion", lion.p, { ...flow(f, [[1032, { expr: "sly" }], [1214, { expr: "aghast", sweat: 1 }, 2]]), mode: lion.mode as FigOpts["mode"], phase: lion.ph, facing: lion.facing }, { idx: 30, scale: 1.75 }),
+      C("lion", lion.p, { ...flow(f, [[1032, { expr: "sly" }], [1214, { expr: "aghast", sweat: 1 }, 2]]), mode: lion.mode as FigOpts["mode"], phase: lion.ph, facing: lion.facing, crouchK: LION6_CK(f) }, { idx: 30, scale: 1.75 }),
     ],
     fx: fxs(
       f >= 1076 && f < 1100 ? [0, 1].map((i) => dustCard("yank" + i, [c7.pos[0] - 3 - i * 1.5, 0.6, c7.pos[2] - 0.6], 1.6, 0.9 * (1 - (f - 1076) / 24), i + 2)) : null,
       f >= 1226 && f < 1252 ? bang([-9.4, 2.55, 1.4], f - 1226) : null,
     ),
-    focus: f < 1092 ? [3.4, 1.0, 4.6] : f < 1126 ? [-3.9, 1.5, 11.2] : f < 1196 ? lion.p : f < 1216 ? COW9_RUMP : [-9.4, 1.25, 1.4],
-    subj: f < 1046 ? "picasso" : f < 1092 ? null : f < 1126 ? "fmBig" : null,
+    focus: f < 1092 ? [3.4, 1.0, 4.6] : f < 1136 ? [-3.9, 1.5, 11.2] : f < 1196 ? lion.p : f < 1216 ? COW9_RUMP : [-9.4, 1.25, 1.4],
+    subj: f < 1046 ? "picasso" : f < 1092 ? null : f < 1136 ? "fmBig" : null,
   };
 };
-lens(1032, 6, 1); lens(1046, 2, 20); lens(1092, 4, 16); lens(1126, 3, 20); lens(1196, 7, 12); lens(1216, 9, 1); lens(1260, 4, 20);
+lens(1032, 6, 1); lens(1046, 2, 20); lens(1092, 4, 16); lens(1136, 3, 1); lens(1196, 7, 12); lens(1216, 9, 1); lens(1260, 4, 20);
 
 // =====================================================================================================================
 // SHOT 7 (1296-1500) = SCENE 7, the explanation in its own place and light: the tall grass at deep-blue night (the camera
@@ -786,17 +791,17 @@ SHOT_CAMS[7] = () => [
   K(1438, F((f) => { const k = sm(f, 1438, 1500); return { pos: lerp3([-14.4, 1.35, 1.8], [-14.9, 1.15, 0.9], k), look: lerp3([-18.4, 0.85, -2.6], [-17.6, 0.75, -1.9], k), fov: lerp(42, 34, k) }; }, 1438, 0.002, [[1475, 0.006, 10]]), 22),
 ];
 SHOT_ACTS[7] = (f) => {
-  const step = sm(f, 1392, 1430), lp = lerp3(L7A, L7B, step);
+  const step = sm(f, 1392, 1430), lp = lerp3(L7A, L7B, step), rise = f >= 1386 && f < 1400;
   return {
     ctl: { night: 1, fire: 0, smoke: 0 },
     cast: [
-      C("lion", lp, flow(f, [
+      C("lion", lp, { ...flow(f, [
         [1296, { mode: "kneel", expr: "sly", facing: -1 }],
         [1340, { mode: "kneel", expr: "sly", facing: -1, tilt: 3 }, 8],                         // ambush hunter: low, still, tail flicking
         [1390, { mode: "stride", expr: "sly", facing: -1, phase: 0.1 + 0.5 * step }, 8],       // creeps one step
         [1436, { mode: "stride", expr: "shock", facing: -1, phase: 0.6, lift: 1 }, 3],         // spotted: freezes, paw in the air
         [1474, { mode: "stride", expr: "dismay", facing: -1, phase: 0.6, lift: 1, sweat: 1 }, 6],  // the hunt is over
-      ]), { idx: 30, scale: 1.75 }),
+      ]), ...(rise ? { mode: "stride" as FigOpts["mode"], crouchK: 1 - sm(f, 1386, 1398) } : {}) }, { idx: 30, scale: 1.75 }),
       C("impala", IMP7, flow(f, [
         [1296, { expr: "neutral", facing: -1, tilt: 25 }],
         [1432, { expr: "neutral", facing: -1, tilt: 0 }, 4],
