@@ -63,19 +63,24 @@ lens3([[0, DOF_MS], [58, DOF_INSERT, 38]]);
 // his photo; the officer jabs at it on "treason"; push in onto the photo (photo -> face dissolve at 340).
 SHOT_CAMS[2] = (s) => {
   const P = MK(s, "painting"), of = OFF2(s);
-  const A = fit([[[P[0], 0, P[2] + 0.2], 1.0, 2.1, 0.58]], 0, 2, 38, 0.97);
+  const A = fit([[[P[0], 0, P[2] + 0.2], 1.0, 2.1, 0.5]], 0, 2, 38, 0.97);
   const B = fit([body(S2A(s)), body(S2B(s)), body(of), [[P[0], 0, P[2] + 0.2], 1.0, 2.1, 0.55]], 2, 6, 50, 0.84, 0, 0.15);
-  const Cc = fit([[[P[0], 0, P[2] + 0.25], 1.15, 2.0, 0.45], body(of, 1.3, 2.2, 0.3)], 12, 2, 38, 0.9, 0.1);
+  // from the left, so the officer (now forward) stands clear right of the slip instead of over its last line
+  const Cc = fit([[[P[0], 0, P[2] + 0.25], 1.15, 2.0, 0.45], body(of, 1.3, 2.2, 0.3)], -12, 2, 38, 0.9, 0.1);
   // push right in until the seller's photo face fills the frame, centred (it becomes his real face at 340)
   const Z = fit([[[P[0] + 0.005, 0, P[2] + 0.25], 1.627 - 0.07, 1.627 + 0.07, 0.075]], 0, 0, 36, 0.98);
   const S1 = F(() => A, 96, 0.0008), S2 = F(() => B, 158, 0.0016), S3 = F(() => Cc, 280, 0.0018, [[300, 0.006, 10]]), S4 = F(() => Z, 340, 0.001);
   return [K(96, S1), K(126, glideTo(S1, 126, S2, 158), 1), K(254, glideTo(S2, 254, S3, 280), 1), K(316, glideTo(S3, 316, S4, 340), 1)];
 };
-const OFF2 = (s: SetDef): V3 => add3(MK(s, "crate"), 1.05, -0.62, 1.0);
-const S2A = (s: SetDef): V3 => add3(MK(s, "crate"), -0.62, -0.62, 0.3), S2B = (s: SetDef): V3 => add3(MK(s, "crate"), 0.7, -0.62, 0.25);
+// the officer stands forward of the crate (bigger, nearer the lens) and soldier B back to the right, so nobody hides
+// anybody in the wide
+const OFF2 = (s: SetDef): V3 => add3(MK(s, "crate"), 0.6, -0.62, 1.45);
+// the soldiers stand a little wide of the painting so the opening close-up shows only their hands on the frame (no
+// half-cut faces at the edges)
+const S2A = (s: SetDef): V3 => add3(MK(s, "crate"), -0.84, -0.62, 0.3), S2B = (s: SetDef): V3 => add3(MK(s, "crate"), 1.2, -0.62, 0.1);
 SHOT_ACTS[2] = (f, s) => {
   const s1 = S2A(s), s2 = S2B(s), of = OFF2(s);
-  const hold = (d: number): P => ({ armR: mx([[30, -8], [52, -30]], d), armRFront: true, armL: mx([[18, 6], [44, -10]], d), armLFront: true });
+  const hold = (d: number): P => ({ armR: mx([[30, -8], [62, -30]], d), armRFront: true, armL: mx([[18, 6], [54, -10]], d), armLFront: true });
   return {
     ctl: { lid: 1, lift: 1, flip: sm(f, 238, 256), bulbs: 1 },
     cast: [
@@ -118,7 +123,7 @@ SHOT_CAMS[3] = (s) => {
   const D = MK(s, "dock"), r1 = RP1, r2 = RP2;
   // his face fills the frame, centred, the same spot and size as the photo face it dissolves from (subject-position match)
   const A = fit([[[D[0], 0, D[2]], 1.2, 1.85, 0.3]], 16, 2, 34, 0.9);
-  const B = fit([body(D, 0.95, 2.35, 0.42)], 14, 3, 36, 0.86, 0, 0.02);
+  const B = fit([body(D, 0.95, 2.35, 0.42)], 14, 3, 36, 0.86, 0, -0.28); // face in the upper-middle, the caption sits on his chest, never on the mouth
   const W3 = fit([body(D, 0, 2.35, 0.42), body(GA3), body(GB3)], 20, 6, 46, 0.88, 0, 0.1);
   const rt15: V3 = [0.966, 0, -0.259], pc: V3 = [r1[0] + rt15[0] * 0.42, 0, r1[2] + rt15[2] * 0.42];
   const R = fit([body(r1, 0.4, 2.45, 0.42), [pc, 1.0, 2.0, 0.3]], 15, 3, 40, 0.88, 0, 0.05);
@@ -190,7 +195,7 @@ lens3([[340, DOF_CU], [372, DOF_MS, 24], [452, DOF_FS, 24], [520, DOF_MS, 32], [
 // stroke; push into the finished canvas (object dissolve into the museum at 875).
 SHOT_CAMS[4] = (s) => {
   const R = MK(s, "read"), P = MK(s, "paint"), cv = MK(s, "canvas");
-  const Z0 = fit([body(add3(R, 0.1, 0, 0.12), 0.95, 1.7, 0.26)], 8, 0, 36, 0.98);
+  const Z0 = fit([body(add3(R, 0.1, 0, 0.12), 0.95, 1.7, 0.26)], 8, 0, 36, 0.7, 0, -0.19); // whole page in frame, above the caption band (same size/spot as the court paper it dissolves from)
   const A = fit([body(R, 0, 2.1, 0.45), [MK(s, "bin"), 0, 0.5, 0.25]], 10, 5, 40, 0.84, 0, 0.08);
   const B = fit([body(P, 0, 2.15, 0.35), [[cv[0], 0, cv[2]], 0.9, 1.9, 0.4]], 18, 4, 40, 0.84, 0, 0.05);
   const Z = fit([[[cv[0], 0, cv[2] + 0.05], 0.94, 1.82, 0.37]], 0, 1, 38, 0.99);
@@ -211,15 +216,16 @@ SHOT_ACTS[4] = (f, s) => {
         [654, { expr: "neutral", facing: 0, armR: [[26, 40], [14, 62]] as A2, armRFront: true, armRTop: true, propR: "paperHead", propK: 1 }],
         [700, { expr: "dismay", facing: 0, armR: [[26, 40], [14, 62]] as A2, armRFront: true, armRTop: true, propR: "paperHead", propK: 1, headTilt: -3 }, 10],     // reads it
         [728, { expr: "angry", facing: 0, armR: [[26, 40], [14, 62]] as A2, armRFront: true, armRTop: true, propR: "paperHead", propK: 1, tilt: 4 }, 8],
-        [748, { expr: "angry", facing: -1, tilt: 6, armR: [[20, 20], [6, 30]] as A2, armRFront: true, propR: "handful", armL: [[-20, 20], [-6, 30]] as A2, armLFront: true }, 8], // crumples it
-        [764, { expr: "angry", facing: -1, tilt: -4, armR: [[-14, -16], [-40, -34]] as A2, armRFront: true }, 4],                                    // lob!
+        [748, { expr: "angry", facing: -1, tilt: 6, armR: [[20, 20], [6, 30]] as A2, armRFront: true, propR: "paperBall", propK: sm(f, 754, 764), armL: [[-20, 20], [-6, 30]] as A2, armLFront: true }, 8], // crumples it
+        [764, { expr: "angry", facing: -1, tilt: -4, armR: [[-14, -16], [-40, -34]] as A2, armRFront: true, propR: "paperBall", propK: 1 }, 4],      // wind-up with the ball
+        [768, { expr: "angry", facing: -1, tilt: -2, armR: [[-6, -20], [-20, -44]] as A2, armRFront: true }, 2],                                    // lob! (ball leaves the hand)
         [780, { expr: "sly", facing: -1, armR: [[24, 30], [10, 44]] as A2 }, 8],
         [812, { expr: "sly", facing: -1, tilt: 3, armL: [[-30, -10], [-56, -24]] as A2, armLFront: true, armR: [[24, 30], [10, 44]] as A2 }, 6],    // whips the cloth off
         [822, { expr: "determined", facing: -1, tilt: -3 + 3 * stroke, armR: mx([[30, -6], [58 + 6 * stroke, -26 - 10 * stroke]], -1), armRFront: true, propR: "paintBrush", propRAng: 0.3 * stroke, armL: [[-24, 30], [-8, 44]] as A2, armLFront: true }, 8],
       ]), { idx: 1 }),
     ],
     fx: fxs(
-      ...(f >= 764 && f < 784 ? (() => { const k = (f - 764) / 20, a = add3(R, -0.25, 1.75, 0.1), b = add3(bin, 0, 0.42, 0); const p: V3 = [lerp(a[0], b[0], k), lerp(a[1], b[1], k) + 0.7 * Math.sin(Math.PI * k), lerp(a[2], b[2], k)];
+      ...(f >= 769 && f < 784 ? (() => { const k = (f - 769) / 15, a = add3(R, 0.2, 1.3, 0.15), c = add3(R, 0.3, 2.95, 0.1), b = add3(bin, 0, 0.42, 0), w0 = (1 - k) ** 2, w1 = 2 * k * (1 - k), w2 = k * k; const p: V3 = [w0 * a[0] + w1 * c[0] + w2 * b[0], w0 * a[1] + w1 * c[1] + w2 * b[1], w0 * a[2] + w1 * c[2] + w2 * b[2]]; // over the shoulder, never across the face
         return [{ kind: "card", key: "ball", pos: p, w: 0.16, h: 0.16, rot: f * 0.5, cw: 64, ch: 64, draw: (q: Pen) => { const g = q.g; g.fillStyle = "#efe6cc"; g.strokeStyle = INKC; g.lineWidth = 5; g.beginPath(); for (let i = 0; i < 9; i++) { const aa = (i / 9) * 6.28, rr = 22 + (i % 2) * 6; g.lineTo(32 + Math.cos(aa) * rr, 32 + Math.sin(aa) * rr); } g.closePath(); g.fill(); g.stroke(); } } as FxSpec]; })() : []),
       f >= 784 && f < 796 ? dustCard("binP", add3(bin, 0, 0.5, 0), 0.4, 0.6 * (1 - (f - 784) / 12), 3) : null,
       f >= 812 && f < 824 ? dustCard("cloth", [cv[0], 1.4, cv[2] + 0.2], 0.7, 0.5 * (1 - (f - 812) / 12), 1) : null,
@@ -324,7 +330,7 @@ lens3([[1040, DOF_FS], [1066, DOF_MS, 24]]);
 // trick" and the oven's glow floods the frame (light dissolve into the studio at 1238).
 SHOT_CAMS[7] = (s) => {
   const D = MK(s, "dock");
-  const A = fit([body(D, 0.9, 2.35, 0.42), body(GB3, 1.0, 2.2, 0.3)], 18, 3, 38, 0.86, 0.12, 0.02);
+  const A = fit([body(D, 0.9, 2.35, 0.42), body(GB3, 1.0, 2.2, 0.3)], 18, 3, 38, 0.86, 0.12, -0.2); // faces above the caption band
   return [K(1140, F(() => A, 1140, 0.0016, [[1204, 0.007, 12], [1222, 0.005, 10]]), 1, true)];
 };
 SHOT_ACTS[7] = (f, s) => {
@@ -422,7 +428,7 @@ SHOT_CAMS[9] = (s) => {
   const EV = MK(s, "painting"), A1 = MK(s, "sciA"), B1 = MK(s, "sciB"), L = MK(s, "lab");
   const Z = fit([[[EV[0], 0, EV[2]], EV[1] - 0.65, EV[1] + 0.65, 0.58]], 31, 1, 38, 0.98);
   const A = fit([body(A1), body(B1), [[L[0], 0, L[2]], 0.85, 1.2, 0.7]], 50, 6, 44, 0.88, 0, 0.1);
-  const Bk = fit([body(B1, 0.9, 2.25, 0.5)], 18, 2, 36, 0.9);
+  const Bk = fit([body(B1, 0.9, 2.25, 0.42), [[B1[0] + 0.25, 0, B1[2] + 0.2], 0.75, 1.4, 0.34]], 18, 2, 36, 0.8, 0, -0.24); // lifted so the captions sit under the book // she holds the book open in front of her: whole PLASTIC / INVENTED 1907 spread in frame
   const SZ = F(() => Z, 1497, 0.0008), SA = F(() => A, 1540, 0.0016, [[1566, 0.006, 10]]), SB = F(() => Bk, 1622, 0.0012);
   return [K(1497, SZ), K(1510, glideTo(SZ, 1510, SA, 1540), 1), K(1596, glideTo(SA, 1596, SB, 1622), 1)];
 };
@@ -440,7 +446,7 @@ SHOT_ACTS[9] = (f, s) => {
       C("sciB", B1, flow(f, [
         [1497, { expr: "stare", facing: 1, armR: [[24, 30], [10, 44]] as A2, armL: [[-22, 20], [-10, 34]] as A2, armLFront: true, propL: "notebook" }],
         [1560, { expr: "shock", facing: 1, tilt: -4, armR: [[24, 30], [10, 44]] as A2, look: 1 }, 6],
-        [1596, { expr: "eureka", facing: 0, armR: [[26, 6], [10, -16]] as A2, armRFront: true, propR: "plasticBook", headTilt: 3 }, 8],         // slams the book open: 1907
+        [1596, { expr: "eureka", facing: 0, armR: [[26, 40], [14, 62]] as A2, armRFront: true, armRTop: true, propR: "plasticBook", headTilt: 3, armL: [[-26, 40], [-6, 62]] as A2, armLFront: true }, 8],         // slams the book open: 1907
       ]), { idx: 2 }),
       C("forger", D, flow(f, [
         [1497, { expr: "smug", facing: -1, armR: [[24, 10], [6, -6]] as A2, armRFront: true, look: -0.5 }],
@@ -469,9 +475,9 @@ SHOT_CAMS[10] = (s) => {
   // the reporter now stands at his side (not in front of him), so the wide shows painting + painter + reporter; the
   // poll beat frames the reporter and the WHOLE page (the painter cleanly out of frame left)
   const A = fit([[[EV[0], 0, EV[2]], EV[1] - 0.66, EV[1] + 0.66, 0.6], body(pf, 0, 2.3, 0.45), body(r2, 0, 2.45, 0.42)], 30, 6, 44, 0.9, 0.1, 0.05);
-  const rt = [Math.cos(24 * Math.PI / 180), 0, -Math.sin(24 * Math.PI / 180)], pp: V3 = [r2[0] + rt[0] * 0.55, 0, r2[2] + rt[2] * 0.55];
-  const R = fit([body(r2, 0.9, 2.45, 0.42), [pp, 1.2, 2.1, 0.38]], 24, 3, 38, 0.9, 0);
-  const Cc = fit([body(pf, 1.05, 2.35, 0.42)], 22, 2, 34, 0.88);
+  const rt = [Math.cos(24 * Math.PI / 180), 0, -Math.sin(24 * Math.PI / 180)], pp: V3 = [r2[0] + rt[0] * 0.62, 0, r2[2] + rt[2] * 0.62];
+  const R = fit([body(r2, 1.2, 2.3, 0.36), [pp, 1.1, 2.0, 0.44]], 24, 3, 38, 0.9, 0, -0.32); // reporter's head + the whole poll page, big and above the caption band
+  const Cc = fit([body(pf, 1.05, 2.35, 0.42)], 22, 2, 34, 0.88, 0, -0.24); // face upper-middle, caption on the chest
   const SA = F(() => A, 1645, 0.0014, [[1660, 0.005, 10]]), SR = F(() => R, 1736, 0.0012), SC = F(() => Cc, 1784, 0.0016, [[1800, 0.006, 10]]);
   return [K(1645, SA), K(1712, glideTo(SA, 1712, SR, 1738), 1), K(1764, glideTo(SR, 1764, SC, 1786), 1)];
 };

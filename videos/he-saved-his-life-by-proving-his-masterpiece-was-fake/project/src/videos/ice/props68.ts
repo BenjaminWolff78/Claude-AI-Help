@@ -452,6 +452,14 @@ export const drawProp68 = (p: Pen, name: string, h: P2, u: number, ang = 0, k = 
       for (let c = 0; c < 3; c++) for (let i = 0; i < 7; i++) { const x0 = -40 + c * 28, l = i === 6 ? 14 : 24; p.stroke(R([[x0, -38 + i * 5], [x0 + l, -38 + i * 5]]), 1.1 * u, "#8a8070"); }
       break;
     }
+    case "paperBall": { // the review being crumpled in the hand: k 0 = a crushed sheet, 1 = a tight ball (red headline scraps show)
+      const kk = Math.max(0, Math.min(1, k)), rr = 50 - 38 * kk, pts: P2[] = [];
+      for (let i = 0; i < 11; i++) { const a = (i / 11) * 6.283, j = (i % 2 ? 0.72 : 1) * (1 - 0.15 * kk); pts.push([Math.cos(a) * rr * j * 1.25, -rr + Math.sin(a) * rr * j]); }
+      p.poly(R(pts), "#f3ecd6", ow * u);
+      for (const [x, y, l] of [[-0.5, -1.2, 0.8], [0.3, -0.6, 0.7], [-0.2, -1.6, 0.6]] as [number, number, number][]) p.stroke(R([[x * rr, y * rr], [(x + l) * rr, (y + 0.25) * rr]]), 1.3 * u, "#8a8070");
+      p.stroke(R([[-0.6 * rr, -0.9 * rr], [0.1 * rr, -0.8 * rr]]), 2.2 * u, "#b3262e");
+      break;
+    }
     case "plasticBook": { // a thick reference book held open toward the camera: PLASTIC / INVENTED 1907 + a sketch of a plastic disc
       p.poly(R([[-56, -84], [56, -84], [58, 4], [-58, 4]]), "#6a2a2a", ow * u);
       for (const sd of [-1, 1]) p.poly(R([[0, -80], [sd * 52, -82], [sd * 54, 0], [0, 2]]), "#f6efdc", 1.4 * u);
