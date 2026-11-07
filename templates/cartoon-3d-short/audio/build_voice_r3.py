@@ -1,12 +1,13 @@
 # Voice build for cartoon-3d-short (user rule 2026-11-05).
 # raw.mp3 = one eleven_v4 take of the whole script in "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs).
 # 1) trims every pause longer than 0.10 s down to ~0.10 s, 2) ONE Rubber Band pass that does the
-# speed-up AND the +3.5 semitone pitch raise together (R3 "finer" engine, formants preserved),
+# speed-up (and an optional pitch shift, now OFF by default) together (R3 "finer" engine, formants preserved),
+# User 2026-11-07: the +3.5 semitone voices "sounded kinda weird" -> keep the natural pitch (SEMITONES=0).
 # 3) word timings with faster-whisper on the final file.
-# usage: python3 build_voice_r3.py TEMPO [SEMITONES=3.5]
+# usage: python3 build_voice_r3.py TEMPO [SEMITONES=0]
 import subprocess, json, re, sys, numpy as np
 TEMPO = float(sys.argv[1]) if len(sys.argv) > 1 else 1.22
-SEMI = float(sys.argv[2]) if len(sys.argv) > 2 else 3.5
+SEMI = float(sys.argv[2]) if len(sys.argv) > 2 else 0.0
 PITCH = 2 ** (SEMI / 12)
 R3 = 536870912  # RubberBandStretcher::OptionEngineFiner (0x20000000), passed through ffmpeg's "channels" flag field; needs librubberband >= 3.0
 tot = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', 'raw.mp3']))

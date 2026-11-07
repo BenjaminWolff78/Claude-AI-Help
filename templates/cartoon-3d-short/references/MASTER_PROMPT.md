@@ -1,3 +1,5 @@
+<!-- MASTER PROMPT v10.12 (given by the user on 2026-11-07; replaces v10.11 and v10.10). Part 12 "WHAT RICK'S TOP SHORTS DO, WITH CORRECTIONS" wins over earlier parts. -->
+
 RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
 
 PRIORITY when two rules seem to conflict: 1 characters look like Rick, 2 the story's thing is shown clearly, 3 acting and camera flow, 4 sets and colour, 5 everything else. Numbers in this prompt are checks, not goals. A video can pass every number and still look wrong; your side-by-side review (step 5) decides.
@@ -8,7 +10,7 @@ STEP 1. TOPIC AND SCRIPT
 a. Title first: a curiosity question or strange claim the viewer cannot answer from the title ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Burglar Who Only Moved Furniture"). Real, checkable fact with a human twist. Do not reuse the last three formats or settings.
 b. Hook (first sentence, at most 5.6 s): one strange concrete action plus a stake, already happening at frame 1.
 c. Structure: hook, a doubter or problem by 10 s, a spoken open question by 20 s, three escalating beats, the trick named at 60-72% of the runtime, one everyday comparison, the payoff, a callback ending. Every sentence has one concrete thing we can picture.
-d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice.
+d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice. (Overridden by the "Voice" section: instead of atempo, one Rubber Band R3 pass with the speed-up and +3.5 semitones, formants preserved.)
 
 STEP 2. STYLE LOCK (before any animation)
 a. Build the cast and one frame of every set first.
@@ -298,3 +300,115 @@ C. RULES
 7. GROUPS AT DIFFERENT DEPTHS: crowds and doubters stand at different distances and angles, turned toward the action, never a straight row facing the camera.
 8. PLAN IT: the shot list gives every shot its subject, start, end, length (2 s or more), the action the subject does during it, and the glide into the next shot (frames). Before animating, print the count of shots under 2 s and the relocation count.
 9. QA from the render: segment the camera path at moves faster than 4 px per frame and print every stop length, the median (target 2 s or more), the share under 1.2 s (target 10% or less), the number of relocations, the peak speed of each move, and any frame where an object crosses the lens.
+
+ACTING INSIDE THE SHOT, MOUTHS, FOCUS, OBJECTS AND SMALL DETAILS (part of v10; where this disagrees with anything above, this wins; reference images AG and AH)
+Measured frame by frame on "He Labeled Grape Bricks 'Don't Make Wine' and Beat Prohibition" (optical flow on every frame, face crops every 1/15 s, full-size frames) and compared with Rick's "This Shape Saved Roller Coasters" (2.4M), "The Pink Prison Cell Experiment" (3.7M) and "The Ancient Jar That Warned an Empire" (31M): frame sheets, face crops every 0.1 s, and a scene-by-scene craft breakdown of each from vidIQ, plus the boards made earlier (A, B, X, AC, AD).
+
+A. WHAT "GRAPE BRICKS" DID
+Keep: the calmer camera (stops now last a median of 2.4 s, only 12% under 1.2 s - part 9 worked), 5 hard cuts, the hook and "You see," at 4.0 s, the 21-day calendar, the agent who reads the warning and puts the brick back, the cake-mix comparison, the lawyer callback, 64.3 s, -14.3 LUFS.
+Problems:
+1. The action inside the shot disappeared. Characters stand straight with their arms at their sides in nearly every shot; measured in-frame motion is half of the Cow Butts video. Examples: the hook (0-3.9 s) where the hero only turns; the neighbours in a row behind the fence (19.5-24 s); the kitchen wide shots (32-37 s, 43-48 s) with small, still characters; the woman standing with closed eyes for 5 s (43-48 s).
+2. Mouths (board AG): the farmer's "Nobody's buying a grape brick, boy" cycles 4 small shapes, about 25% of the face width and half hidden by the moustache, while his eyes, brows and head never move. The agent "reading the warning out loud" repeats one tongue-out shape for 1.5 s, which reads as licking, then snaps shut. Neither follows the syllables.
+3. Focus (board AH): in close shots the background is as sharp as the face (the hero at 12-14.5 s with the house behind him). Story events happen small or half hidden: the federal agents arrive tiny at the frame edge (22.7-23.9 s); the agent reading the label is small and behind the hero (26.5-29 s).
+4. The title object never changes on screen: the brick is never dropped into water, never dissolves, the jug never bubbles or darkens. Instead there are flat floating icons (a wine-bottle sticker in the sky at 4.75-7.5 s; bottle, ban sign and "GALLONS" labels at 37.75-42.5 s).
+5. The brick's label is cut by the frame edge so it reads "RAPE RICK" (12.75-14.5 s). This must never happen.
+6. Ghost crossfades between different places with people in them are back: 14.75, 19.25, 31.75, 49.5 and 60.25 s.
+7. Characters cut in half by the frame edge (the left farmer 4-8 s, the boy 34-37 s, the man at the table 27-28 s).
+8. Flat, even light in most shots; no light source you can see.
+9. Plain costumes and empty hands; few props and little set dressing.
+
+B. WHAT RICK DOES (measured)
+1. MOUTHS: the guard saying "Barbie's going to love it in here" shows about 10 different mouth shapes in 1.5 s, one per syllable: closed smile, wide open with top and bottom teeth, open with tongue, round, flat grin. The mouth is big (about 40-50% of the face width), dark inside with teeth and tongue; the head tilts and the moustache moves with the jaw. Rick's narrator lines are not lip-synced; only quoted lines are.
+2. LISTENERS ARE BUSY: while the guard talks, the other guard lifts a snack, bites, chews and goes smile, smirk, squint-laugh on the joke.
+3. EVERY BEAT IS A WHOLE-BODY ACTION: heaving on a lever with bent legs, swinging a hammer again and again with sparks on each hit, a palms-up shrug on "Not really", tiptoeing behind a sleeping man with a wrench, flexing and stomping until cracks spread, an arm-wrestle slam, being thrown out of a gate face-first, pulling a cart up a hill, sprinting and grabbing gate bars, leaning over a wall to point and mock.
+4. OBJECTS CHANGE ON SCREEN: the coaster loop bends, is hammered wide, then squeezed tall; red paint pours and swirls into white; cracks spread across the walls; the bench is ripped from the floor; the scarf unspools; the jar turns and its pendulum swings into a rod. The title object is big and its change is the picture.
+5. FOCUS: close and medium shots have a soft background (the empty-wallet close-up; the rival laughing in front of a blurred ring of string lights; the wine cup seen from above). Wide shots are mostly deep focus. The focus is always on whoever or whatever the line is about.
+6. LIGHT YOU CAN SEE: a full moon, string lights, a lantern on a tripod, torch sconces, sunbeams through barred windows, a pink glow spilling out of a cell door.
+7. SMALL DETAILS: overalls with patches, stitches and buttons; cap badges, belts, ties, moustaches; props in hands (wallet, hammer, telescope, lantern, stopwatch, sandwich, paint roller); signs and banners ("GRAND OPENING TOMORROW", "P-618 BAKER-MILLER PINK"); effects (sparks, sweat drops, "Zzz", dust).
+
+C. RULES
+1. ACT INSIDE THE HOLD: the calm camera from part 9 stays, and the subject performs during it. Every shot of 2 s or more contains at least one whole-body action (reach, lift, lean, walk, throw, point, shrug, sit, stand, flinch) plus face changes. Nobody stands with arms hanging for more than 2 s unless the stillness is the joke (deadpan).
+2. LIP-SYNC: a character speaking a quoted line uses at least 8 mouth shapes (closed, small open, wide open with teeth, open with tongue, round O, wide E, smile-talk, frown-talk), picked per syllable from the voice track, with the mouth 40-50% of the face width, a dark inside and teeth. The jaw and head bob 1-3 degrees on stressed words, brows rise on questions and emphasis, and the face's mood shows in the mouth (sneering talk, laughing talk). Mouths never hide behind a moustache; the moustache moves with the jaw. Narrator lines are not lip-synced.
+3. LISTENERS: while one character talks, the listener does something with a prop (eats, writes, polishes, holds the brick) and reacts with a face on the line about them.
+4. TITLE OBJECT: the object in the title is big (at least 40% of the frame) in the hook and at the reveal, and the process the story depends on happens physically on screen in 3-6 s (for Grape Bricks: the brick drops into the jug, dissolves into purple clouds, the jug bubbles and darkens while the calendar pages flip).
+5. REAL OBJECTS, NOT STICKERS: show information with objects in the world (a newspaper headline, a poster on a wall, a crate stamp, a ledger, a sign) instead of floating icons and labels.
+6. FOCUS: close and medium shots keep the subject sharp and blur the background clearly (background detail unreadable); a foreground object near the lens is blurred; wide shots may be deep focus. The focus and the frame centre sit on whoever or whatever the line is about; a story event is never smaller than about 25% of the frame height or hidden behind another character.
+7. FRAMING: labels and signs fully inside the frame and readable for at least 1 s; check that no cropped word reads as another word. No character cut in half by the frame edge unless it is a deliberate foreground over-the-shoulder.
+8. LIGHT: every scene has at least one light source you can see (sun through a window, a lamp, a lantern, string lights, the moon) and its glow on the characters; night and interiors use warm practical lights against cool shadows.
+9. SMALL DETAILS: every main character has 2-3 costume details (patch, badge, pocket, buttons, tie, moustache, hat band) and a prop that fits their job; every set has 3-5 readable story props or signs and at least one small moving detail (steam, a fly, a swinging sign, a flickering lamp).
+10. TRANSITIONS: no crossfade between different places with people in them (part 8 C2-C3 still applies); use the AE choices.
+11. QA from the render: for each quoted line, a face strip every 2 frames (count the mouth shapes: 8 or more, and check they follow the syllables); for every shot of 2 s or more, the body action in it; the frames where the title object changes; one full-size frame per scene checked for background blur in close shots, cropped labels and half-cut characters; and the list of crossfades with the places on each side.
+
+HANDS DO THE WORK, AND A FINAL CHECK AGAINST EVERY TARGET (part of v10; where this disagrees with anything above, this wins; reference image AI)
+Measured frame by frame on "He Saved His Life by Proving His Masterpiece Was Fake" (optical flow on every frame, face crops every 1/15 s, full-size frames), compared with Rick's Roller Coaster (0-2.1 s and 15.6-18.4 s), Pink Prison (4.1-7.6 s) and the earlier boards and vidIQ breakdowns.
+
+A. WHAT IMPROVED (keep all of it)
+- The title object is big in the hook and at the reveal (the painting), and the story is told with real objects: the K-33 crate, the "SOLD BY / SOLD 1943" note, the "DUMBEST EXCUSE OF THE WAR" and "EVERY VIRTUE EXCEPT ORIGINALITY" headlines, the "137 PAINTINGS" cart, the "PLASTIC INVENTED 1907" book, the guard's coffee cup.
+- Close-up lip-sync is now good: on "Relax, it's not old, I painted it" (12.9-14.5 s) the mouth uses 6-7 shapes about 40% of the face width with teeth and tongue, and the eyes and brows change with it.
+- Shape-match dissolves: the painting into the museum painting (28.75 s) and into the court exhibit (49.75 s).
+- Light you can see: desk lamps, window beams, the oven glow.
+- Script: 12-word hook, "You see," at 3.25 s, the spoken question at 19-21 s, "That's the trick" at 64%, the cookie comparison, the headline callback ending; 64.0 s, -14.3 LUFS, 4 hard cuts; in-frame motion up from 1.9 to 3.35.
+
+B. WHAT IS STILL WRONG
+1. Objects do the work instead of hands (board AI). "He paints a lost old masterpiece" (26.8-28.7 s): the picture appears out of a puff of smoke while he stands still. "Mixes plastic into his paint, bakes the canvas, rolls it over a pipe, rubs ink in the cracks" (42.8-48 s): the painting flies into the oven, tips over the pipe and cracks by itself while he stands beside it with his arms down. Rick's hero raises the hammer, bends into the swing and grabs it off the stump; the scientist lifts the cup, and in the close insert the can is tipped and stirred as if held by a hand just out of frame.
+2. Camera stops slipped back: median 1.65 s, 31% under 1.2 s (part 9 target: median 2 s or more, at most 10% under 1.2 s), moves peaking at 56 px per frame around 50.5 s and 55-59 s.
+3. Glitch frames: an 8-frame white-out at 54.7-54.95 s followed by a giant face passing in front of the lens (55.1-55.2 s); an orange wash crossfading the courtroom into the studio with people in both (41.0-41.3 s); ghost crossfades at 11.0-11.5, 21.5-21.75 and 60.5-60.75 s.
+4. No background blur in medium close-ups: at 13.3 s the judge's face and the lamp behind the hero are as sharp as the hero (part 10 C6).
+5. People-subject wide shots are tiny: the museum at 32.5-34.5 s (characters about 10% of the frame height), the laughing guards at 15.5-17.5 s, the celebration at 55.25-57 s. Tiny figures are right only when the subject is a big object (Rick's loop being hammered wide at night).
+6. Medium-shot mouths are still small (the courtroom line "Fine, give me paint, a canvas and an oven" at 38-41 s: about 25% of the face width).
+7. Bodies still hold arms-down poses through whole holds (11.25-15 s, 25-28 s, 42.8-48 s).
+8. Captions use red and orange keyword highlights; Rick's captions are plain white with a black outline.
+9. Story objects look like cartoons of cartoons: the "300-year-old masterpiece" should read as an old oil painting (brush texture, dark varnish, gold frame wear, fine cracks after baking).
+10. No exaggeration joke in the script (part 6 A7 asks for 1-2).
+
+C. RULES
+1. HANDS DO THE WORK: every process verb in the script (paint, mix, pour, lift, carry, slide into the oven, roll, rub, stamp, sign, hammer) is done on screen by the character's hands and body, with the wind-up, the action and the settle; or in a close insert where the object moves as if held and a hand or sleeve enters the frame. Objects never move by themselves while the person who should move them stands idle. Painting means a brush on the canvas, with strokes appearing under it.
+2. NO GLITCH TRANSITIONS: no white-outs, colour washes or flashes as transitions; no crossfade between places with people in them; nothing passes between the camera and the subject.
+3. PEOPLE AT A READABLE SIZE: when the line is about people, they fill at least 25-30% of the frame height; extreme wide shots are only for showing a big object, a crowd as a mass, or a place for 2 s or less.
+4. MEDIUM-SHOT MOUTHS: in medium shots the speaking mouth is still at least 35-40% of the face width, and the camera favours a medium close-up for quoted lines.
+5. WHITE CAPTIONS: plain white captions with a black outline, no coloured keywords.
+6. STORY OBJECTS LOOK REAL: the object the story is about gets real-world texture and wear (an old painting has brush texture, dark varnish and cracks; a document has creases, stamps and handwriting).
+7. FINAL CHECK AGAINST EVERY TARGET (this is where earlier fixes keep slipping): before delivering, measure the render and print this table with PASS or FAIL for each line, and fix every FAIL first:
+   - hook 9-16 words, ends by 3.5 s; "You see," starts by 6 s
+   - length 62-65 s (or 44-50 s for a one-trick story); -14.3 LUFS
+   - 9-13 scenes; a scene of 9 s or more in the first 20 s; no character vanishes on a scene change
+   - camera stops: median 2 s or more, at most 10% under 1.2 s; relocations 18-25; move peaks under about 22 px per frame
+   - hard cuts at most 4; crossfades only for a time jump in the same place; no white-outs or washes; nothing crosses the lens
+   - every quoted line: 8 or more mouth shapes, mouth 35-50% of the face
+   - every shot of 2 s or more: a body action; every process verb done by hands
+   - title object big in the hook and reveal, and its change shown on screen
+   - close and medium shots: background clearly blurred
+   - people-subject shots: characters at least 25% of frame height; no half-cut characters; no cropped labels
+   - a visible light source in every scene; plain white captions
+
+WHAT RICK'S TOP SHORTS DO, WITH CORRECTIONS (part of v10; where this disagrees with anything above, including part 11's table, this wins)
+Sources: vidIQ craft audits of seven of Rick's top Shorts (The Ancient Jar That Warned an Empire 32.5M, Why Perfect Railroads Don't Work 26.0M, The Job Nobody Wants in Japan 17.0M, Why Sailors Carried Storm Oil 14.9M, The Window That Breaks Japan's Gambling Law 14.6M, The Pink Prison Cell Experiment 6.3M, This Shape Saved Roller Coasters 4.1M), a frame check of Railroads captions, the 0.1 s colour-change scan of Railroads, and vidIQ's channel comparison of Loophole Lou and Ricks Clips.
+
+A. CORRECTIONS TO EARLIER PARTS
+1. SHOT CHANGES: Rick changes shot about 18-28 times in 60-65 s (average shot 2.3-3.5 s; vidIQ counted 24 in Railroads, 21 in Japan Job, 18 in Storm Oil, 12 in the 46 s Gambling Window). In the 0.1 s scan most of these changes take 0.2-0.4 s (a fast push or whip with motion blur, or a very short dissolve), and some are straight cuts on a beat. This replaces "at most 4 hard cuts" and "at most 2 whip transitions". What stays: every shot holds at least 2 s, so the change count follows from the holds; no crossfade that ghosts people between different places; no white-outs or colour washes; nothing passes in front of the lens.
+2. MOUTHS: Rick's lip-sync is simple. On quoted lines the mouth always moves, with about 3-5 shapes (closed or grin, half open, wide open with teeth, round O); open shapes are about 30-45% of the face width. Narration is never lip-synced; faces react instead. This replaces "8 or more shapes, 40-50%". Masterpiece's close-up (6-7 shapes, about 40%) already meets it; medium-shot mouths must still open to at least 30%.
+3. FOCUS: shallow depth of field is used on close-ups and object inserts (the red "FIRE EMPLOYEE" button, the phone screen, the "LABOR LAW" padlock, the caliper and coin, the wine cup), and as a soft foreground frame. Medium and wide shots are mostly deep focus (Storm Oil is almost all deep focus). This replaces "close and medium shots blur the background".
+4. WHO MOVES THINGS: verbs a person does are done by hands and bodies (saw, pour, grab, point, turn the wheel, blow on the soup, slide the tokens, flick the switches, bake, roll, rub). Verbs of a physical process (shrink, expand, buckle, crack, rise, ripple) are done by the object itself, with a visible cause (heat glow on the rail, a thermometer, a flipping calendar).
+
+B. MORE THINGS THE TOP SHORTS ALL DO
+5. TEXT: captions are plain white, bold rounded sans-serif with a thick black outline, 1-3 words at a time, lower third, no coloured keywords (checked on Railroads frames and confirmed in all seven audits). Every other piece of text is painted on an object in the world: signs ("FIRST LINE IN GETS IT ALL!"), newspapers ("THE CLICKETY CLACK LINE!"), labels, calendars, clipboards ("PATROL LOG / GAMBLING: NONE"), phone screens ("+$6,850 Deposited", "Inbox (0)"). A floating graphic is used at most once, for the mechanism (Storm Oil's white flow lines over the wave).
+6. THE MECHANISM AS A LABELLED OBJECT: the hidden rule becomes a physical thing with a label: a fire alarm locked with a padlock engraved "LABOR LAW"; a breaker panel whose switches read "HOPE", "WORK", "FRIENDS", flicked off one by one; a caliper on the rail gap with a coin in May and only a sheet of paper in July. Use one such object per video.
+7. DEMO AND PAYOFF HOLD: the everyday comparison is its own short scene, acted out (the cook blows on a bowl of soup and the oily spots stay smooth, about 9 s), then back to the story. The payoff is held: Railroads holds each heat stage 2-4 s; Storm Oil's wave payoff runs about 11 s; the Gambling Window token-for-cash swap is one 4 s shot.
+8. "YOU" SCENES: when the narration says "you", the viewer is a specific avatar the camera follows (an orange hoodie with a camera round the neck; a light-blue shirt with a lanyard).
+9. BACKGROUND AND MICRO-DETAILS: background characters do small story actions (coworkers stop typing and turn their heads together; patrons stay glued to their machines; a man balances a tower of ball trays; veteran engineers eat lunch on a girder). Every scene has small environmental details: dust motes in light beams, puddle reflections of neon, a cat by a bicycle, cables and AC units, a lucky-cat figurine and desk lamp in a booth window.
+10. LIGHT TELLS THE STORY: warm interiors against cool exteriors, a visible practical light in every interior or night scene, and a light change at the turn (Storm Oil goes from sunny to storm-blue, to a warm galley for the explanation, then back to the storm).
+
+C. TOPIC, TITLE AND SCRIPT (from vidIQ's channel comparison)
+11. MECHANISM OVER ANECDOTE: Rick's biggest Shorts reveal a reusable rule (a seismometer, thermal expansion, a labour-law loophole, oil on waves, the three-shop gambling loophole). Pick stories whose reveal explains a rule anyone can reuse ("why X always does Y"). If the story is a one-off anecdote, the reveal must explain the rule underneath it.
+12. TOPIC LANES: incentives that backfire; everyday physics that looks stupid until heat, speed or pressure arrives; body versus brain shortcuts; money and law loopholes with a visual demo.
+13. TITLES: name the familiar object and imply the hidden rule ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Window That Breaks Japan's Gambling Law"). The object is always named and instantly visual. Keep the title short.
+14. SCRIPT: a present-tense cold open; one second-person bridge ("Imagine you're...", "Ever...?"); the early "You see," from part 6 stays the default; end on irony, never a moral.
+15. Not adopted from vidIQ: "slow down 5% before 'You see'". Rick's measured delivery has no pauses.
+
+D. UPDATED FINAL CHECK (replaces the matching lines of part 11's table)
+- shot changes 18-28 per 60-65 s, every shot at least 2 s; transitions of 6-12 frames or cuts on a beat; no ghosting crossfades between places with people, no white-outs or washes, nothing crosses the lens
+- quoted lines: the mouth moves on every syllable, 3-5 shapes, open shapes 30-45% of the face width
+- close-ups and inserts have a blurred background; medium and wide shots may be deep focus
+- person verbs done by hands; process verbs done by the object with a visible cause
+- captions white with a black outline, 1-3 words, no coloured keywords; all other text painted on objects; at most one floating mechanism graphic
+- one labelled mechanism object; the demo scene acted out; the payoff held 4 s or more

@@ -1,0 +1,22 @@
+// cartoon-3d-short QA snippet (2026-11-07, user rule: characters never go through objects at all).
+// Paste inside World.qa() in world.ts (after the 'over' / 'cut' checks). It logs 'pierce' per frame:
+//  - standing cards: 8 horizontal rays (0.2 m x scale) at shin / waist / chest height; 2+ hits = the body is inside something
+//  - seated cards: one ray up from the seat to the head top (1.15 m x scale - 0.12): a hit = the head is through a roof
+//  - any two cards closer than 0.45 m on the floor = one is inside the other
+// Also call root.updateMatrixWorld(true) at the top of qa(): the set was posed this frame, raycasts must use this frame's matrices.
+// tools: qa_run.mjs (low-res pass) -> qa.jsonl; qa_report.py summarises pierce / cut / over / near-lens / occluded frame ranges.
+
+    // NOTHING PASSES THROUGH ANYTHING (user rule 2026-11-07): rays out of each standing body at shin / waist / chest height
+    // (0.2 m, 8 directions) must not hit a solid; a sitting body's head top must stay under the roof; feet >= 0.45 m apart
+    const pierce: string[] = [];
+    const solid = (o: THREE.Object3D) => { const m = (o as THREE.Mesh).material as THREE.Material | undefined; return !(m && m.transparent); };
+    for (const x of act.cast) {
+      if (x.air) continue;
+      const sc = x.scale ?? 1, sit = x.o?.mode === "sit", b0 = V(x.pos[0] + off.x, x.pos[1] + off.y, x.pos[2] + off.z);
+      if (!sit) {
+        for (const h of [0.35, 1.0, 1.45]) { let hit = 0; for (let k = 0; k < 8; k++) { const a = (k / 8) * Math.PI * 2; ray.set(b0.clone().add(V(0, h * sc, 0)), V(Math.cos(a), 0, Math.sin(a))); ray.far = 0.2 * sc; const hs = ray.intersectObjects(meshes, false).filter((q) => solid(q.object)); if (hs.length) hit++; } if (hit >= 2) { pierce.push(`${x.who}@${h}`); break; } }
+      } else {
+        ray.set(b0.clone().add(V(0, 0.15, 0)), V(0, 1, 0)); ray.far = 1.15 * sc - 0.12; const hs = ray.intersectObjects(meshes, false).filter((q) => solid(q.object)); if (hs.length) pierce.push(`${x.who}:roof@${hs[0].distance.toFixed(2)}`);
+      }
+    }
+    for (let i = 0; i < act.cast.length; i++) for (let j = i + 1; j < act.cast.length; j++) { const A = act.cast[i], B = act.cast[j]; if (A.air || B.air) continue; const d = Math.hypot(A.pos[0] - B.pos[0], A.pos[2] - B.pos[2]); if (d < 0.45 && Math.abs(A.pos[1] - B.pos[1]) < 0.5) pierce.push(`${A.who}+${B.who}@${d.toFixed(2)}`); }
