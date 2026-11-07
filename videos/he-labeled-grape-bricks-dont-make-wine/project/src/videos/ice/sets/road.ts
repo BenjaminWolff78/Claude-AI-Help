@@ -45,7 +45,7 @@ import { ctex, rng, stoneHD, roofHD, beamHD, cloudHD, CLOUD_DAY, CLOUD_GOLD } fr
 import { glow, mist } from "../setkit";
 import { cl, TAU, fitText, basket, weaveTex } from "./portkit_common";
 import { leafTex, birds, strawTex } from "./innerkit_b";
-import { bunting, flutter, cloth, wave } from "./towerkit";
+import { bunting, flutter, cloth, wave, type Bunting } from "./towerkit";
 import { twoTone, TONE } from "../shade";
 import { NOINK } from "../ink";
 import { autocar, type AutoCar } from "./autocar";
@@ -170,6 +170,18 @@ export const ROAD_SOLIDS: [V3, V3][] = (() => {
 })();
 
 // ---------------- materials ----------------
+/** bunting flutter that reads on screen (grape remake, 2026-11-06): towerkit's flutter only swings the tips along the
+ *  rope's normal, which is depth for a camera facing the rope, so the pennants read as frozen. This keeps that swing and
+ *  adds a sway along the rope plus a small lift, as a ripple running down the line (about 0.7 Hz, tip travel ~0.1 m). */
+const flutterV = (bt: Bunting, t: number) => {
+  const p = bt.mesh.geometry.attributes.position as THREE.BufferAttribute, up = new THREE.Vector3(0, 1, 0), d = new THREE.Vector3();
+  for (const tp of bt.tips) {
+    d.crossVectors(up, tp.n).normalize();
+    const s = Math.sin(t * 4.4 - tp.ph * 1.3), s2 = Math.sin(t * 2.7 + tp.ph * 2.1);
+    p.setXYZ(tp.i, tp.base.x + tp.n.x * s * 0.18 + d.x * (s * 0.075 + s2 * 0.035), tp.base.y + 0.045 * (1 + s2) * 0.5 + Math.abs(s) * 0.03, tp.base.z + tp.n.z * s * 0.18 + d.z * (s * 0.075 + s2 * 0.035));
+  }
+  p.needsUpdate = true;
+};
 const cache = new Map<string, THREE.Material>();
 const mat = <T extends THREE.Material>(key: string, make: () => T): T => { let m = cache.get(key) as T | undefined; if (!m) { m = make(); cache.set(key, m); } return m; };
 const col = (c: string) => lam("rdC" + c, () => ({ color: c }));
@@ -1042,7 +1054,7 @@ export const road = (o: { vine?: boolean } = {}): SetDef => {
       // farm life
       farm.rotor!.rotation.z = t * 2.6; farm.tail!.rotation.y = -Math.PI / 2 - 0.3 + 0.08 * Math.sin(t * 0.4);
       farm.vane!.rotation.y = 0.6 + 0.35 * Math.sin(t * 0.5) + 0.1 * Math.sin(t * 1.7);
-      flutter(farm.gateBunt!, t); flutter(hill.bunt!, t + 1); wave(farm.flag!, t, 5);
+      flutterV(farm.gateBunt!, t); flutterV(hill.bunt!, t + 1); wave(farm.flag!, t, 5);
       hill.umb!.rotation.z = 0.02 * Math.sin(t * 1.4);
       farm.smoke.forEach((m, i) => { const u = (t * 0.12 + i / farm.smoke.length) % 1, H = HOUSE; m.position.set(H[0] + 1.95 + u * 2.4, H[1] + 9.4 + u * 4, H[2] - 1.55 + u * 0.5); m.material.opacity = 0.45 * Math.sin(Math.PI * u); const sc = 1 + u * 2.4; m.scale.set(sc, sc * 0.75, 1); });
       farm.chickens.forEach((ch, i) => {

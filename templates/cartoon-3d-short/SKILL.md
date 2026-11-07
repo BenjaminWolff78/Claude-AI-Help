@@ -4,19 +4,19 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 ---
 
 ## Before anything else
-- Read the section "MASTER PROMPT v10.9 (full text)" at the end of this file, in full. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
-- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF). Their written summaries are in "Boards" below. For acting, study A, B, X and AC/AD in particular.
+- Read the section "MASTER PROMPT v10.10 (full text)" at the end of this file, in full. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
+- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF, AG, AH). Their written summaries are in "Boards" below. For acting, study A, B, X, AC/AD and AG in particular; for focus, objects and detail, AH.
 - Where they disagree with this file, the master prompt wins. A newer master prompt pasted or attached in the chat wins over both.
-- Exception: the "Smooth acting" section below is a newer user rule (2026-11-05). It wins over master prompt v10.9 and earlier where they disagree (instant expression swaps, 1-3 frame actions). A newer master prompt overrides it only if it says so explicitly.
-- Exception: the "Channel data" section below is a newer user rule (2026-11-05). Its title, description, tags, topic-priority and length rules win over master prompt v10.9 and over "Script length".
-- Exception: the "Voice" section below is a newer user rule (2026-11-05). It wins over master prompt v10.9 part 1d (the whole-file atempo) and over every earlier voice rule.
+- Exception: the "Smooth acting" section below is a newer user rule (2026-11-05). It wins over master prompt v10.10 and earlier where they disagree (instant expression swaps, 1-3 frame actions). A newer master prompt overrides it only if it says so explicitly.
+- Exception: the "Channel data" section below is a newer user rule (2026-11-05). Its title, description, tags, topic-priority and length rules win over master prompt v10.10 and over "Script length".
+- Exception: the "Voice" section below is a newer user rule (2026-11-05). It wins over master prompt v10.10 part 1d (the whole-file atempo) and over every earlier voice rule.
 - Do not use the old "User rules" section of the cloned repo's SKILL.md. Instead:
   - Captions are on.
   - Output is 1080x1920 at 30 fps.
   - -14.3 LUFS with the voice loudest; music about 19 dB and SFX about 17 dB under the voice.
   - The mp4 has the same name as the mp3.
 
-## Key rules (v10.9; never skip)
+## Key rules (v10.10; never skip)
 **Script**
 - Built on one sentence that sounds stupid but is true.
 - A 9-16 word hook under 3.5 s, then "You see," by 6 s.
@@ -61,6 +61,29 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 - Plain crossfades only for a time jump in the same place; dissolves between places are object-to-object matches with no bodies on screen.
 - Shot list: every shot gets its subject, start, end, length (2 s or more) and the action during it, plus the glide into the next. Before animating, print the number of shots under 2 s and the number of camera moves. After rendering, segment the camera path at moves faster than 4 px per frame and print every stop length, the median (2 s or more), the share under 1.2 s (10% or less), the relocation count, the peak speed of each move and any lens-crossing frame.
 
+**Acting inside the shot, mouths, focus, objects and details (v10.10, boards AG and AH; user rule 2026-11-06)**
+Keep the calm camera holds above; the subject now performs during each hold.
+1. **Whole-body action in every hold.** Every shot of 2 s or more has at least one whole-body action (reach, lift, lean, walk, throw, point, shrug, sit, stand, flinch) plus face changes. Nobody stands arms-down for more than 2 s unless the deadpan is the joke. Characters in wide shots stay at least about 25% of the frame height.
+2. **Lip-sync on quoted lines.** At least 8 mouth shapes (closed, small open, wide open with teeth, open with tongue, round O, wide E, smile-talk, frown-talk), picked per syllable from the voice track.
+   - The mouth is 40-50% of the face width, with a dark inside and teeth.
+   - The jaw and head bob 1-3 degrees on stressed words; brows rise on questions and emphasis; the face's mood shows in the talking mouth (sneer-talk, laugh-talk).
+   - A moustache never hides the mouth; it moves with the jaw.
+   - Never hold one shape (a tongue-out held 1.5 s reads as licking). Narrator lines are not lip-synced.
+3. **Listeners** hold a prop and use it (eat, write, polish, hold the brick), and react with a face on the line about them.
+4. **The title object** is big (at least 40% of the frame) in the hook and at the reveal. The process the story depends on happens physically on screen in 3-6 s (e.g. the brick drops into the jug, dissolves into purple clouds, the jug bubbles and darkens while the calendar flips).
+5. **Real objects, not stickers.** Show information with in-world objects (a newspaper headline, a poster, a crate stamp, a ledger, a sign), never floating icons or labels in the air.
+6. **Focus.** Close and medium shots: the subject is sharp and the background clearly blurred (its detail unreadable); a foreground object near the lens is blurred; wide shots may be deep focus. Focus and the frame centre sit on whoever or whatever the line is about. A story event is never smaller than about 25% of the frame height or hidden behind another character.
+7. **Framing.** Labels and signs are fully in frame and readable for at least 1 s. Check that no cropped word reads as another word (the grape-brick label cropped to "RAPE RICK"). No character is cut in half by the frame edge unless it is a deliberate over-the-shoulder foreground.
+8. **Light.** Every scene has at least one light source you can see (sun through a window, a lamp, a lantern, string lights, the moon) with its glow on the characters. Night and interiors use warm practical lights against cool shadows.
+9. **Small details.** Every main character has 2-3 costume details (patch, badge, pocket, buttons, tie, moustache, hat band) and a prop that fits their job. Every set has 3-5 readable story props or signs and at least one small moving detail (steam, a fly, a swinging sign, a flickering lamp).
+10. **Transitions.** No crossfade between different places with people in them; use the AE choices.
+
+**Pre-render checkpoint (user rule, 2026-11-06).** Before rendering, send the user, as files:
+- a face strip for every quoted line (every 2 frames, with the count of distinct mouth shapes; 8 or more, following the syllables);
+- the body action in every shot of 2 s or more (a table: shot, time, subject, action);
+- the frames where the title object changes (a strip with timestamps).
+Then keep working: start the render and apply any correction they send.
+
 **QA additions (print them)**
 - The mouth moves on every frame of every spoken line.
 - Blinks and expression swaps (with times) for every character on screen longer than 1.5 s. Flag any face unchanged for more than 2 s while its character is being talked about.
@@ -68,8 +91,9 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 - Every crossfade, with the place before and after.
 - The sideways-travel share and the hard-cut count.
 - Word count, length and the fake-out timestamp.
+- v10.10 (part 11 C11): the face strip per quoted line with its mouth-shape count; the body action in every shot of 2 s or more; the title-object change frames; one full-size frame per scene checked for background blur in close shots, cropped labels and half-cut characters; the crossfade list with the places on each side.
 
-## Channel data (user rule, 2026-11-05, from vidIQ data on our 8 Shorts; every new video; wins over master prompt v10.9 where they disagree)
+## Channel data (user rule, 2026-11-05, from vidIQ data on our 8 Shorts; every new video; wins over master prompt v10.10 where they disagree)
 1. **Title = the dumb act + the smart payoff, both halves visible.**
    - Winners: "They Paid for Rat Tails and Got a Rat Farm" (34.7k), "He Was Dying Mid-Race, Then Won Gold" (12k in a day).
    - Never hide the payoff behind "Why..." or a vague line. These underperformed: "Why He Put a Bridge in the Desert" and "Her Crew Begged Her to Turn Back. She Didn't."
@@ -96,7 +120,7 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 6. **Debate line:** the script includes one line viewers will want to argue about in the comments (who was right, was it fair, would you have done it).
 7. **Delivery:** with the final mp4, give the picked title, the description and the checked tags.
 
-## Voice (user rule, 2026-11-05; every video; wins over master prompt v10.9 part 1d)
+## Voice (user rule, 2026-11-05; every video; wins over master prompt v10.10 part 1d)
 The user approved this sound: "The Pharaoh 3" raised 3.5 semitones with a clean, formant-preserving shift. Their complaint about pitch shifts is that they usually sound robotic, so the method below is part of the rule, not a suggestion.
 - Voice: "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, the whole script in one take (no stitched clips), default settings.
 - Trim every pause longer than 0.10 s down to about 0.10 s (no gaps in the voice).
@@ -112,7 +136,7 @@ The user approved this sound: "The Pharaoh 3" raised 3.5 semitones with a clean,
   - Word timings (words.json) are always made from the final shifted file.
 - Rick's own narrator is not any public ElevenLabs voice (checked on 2026-11-05 against 329 library voices with speaker embeddings: best match 0.83, while a true match scores 0.94+). Do not search for it again, and never clone it from his videos.
 
-## Smooth acting (user rule, 2026-11-05; wins over master prompt v10.9 where they disagree)
+## Smooth acting (user rule, 2026-11-05; wins over master prompt v10.10 where they disagree)
 The user's notes after "Why He Wanted His Potatoes Stolen":
 - Facial and body animation must be smooth.
 - Faces must flow into each other: never a sad face on one frame and a happy face on the next.
@@ -310,6 +334,41 @@ print(f"BROW JUMP {len(brow)}: {brow[:30]}")
 ```
 5. **Visual check:** before the full render, preview every frame (not every 5th) across 3 expression changes, including one opposite-mood change, and 2 gestures. Check that each face reads as one continuous change and that the arms arc.
 
+## Everything moves, focus lands (user rule, 2026-11-06, "make sure all of the objects/characters are in motion and figure out when/what you should focus on"; every video)
+Learned on the "Grape Bricks" remake. It wins over boards AC/AD where they say bystanders stay completely still. It keeps AD's ban on looping sways and bobs.
+
+**Characters**
+- **Life layer.** Wrap every shot's act function (`sec/97_life.ts` in the grape project, copied into the repo's shot_sections) so every character on screen gets small purposeful moves:
+  - a glance (eyes plus a 2-degree head turn), a 3-5 degree head tilt or a 1.5-2.5 degree weight shift;
+  - spaced 21-39 frames apart at irregular times, with a settle back to neutral on every other beat;
+  - each eased over 10 frames and then held, never looped;
+  - seeded per character, so two people never move in sync;
+  - skipped while the character is busy with a scripted change (gesture, expression, facing, prop, walk), so the acting stays clean;
+  - animals keep their own idles.
+- **Long holds get a real task**, not just the life layer. A background worker keeps working (cranking, restacking, patting soil), and a listener reacts with a beat on the line about them (lean in, point, clap, nod, sniff). Lines naming a group ("neighbours") show the group doing it.
+
+**Objects and sets.** Each set has at least three ambient moves, all subtle and purposeful:
+- Foliage sways with a vertex offset, and the ink normal pass applies the same offset (`sway.ts`, `material.userData.sway`). Otherwise the outlines slide off the leaves.
+- Cloth flutters (bunting, flags, curtains, calendar pages, loose papers). The flutter must move in the picture plane: a bunting tip that only swings along the rope's normal moves in depth for a camera facing the rope and reads as frozen. Sway the tips along the rope and lift them slightly as well, as a ripple down the line (about 0.7 Hz, tip travel about 0.1 m; `flutterV` in the grape remake's road.ts). Check two stills 8 frames apart.
+- Machines idle (car body shake plus exhaust behind the rear bumper; check the car's forward axis).
+- Light flickers (stove glow) and steam or smoke rises.
+- Hanging things swing slightly (lamps, a pendulum clock).
+- Liquids bubble. Put the bubbles on the front surface of the container as NOINK sprites, or the opaque liquid hides them.
+
+**Focus (from the depth report and the boards)**
+- **Never pull focus inside a held shot.** Focus changes only while the camera is already moving (glide or push) or on a cut. Use `follow(f, [[frame, target, glideFrames], ...])` synced to the camera move.
+- Focus goes on the subject's eyes or on the story object. A beat about an object becomes an insert of that object.
+- Blur level (`lens()` cInf) by shot size: insert 14, close-up 13, medium 12, full 8, wide 5, establishing almost sharp.
+- On-screen cards sit just in front of the focus plane (`cardNearFocus`) so they stay sharp, and above heads, never across a face.
+- Check stills at every focus target: a target that is a few metres off leaves the character the line is about blurred.
+
+**Motion audit (run on every render, `scripts/motion_audit.py video.mp4 prefix 3 36 45`)**
+- It removes camera motion (ECC affine), then reports 30-px tiles with texture that stay still for more than 36 frames. The caption band is masked.
+- Read the overlay frames, not just the number. Buildings, hills and walls never move in the references either, so idle tiles on architecture are fine. Any idle tile on a character, a prop the line names or foliage is a fail.
+- Report the before and after figures with the delivery.
+- The audit misses motion smaller than a tile (small bubbles in a jug). Check those by eye in two zoomed stills a few frames apart before calling them idle.
+- Realistic target: under 20% of frames with a quarter of the textured picture idle. The rest is architecture, which stays still in the references too.
+
 ## Boards (written summaries; the images live in the chat attachments)
 - **A:** character close-ups.
   - Egg heads with a heavy ink outline, dot or lidded eyes, tapered brows and small mouths, plus blush.
@@ -345,6 +404,8 @@ print(f"BROW JUMP {len(brow)}: {brow[:30]}")
   5. A whole-body pose (a 40-degree tilt to look under something) while the background character stands still facing the action.
   6. A held extreme pose (puffed cheeks, squeezed eyes, whole-body lean) that ends with one eye opening.
 - **AF:** camera holds, "Why He Painted Eyes on Cows' Butts" vs "The Pink Prison Cell Experiment" (optical flow on every frame). Cows: median stop 1.0 s, 61% of stops under 1.2 s, 39 relocations in 62 s at 45-90 px per frame, fence posts sweeping across the lens, ghost crossfades, farmers in a row facing the camera. Rick: stops of 2-5 s (median about 2.3 s), big beats as one 4-8 s shot where the subject keeps acting, 16-20 relocations in 46 s, glides of about 23 frames.
+- **AG:** mouths on quoted lines, Rick's Pink Prison guard ("Barbie's going to love it in here", every 0.1 s) vs our grape-brick farmer and agent. Rick: about 10 shapes in 1.5 s, one per syllable (closed smile under the moustache, wide open with both rows of teeth, open with tongue, round, flat grin); the mouth is 40-50% of the face width with a dark inside; the head tilts and the moustache rides the jaw; the listener lifts a snack, bites, chews and goes smile, smirk, squint-laugh. Ours: the farmer cycles 4 small shapes about 25% of the face width, half hidden by the moustache, with eyes, brows and head frozen; the agent holds one tongue-out shape for 1.5 s (reads as licking) then snaps shut.
+- **AH:** focus, small details and changing objects, Rick's Roller Coaster vs grape bricks. Rick: close shots blur the background (the empty wallet; the rival before a soft ring of string lights); every character holds a prop; overalls with patches and stitches, lanterns, banners, a moonlit set with fairy lights; the title object is huge and physically changes (the loop is bent, hammered wide, squeezed tall). Ours: the brick label cropped to "RAPE RICK", the house as sharp as the face, the agents tiny at the edge, the agent reading the label small behind the hero, the kitchen wide with characters at about 20% of frame height in flat light; floating icons (wine bottle in the sky, GALLONS labels) instead of objects; the brick never dissolves and the juice never turns to wine on screen.
 - **AE:** transitions that fit any story: subject-position match dissolve, smoke/dust/light dissolve, through the story object, shape-match dissolve, plus "pick by situation" (see the transitions rules above).
 
 # Cartoon 3D story short (installed from github.com/mromidev/claude-animated-shorts, MIT)
@@ -360,7 +421,7 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
 
 ## Precedence
 - The master prompt wins over this skill and over the repo's SKILL.md. Ignore the repo's "User rules" section (see "Before anything else"), and also use 1-2 word captions in a white heavy font with a black outline at about 70% of frame height, one stinger about 11 dB under the voice, few ringing sounds and no loud swooshes.
-- Keep the tested look values here and in templates/ (ink, light, colour, lens blur, grade, camera glides, character drawing) unless the master prompt changes them. v10.8-v10.9 change the acting, transitions and camera holds (no squash, stretch or overshoot; still idles) and the transitions.
+- Keep the tested look values here and in templates/ (ink, light, colour, lens blur, grade, camera glides, character drawing) unless the master prompt changes them. v10.8-v10.10 change the acting, transitions, camera holds and v10.10's acting inside the hold, mouths, focus and detail (no squash, stretch or overshoot; still idles).
 - Story, characters, names and shots are always original. Never copy Rick's characters or shots, never upload or publish the repo's reference frames or boards containing Rick's frames, and never say the channel's name in the video.
 - Make every decision yourself; tell the user what you decided.
 
@@ -375,16 +436,16 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
 8. Render, mux with `-map 0:v:0 -map 1:a:0`, then run the checks:
    - `scripts/short_qa.py` (black, white, frozen and pop frames, loudness).
    - The per-frame camera QA (collisions, occluders, subject out of frame, faces cut by the edge, overlaps).
-   - The v10.9 QA additions.
+   - The v10.10 QA additions.
    Fix everything they find.
-9. Send the user progress checkpoints as files as soon as each is ready (script, style-lock sheet, storyboard, first side-by-side review), then the final mp4.
+9. Send the user progress checkpoints as files as soon as each is ready (script, style-lock sheet, storyboard, first side-by-side review, and before rendering the v10.10 pre-render checkpoint: face strips for each quoted line, the body action in every shot, the title-object change frames), then the final mp4.
 
 ## Script length (user rule, every video; updated 2026-11-05 by "Channel data")
 - Stay within 47-65 s. Multi-beat stories: 60-65 s (about 225-250 words at 3.8 words/s). One-trick stories: 47-52 s (about 180-200 words).
 - Hard limits: never under 47 s or over 65 s.
 - Length comes from the three escalating beats and the fake-out, never from extra setup. Better 58 s with every line pulling its weight than 65 s with filler.
 
-## Script craft (user rule, every video, master prompt v10.9)
+## Script craft (user rule, every video, master prompt v10.10)
 1. Fake-out at 30-45% of the runtime: one beat where the hero's plan seems to fail and the doubters look right, then the real payoff.
 2. The hero never explains himself: cryptic one-liners only ("Trust the oil."). The viewer learns the reason at the reveal, together with the doubters.
 3. Mockery escalates: one person laughs, then a group, then the whole town or room.
@@ -429,7 +490,7 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
   - A group framed from along a fence line puts the posts across the lens. Film straight across the fence from a raised camera, so the rails sit below every face.
   - Clear the camera paths of props that sit between two characters (a stacked table, a doghouse). Stills at the start, middle and end of every hold catch them.
 
-## MASTER PROMPT v10.9 (full text, as given by the user on 2026-11-05; replaces v10.8)
+## MASTER PROMPT v10.10 (full text, as given by the user on 2026-11-06; replaces v10.9)
 (Where part 8 B2 and B4 say expressions swap instantly and actions take 1-3 frames, the "Smooth acting" section above overrides it, except for impacts. Where it gives title, length or voice rules, the "Channel data" and "Voice" sections above override it.)
 
 RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
@@ -442,7 +503,7 @@ STEP 1. TOPIC AND SCRIPT
 a. Title first: a curiosity question or strange claim the viewer cannot answer from the title ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Burglar Who Only Moved Furniture"). Real, checkable fact with a human twist. Do not reuse the last three formats or settings.
 b. Hook (first sentence, at most 5.6 s): one strange concrete action plus a stake, already happening at frame 1.
 c. Structure: hook, a doubter or problem by 10 s, a spoken open question by 20 s, three escalating beats, the trick named at 60-72% of the runtime, one everyday comparison, the payoff, a callback ending. Every sentence has one concrete thing we can picture.
-d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice.
+d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice. (Overridden by the "Voice" section: instead of atempo, one Rubber Band R3 pass with the speed-up and +3.5 semitones, formants preserved.)
 
 STEP 2. STYLE LOCK (before any animation)
 a. Build the cast and one frame of every set first.
@@ -732,3 +793,41 @@ C. RULES
 7. GROUPS AT DIFFERENT DEPTHS: crowds and doubters stand at different distances and angles, turned toward the action, never a straight row facing the camera.
 8. PLAN IT: the shot list gives every shot its subject, start, end, length (2 s or more), the action the subject does during it, and the glide into the next shot (frames). Before animating, print the count of shots under 2 s and the relocation count.
 9. QA from the render: segment the camera path at moves faster than 4 px per frame and print every stop length, the median (target 2 s or more), the share under 1.2 s (target 10% or less), the number of relocations, the peak speed of each move, and any frame where an object crosses the lens.
+
+ACTING INSIDE THE SHOT, MOUTHS, FOCUS, OBJECTS AND SMALL DETAILS (part of v10; where this disagrees with anything above, this wins; reference images AG and AH)
+Measured frame by frame on "He Labeled Grape Bricks 'Don't Make Wine' and Beat Prohibition" (optical flow on every frame, face crops every 1/15 s, full-size frames) and compared with Rick's "This Shape Saved Roller Coasters" (2.4M), "The Pink Prison Cell Experiment" (3.7M) and "The Ancient Jar That Warned an Empire" (31M): frame sheets, face crops every 0.1 s, and a scene-by-scene craft breakdown of each from vidIQ, plus the boards made earlier (A, B, X, AC, AD).
+
+A. WHAT "GRAPE BRICKS" DID
+Keep: the calmer camera (stops now last a median of 2.4 s, only 12% under 1.2 s - part 9 worked), 5 hard cuts, the hook and "You see," at 4.0 s, the 21-day calendar, the agent who reads the warning and puts the brick back, the cake-mix comparison, the lawyer callback, 64.3 s, -14.3 LUFS.
+Problems:
+1. The action inside the shot disappeared. Characters stand straight with their arms at their sides in nearly every shot; measured in-frame motion is half of the Cow Butts video. Examples: the hook (0-3.9 s) where the hero only turns; the neighbours in a row behind the fence (19.5-24 s); the kitchen wide shots (32-37 s, 43-48 s) with small, still characters; the woman standing with closed eyes for 5 s (43-48 s).
+2. Mouths (board AG): the farmer's "Nobody's buying a grape brick, boy" cycles 4 small shapes, about 25% of the face width and half hidden by the moustache, while his eyes, brows and head never move. The agent "reading the warning out loud" repeats one tongue-out shape for 1.5 s, which reads as licking, then snaps shut. Neither follows the syllables.
+3. Focus (board AH): in close shots the background is as sharp as the face (the hero at 12-14.5 s with the house behind him). Story events happen small or half hidden: the federal agents arrive tiny at the frame edge (22.7-23.9 s); the agent reading the label is small and behind the hero (26.5-29 s).
+4. The title object never changes on screen: the brick is never dropped into water, never dissolves, the jug never bubbles or darkens. Instead there are flat floating icons (a wine-bottle sticker in the sky at 4.75-7.5 s; bottle, ban sign and "GALLONS" labels at 37.75-42.5 s).
+5. The brick's label is cut by the frame edge so it reads "RAPE RICK" (12.75-14.5 s). This must never happen.
+6. Ghost crossfades between different places with people in them are back: 14.75, 19.25, 31.75, 49.5 and 60.25 s.
+7. Characters cut in half by the frame edge (the left farmer 4-8 s, the boy 34-37 s, the man at the table 27-28 s).
+8. Flat, even light in most shots; no light source you can see.
+9. Plain costumes and empty hands; few props and little set dressing.
+
+B. WHAT RICK DOES (measured)
+1. MOUTHS: the guard saying "Barbie's going to love it in here" shows about 10 different mouth shapes in 1.5 s, one per syllable: closed smile, wide open with top and bottom teeth, open with tongue, round, flat grin. The mouth is big (about 40-50% of the face width), dark inside with teeth and tongue; the head tilts and the moustache moves with the jaw. Rick's narrator lines are not lip-synced; only quoted lines are.
+2. LISTENERS ARE BUSY: while the guard talks, the other guard lifts a snack, bites, chews and goes smile, smirk, squint-laugh on the joke.
+3. EVERY BEAT IS A WHOLE-BODY ACTION: heaving on a lever with bent legs, swinging a hammer again and again with sparks on each hit, a palms-up shrug on "Not really", tiptoeing behind a sleeping man with a wrench, flexing and stomping until cracks spread, an arm-wrestle slam, being thrown out of a gate face-first, pulling a cart up a hill, sprinting and grabbing gate bars, leaning over a wall to point and mock.
+4. OBJECTS CHANGE ON SCREEN: the coaster loop bends, is hammered wide, then squeezed tall; red paint pours and swirls into white; cracks spread across the walls; the bench is ripped from the floor; the scarf unspools; the jar turns and its pendulum swings into a rod. The title object is big and its change is the picture.
+5. FOCUS: close and medium shots have a soft background (the empty-wallet close-up; the rival laughing in front of a blurred ring of string lights; the wine cup seen from above). Wide shots are mostly deep focus. The focus is always on whoever or whatever the line is about.
+6. LIGHT YOU CAN SEE: a full moon, string lights, a lantern on a tripod, torch sconces, sunbeams through barred windows, a pink glow spilling out of a cell door.
+7. SMALL DETAILS: overalls with patches, stitches and buttons; cap badges, belts, ties, moustaches; props in hands (wallet, hammer, telescope, lantern, stopwatch, sandwich, paint roller); signs and banners ("GRAND OPENING TOMORROW", "P-618 BAKER-MILLER PINK"); effects (sparks, sweat drops, "Zzz", dust).
+
+C. RULES
+1. ACT INSIDE THE HOLD: the calm camera from part 9 stays, and the subject performs during it. Every shot of 2 s or more contains at least one whole-body action (reach, lift, lean, walk, throw, point, shrug, sit, stand, flinch) plus face changes. Nobody stands with arms hanging for more than 2 s unless the stillness is the joke (deadpan).
+2. LIP-SYNC: a character speaking a quoted line uses at least 8 mouth shapes (closed, small open, wide open with teeth, open with tongue, round O, wide E, smile-talk, frown-talk), picked per syllable from the voice track, with the mouth 40-50% of the face width, a dark inside and teeth. The jaw and head bob 1-3 degrees on stressed words, brows rise on questions and emphasis, and the face's mood shows in the mouth (sneering talk, laughing talk). Mouths never hide behind a moustache; the moustache moves with the jaw. Narrator lines are not lip-synced.
+3. LISTENERS: while one character talks, the listener does something with a prop (eats, writes, polishes, holds the brick) and reacts with a face on the line about them.
+4. TITLE OBJECT: the object in the title is big (at least 40% of the frame) in the hook and at the reveal, and the process the story depends on happens physically on screen in 3-6 s (for Grape Bricks: the brick drops into the jug, dissolves into purple clouds, the jug bubbles and darkens while the calendar pages flip).
+5. REAL OBJECTS, NOT STICKERS: show information with objects in the world (a newspaper headline, a poster on a wall, a crate stamp, a ledger, a sign) instead of floating icons and labels.
+6. FOCUS: close and medium shots keep the subject sharp and blur the background clearly (background detail unreadable); a foreground object near the lens is blurred; wide shots may be deep focus. The focus and the frame centre sit on whoever or whatever the line is about; a story event is never smaller than about 25% of the frame height or hidden behind another character.
+7. FRAMING: labels and signs fully inside the frame and readable for at least 1 s; check that no cropped word reads as another word. No character cut in half by the frame edge unless it is a deliberate foreground over-the-shoulder.
+8. LIGHT: every scene has at least one light source you can see (sun through a window, a lamp, a lantern, string lights, the moon) and its glow on the characters; night and interiors use warm practical lights against cool shadows.
+9. SMALL DETAILS: every main character has 2-3 costume details (patch, badge, pocket, buttons, tie, moustache, hat band) and a prop that fits their job; every set has 3-5 readable story props or signs and at least one small moving detail (steam, a fly, a swinging sign, a flickering lamp).
+10. TRANSITIONS: no crossfade between different places with people in them (part 8 C2-C3 still applies); use the AE choices.
+11. QA from the render: for each quoted line, a face strip every 2 frames (count the mouth shapes: 8 or more, and check they follow the syllables); for every shot of 2 s or more, the body action in it; the frames where the title object changes; one full-size frame per scene checked for background blur in close shots, cropped labels and half-cut characters; and the list of crossfades with the places on each side.
