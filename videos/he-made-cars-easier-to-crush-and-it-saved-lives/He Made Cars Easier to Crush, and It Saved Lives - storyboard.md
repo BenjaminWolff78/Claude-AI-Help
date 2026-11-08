@@ -48,3 +48,20 @@
 - Faces cut by the frame edge only happen while a character is walking in or out, or during the quick camera moves.
 - The wall sign is now two lines, high on the wall, so it is never cropped. The clock sits higher, so its plate clears the crash block. The floodlights moved to the back corners.
 
+
+## Final check (v10.12: part 11 table as updated by part 12 D), measured on the final render
+| Target | Measured | Result |
+|---|---|---|
+| Hook 9-16 words, ends by 3.5 s; "You see," by 6 s | 11 words, ends 3.28 s; "You see," 3.62 s | PASS |
+| Length 62-65 s; -14.3 LUFS | 63.3 s; -14.3 LUFS integrated, true peak -1.3 dBFS | PASS |
+| 9-13 scenes; a 9 s+ scene in the first 20 s; nobody vanishes on a scene change | 9 scenes; The Works 12.7-22.2 s (9.5 s); continuity check clean | PASS |
+| 18-28 shot changes, every shot 2 s+; moves 6-12 frames or cuts on a beat; no ghosting, washes or lens-crossers | 22 changes (19 cuts on words + 3 quick moves of 8/10/12 frames); shortest hold 2.03 s, median 2.5 s; no crossfades, no near-lens frames | PASS |
+| Quoted lines: mouth moves every syllable, 3-5 shapes, open 30-45% of face width | both lines 4 shapes, open about 36-44% | PASS |
+| Close-ups and inserts blurred; medium/wide may be deep | wrench, nose, clock inserts and MCUs blurred | PASS |
+| Person verbs by hands; process verbs by the object with a visible cause | painter's brush rides the letters; nose folds against the wall while the car keeps moving; clock hand moved by the pointer | PASS |
+| Title object big in hook and reveal, change on screen | hook dent, fold at 27 s, intact cell and door at 32 s | PASS |
+| People shots: characters 25%+ of height, no half-cut people, no cropped labels | per-frame QA: 0 pierces, 0 overlaps; edge cuts only during quick moves or walk-ins | PASS |
+| Captions white with black outline, 1-3 words, no coloured keywords; other text painted on objects | 1-2 word white captions at 70% height; all other text on signs, door, clock plate | PASS |
+| One labelled mechanism object; demo acted; payoff held 4 s+ | STOPPING TIME clock; backyard demo 8.4 s; payoff one continuous 5.8 s take (one 12-frame push to the window) | PASS |
+| A visible light source in every scene | hanging lamps / work lamp / globe lamps / porch light / street lamp | PASS |
+| Every frame moving (user rule) | short_qa: 0 held frames, 0 frozen spans, no black or white frames | PASS |
