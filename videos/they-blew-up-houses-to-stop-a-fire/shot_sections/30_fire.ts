@@ -74,7 +74,28 @@ const ARF = {
 // the camera kicks; he ducks, then grins. The camera trucks left, then cranes up and back as the dust rolls at us
 // (the dust carries the dissolve into the night bakery).
 const S1CAP: V3 = [-4.0, 0, -1.95], S1RUN: V3 = [-6.7, 0, -0.7], S1F0: V3 = [-3.62, 0.08, -2.42], S1F1: V3 = [-3.25, 0.5, -2.82];
+// cover still (inputProps.thumb): the Captain, shocked, linstock up, beside a POWDER barrel whose fuse is sparking, the
+// house next door burning right behind him
+const TH_CAP: V3 = [-3.65, 0, -2.05];
+/** cover still: a hand-drawn cartoon flame (3 layers + ink), every one a different shape, base at pos */
+const thFlame = (key: string, pos: V3, w: number, h: number, seed: number, lean = 0): FxSpec => ({
+  kind: "card", key: "thf" + key, pos: [pos[0], pos[1] + h / 2, pos[2]], w, h, cw: 160, ch: 240,
+  draw: (p) => {
+    const g = p.g, r = (i: number) => rnd1(i + seed * 13.7);
+    const n = 3 + Math.floor(r(1) * 3), tips: [number, number][] = [];
+    for (let i = 0; i < n; i++) tips.push([28 + (104 * (i + 0.5)) / n + (r(i + 3) - 0.5) * 16 + lean * 30, 18 + r(i + 9) * 90 * (i === Math.floor(n / 2) ? 0.3 : 1)]);
+    const layer = (sc: number, col: string, ink: boolean) => {
+      g.beginPath(); g.moveTo(80 - 64 * sc, 236);
+      g.quadraticCurveTo(80 - 74 * sc, 160, 80 + (tips[0][0] - 80) * sc, 236 - (236 - tips[0][1]) * sc);
+      for (let i = 1; i < n; i++) { const a = tips[i - 1], b = tips[i]; g.quadraticCurveTo(80 + ((a[0] + b[0]) / 2 - 80) * sc, 236 - (236 - Math.max(a[1], b[1]) - 46) * sc, 80 + (b[0] - 80) * sc, 236 - (236 - b[1]) * sc); }
+      g.quadraticCurveTo(80 + 74 * sc, 160, 80 + 64 * sc, 236); g.closePath();
+      g.fillStyle = col; g.fill(); if (ink) { g.lineWidth = 7; g.strokeStyle = INKC; g.stroke(); }
+    };
+    layer(1, "#e8462a", true); layer(0.74, "#ff9a2a", false); layer(0.46, "#ffe27a", false);
+  },
+});
 SHOT_CAMS[1] = () => {
+  if (THUMB) return [K(0, F(() => ({ pos: [-6.4, 2.2, -1.0] as V3, look: [-2.6, 1.2, -2.7] as V3, fov: 52 }), 0, 0), 24, true)];   // close and a little high: label ~73%, spark ~61%, no doorway
   // frame 1 close and big: the kneeling Captain (42% of the frame) holds the linstock to the barrel's fuse, the house
   // front beside him; as he scrambles at us the camera backs off to a wider view with the whole house in frame for the
   // BOOM (40), then cranes up and back over the dust and the new gap
@@ -86,6 +107,26 @@ SHOT_CAMS[1] = () => {
 };
 KICKS.push([40 / 30, 0.9]);
 SHOT_ACTS[1] = (f, s) => {
+  if (THUMB) return {
+    ctl: { front: 999, shell: 999, barrels: 1, barrelRotN: 2.08, labelAlt: 1, wk: 15, wx: -2.5, wy: 1.5, wz: -1.5, lk: 0, wind: 1, b1n: -1, hook: 1, hookAge: 99 } as Ctl,
+    cast: [C("capt", TH_CAP, pose(null, { expr: "shock", mouth: "tOBig", facing: -1, tilt: 3, propL: "linstock", propLAng: -0.4, propK: f * 0.3, armL: [[-22, -6], [-30, -28]] as A2, armR: [[26, 14], [10, 26]] as A2 }), { idx: 1 })],
+    fx: fxs(
+      // the fuse sticks out of the front barrel's top and fizzes there
+      { kind: "card", key: "thfuse", pos: [-3.4, 0.98, -2.82], w: 0.16, h: 0.2, cw: 64, ch: 80, draw: (p) => { const g = p.g; g.strokeStyle = "#2a1c18"; g.lineWidth = 7; g.lineCap = "round"; g.beginPath(); g.moveTo(30, 78); g.bezierCurveTo(20, 50, 52, 40, 40, 10); g.stroke(); } } as FxSpec,
+      sparkCard("th", [-3.43, 1.06, -2.84], f, 0.34),
+      // varied flames out of the windows, door and roof of the two houses next door (no repeated stickers)
+      thFlame("d0", [-1.05, 0.25, -3.25], 0.95, 1.6, 1, -0.2), thFlame("g0", [0.8, 1.1, -3.3], 1.1, 1.7, 2, 0.15), thFlame("w1", [-0.6, 1.9, -3.3], 1.2, 1.6, 4, 0.25),
+      thFlame("w2", [1.6, 2.0, -3.3], 0.8, 1.1, 3, -0.1), thFlame("g4", [3.4, 1.1, -3.3], 1.0, 1.4, 8, 0.1), thFlame("d4", [5.0, 0.25, -3.25], 0.9, 1.3, 11, 0.3),
+      thFlame("w4", [4.2, 3.0, -3.12], 1.6, 2.4, 9, -0.25), thFlame("f1", [8.0, 1.0, -3.3], 1.3, 1.8, 6, 0.2), thFlame("f2", [8.8, 3.0, -3.1], 2.2, 3.0, 10, -0.15),
+      thFlame("f3", [-0.1, 0.9, -3.3], 0.6, 0.8, 5, 0.4),
+      // dark grey smoke pouring off them
+      ...([[0.2, 3.3, -2.9, 2.2], [1.6, 3.8, -2.9, 2.6], [3.2, 3.4, -2.9, 2.4], [-0.8, 4.0, -2.9, 2.0], [5.4, 3.6, -2.9, 2.6]] as number[][]).map(([x, y, z, w], i) => {
+        const c = dustCard("thsm" + i, [x, y, z], w, 0.92, i + 2, i * 0.7);
+        c.key = "gry" + c.key; c.draw = ((d) => (p2) => { const g = p2.g; g.save(); g.filter = "saturate(0.15) brightness(0.42)"; d(p2); g.restore(); })(c.draw!);
+        return c;
+      })),
+    focus: [TH_CAP[0], 1.5, TH_CAP[2]], subj: "capt",
+  };
   const r = runPath(1, s, [S1CAP, S1RUN], f, 16, 38, 1.2);
   const kneel = (k: number): P => ({ mode: "kneel", kneelK: k, expr: "determined", facing: -1, tilt: -6, armL: [[-26, 8], [-50, 16]] as A2, armLFront: true, propL: "linstock", propLAng: -0.9, propK: f * 0.3, armR: [[22, 20], [12, 34]] as A2 });
   const cap: P = f < 16 ? flow(f, [[0, kneel(1)], [6, { ...kneel(1), expr: "sly", headTilt: 4 }, 6], [8, { ...kneel(0.8), expr: "blank", headTilt: 2 }, 2], [10, { ...kneel(0.4), expr: "yikes", armL: [[-20, 4], [-30, -10]] as A2 }, 6]]) as P
@@ -105,7 +146,7 @@ SHOT_ACTS[1] = (f, s) => {
   const sp = lerp3(S1F0, S1F1, lin(f, 4, 40));
   const cam95 = camAt(1, s, 95).pos;
   return {
-    ctl: { front: 8.4, shell: 17, barrels: 1, wind: 1, b1n: (f - 40) / 30, hook: 1, hookAge: 99 },
+    ctl: { front: -0.5, shell: 17, barrels: 1, barrelRotN: 2.04, wind: 1, b1n: (f - 40) / 30, hook: 1, hookAge: 99 },   // the house next door is already burning
     cast: [C("capt", capPos, pose(null, cap), { idx: 1 }), C("sold1", [-5.6, 0, -2.9], pose(null, sold), { idx: 2 })],
     fx: fxs(f < 40 ? sparkCard("s1", sp, f, 0.28) : null, f >= 40 && f < 49 ? glowBurst("bm1", [-4.2, 2.5, -3.2], 4.5, 1 - (f - 40) / 9, "255,210,120") : null,   // a burst at the house, not a frame wash
       cloudRoll("d1", [-4.4, 1.0, -2.4], [cam95[0] + 3.2, 1.6, cam95[2] - 0.9], f, 66, 97, 5, 2.6)),
@@ -431,8 +472,9 @@ lens3([[1050, DOF_INSERT], [1150, DOF_MS, 24], [1210, DOF_CU, 24]]);
 // strikes out THE NEXT HOUSE; "and it starves": SOLD OUT. A slow orbit past the lantern.
 const BOARD: V3 = [-10.9, 1.2, -2.7], CAPT7: V3 = [-10.12, 0, -2.53];
 SHOT_CAMS[7] = () => {
-  const at = (az: number, r: number, y: number) => ({ pos: [BOARD[0] + r * Math.sin((az * Math.PI) / 180), y, BOARD[2] + r * Math.cos((az * Math.PI) / 180)] as V3, look: [BOARD[0] + 0.26, 1.2, BOARD[2] + 0.08] as V3, fov: 42 });
-  const O = (f: number) => { const u = lin(f, 1267, 1406); return at(lerp(32, 14, u), lerp(4.6, 4.4, u), lerp(1.6, 1.55, u)); };
+  // aimed low enough that SOLD OUT sits at ~54% height (clear of the 70% captions); wide enough to keep him in frame
+  const at = (az: number, r: number, y: number) => ({ pos: [BOARD[0] + r * Math.sin((az * Math.PI) / 180), y, BOARD[2] + r * Math.cos((az * Math.PI) / 180)] as V3, look: [BOARD[0] + 0.35, 0.92, BOARD[2] + 0.08] as V3, fov: 46 });
+  const O = (f: number) => { const u = lin(f, 1267, 1406); return at(lerp(32, 16, u), lerp(5.4, 5.2, u), lerp(1.6, 1.55, u)); };
   return [K(1267, F(O, 1267, 0.0004), 24, true)];
 };
 SHOT_ACTS[7] = (f) => {
@@ -516,7 +558,8 @@ SHOT_ACTS[8] = (f, s) => {
     ]) as P;
   const B = (t0: number) => (f - t0) / 30;
   return {
-    ctl: { front: 8.4, shell: 17, barrels: 1, hook: 1, hookAge: 99, fuse: fuseK(f), b1n: B(1503), b1s: B(1504), b2n: B(1517), b2s: B(1518), b3n: B(1532), b3s: B(1534),
+    // the payoff must stay visible from the aerial: blast dust clears in 1.6 s, house smoke thins as the wind drops
+    ctl: { front: 8.4, shell: 17, barrels: 1, hook: 1, hookAge: 99, dustFade: 1.6, smokeK: 1 - 0.65 * sm(f, 1536, 1572), fuse: fuseK(f), b1n: B(1503), b1s: B(1504), b2n: B(1517), b2s: B(1518), b3n: B(1532), b3s: B(1534),
       wind: 1 - sm(f, 1548, 1580), roar: sm(f, 1576, 1606) * (1 - sm(f, 1618, 1650)), die: sm(f, 1612, 1652), last: f < 1630 ? 0 : sm(f, 1630, 1642), splash: (f - 1712) / 30, bucket: 0 },
     cast: [
       C("capt", CAPF, pose(null, cap), { idx: 1 }),

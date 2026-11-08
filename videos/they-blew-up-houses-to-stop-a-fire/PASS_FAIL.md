@@ -1,6 +1,6 @@
 # They Blew Up Houses to Stop a Fire 🔥 - final PASS/FAIL table
 
-Measured on the final code (per-frame camera QA `qa9.jsonl`, `tools/cam_moves.py`, `scripts/qa_report.py`, `scripts/face_qa.py`), the final mix report and the rendered mp4.
+Measured on the final code and render (per-frame camera QA `qa_final.jsonl`, `tools/cam_moves.py`, `scripts/qa_report.py`, `scripts/face_qa.py`), the final mix report and the rendered mp4.
 
 ## Part 13 checks (show the big moments, move the camera)
 
@@ -8,11 +8,11 @@ Measured on the final code (per-frame camera QA `qa9.jsonl`, `tools/cam_moves.py
 |---|---|---|---|
 | Every impact / failure / payoff the narration names happens on screen, cause then effect | all | all 18 listed below, each with its frames | PASS |
 | Climax with the camera moving the whole time | 4-8 s | fuse lit -> spark -> three booms -> wind drops -> roar: 48.1-53.5 s (5.4 s), one continuous path | PASS |
-| Payoff with the camera moving the whole time | 4-8 s | fire starves -> last flame -> the mayor's bucket: 53.5-57.4 s on the aerial glide, then a slow 10 deg orbit (was a static hold; fixed) | PASS |
+| Payoff with the camera moving the whole time | 4-8 s | fire starves -> last flame -> the mayor's bucket: 53.5-57.4 s on the aerial glide, then a slow 10 deg orbit (was a static hold; fixed); the blast dust and smoke now clear by 52.5 s so the fire is seen starving at the gap (was hidden in smoke; fixed) | PASS |
 | Shots with a real camera move (glide, track, crane, orbit, aerial, push past) | >= 50% | 12 of 15 = 80% | PASS |
 | Frames with sideways / crane travel | >= 40% | 1519 of 1920 = 79% | PASS |
 | Place / time changes that are motivated moves | >= 33% | 4 of 8 = 50% (dust 3.2 s, same-camera time jump 11.2 s, house row -> domino row 35.0 s, steam 57.4 s); cuts at 17.1, 20.4, 42.2, 46.9 s | PASS |
-| Frame 1 shows the absurd act, big | big | the Captain (42% of frame height) holding the linstock to a POWDER barrel's fuse at a house (was a small figure; fixed) | PASS |
+| Frame 1 shows the absurd act, big | big | the Captain (42% of frame height) holding the linstock to a POWDER barrel's fuse, the house next door burning behind him, the same moment as the cover (was a small figure by a calm street; fixed) | PASS |
 | Hands do every person verb | all | light the fuse, roll, throw, scoop, heave, flick, pull, tap, strike out, chalk, drop, throw, drip-torch | PASS |
 | Moustaches never hide a speaking mouth | - | no speaker has a moustache | PASS |
 | Focus on whoever speaks / what the line is about | always | speakers sharp in every quoted line; hook Captain kept sharp through the blast (was blurred; fixed) | PASS |
@@ -59,16 +59,16 @@ Measured on the final code (per-frame camera QA `qa9.jsonl`, `tools/cam_moves.py
 | Every shot 2 s+ | all | shortest 2.00 s (Captain 738-797, the laugh 798-857); was 1.27-1.37 s for three shots; fixed | PASS |
 | No ghosting crossfades, white-outs, washes; nothing crosses the lens | - | hook flash cut to a burst at the house (was a full-frame wash); camera no longer passes through the crowd in the ember pan (fixed); near-plane hits 0 | PASS |
 | Move peaks under ~22 px/f except deliberate quick transitions | - | peaks are the aerial flights, the lead crane and the 12-frame whip to the Captain; holds and tracks under 22 | PASS (deliberate) |
-| Quoted lines: 3-5 mouth shapes, open 30-45% of face width | all | MOUTHS | MOUTHS_RESULT |
+| Quoted lines: 3-5 mouth shapes, open 30-45% of face width | all | mayor, wife (x2), Captain, onlooker: 4-5 shapes each (closed, half, wide with teeth, round O), wide shapes about 40% of the face width; every mouth sits above the caption line | PASS |
 | Every 2 s+ shot has a body action | all | yes (see impact list; holds have acted reactions) | PASS |
 | Title object big in hook and reveal, change on screen | - | the house bursts in the hook (40-60); three houses blow at the climax (1503-1532) and the fire starves at the gap | PASS |
 | Close-ups / inserts blurred background | - | CU and MCU at DOF 13 px, inserts 14 px | PASS |
 | People-subject shots 25%+ of frame height, no half-cut characters | - | subjects 25-60%; the half-cut bucket-chain man moved out of the throw shot (fixed); remaining edge cuts are background people during camera moves | PASS |
-| No cropped labels | - | POWDER labels turned to face the street (fixed); PITCH & TAR sign in full, its last letter licked by the warehouse fire for 1 s | PASS |
+| No cropped labels; key text above the 62% line | - | POWDER labels turned to the camera (fixed); SOLD OUT now at 54% height, above the captions (was under them; fixed); PITCH & TAR sign in full, its last letter licked by the warehouse fire for 1 s | PASS |
 | Visible light in every scene | - | fire / candles / lanterns / drip torch; daylight backyard | PASS |
 | Captions | white, 1-3 words, out of the bottom 20% | white with black outline, 1-2 words, at 70% height | PASS |
 | Labelled mechanism object | 1 | THE FIRE'S MENU chalkboard (TIMBER, TAR, THATCH, THE NEXT HOUSE -> SOLD OUT) | PASS |
 | Demo scene acted | yes | your hand flicks the dominoes, pulls three, the wave stops (7.2 s) | PASS |
 | Payoff held 4 s+ | 4 s+ | 52.5-57.4 s (4.9 s) | PASS |
-| Face continuity (smooth acting) | no mood flips | FACEQA | FACEQA_RESULT |
-| Render QA (black / white / frozen / pop frames) | none | RENDERQA | RENDERQA_RESULT |
+| Face continuity (smooth acting) | no mood flips | 0 mood flips (the hook's sly -> yikes and the pullers' laugh -> strain now pass through a neutral beat; fixed); 5 same-mood swaps where someone breaks into a run | PASS |
+| Render QA (black / white / frozen / pop frames) | none | 1920 frames, 64.0 s, 1080x1920 at 30 fps; no black, white or frozen frames, 0% held frames; frame-difference spikes only at the 10 planned cuts, the hook blast (40), the Captain's gesture (750) and the onlooker's glance back (1913); final file -14.3 LUFS, -1.3 dBFS peak | PASS |

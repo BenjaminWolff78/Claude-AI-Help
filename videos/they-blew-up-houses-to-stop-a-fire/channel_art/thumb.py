@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Thumbnails for 'They Blew Up Houses to Stop a Fire' from two clean (caption-free) final-render frames:
 the hook (the Captain, hat blown off, as the house goes up) and the climax (the three powder blasts).
-usage: python3 thumb.py <hook_frame.jpg> <blast_frame.jpg> <out_dir>"""
+usage: python3 thumb.py <hook_frame.jpg> <blast_frame.jpg> <out_dir> [cover_still.jpg]"""
 import sys, os, math
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 H, B, O = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -16,13 +16,14 @@ def text(im, xy, s, size, fill, stroke=0.12, anchor="mm"):
     ImageDraw.Draw(im).text(xy, s, font=f, fill=fill, anchor=anchor, stroke_width=sw, stroke_fill=INK)
 hook, blast = Image.open(H).convert("RGBA"), Image.open(B).convert("RGBA")
 # ---- Shorts cover 1080 x 1920: the hook frame, headline over the facade above his hat ----
-t = hook.copy()
+t = (Image.open(sys.argv[4]).convert("RGBA") if len(sys.argv) > 4 else hook.copy())
 text(t, (540, 250), "TO STOP A FIRE...", 96, WHITE)
 text(t, (540, 385), "BLOW IT UP?!", 126, ACC)
 t.convert("RGB").save(f"{O}/thumbnail_short_1080x1920.png")
 # ---- landscape 1280 x 720: the Captain left, the blasts right, split by a jagged blast edge ----
 W, Hh = 1280, 720
-L = hook.crop((330, 400, 330 + 700, 400 + 788)).resize((640, 720), Image.LANCZOS)
+cov = Image.open(sys.argv[4]).convert("RGBA") if len(sys.argv) > 4 else None
+L = (cov.crop((90, 600, 90 + 920, 600 + 1035)) if cov else hook.crop((330, 400, 330 + 700, 400 + 788))).resize((640, 720), Image.LANCZOS)
 R = blast.crop((0, 760, 1080, 760 + 1080)).resize((760, 760), Image.LANCZOS).crop((0, 20, 760, 740))
 c = Image.new("RGBA", (W, Hh)); c.paste(R, (W - 760, 0)); 
 m = Image.new("L", (W, Hh), 0); d = ImageDraw.Draw(m)

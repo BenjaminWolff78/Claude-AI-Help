@@ -66,7 +66,7 @@ type XMouth = MouthK | "queasy" | "puff" | "teethWide" | "tongue" | "beam" | "gu
 /** v10.10 lip-sync shapes (board AG): big talking mouths, 40-50 % of the face width, dark inside, teeth + tongue.
  *  tClosed lips together (m/b/p) | tSmall small open | tWide wide open, both rows of teeth | tTongue open with tongue
  *  (l/t/d/n/th) | tO round O (o/w) | tE wide flat with clenched teeth (e/i/s) | tSmile smile-talk | tFrown frown-talk */
-export type TalkK = "tClosed" | "tSmall" | "tWide" | "tTongue" | "tO" | "tE" | "tSmile" | "tFrown";
+export type TalkK = "tClosed" | "tSmall" | "tWide" | "tTongue" | "tO" | "tE" | "tSmile" | "tFrown" | "tOBig";   // tOBig: a shocked open O, ~37% of the face width
 const TALK: Record<string, [number, number, number, number, number, number]> = {
   // half width, depth, upper-lip curve (+ = corners down), top teeth, bottom teeth, tongue (all in u)
   tSmall: [15, 9.5, 0.5, 0, 0, 0], tWide: [22, 16, -1, 3.6, 3.2, 0], tTongue: [19, 13, 0, 3.4, 0, 1], tE: [23, 8.5, 0, 3.4, 3.2, 0],
@@ -75,6 +75,7 @@ const TALK: Record<string, [number, number, number, number, number, number]> = {
 const talkMouth = (p: Pen, k: TalkK, mx: number, top: number, u: number) => {
   const INKM = "#241726", DARK = "#4a1420", TEETH = "#fbf8f0", TONG = "#e0646e";
   if (k === "tClosed") { const pts: P2[] = []; for (let i = 0; i <= 12; i++) { const t = i / 6 - 1; pts.push([mx + t * 17 * u, top + 3 * u - 3.2 * u * (1 - t * t)]); } p.stroke(pts, 4.2 * u, INKM); return; }
+  if (k === "tOBig") { p.ell(mx, top + 16 * u, 17.5 * u, 20 * u, DARK, 3.8 * u); p.clip(ellPts(mx, top + 16 * u, 17.5 * u, 20 * u), () => p.ell(mx, top + 31 * u, 10 * u, 7 * u, TONG, 0)); p.ell(mx, top + 16 * u, 17.5 * u, 20 * u, null, 3.8 * u); return; }
   if (k === "tO") { p.ell(mx, top + 11 * u, 10 * u, 12.5 * u, DARK, 3.4 * u); p.clip(ellPts(mx, top + 11 * u, 10 * u, 12.5 * u), () => p.ell(mx, top + 21 * u, 6 * u, 4 * u, TONG, 0)); p.ell(mx, top + 11 * u, 10 * u, 12.5 * u, null, 3.4 * u); return; }
   const [w, h, uc, tt, bt, tg] = TALK[k];
   const up: P2[] = [], lo: P2[] = [];

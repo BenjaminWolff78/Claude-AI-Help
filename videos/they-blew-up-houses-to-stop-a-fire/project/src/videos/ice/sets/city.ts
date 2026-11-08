@@ -300,14 +300,24 @@ export const city: SetBuilder = () => {
     g.font = `900 46px ${SANS}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#fff4e0"; g.fillText("POWDER", 256, 131); void pl;
   });
   const powderM = lam("ctPowder", () => ({ map: powderTex }));
+  // a narrower POWDER label (the whole word visible from one side) for the cover still (c.labelAlt)
+  const powderTex2 = ctex("powderBarrel2", 512, 256, (g) => {
+    g.fillStyle = "#9a6a3e"; g.fillRect(0, 0, 512, 256);
+    for (let x = 0; x < 512; x += 42) { g.fillStyle = x % 84 ? "#a87444" : "#8e5e36"; g.fillRect(x, 0, 40, 256); g.fillStyle = "rgba(40,20,10,0.5)"; g.fillRect(x + 40, 0, 2, 256); }
+    for (const y of [26, 222]) { g.fillStyle = "#4a4e58"; g.fillRect(0, y - 10, 512, 20); }
+    g.fillStyle = "#e8462a"; g.fillRect(180, 96, 152, 66); g.strokeStyle = INKC; g.lineWidth = 6; g.strokeRect(180, 96, 152, 66);
+    g.font = `900 33px ${SANS}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#fff4e0"; g.fillText("POWDER", 256, 131);
+  });
+  let labelAlt = 0;
+  const warm = new THREE.PointLight("#ff7a2a", 0, 10, 1.5); root.add(warm);   // close firelight (c.wk at c.wx/wy/wz)
   const mkBarrel = (pos: V3, lying = false) => { const m = new THREE.Mesh(barrelGeo, powderM); m.castShadow = true; m.position.set(...pos); if (lying) m.rotation.z = Math.PI / 2; root.add(m); return m; };
   // three rolling barrels (day two): start at x = 2, roll east along the street to x = 10
   const rollers = [0, 1, 2].map((k) => mkBarrel([2 - k * 1.4, 0.36, 0.6 + (k - 1) * 0.9], true));
   // gap barrels (day three) at each gap house door + the fuse along the street centre line
-  const gapBarrels: THREE.Mesh[] = [];
+  const gapBarrels: THREE.Mesh[] = [], northBarrels: THREE.Mesh[] = [];   // north labels face the street; c.barrelRotN turns them toward a west camera
   for (const x of [-4.2, 0, 4.2]) for (const s of [1, -1]) {   // n (north, z < 0) then s; the POWDER label turned to face the street
     const b1 = mkBarrel([x + 1.0, 0.45, -s * (ZF - 0.65)]), b2 = mkBarrel([x + 1.75, 0.45, -s * (ZF - 0.55)]);
-    if (s === 1) { b1.rotation.y = Math.PI; b2.rotation.y = Math.PI * 0.92; } else b2.rotation.y = 0.08;
+    if (s === 1) { b1.rotation.y = Math.PI; b2.rotation.y = Math.PI * 0.92; northBarrels.push(b1, b2); } else b2.rotation.y = 0.08;
     gapBarrels.push(b1, b2);
   }
   const fuseM = new THREE.MeshLambertMaterial({ color: "#3a2a22" });
@@ -460,7 +470,7 @@ export const city: SetBuilder = () => {
         // the bakery starts small: c.bakery 0..0.5 lights only its shop-door flame, 0.5..1 the whole house
         const bakOnly = Math.abs(H.x - 33.6) < 0.5 && H.side === 1 && H.x < front && !isShell;
         H.flames.forEach((s, j) => flameSet(s, frame + j * 3, bakOnly ? (j === H.flames.length - 1 ? cl((c.bakery ?? 0) / 0.5) * 1.25 * (1 - cl(c.bakDoorOff ?? 0)) : cl(((c.bakery ?? 0) - 0.5) / 0.5)) : fk * (j >= H.flames.length - 5 ? 1.15 : 1) * (isShell && j < H.flames.length - 5 ? 0.6 : 1)));
-        H.smoke.forEach((m) => smokeSet(m, t, isShell ? 0.9 : k, -1.2 * wind));
+        H.smoke.forEach((m) => smokeSet(m, t, (isShell ? 0.9 : k) * (c.smokeK ?? 1), -1.2 * wind));
         H.wins.forEach((w) => ((w.material as THREE.MeshBasicMaterial).opacity = night * 0.9));
         const sp = H.g.userData.sign as THREE.Group | undefined;
         if (sp) sp.rotation.x = (0.08 + 0.22 * wind) * Math.sin(t * (1.6 + 1.2 * wind) + H.i);
@@ -482,7 +492,7 @@ export const city: SetBuilder = () => {
         const age = c[key] ?? -1, bl = H.blast!;
         const blown = age >= 0;
         H.g.visible = !blown;
-        bl.fx.set(age);
+        bl.fx.set(age, c.dustFade ?? 3.0);
         for (const ch of bl.chunks) {
           ch.m.visible = blown && age < 2.4;
           if (!ch.m.visible) continue;
@@ -501,6 +511,9 @@ export const city: SetBuilder = () => {
       const roll = c.roll ?? -1;
       rollers.forEach((m, k) => { m.visible = roll >= 0; m.position.x = 2 - k * 1.4 + Math.max(0, roll); m.rotation.set(0, 0, Math.PI / 2); m.rotateY(-Math.max(0, roll) / 0.36); });
       const gb = (c.barrels ?? 0) > 0;
+      const la = (c.labelAlt ?? 0) > 0 ? 1 : 0; if (la !== labelAlt) { labelAlt = la; powderM.map = la ? powderTex2 : powderTex; powderM.needsUpdate = true; }
+      warm.intensity = (c.wk ?? 0) * (1 + 0.12 * Math.sin(t * 11) * Math.sin(t * 6.1)); warm.position.set(c.wx ?? 0, c.wy ?? 1.5, c.wz ?? 0);
+      northBarrels.forEach((m, i) => { m.rotation.y = (c.barrelRotN ?? Math.PI) - (i % 2 ? 0.25 : 0); });
       gapBarrels.forEach((m, k) => { const key = `b${Math.floor(k / 4) + 1}${k % 4 < 2 ? "n" : "s"}`; m.visible = gb && (c[key] ?? -1) < 0; });
       fuse.visible = gb || (c.fuse ?? 0) > 0;
       const fz = c.fuse ?? 0;
@@ -514,7 +527,7 @@ export const city: SetBuilder = () => {
       em.set(t, (i, r) => { const H = burning[(i * 7 + Math.floor(r * 50)) % Math.max(1, burning.length)]; return burning.length ? [H.x + (r - 0.5) * 3, H.top * 0.7, H.side === 1 ? -ZF - 2 : ZF + 2] : null; }, -2.6 * wind - 0.4, burning.length ? 0.85 : 0);
       // back rows, warehouses, cathedral
       for (const f of backFlames) flameSet(f.s, frame + f.x * 3, f.x >= front + 2 ? 1 : 0);
-      for (const s of backSmoke) smokeSet(s.m, t, s.x >= front ? 1 : 0, -1.6 * wind, 0.12);
+      for (const s of backSmoke) smokeSet(s.m, t, (s.x >= front ? 1 : 0) * (c.smokeK ?? 1), -1.6 * wind, 0.12);
       const wh = cl(c.wharf ?? 0);
       whFlames.forEach((s, k) => flameSet(s, frame + k * 5, wh * (k % 3 === 1 ? 1.2 : 1)));
       whSmoke.forEach((m) => smokeSet(m, t, wh, -1.4 * wind, 0.14));

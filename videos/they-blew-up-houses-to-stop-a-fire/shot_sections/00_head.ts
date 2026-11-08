@@ -11,6 +11,9 @@ import type { FigOpts, Face } from "./fig";
 import { Key, Shot, V3, clamp01, smooth, easeOut, run, DOF, KICKS } from "./story";
 import POSES from "./poses.json";
 import MOUTHF from "./mouths.json";
+import { getInputProps } from "remotion";
+/** thumbnail mode (inputProps.thumb): scene 1 is staged as the cover still */
+const THUMB = !!(getInputProps() as { thumb?: boolean }).thumb;
 import type { MouthK } from "./toon";
 
 // ---------------- helpers ----------------

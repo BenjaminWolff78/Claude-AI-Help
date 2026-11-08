@@ -124,8 +124,8 @@ export const boom = (parent: THREE.Object3D, pos: V3, size = 6, fire = true) => 
   const smoke = [0, 1, 2].map((i) => mk(smokeTex(i), false, 6));
   const r = rng(pos[0] * 5 + pos[2] * 3 + 1), dirs = dust.map((_, i) => { const a = (i / dust.length) * TAU + r() * 0.3; return [Math.cos(a), Math.sin(a)]; });
   const ballOff = balls.map(() => [r() * 2 - 1, r() * 0.8, r() * 2 - 1]);
-  const set = (age: number) => {
-    const on = age >= 0 && age < 4.5;
+  const set = (age: number, fade = 3.0) => {   // fade: seconds for the dust to clear
+    const on = age >= 0 && age < Math.max(4.5, fade + 1.5);
     g.visible = on; if (!on) return;
     const fk = age < 0.35 ? 1 - age / 0.35 : 0;
     flash.visible = fire && fk > 0; flash.scale.setScalar(size * (1.1 + 0.8 * (1 - fk))); (flash.material as THREE.SpriteMaterial).opacity = 0.6 * fk;
@@ -137,14 +137,14 @@ export const boom = (parent: THREE.Object3D, pos: V3, size = 6, fire = true) => 
     });
     dust.forEach((d, i) => {
       const a = age - 0.05; d.visible = a > 0; if (!d.visible) return;
-      const R = size * (0.3 + 0.8 * (1 - Math.exp(-a * 2.2))), op = Math.max(0, 1 - a / 3.0);
+      const R = size * (0.3 + 0.8 * (1 - Math.exp(-a * 2.2))), op = Math.max(0, 1 - a / fade);
       d.position.set(dirs[i][0] * R, 0.4 + 0.25 * size * (1 - Math.exp(-a * 1.5)), dirs[i][1] * R * 0.6);
       d.scale.set(size * (0.45 + 0.35 * a), size * (0.33 + 0.26 * a), 1); (d.material as THREE.SpriteMaterial).opacity = op * 0.95;
     });
     smoke.forEach((s, i) => {
       const a = age - 0.5 - i * 0.15; s.visible = a > 0; if (!s.visible) return;
       s.position.set((i - 1) * size * 0.2, size * (0.5 + 0.35 * a), 0); s.scale.set(size * (0.7 + 0.3 * a), size * (0.55 + 0.25 * a), 1);
-      (s.material as THREE.SpriteMaterial).opacity = Math.max(0, Math.min(1, a * 2) * (1 - a / 4));
+      (s.material as THREE.SpriteMaterial).opacity = Math.max(0, Math.min(1, a * 2) * (1 - a / (fade * 1.33)));
     });
   };
   return { g, set };
