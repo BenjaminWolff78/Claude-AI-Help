@@ -1,5 +1,3 @@
-<!-- MASTER PROMPT v10.12 (given by the user on 2026-11-07; replaces v10.11 and v10.10). Part 12 "WHAT RICK'S TOP SHORTS DO, WITH CORRECTIONS" wins over earlier parts. -->
-
 RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
 
 PRIORITY when two rules seem to conflict: 1 characters look like Rick, 2 the story's thing is shown clearly, 3 acting and camera flow, 4 sets and colour, 5 everything else. Numbers in this prompt are checks, not goals. A video can pass every number and still look wrong; your side-by-side review (step 5) decides.
@@ -10,7 +8,7 @@ STEP 1. TOPIC AND SCRIPT
 a. Title first: a curiosity question or strange claim the viewer cannot answer from the title ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Burglar Who Only Moved Furniture"). Real, checkable fact with a human twist. Do not reuse the last three formats or settings.
 b. Hook (first sentence, at most 5.6 s): one strange concrete action plus a stake, already happening at frame 1.
 c. Structure: hook, a doubter or problem by 10 s, a spoken open question by 20 s, three escalating beats, the trick named at 60-72% of the runtime, one everyday comparison, the payoff, a callback ending. Every sentence has one concrete thing we can picture.
-d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice. (Overridden by the "Voice" section: instead of atempo, one Rubber Band R3 pass with the speed-up and +3.5 semitones, formants preserved.)
+d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice.
 
 STEP 2. STYLE LOCK (before any animation)
 a. Build the cast and one frame of every set first.
@@ -412,3 +410,33 @@ D. UPDATED FINAL CHECK (replaces the matching lines of part 11's table)
 - person verbs done by hands; process verbs done by the object with a visible cause
 - captions white with a black outline, 1-3 words, no coloured keywords; all other text painted on objects; at most one floating mechanism graphic
 - one labelled mechanism object; the demo scene acted out; the payoff held 4 s or more
+
+SHOW THE BIG MOMENTS, MOVE THE CAMERA, AND WHAT RICK'S NUMBERS SAY (part of v10; where this disagrees with anything above, this wins; reference image AJ)
+Measured frame by frame on "He Made Cars Easier to Crush and It Saved Lives" (optical flow on every frame, strips every 1/7.5 s at the crashes, face crops every 1/15 s) and compared with Rick's Railroads climax (58.4-64.7 s) and the vidIQ research on Ricks Clips (channel growth, top-3 transcripts, top comments).
+
+A. WHAT IMPROVED (keep all of it)
+- A mechanism topic (crumple zones) with a 11-word hook, "You see," at 3.75 s, plain white captions, and story text painted on objects ("BUILT LIKE A TANK!", "PAPER CAR", "CRASH TEST No. 1 1959", the "STOPPING TIME" dial as the labelled mechanism object).
+- The water-balloon demo acted out as its own 8 s scene in second person ("Stiff hands... your hands back").
+- The paper car crumpling on screen (27-29.5 s), the mocking nickname, and a quotable ending exchange ("They don't make them like they used to." "Exactly.").
+- Camera stops: median 2.5 s, only 8% under 1.2 s; 63.3 s; -14.3 LUFS; no white-outs or ghost crossfades.
+
+B. WHAT IS WRONG
+1. The big moments happen off screen. "Crash one into a wall, and the car's fine" (8.9-10.6 s): the car rolls in and stops, with no impact. "They crash the tank car. Not a scratch on it. The dummy flies into the wheel so hard its head pops off" (51-56.5 s): the car is already stopped, and the dummy and the head are never shown. Rick's climax (Railroads 58.4-64.7 s) shows the rail bending into an S, the train leaving the track, falling and exploding, for about 6 s with the camera moving the whole time.
+2. The camera is locked off. There are 18 hard cuts, and the camera travels sideways in only 4% of frames (zoom-only in the rest), so the video plays like a slideshow. The Eiffel Tower video travelled in 74% of frames; Rick glides, cranes, flies and tracks in most shots. Part 12's correction allowed cuts; it did not mean "only cuts".
+3. Hands still do not do the work. "So this guy draws the opposite" (13-16 s): the lines appear while his pencil hand stays by his face. "Then somebody opens the door" (31.5-33 s): the door never opens.
+4. The hook shows no absurd act: the engineer stands beside a car for 3.5 s. Rick's roller-coaster hook shows him bending the loop.
+5. The boss's mouth is hidden by his moustache for most of "You want our cars to fold?" (16.8-18.8 s).
+6. Wrong focus: at 56.75-57.5 s the old man in the foreground (who delivers the final line) is blurred while the background is sharp.
+7. No scene of 9 s or more in the first 20 s (the longest is 6.25 s).
+
+C. RULES
+1. SHOW EVERY BIG MOMENT: every impact, failure, transformation or payoff the narration names is shown happening on screen with cause and effect (the car hits the wall: a jolt, dust, crumpling metal, a camera shake, the occupant thrown forward; the dummy flies into the wheel and its head pops off). The climax and the payoff each get 4-8 s with the camera moving.
+2. MOVE THE CAMERA: at least half the shots contain a real camera move (glide, track, crane, orbit, aerial, push past a foreground object), not only a zoom; the camera travels sideways or around the action in at least 40% of frames. At least a third of the place changes are motivated moves (ride a motion, through a window or object, shape match) instead of cuts. Cuts are for beats, punchlines and reaction close-ups.
+3. HOOK FRAME: frame 1 shows the absurd act being done (the engineer stomps on the car's nose and it folds; he hands a crumpled car to a horrified boss).
+4. HANDS, MOUTHS AND FOCUS (repeat offenders): the pencil hand moves along every line it draws, and a hand pulls every door open. Moustaches move with the jaw and never hide a speaking mouth. Focus is on whoever speaks or whatever the line is about.
+5. FROM RICK'S NUMBERS AND COMMENTS (vidIQ, 7 Nov 2026):
+   a. Write the last line to be quoted and argued with. Japan Job's last line, "because nobody can do nothing forever", produced its top comment ("challenge accepted", 73,847 likes) and 15 times the Jar's comment rate. This video's "Exactly." ending is the right idea.
+   b. For everyday topics, put the viewer in the story ("Imagine you're..."), as this video's balloon demo does.
+   c. Keep the real mechanism accurate, and treat dramatised details as dramatised. Rick's biggest video drew a 16.8k-like correction and many "AI slop / wrong history" comments.
+   d. Let the music rise only at the turn and the payoff. YouTube's auto-captions tag "[music]" 2-3 times in Rick's videos, mostly in the second half.
+6. FINAL CHECK additions: list every impact or payoff verb in the script and the frames where it happens on screen; print the share of shots with a real camera move and the sideways-travel share; list place changes as cut or motivated move.

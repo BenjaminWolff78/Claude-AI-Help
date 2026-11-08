@@ -1,0 +1,126 @@
+[
+ {
+  "out": "/home/claude/fire/art/r2/banner.png",
+  "w": 2560,
+  "h": 1440,
+  "scale": 0.5,
+  "preview": {
+   "set": "skyline",
+   "light": "banner",
+   "pos": [
+    0,
+    8.2,
+    36
+   ],
+   "look": [
+    0,
+    8.2,
+    0
+   ],
+   "fov": 30,
+   "cInf": 4,
+   "cast": [
+    {
+     "who": "lou",
+     "mark": "lou",
+     "scale": 2.9,
+     "o": {
+      "expr": "smug",
+      "facing": 1,
+      "tilt": 2,
+      "armR": [
+       [
+        28,
+        -4
+       ],
+       [
+        50,
+        -12
+       ]
+      ],
+      "armRFront": true,
+      "armL": [
+       [
+        -26,
+        22
+       ],
+       [
+        -46,
+        44
+       ]
+      ],
+      "headTilt": 4
+     },
+     "pos": [
+      -4.887,
+      5.788,
+      18
+     ]
+    },
+    {
+     "who": "coolRat",
+     "mark": "rat",
+     "scale": 2.7,
+     "o": {
+      "expr": "smug",
+      "facing": 1
+     }
+    }
+   ]
+  }
+ },
+ {
+  "out": "/home/claude/fire/art/r2/pp.png",
+  "w": 800,
+  "h": 800,
+  "scale": 1,
+  "preview": {
+   "set": "skyline",
+   "light": "banner",
+   "pos": [
+    200,
+    1.98,
+    3.2
+   ],
+   "look": [
+    200,
+    1.86,
+    0
+   ],
+   "fov": 39,
+   "cInf": 0,
+   "cast": [
+    {
+     "who": "lou",
+     "mark": "louPP",
+     "scale": 1.4,
+     "o": {
+      "expr": "smug",
+      "facing": 0,
+      "armR": [
+       [
+        26,
+        22
+       ],
+       [
+        34,
+        46
+       ]
+      ],
+      "armL": [
+       [
+        -26,
+        22
+       ],
+       [
+        -34,
+        46
+       ]
+      ],
+      "headTilt": -3
+     }
+    }
+   ]
+  }
+ }
+]

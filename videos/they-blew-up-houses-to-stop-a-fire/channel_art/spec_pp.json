@@ -1,0 +1,1 @@
+[{"out": "/home/claude/fire/art/r2/pp.png", "w": 800, "h": 800, "scale": 1, "preview": {"set": "skyline", "light": "banner", "pos": [200, 1.98, 3.2], "look": [200, 1.8, 0], "fov": 35, "cInf": 0, "cast": [{"who": "lou", "mark": "louPP", "scale": 1.4, "o": {"expr": "smug", "facing": 0, "armR": [[26, 22], [34, 46]], "armL": [[-26, 22], [-34, 46]], "headTilt": -3}}]}}]

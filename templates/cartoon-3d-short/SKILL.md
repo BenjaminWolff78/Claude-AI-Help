@@ -4,8 +4,8 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 ---
 
 ## Before anything else
-- Read the section "MASTER PROMPT v10.12 (full text)" at the end of this file, in full, and the "v10.12 overrides" section below. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
-- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF, AG, AH, AI). Their written summaries are in "Boards" below. For acting, study A, B, X, AC/AD and AG in particular; for focus, objects and detail, AH; for hands doing the work, AI.
+- Read the section "MASTER PROMPT v10.13 (full text)" at the end of this file, in full, and the "v10.13 overrides" and "v10.12 overrides" sections below. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
+- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ). Their written summaries are in "Boards" below. For acting, study A, B, X, AC/AD and AG in particular; for focus, objects and detail, AH; for hands doing the work, AI; for showing the big moments and moving the camera, AJ.
 - Where they disagree with this file, the master prompt wins. A newer master prompt pasted or attached in the chat wins over both.
 - Exception: the "Smooth acting" section below is a newer user rule (2026-11-05). It wins over master prompt v10.10 and earlier where they disagree (instant expression swaps, 1-3 frame actions). A newer master prompt overrides it only if it says so explicitly.
 - Exception: the "Channel data" section below is a newer user rule (2026-11-05). Its title, description, tags, topic-priority and length rules win over master prompt v10.10 and over "Script length".
@@ -16,6 +16,15 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
   - Output is 1080x1920 at 30 fps.
   - -14.3 LUFS with the voice loudest; music about 19 dB and SFX about 17 dB under the voice.
   - The mp4 has the same name as the mp3.
+
+## v10.13 overrides (user rule 2026-11-07; master prompt part 13 and board AJ; wins over every rule below, including the v10.12 overrides, where they disagree)
+1. **Show every big moment on screen, with cause and effect.** Every impact, failure, transformation or payoff the narration names happens in frame: the cause arrives, contact lands on the word, then the effect (a jolt, dust, crumpling metal, a camera shake that decays over about 7 frames, the occupant thrown forward, a head popping off and landing). Never cut away just before the contact or open on the aftermath. The climax and the payoff each get one 4-8 s stretch with the camera moving the whole time (Rick's Railroads climax: low glide along the rail, aerial over the bridge, head-on push at the train, 6 s).
+2. **Move the camera.** At least half the shots contain a real camera move (glide, track, crane, orbit, aerial, push past a foreground object), not only a push-in; the camera travels sideways or around the action in at least 40% of frames (measure it from the camera path, not by eye). At least a third of the place changes are motivated moves (ride a motion, through a window or object, shape match); cuts are for beats, punchlines and reaction close-ups. The 2.5 s holds stay: the camera keeps travelling slowly during a hold (a slow track or orbit around the subject), it does not hop between subjects faster.
+3. **Hook frame:** frame 1 shows the absurd act being done, big (the engineer stomps on the car's nose and it folds), not a character standing beside the object.
+4. **Repeat offenders:** the pencil (brush, pen) tip travels along every line as it appears; a hand pulls every door open in a frame where the door is visible from the camera (check the hinge side in a still); moustaches ride the jaw and never cover a speaking mouth (in talking close-ups lift or shrink the moustache); focus is on whoever speaks or whatever the line is about - never a blurred foreground speaker in front of a sharp background.
+5. **From Rick's numbers (vidIQ, 7 Nov 2026):** write the last line to be quoted and argued with (Japan Job's "nobody can do nothing forever" drew 15x the comment rate); for everyday topics put the viewer in the story ("Imagine you're...", "Ever...?") with an avatar; keep the mechanism accurate and treat dramatised details as dramatised; music rises only at the turn and at the payoff and stays ducked flat everywhere else.
+6. **Final PASS/FAIL table additions:** every impact or payoff verb in the script with the frames where it happens on screen; the share of shots with a real camera move; the sideways-travel share of frames; every place change listed as cut or motivated move.
+7. **Keep from the crumple-zone video:** a mechanism topic; story text painted on objects; one labelled dial-like mechanism object (STOPPING TIME); a second-person demo acted as its own scene (the water balloon); the title object physically transforming on screen (the paper car crumpling); a quotable two-line ending exchange ("They don't build them like they used to." "Exactly."); camera holds with a median of about 2.5 s.
 
 ## v10.12 overrides (user rule 2026-11-07; master prompt parts 11 and 12; wins over every rule below where they disagree)
 1. **Hands do the work.** Every person verb (paint, mix, pour, lift, carry, slide into the oven, roll, rub, stamp, sign, hammer) is done on screen by the character's hands and body, with wind-up, action and settle; or in a close insert where the object moves as if held and a hand or sleeve enters the frame. Painting = a brush on the canvas with strokes appearing under it. Process verbs (shrink, expand, buckle, crack, rise, ripple) are done by the object itself with a visible cause (heat glow, thermometer, flipping calendar). Objects never move by themselves while the person who should move them stands idle.
@@ -421,6 +430,7 @@ Learned on the "Grape Bricks" remake. It wins over boards AC/AD where they say b
 - **AG:** mouths on quoted lines, Rick's Pink Prison guard ("Barbie's going to love it in here", every 0.1 s) vs our grape-brick farmer and agent. Rick: about 10 shapes in 1.5 s, one per syllable (closed smile under the moustache, wide open with both rows of teeth, open with tongue, round, flat grin); the mouth is 40-50% of the face width with a dark inside; the head tilts and the moustache rides the jaw; the listener lifts a snack, bites, chews and goes smile, smirk, squint-laugh. Ours: the farmer cycles 4 small shapes about 25% of the face width, half hidden by the moustache, with eyes, brows and head frozen; the agent holds one tongue-out shape for 1.5 s (reads as licking) then snaps shut.
 - **AH:** focus, small details and changing objects, Rick's Roller Coaster vs grape bricks. Rick: close shots blur the background (the empty wallet; the rival before a soft ring of string lights); every character holds a prop; overalls with patches and stitches, lanterns, banners, a moonlit set with fairy lights; the title object is huge and physically changes (the loop is bent, hammered wide, squeezed tall). Ours: the brick label cropped to "RAPE RICK", the house as sharp as the face, the agents tiny at the edge, the agent reading the label small behind the hero, the kitchen wide with characters at about 20% of frame height in flat light; floating icons (wine bottle in the sky, GALLONS labels) instead of objects; the brick never dissolves and the juice never turns to wine on screen.
 - **AI:** hands doing the work, our Masterpiece video vs Rick. Ours: the painting appears from a puff of smoke while the painter stands still; the canvas flies into the oven, tips over the pipe and cracks by itself while he stands beside it arms-down. Rick: the hero raises the hammer, bends into the swing and grabs it off the stump; the scientist lifts the cup; in the close insert the can is tipped and stirred as if held by a hand just out of frame.
+- **AJ:** show the big moment, move the camera - Rick's Railroads climax vs our crumple-zone video. Rick (58.4-64.7 s, every 0.42 s): the camera moves the whole time (a low glide along the rail, an aerial over the bridge, a head-on push at the train), the rail bends into an S, the train leaves the track, falls and explodes, and the hero reacts in the corner; the payoff is the picture, not a sentence. Ours: "Crash one into a wall and the car's fine" - the car rolls in and stops with no impact; "they crash the tank car" - it is already stopped and the dummy flying and its head popping are never shown; "draws the opposite" - the lines appear while the pencil hand stays by his face; "opens the door" - the door is never seen opening; 18 hard cuts and sideways camera travel in only 4% of frames (zoom-only elsewhere), so it plays like a slideshow.
 - **AE:** transitions that fit any story: subject-position match dissolve, smoke/dust/light dissolve, through the story object, shape-match dissolve, plus "pick by situation" (see the transitions rules above).
 
 # Cartoon 3D story short (installed from github.com/mromidev/claude-animated-shorts, MIT)
@@ -476,11 +486,14 @@ This skill wraps the free pipeline from Mr omi's video "How to Make Viral Animat
 ## Nothing passes through anything (user rule, 2026-11-07; every video)
 Characters never go through objects at all: not through a car body or door, a desk, a wall, a railing, a fence, a crate, a bench, a tree, or another character. This applies to the whole body card, the feet, the arms and the props they hold.
 - **Plan with solids.** Every set exports its solid footprints (walls, furniture, vehicles at their animated positions, rails, posts) as boxes. Every mark and every walk path keeps a clearance of at least the character's half width (about 0.3 m) from them. Walks go round obstacles with extra path points, never through them. Cars that move carry their box with them, and a character standing by a car keeps 0.15 m from its body even when a door swings open (stand outside the door's arc).
-- **Sitting in vehicles.** A sitting card goes on a SEATS mark inside the cabin. Check it in a still from the shot's camera: the head must be below the roof and the body inside the glass, with no limbs poking through the doors or the windscreen. If the card is too big for the cabin, scale the sitter (CastPlace.scale 0.85-0.9), never let it clip.
+- **Sitting in vehicles.** A sitting card goes on a SEATS mark inside the cabin. Check it in a still from the shot's camera: the head must be below the roof and the body inside the glass, with no limbs poking through the doors or the windscreen. If the card is too big for the cabin, scale the sitter, never let it clip. Measured on the crumple-zone video: a seated adult card's head top is 1.13 m x scale above its mark, the chin 0.65 m x scale. Use scale 0.78 and put the mark so the head sits inside the window opening: about 0.49 m in a 1.46 m-roof car, 0.53 m in a 1.56 m-roof car. Stars, boings and sparkles around a seated head go at about mark + 0.8 m, inside the cabin, never above the roof.
 - **Hands touch, never sink.** A hand that presses, knocks, paints or opens something stops at the surface. Aim the arm offsets at the surface point projected into the shot camera, and keep held props (wrench, brush, cane, pointer) in front of or on the surface, never inside it.
 - **Thrown and flying things** (balloons, a popped head, bricks) travel on arcs that clear every solid and bounce off the floor, never through a wall or a person.
 - **Characters never overlap each other:** 0.6 m apart at the feet, more when they gesture toward each other.
 - **QA (print it):** a per-frame interpenetration check over the whole render range. For every cast card and fx object on screen, test the footprint (feet circle 0.3 m) and the body box against the set's solids and the other cards. Print every frame with an overlap (who, what, how deep) and fix every hit before rendering. Then check stills at the start, middle and end of every walk, door-open and vehicle move.
+  - The tested version (repo templates/cartoon-3d-short/qa/world_qa_pierce.ts.snippet): in World.qa(), 8 horizontal rays of 0.2 m x scale out of each standing card at shin, waist and chest height (2+ hits = pierce); one ray up from each seated card's mark to its head top (1.15 m x scale - 0.12); any two cards closer than 0.45 m = pierce. Run it with qa_run.mjs (low res, about 14 min for 1900 frames) and summarise with qa_report.py (pierce / cut / over / near-lens / occluded frame ranges).
+  - Call root.updateMatrixWorld(true) at the top of qa(). The set is posed that frame, so without it the raycasts use last frame's matrices and report false hits on the first frame of a set and while cars move fast.
+  - Faces cut by the frame edge are allowed only while a character walks in or out, and during the 6-12 frame quick moves. Every other cut is a fix.
 
 ## Character continuity (user rule, every video)
 - **Actions flow into each other.** When a character goes from one action to the next (running -> stumbling -> falling -> lying down, standing -> sitting, walking -> stopping), play every in-between beat: the wind-up, the transition action itself and the settle.
@@ -493,6 +506,15 @@ Characters never go through objects at all: not through a car body or door, a de
 - **QA:**
   - Before rendering, run a continuity check over every frame. For each set, list any character present on frame N and absent on N+1 (or the reverse) without an exit or entrance action, and any pose-mode change between consecutive frames without a transition. Fix every hit.
   - Then check the rendered video for one-frame pose jumps at each shot boundary.
+
+## Framing people in 9:16 (lessons from the crumple-zone video)
+- Place people and cameras with a projector (repo templates/cartoon-3d-short/qa/proj.py: world point -> screen x, y and depth for a pos/look/fov) before rendering any still. Include the camera's push-in: a slow push of k per frame narrows the frame by k x the shot's frame count, so a face at x 0.75 on the first frame ends cut.
+- A 9:16 medium shot fits about three heads side by side without overlap. Heads at the same depth sit in one row, so a fourth person, or one standing behind another, hides a face. Use a 62-66 deg lens for a group with an object, drop a person out of frame, or give the extra person their own shot.
+- Painted text on an object (a door, a sign) needs a clear line of sight. No body box between the camera and the letters, and the person doing the painting stands at the end of the text, not in front of it.
+- Wall signs and plates: size them to sit fully inside the widest shot of the set (two lines beat one long line), or high enough to leave the frame in the low shots. A plate under an object must clear any nearby block or wall edge, or oblique cameras hide its first letters.
+- Lights on stands and other props go in corners, out of every shot's line of sight to its subject. A glow sprite between the camera and an insert's subject reads as a white blob.
+- In-scene moves that count as shot changes take 6-12 frames. Longer glides between two framings fail the v10.12 check.
+- Never put code after a // comment on the same line. The crash hall's floodlight stands were silently commented out that way.
 
 ## Gotchas
 - A held prop can vanish behind a set piece next to the character (a door edge, a shelf) or behind the head on a hand-to-mouth pose. Check one still on every prop beat (sip, lift, stamp) and use the arm's Top flag for hand-to-mouth so the prop draws over the face.
@@ -523,7 +545,14 @@ Characters never go through objects at all: not through a car body or door, a de
   - A group framed from along a fence line puts the posts across the lens. Film straight across the fence from a raised camera, so the rails sit below every face.
   - Clear the camera paths of props that sit between two characters (a stacked table, a doghouse). Stills at the start, middle and end of every hold catch them.
 
-## MASTER PROMPT v10.12 (full text, as given by the user on 2026-11-07; replaces v10.11 and v10.10)
+## Gotchas learned on the crumple-zone video (2026-11-07)
+- A character card reaching toward a surface that recedes from the camera (a door, a wall) is hidden by that surface wherever the surface is nearer the lens than the card plane. Move the mark nearer the lens along the camera ray and scale the card down (CastPlace.scale) so it reads the same size; solve the hand path with tools/proj.py against the surface's world coordinates.
+- Pose-mode switches (stand to brace, stand to kneel) inside a flow() blend snap in one frame. Use the continuous controls instead: mode "kneel" with kneelK, mode "brace" with braceK (0 = standing legs, 1 = full brace), and keep the mode string the same on both sides of the blend.
+- After killing a render batch, kill orphaned Chromium processes (parent PID 1, a gpu-process at 100% CPU); one doubled every later chunk's render time.
+- Diff the caption words (words.json) against the script before rendering: the aligner wrote "salesman" for the spoken "salesmen".
+- After any retime, re-run the per-frame QA on the changed range before reading stops.py; stale QA logs hide new short holds. Run stops.py from the app folder.
+
+## MASTER PROMPT v10.13 (full text, as given by the user on 2026-11-07; replaces v10.12, v10.11 and v10.10)
 (Where part 8 B2 and B4 say expressions swap instantly and actions take 1-3 frames, the "Smooth acting" section above overrides it, except for impacts. Where it gives title, length or voice rules, the "Channel data" and "Voice" sections above override it.)
 
 RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
@@ -536,7 +565,7 @@ STEP 1. TOPIC AND SCRIPT
 a. Title first: a curiosity question or strange claim the viewer cannot answer from the title ("Why Perfect Railroads Don't Work", "Why Sailors Carried Storm Oil", "The Burglar Who Only Moved Furniture"). Real, checkable fact with a human twist. Do not reuse the last three formats or settings.
 b. Hook (first sentence, at most 5.6 s): one strange concrete action plus a stake, already happening at frame 1.
 c. Structure: hook, a doubter or problem by 10 s, a spoken open question by 20 s, three escalating beats, the trick named at 60-72% of the runtime, one everyday comparison, the payoff, a callback ending. Every sentence has one concrete thing we can picture.
-d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice. (Overridden by the "Voice" section: instead of atempo, one Rubber Band R3 pass with the speed-up and +3.5 semitones, formants preserved.)
+d. Length 56-66 s (aim 62), 200-245 words, voice "The Pharaoh 3" (Qziuou6kCJ2R3w53L2Zs) on eleven_v4, one take, one whole-file atempo about 1.28, no gaps in the voice. (Overridden by the "Voice" section: instead of atempo, one Rubber Band R3 pass with the speed-up only, no pitch shift.)
 
 STEP 2. STYLE LOCK (before any animation)
 a. Build the cast and one frame of every set first.
@@ -938,3 +967,33 @@ D. UPDATED FINAL CHECK (replaces the matching lines of part 11's table)
 - person verbs done by hands; process verbs done by the object with a visible cause
 - captions white with a black outline, 1-3 words, no coloured keywords; all other text painted on objects; at most one floating mechanism graphic
 - one labelled mechanism object; the demo scene acted out; the payoff held 4 s or more
+
+SHOW THE BIG MOMENTS, MOVE THE CAMERA, AND WHAT RICK'S NUMBERS SAY (part of v10; where this disagrees with anything above, this wins; reference image AJ)
+Measured frame by frame on "He Made Cars Easier to Crush and It Saved Lives" (optical flow on every frame, strips every 1/7.5 s at the crashes, face crops every 1/15 s) and compared with Rick's Railroads climax (58.4-64.7 s) and the vidIQ research on Ricks Clips (channel growth, top-3 transcripts, top comments).
+
+A. WHAT IMPROVED (keep all of it)
+- A mechanism topic (crumple zones) with a 11-word hook, "You see," at 3.75 s, plain white captions, and story text painted on objects ("BUILT LIKE A TANK!", "PAPER CAR", "CRASH TEST No. 1 1959", the "STOPPING TIME" dial as the labelled mechanism object).
+- The water-balloon demo acted out as its own 8 s scene in second person ("Stiff hands... your hands back").
+- The paper car crumpling on screen (27-29.5 s), the mocking nickname, and a quotable ending exchange ("They don't make them like they used to." "Exactly.").
+- Camera stops: median 2.5 s, only 8% under 1.2 s; 63.3 s; -14.3 LUFS; no white-outs or ghost crossfades.
+
+B. WHAT IS WRONG
+1. The big moments happen off screen. "Crash one into a wall, and the car's fine" (8.9-10.6 s): the car rolls in and stops, with no impact. "They crash the tank car. Not a scratch on it. The dummy flies into the wheel so hard its head pops off" (51-56.5 s): the car is already stopped, and the dummy and the head are never shown. Rick's climax (Railroads 58.4-64.7 s) shows the rail bending into an S, the train leaving the track, falling and exploding, for about 6 s with the camera moving the whole time.
+2. The camera is locked off. There are 18 hard cuts, and the camera travels sideways in only 4% of frames (zoom-only in the rest), so the video plays like a slideshow. The Eiffel Tower video travelled in 74% of frames; Rick glides, cranes, flies and tracks in most shots. Part 12's correction allowed cuts; it did not mean "only cuts".
+3. Hands still do not do the work. "So this guy draws the opposite" (13-16 s): the lines appear while his pencil hand stays by his face. "Then somebody opens the door" (31.5-33 s): the door never opens.
+4. The hook shows no absurd act: the engineer stands beside a car for 3.5 s. Rick's roller-coaster hook shows him bending the loop.
+5. The boss's mouth is hidden by his moustache for most of "You want our cars to fold?" (16.8-18.8 s).
+6. Wrong focus: at 56.75-57.5 s the old man in the foreground (who delivers the final line) is blurred while the background is sharp.
+7. No scene of 9 s or more in the first 20 s (the longest is 6.25 s).
+
+C. RULES
+1. SHOW EVERY BIG MOMENT: every impact, failure, transformation or payoff the narration names is shown happening on screen with cause and effect (the car hits the wall: a jolt, dust, crumpling metal, a camera shake, the occupant thrown forward; the dummy flies into the wheel and its head pops off). The climax and the payoff each get 4-8 s with the camera moving.
+2. MOVE THE CAMERA: at least half the shots contain a real camera move (glide, track, crane, orbit, aerial, push past a foreground object), not only a zoom; the camera travels sideways or around the action in at least 40% of frames. At least a third of the place changes are motivated moves (ride a motion, through a window or object, shape match) instead of cuts. Cuts are for beats, punchlines and reaction close-ups.
+3. HOOK FRAME: frame 1 shows the absurd act being done (the engineer stomps on the car's nose and it folds; he hands a crumpled car to a horrified boss).
+4. HANDS, MOUTHS AND FOCUS (repeat offenders): the pencil hand moves along every line it draws, and a hand pulls every door open. Moustaches move with the jaw and never hide a speaking mouth. Focus is on whoever speaks or whatever the line is about.
+5. FROM RICK'S NUMBERS AND COMMENTS (vidIQ, 7 Nov 2026):
+   a. Write the last line to be quoted and argued with. Japan Job's last line, "because nobody can do nothing forever", produced its top comment ("challenge accepted", 73,847 likes) and 15 times the Jar's comment rate. This video's "Exactly." ending is the right idea.
+   b. For everyday topics, put the viewer in the story ("Imagine you're..."), as this video's balloon demo does.
+   c. Keep the real mechanism accurate, and treat dramatised details as dramatised. Rick's biggest video drew a 16.8k-like correction and many "AI slop / wrong history" comments.
+   d. Let the music rise only at the turn and the payoff. YouTube's auto-captions tag "[music]" 2-3 times in Rick's videos, mostly in the second half.
+6. FINAL CHECK additions: list every impact or payoff verb in the script and the frames where it happens on screen; print the share of shots with a real camera move and the sideways-travel share; list place changes as cut or motivated move.
