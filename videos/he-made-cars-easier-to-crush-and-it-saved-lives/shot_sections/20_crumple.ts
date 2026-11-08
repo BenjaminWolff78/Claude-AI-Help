@@ -174,6 +174,17 @@ SHOT_CAMS[3] = (s) => {
   const S1 = F(() => A, 382, 0.0014), S2 = F(() => B, 504, 0.0018), S3 = F(() => Cc, 580, 0.0004);
   return [K(382, S1, 24, true), K(504, S2, 24, true), K(572, glideTo(S2, 572, S3, 580), 1)];
 };
+// the painter (scene 3c): a kneeling sign-writer whose red brush tip rides the reveal edge of the door lettering.
+// He stands 0.6 m nearer the lens than before (so the door can never hide his brush: card depth 3.96 m, the door at the
+// last letter 4.14 m) and is drawn at 0.85 scale so he reads the same size as before. Hand path solved with tools/proj.py
+// against the letter panel (world x 2.425, y 0.61, z -0.155..0.595): hand u from the shoulder, lean 0 -> 18 deg.
+const PKK = 0.5, PSC = 0.85;
+const PNT = (s: SetDef): V3 => add3(MK(s, "painter"), -0.34, 0, 0.64);
+const paintP = (f: number): P => {
+  const pk = sm(f, 606, 656), wig = Math.sin(f * 0.9);
+  const hx = 4 + 38 * pk + 14 * pk * pk, hy = 5 + 3 * pk + 2 * wig;
+  return { mode: "kneel", kneelK: PKK, expr: "grin", facing: 1, tilt: 18 * pk, armR: [[12 + 0.5 * hx, 20 - 0.2 * hx], [hx, hy]] as A2, armRFront: true, propR: "signBrushRed", propRAng: 1.75 - 0.25 * pk + 0.05 * wig, armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" } as P;
+};
 const drawK = (f: number) => f < 382 ? 0 : f < 420 ? 0.34 * lin(f, 382, 420) : f < 436 ? 0.36 + 0.14 * lin(f, 420, 436) : f < 458 ? 0.5 + 0.12 * lin(f, 440, 458) : f < 466 ? 0.62 + 0.08 * lin(f, 458, 466) : Math.min(1, 0.7 + 0.3 * lin(f, 466, 500));
 SHOT_ACTS[3] = (f, s) => {
   const eng: V3 = [-3.0, 0, -0.3], bossP: V3 = [-2.55, 0, 0.7];
@@ -199,11 +210,15 @@ SHOT_ACTS[3] = (f, s) => {
       // the factory floor: the salesmen laugh (on threes), the painter brushes the letters, the welder sparks
       C("cSalesA", MK(s, "sales1"), pose(null, f >= 572 ? { ...laughP(f, 572, 0), facing: 1, armR: [[24, 20], [16, -6]] as A2, armRFront: true, propR: "clipboard" } : { expr: "smile", facing: 1 }), { idx: 3 }),
       C("cSalesB", MK(s, "sales2"), pose(null, f >= 578 ? { ...laughP(f, 578, 1), facing: 1, armL: [[-26, 10], [-50, -6]] as A2 } : { expr: "smile", facing: 1 }), { idx: 4 }),
-      C("mechB", MK(s, "painter"), flow(f, [
-        [572, { expr: "sly", facing: 1, tilt: -3, armR: [[28, -6], [50, -10]] as A2, armRFront: true, propR: "paintBrush", armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }],
-        [606, { expr: "grin", facing: 1, tilt: -6 + 3 * sp, armR: [[30, 0], [56 + 4 * sp, 4 - 10 * sp]] as A2, armRFront: true, propR: "paintBrush", propRAng: 0.3 * sp, armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }, 6],
-        [656, { expr: "laugh", facing: -1, tilt: 3, armR: [[26, 10], [40, -4]] as A2, armRFront: true, propR: "paintBrush", armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }, 8],
-      ]), { idx: 5 }),
+      // the painter kneels at the door and the red brush tip rides the reveal edge of the letters (pk = the same
+      // progress the door texture uses), leaning in as the word runs away from him: the hand does the painting
+      C("mechB", PNT(s), flow(f, [
+        [572, { expr: "sly", facing: 1, tilt: -3, armR: [[28, -6], [50, -10]] as A2, armRFront: true, propR: "signBrushRed", armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }],
+        [588, { mode: "kneel", kneelK: 0, expr: "sly", facing: 1, tilt: -3, armR: [[28, -6], [50, -10]] as A2, armRFront: true, propR: "signBrushRed", armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }],
+        [590, { ...paintP(590), expr: "determined" }, 12],
+        [606, paintP(f), 4],
+        [656, { mode: "kneel", kneelK: PKK, expr: "laugh", facing: -1, tilt: 3, armR: [[26, 10], [40, -4]] as A2, armRFront: true, propR: "signBrushRed", armL: [[-22, 24], [-8, 38]] as A2, armLFront: true, propL: "paintPot" }, 8],
+      ]), { idx: 5, scale: PSC }),
       C("mechA", MK(s, "welder"), pose(null, { expr: "determined", facing: 1, tilt: 4 + 2 * Math.sin(st(f) * 0.5), armR: [[26, 10], [44, 14 + 6 * Math.sin(st(f))]] as A2, armRFront: true, propR: "wrench" } as P), { idx: 6 }),
     ],
     fx: fxs(f >= 572 ? [0, 1, 2].map((i) => sparkle("wl" + i, [7.95 + 0.1 * i, 1.0 + 0.15 * Math.sin(f + i), -3.05], (f + i * 5) % 14, 0.2, "#cfeeff")) : []),
@@ -238,10 +253,11 @@ lens3([[667, DOF_MS]]);
 // ================================================= SCENE 5 (728-1030) CRASH TEST No.1, 1959 =========================
 // 5a 728-830 wide: the mechanic hauls the lever (734), the Paper Car rolls down the rail and hits the wall on "wall"
 //    (811): the nose folds up like a can over 811-842 (the car keeps moving 1 m while it folds), steam.
-// 5b 830-925: the folded nose + steam, then a quick move to the gallery as they all laugh on "Everybody laughs" (883):
-//    the boss slaps his knee, the salesmen double over; the engineer stays calm.
-// 5c 925-1030: he walks to the driver's door and opens it on "door" (956): the dummy is just sitting there, upright,
-//    blank, fine; the laughter stops behind (the gallery's faces drop) on "Fine" (1026).
+// 5b 811-954 (v10.12: every shot >= 2 s): cut on "wall." to the nose insert as it hits and folds (811-880, 2.3 s), then a
+//    10-frame quick move leading into "Everybody" (884) to the gallery laughing (890-954, 2.1 s): the boss slaps his knee, the salesmen
+//    double over; the engineer walks off calmly.
+// 5c 954-1030: cut on "door": he is at the driver's door and pulls it open (954-962): the dummy is just sitting there,
+//    upright, blank, fine; the laughter stops behind (the gallery's faces drop) on "Fine" (1026).
 const ENG5: V3 = [-1.5, 0, -2.4], ENG7: V3 = [-1.35, 0, -2.25], BOSS7: V3 = [-2.5, 0, -1.9];   // clear of the door's swing (rear edge ends at x -1.8, z -3.7)
 const pz5 = (f: number) => f < 736 ? 4.6 : f < 811 ? 4.6 * (1 - Math.pow(clamp01((f - 736) / 75), 1.7)) : -1.0 * sm(f, 811, 842);
 const crush5 = (f: number) => sm(f, 811, 842);
@@ -253,8 +269,8 @@ SHOT_CAMS[5] = (s) => {
   const Bg = { pos: [0.0, 1.6, 5.4] as V3, look: [-3.0, 1.4, 2.4] as V3, fov: 52 };
   const doorC: V3 = [-0.95, 0, -3.15];
   const Cc = inRoom(fit([[[-0.42, 0, -3.17], 0.6, 1.8, 0.55], body(ENG5, 0.6, 2.05, 0.3)], -96, 4, 44, 0.8), HALL);
-  const S1 = F(() => A, 728, 0.0012), S2 = F(() => B, 830, 0.0016), S2b = F(() => Bg, 876, 0.0016), S3 = F(() => Cc, 925, 0.0014, [[1000, 0.003, 14]]);
-  return [K(728, S1, 24, true), K(830, S2, 24, true), K(866, glideTo(S2, 866, S2b, 876), 1), K(925, S3, 24, true)];
+  const S1 = F(() => A, 728, 0.0012), S2 = F(() => B, 811, 0.0016), S2b = F(() => Bg, 890, 0.0016), S3 = F(() => Cc, 925, 0.0014, [[1000, 0.003, 14]]);
+  return [K(728, S1, 24, true), K(811, S2, 24, true), K(880, glideTo(S2, 880, S2b, 890), 1), K(954, S3, 24, true)];
 };
 SHOT_ACTS[5] = (f, s) => {
   const engPath = walkPath(5, s, [MK(s, "gallery3"), [-2.65, 0, -1.4], ENG5], f, 882, 944);   // round the lever post; he walks off calmly as they laugh
@@ -262,7 +278,7 @@ SHOT_ACTS[5] = (f, s) => {
   const g = (k: string, i: number, d: number, prop?: string): CastPlace => C(k, MK(s, ["gallery1", "gallery2", "gallery3", "gallery4"][i]), laugh ? pose(null, { ...laughP(f, 881, i), facing: d, ...(prop ? { armR: [[24, 20], [16, -6]] as A2, armRFront: true, propR: prop } : {}) })
     : f >= 1018 ? flow(f, [[1018, { expr: "blank", facing: d, ...(prop ? { armR: [[24, 26], [12, 40]] as A2, armRFront: true, propR: prop } : {}) }], [1022, { expr: "gulp", facing: d, tilt: 3 }, 6]])
     : pose(null, { expr: f < 811 ? "smug" : "grin", facing: d, look: 0.6, ...(prop ? { armR: [[24, 26], [12, 40]] as A2, armRFront: true, propR: prop } : {}) }), { idx: 10 + i });
-  const doorK = sm(f, 946, 956);
+  const doorK = sm(f, 954, 962);
   return {
     ctl: { pz: pz5(f), pcrush: crush5(f), psteam: sm(f, 820, 850), pshake: f >= 811 && f < 830 ? 1 - (f - 811) / 19 : 0, pdoor: doorK, lever: sm(f, 732, 740), hand: 0, flood: 1 },
     cast: [
@@ -273,21 +289,22 @@ SHOT_ACTS[5] = (f, s) => {
       ]), { idx: 1 }),
       C("eng", f < 882 ? MK(s, "gallery3") : engPath.p, f > 882 && f < 944 ? pose(null, { expr: "calm", mode: "walk", phase: engPath.phase, facing: engPath.facing }) : flow(f, [
         [728, { expr: "calm", facing: -1, armR: [[22, 16], [-8, 20]] as A2, armRFront: true, armL: [[-22, 16], [8, 22]] as A2, armLFront: true }],       // arms crossed
-        [944, { expr: "calm", facing: 1, tilt: 4, armR: [[26, 6], [46, 8]] as A2, armRFront: true }, 3],                                                  // reaches the handle
-        [947, { expr: "calm", facing: 1, tilt: -6, armR: [[24, 10], [36, 20]] as A2, armRFront: true }, 9],                                                // pulls it open
-        [962, { expr: "sly", facing: -1, tilt: 2, armR: [[26, 10], [44, -2]] as A2, armRFront: true, headTilt: 4 }, 10],                                     // presents the dummy
+        [944, { expr: "calm", facing: 1, tilt: 2, armR: [[24, 20], [16, 6]] as A2, armRFront: true }, 6],                                                  // arrives at the door
+        [950, { expr: "calm", facing: 1, tilt: 4, armR: [[26, 6], [46, 8]] as A2, armRFront: true }, 3],                                                  // reaches the handle
+        [954, { expr: "calm", facing: 1, tilt: -6, armR: [[24, 10], [36, 20]] as A2, armRFront: true }, 8],                                                // pulls it open on "door"
+        [966, { expr: "sly", facing: -1, tilt: 2, armR: [[26, 10], [44, -2]] as A2, armRFront: true, headTilt: 4 }, 10],                                     // presents the dummy
         [1020, { expr: "smug", facing: -1, tilt: 2, armR: [[26, 10], [44, -2]] as A2, armRFront: true, headTilt: 6 }, 8],
       ]), { idx: 2 }),
       g("cBoss", 0, 1, "stopwatch"), g("cSalesA", 1, 1, "clipboard"), C("cSalesB", MK(s, "gallery4"), laugh ? pose(null, { ...laughP(f, 885, 2), facing: -1 }) : pose(null, { expr: f >= 1018 ? "gulp" : "smug", facing: -1 }), { idx: 13 }),
       C("mechC", [-4.4, 0, 3.8], pose(null, { expr: laugh ? "laugh" : "neutral", facing: -1, armR: [[30, 0], [10, -56]] as A2, armRFront: true, propR: "camera", shake: laugh ? 0.6 : 0, phase: f / 12 }), { idx: 14 }),
-      C("dummy", [-0.42, 0.49, carZ(pz5(f)) + 0.03], pose(null, { expr: "blank", mode: "sit", facing: f >= 960 ? -1 : 0, tilt: f >= 811 && f < 826 ? 10 * (1 - (f - 811) / 15) : 0 }), { idx: 20, scale: SITK }),
+      C("dummy", [-0.42, 0.49, carZ(pz5(f)) + 0.03], pose(null, { expr: "blank", mode: "sit", facing: f >= 962 ? -1 : 0, tilt: f >= 811 && f < 826 ? 10 * (1 - (f - 811) / 15) : 0 }), { idx: 20, scale: SITK }),
     ],
     fx: fxs(f >= 811 && f < 840 ? dustCard("cr", [0, 0.9, -4.5], 1.4, 0.8 * (1 - (f - 811) / 29), 3) : null, f >= 1026 ? sparkle("fine", [-0.42, 1.32, carZ(-1) + 0.1], f - 1026, 0.3) : null),
-    focus: f < 830 ? [0, 0.9, carZ(pz5(f)) - 1.6] : f < 866 ? [0, 0.9, -4.3] : f < 925 ? MK(s, "gallery2") as V3 : f < 960 ? [-1.6, 1.5, -2.8] : [-0.42, 1.4, carZ(-1)],
-    subj: f < 830 ? null : f < 866 ? null : f < 925 ? "cBoss" : f < 960 ? "eng" : "dummy",
+    focus: f < 811 ? [0, 0.9, carZ(pz5(f)) - 1.6] : f < 880 ? [0, 0.9, -4.3] : f < 954 ? MK(s, "gallery2") as V3 : f < 966 ? [-1.6, 1.5, -2.8] : [-0.42, 1.4, carZ(-1)],
+    subj: f < 880 ? null : f < 954 ? "cBoss" : f < 966 ? "eng" : "dummy",
   };
 };
-lens3([[728, DOF_WS], [830, DOF_INSERT], [866, DOF_FS, 10], [925, DOF_MS]]);
+lens3([[728, DOF_WS], [811, DOF_INSERT], [880, DOF_FS, 10], [954, DOF_MS]]);
 
 // ================================================= SCENE 6 (1030-1282) THE DEMO: water balloons =====================
 // 6a 1030-1110: YOU (green hoodie) hold your hands out stiff; the friend lobs a balloon (release 1062); it hits your stiff
@@ -307,7 +324,7 @@ SHOT_ACTS[6] = (f, s) => {
   const k1 = f < 1062 ? -1 : clamp01((f - 1062) / 32), k2 = f < 1120 ? -1 : f < 1142 ? (f - 1120) / 22 : 1.01;
   const pop = sm(f, 1094, 1099), soaked = f >= 1095;
   const stiff: P = { expr: "determined", facing: 1, tilt: 0, armR: [[30, 0], [58, 0]] as A2, armRFront: true, armL: [[22, 4], [46, 4]] as A2, armLFront: true };
-  const soft = (k: number): P => ({ expr: "determined", facing: 1, tilt: -4 * k, mode: k > 0.2 ? "brace" : "stand", armR: [[28 - 6 * k, 6 + 10 * k], [54 - 26 * k, 4 + 20 * k]] as A2, armRFront: true, armL: [[20 - 4 * k, 8 + 10 * k], [44 - 22 * k, 8 + 20 * k]] as A2, armLFront: true, ...(f >= 1142 ? { propR: "balloon", propK: 0.5 * Math.sin((f - 1142) * 0.6) * Math.max(0, 1 - (f - 1142) / 40) } : {}) });
+  const soft = (k: number): P => ({ expr: "determined", facing: 1, tilt: -4 * k, mode: "brace", braceK: k, armR: [[28, 6 + 18 * k], [54 - 28 * k, 4 + 38 * k]] as A2, armRFront: true, armL: [[20, 8 + 18 * k], [44 - 24 * k, 8 + 38 * k]] as A2, armLFront: true, ...(f >= 1142 ? { propR: "balloon", propK: 0.5 * Math.sin((f - 1142) * 0.6) * Math.max(0, 1 - (f - 1142) / 40) } : {}) });
   const throwP = (rel: number): Beat[] => [[rel - 14, { expr: "grin", facing: -1, tilt: 6, armR: [[24, -10], [10, -46]] as A2, armRFront: true, propR: "balloon" }, 8], [rel, { expr: "sly", facing: -1, tilt: -6, armR: [[-28, -4], [-56, 6]] as A2, armRFront: true }, 3], [rel + 12, { expr: "grin", facing: -1, tilt: 0, armR: [[24, 26], [12, 40]] as A2 }, 10]];
   const tossK = f >= 1240 && f < 1266 ? Math.sin(((f - 1240) / 26) * Math.PI) : 0;
   return {
@@ -321,7 +338,7 @@ SHOT_ACTS[6] = (f, s) => {
       ]) : f < 1185 ? flow(f, [
         [1110, { ...soft(0), wet: 1, hatTilt: -12 } as P],
         [1140, { ...soft(1), wet: 1, hatTilt: -12 } as P, 18],
-        [1162, { expr: "beam", facing: 1, tilt: 2, armR: [[24, 20], [20, 8]] as A2, armRFront: true, propR: "balloon", propK: 0.2 * Math.sin(f * 0.5), wet: 1, hatTilt: -12 } as P, 8],
+        [1162, { expr: "beam", mode: "brace", braceK: 0, facing: 1, tilt: 2, armR: [[26, 22], [24, 40]] as A2, armRFront: true, propR: "balloon", propK: 0.2 * Math.sin(f * 0.5), wet: 1, hatTilt: -12 } as P, 8],
       ]) : pose(null, { expr: f < 1240 ? "beam" : f < 1266 ? "calm" : "grin", facing: 1, tilt: 2, armR: [[24, 10 - 20 * tossK], [22, -8 - 40 * tossK]] as A2, armRFront: true, propR: "balloon", propK: 0.25 * Math.sin(f * 0.45) - 0.3 * (f >= 1262 && f < 1272 ? 1 : 0), wet: 1, hatTilt: -12, headTilt: 3 * Math.sin(f * 0.05) } as P), { idx: 1 }),
       C("friend", fr, f < 1185 ? flow(f, [
         [1030, { expr: "sly", facing: -1, armR: [[24, 26], [12, 40]] as A2, armRFront: true, propR: "balloon" }],

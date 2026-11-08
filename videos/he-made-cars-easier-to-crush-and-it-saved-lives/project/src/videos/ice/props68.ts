@@ -232,6 +232,12 @@ export const drawProp68 = (p: Pen, name: string, h: P2, u: number, ang = 0, k = 
       p.poly(R([[6, 20], [10, 20], [9.5, 30], [8, 32], [6.5, 30]]), "#f4f1ea", 1 * u);
       break;
     }
+    case "signBrushRed": // a short sign-writer's brush loaded with red (PAPER CAR): handle, ferrule, red bristles
+      p.band(R([[0, -22], [0, 8]]), "#b07a45", 2.6 * u, 1 * u, "round");
+      p.poly(R([[-5, -22], [5, -22], [5.5, -30], [-5.5, -30]]), "#c9ced6", ow * u);
+      p.poly(R([[-5.5, -30], [5.5, -30], [3, -40], [-3, -40]]), "#c8352e", 1.3 * u);
+      p.stroke(R([[-1.5, -32], [-1, -38]]), 0.8 * u, "#e0574d");
+      break;
     case "paintBrush": // flat brush, wet white paint on the bristles
       p.band(R([[0, -34], [0, 10]]), "#b07a45", 3 * u, 1 * u, "round");
       p.poly(R([[-6, -34], [6, -34], [7, -46], [-7, -46]]), "#c9ced6", ow * u);

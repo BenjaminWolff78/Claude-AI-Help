@@ -137,6 +137,7 @@ export type FigOpts = {
   /** mode "hop": 0..1 height of the jump (1 = feet 0.3 head-heights off the ground) */ lift?: number;
   /** mode "kneel": 0 = standing, 1 = full kneel (in-between for kneeling down / standing up). Lion: crouchK, mode "stride": 0 = stalk, 1 = crouch */
   kneelK?: number; crouchK?: number;
+  /** mode "brace": 0 = plain standing legs, 1 = full wide knees-bent brace (default 1); blend it to bend the knees smoothly */ braceK?: number;
   /** mode "stride": step length in design units (default 0.55 HH ~ 120); bobK = vertical bob, fraction of the height
    *  (peak-to-peak, default 0.05). Feet are planted: move the card forward strideM() metres per phase unit. */
   stride?: number; bobK?: number;
@@ -504,7 +505,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
     : KNEEL ? KK * (Bd.legs * HH - 0.5 * LtotA) : PUSH ? 0.12 * HH : HOP ? -0.3 * HH * clamp(opts.lift ?? 0.6, 0, 1.2) - 0.08 * HH
     : STRIDE ? 0.04 * HH + strideBob : 0;
   const shakeBob = shake * 0.035 * HH * Math.sin(4 * shT);
-  const torsoBot = (mode === "sit" ? sole - 0.25 * HH : sole - Bd.legs * HH * (mode === "brace" ? 0.88 : 1)) + walkBob + bob * u + drop + shakeBob;
+  const torsoBot = (mode === "sit" ? sole - 0.25 * HH : sole - Bd.legs * HH * (mode === "brace" ? 1 - 0.12 * clamp(opts.braceK ?? 1, 0, 1) : 1)) + walkBob + bob * u + drop + shakeBob;
   const chin = torsoBot - Bd.torso * HH, hc = chin - H.b, hipY = torsoBot - 0.12 * HH;
   const thick = thickAngle(light), ow = 5 * u;
   const bare = !!o.shorts || !!o.ragged;
@@ -574,7 +575,7 @@ const person = (p: Pen, o0: Look, opts: FigOpts) => {
         toe = [side * 0.7, 0.7];
       }
     }
-    else if (mode === "brace") { f = [300 + side * 46 * u, sole - 4 * u]; k = [(hx + f[0]) / 2 + side * 10 * u, (hipY + f[1]) / 2]; }
+    else if (mode === "brace") { const bk = clamp(opts.braceK ?? 1, 0, 1); f = [300 + side * (22 + 24 * bk) * u, sole - 4 * u]; k = [(hx + f[0]) / 2 + side * (1.5 + 8.5 * bk) * u, (hipY + f[1]) / 2]; }
     else if (mode === "air") { f = [300 + side * 40 * u, hipY + 0.9 * HH]; k = [300 + side * 46 * u, hipY + 0.45 * HH]; }
     else if (mode === "kick") { const ph = phase * two + (side > 0 ? 2 : 0); f = [300 + side * 34 * u + Math.sin(ph) * 20 * u, hipY + 1.0 * HH - Math.abs(Math.cos(ph)) * 30 * u]; k = [300 + side * 44 * u, hipY + 0.5 * HH]; }
     else if (mode === "walk") {
