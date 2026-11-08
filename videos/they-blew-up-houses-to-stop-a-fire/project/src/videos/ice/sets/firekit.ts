@@ -117,7 +117,7 @@ const dustTex = () => ctex("boomDust", 192, 140, (g) => {
   for (const [x, y, rr] of blobs) { g.fillStyle = "#cdb89e"; g.beginPath(); g.arc(x, y, rr * 0.92, 0, TAU); g.fill(); }
   for (const [x, y, rr] of blobs) { g.fillStyle = "#ecdcc0"; g.beginPath(); g.arc(x - rr * 0.25, y - rr * 0.3, rr * 0.5, 0, TAU); g.fill(); }
 });
-export const boom = (parent: THREE.Object3D, pos: V3, size = 6) => {
+export const boom = (parent: THREE.Object3D, pos: V3, size = 6, fire = true) => {   // fire = false: a dust burst only (a collapse, not a blast)
   const g = new THREE.Group(); g.position.set(...pos); parent.add(g);
   const mk = (map: THREE.Texture, add = false, ro = 8) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, depthWrite: !add, alphaTest: add ? 0 : 0.05, fog: false, blending: add ? THREE.AdditiveBlending : THREE.NormalBlending })); s.layers.set(NOINK); s.renderOrder = ro; s.visible = false; g.add(s); return s; };
   const flash = mk(flashTex(), true, 9), balls = [0, 1, 2, 3].map((i) => mk(fireballTex(i), false, 8)), dust = Array.from({ length: 8 }, () => mk(dustTex(), false, 7));
@@ -128,10 +128,10 @@ export const boom = (parent: THREE.Object3D, pos: V3, size = 6) => {
     const on = age >= 0 && age < 4.5;
     g.visible = on; if (!on) return;
     const fk = age < 0.35 ? 1 - age / 0.35 : 0;
-    flash.visible = fk > 0; flash.scale.setScalar(size * (1.1 + 0.8 * (1 - fk))); (flash.material as THREE.SpriteMaterial).opacity = 0.6 * fk;
+    flash.visible = fire && fk > 0; flash.scale.setScalar(size * (1.1 + 0.8 * (1 - fk))); (flash.material as THREE.SpriteMaterial).opacity = 0.6 * fk;
     balls.forEach((b, i) => {
       const a = age - i * 0.04, k = a < 0 ? 0 : a < 0.9 ? Math.sin(Math.min(1, a / 0.9) * Math.PI) ** 0.6 : 0;
-      b.visible = k > 0.02; const sc = size * (0.35 + 0.65 * Math.min(1, a / 0.4)) * (0.8 + 0.25 * i / 3);
+      b.visible = fire && k > 0.02; const sc = size * (0.35 + 0.65 * Math.min(1, a / 0.4)) * (0.8 + 0.25 * i / 3);
       b.scale.setScalar(sc * Math.max(0.3, k)); b.position.set(ballOff[i][0] * size * 0.25, size * 0.25 + ballOff[i][1] * size * 0.2 + a * size * 0.25, ballOff[i][2] * size * 0.25);
       b.material.rotation = i * 1.3 + a * 0.6; (b.material as THREE.SpriteMaterial).opacity = Math.min(1, k * 1.4);
     });

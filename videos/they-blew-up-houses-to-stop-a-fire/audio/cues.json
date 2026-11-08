@@ -44,9 +44,14 @@
   "gain_db": -11
  },
  {
-  "t": 10.3,
+  "t": 10.533,
   "sfx": "stone_thud",
   "gain_db": -11
+ },
+ {
+  "t": 10.55,
+  "sfx": "bucket_slosh",
+  "gain_db": -13
  },
  {
   "t": 11.233,

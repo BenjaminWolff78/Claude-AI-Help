@@ -305,7 +305,11 @@ export const city: SetBuilder = () => {
   const rollers = [0, 1, 2].map((k) => mkBarrel([2 - k * 1.4, 0.36, 0.6 + (k - 1) * 0.9], true));
   // gap barrels (day three) at each gap house door + the fuse along the street centre line
   const gapBarrels: THREE.Mesh[] = [];
-  for (const x of [-4.2, 0, 4.2]) for (const s of [1, -1]) gapBarrels.push(mkBarrel([x + 1.0, 0.45, -s * (ZF - 0.65)]), mkBarrel([x + 1.75, 0.45, -s * (ZF - 0.55)])); // n (north, z < 0) then s
+  for (const x of [-4.2, 0, 4.2]) for (const s of [1, -1]) {   // n (north, z < 0) then s; the POWDER label turned to face the street
+    const b1 = mkBarrel([x + 1.0, 0.45, -s * (ZF - 0.65)]), b2 = mkBarrel([x + 1.75, 0.45, -s * (ZF - 0.55)]);
+    if (s === 1) { b1.rotation.y = Math.PI; b2.rotation.y = Math.PI * 0.92; } else b2.rotation.y = 0.08;
+    gapBarrels.push(b1, b2);
+  }
   const fuseM = new THREE.MeshLambertMaterial({ color: "#3a2a22" });
   const fusePts: V3[] = [[-11, 0.04, 0.4], [-6.5, 0.04, 0.1], [-3.2, 0.04, -2.6], [-2, 0.04, 0.2], [1.0, 0.04, -2.7], [2.2, 0.04, 0.2], [5.2, 0.04, -2.7], [5.6, 0.04, 2.7]];
   const fuseCurve = new THREE.CatmullRomCurve3(fusePts.map((p) => V(...p)));
@@ -352,9 +356,22 @@ export const city: SetBuilder = () => {
     b.add(boxGeo(V(x + 1.1, 0.7, z - 0.05), V(x + 2.4, 0.78, z + 0.05)), wood);
   }
   for (const [x, z] of [[-14, -3.0], [-20.5, 3.0], [18.5, -3.1], [-34, 3.0], [31, 3.1]] as [number, number][]) { b.add(boxGeo(V(x - 0.35, 0, z - 0.35), V(x + 0.35, 0.7, z + 0.35)), wood); b.add(boxGeo(V(x - 0.3, 0.7, z - 0.3), V(x + 0.3, 1.2, z + 0.3)), wood); }
-  // the mayor's bucket on the bakery step (planted at night, still there)
-  const bucket = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.16, 0.3, 12).translate(0, 0.15, 0), lam("ctBucket", () => ({ color: "#a8743e" })));
-  const BAK = hAt(33.6, 1); bucket.position.set(BAK.door + 0.85, 0.14, -ZF + 0.3); root.add(bucket);
+  // the mayor's bucket, set down in the street in front of the bakery (planted at night, still there in the morning):
+  // the same wooden well bucket as his hand prop (staves, two iron bands, rope handle, water), at the prop's size
+  const bucket = new THREE.Group(); root.add(bucket);
+  {
+    const cv = document.createElement("canvas"); cv.width = 128; cv.height = 32; const x = cv.getContext("2d")!;
+    x.fillStyle = "#a8743e"; x.fillRect(0, 0, 128, 32); x.fillStyle = "#7a4f26"; for (let i = 0; i < 16; i++) x.fillRect(i * 8, 0, 1.6, 32);
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = THREE.RepeatWrapping;
+    bucket.add(new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.12, 0.27, 16, 1, true).translate(0, 0.135, 0), lam("ctBucketW", () => ({ map: tex, side: THREE.DoubleSide }))));
+    bucket.add(new THREE.Mesh(new THREE.CircleGeometry(0.12, 16).rotateX(-Math.PI / 2).translate(0, 0.01, 0), lam("ctBucketB", () => ({ color: "#7a4f26" }))));
+    const band = lam("ctBucketI", () => ({ color: "#5a5e68" }));
+    for (const [y, r] of [[0.05, 0.128], [0.22, 0.146]] as [number, number][]) bucket.add(new THREE.Mesh(new THREE.CylinderGeometry(r + 0.008, r + 0.006, 0.025, 16).translate(0, y, 0), band));
+    bucket.add(new THREE.Mesh(new THREE.CircleGeometry(0.142, 16).rotateX(-Math.PI / 2).translate(0, 0.23, 0), lam("ctBucketWa", () => ({ color: "#5aa0c8" }))));
+    bucket.add(new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.009, 6, 16, Math.PI).translate(0, 0.27, 0), lam("ctBucketR", () => ({ color: "#c9a46a" }))));
+  }
+  bucket.position.set(33.5, 0, -1.94);   // under the mayor's out-held left hand
+  const BAK = hAt(33.6, 1);
 
   // ---- rubble heaps (blown / pulled houses) ----
   const rubM = [lam("ctRub1", () => ({ color: "#5a4034" })), lam("ctRub2", () => ({ color: "#d8c8a6" })), lam("ctRub3", () => ({ color: "#3a2a26" })), lam("ctRub4", () => ({ color: "#8a4a3a" }))];
@@ -390,7 +407,7 @@ export const city: SetBuilder = () => {
   }
   const HOOKED = hAt(16.8, 1), CATCH = hAt(12.6, 1);
   HOOKED.rubble = mkRubble(16.8, -0.4, 77, 3.4);
-  const hookDust = boom(root, [16.8, 0.1, -0.6], 4.0);
+  const hookDust = boom(root, [16.8, 0.1, -0.6], 4.0, false);   // pulled-down floors: dust, no fireball (the powder comes later)
   const lastFlame = flameSprite(root, [5.6, 0.55, -0.6], 1.3, 7);
   const lastSteam = smokeSprite(root, [5.6, 0.6, -0.6], 1.6, 2, 3); (lastSteam.s.material as THREE.SpriteMaterial).color.set("#e8eef6");
   const em = embers(root, 420);
@@ -442,7 +459,7 @@ export const city: SetBuilder = () => {
         const fk = isShell ? 0.4 : k;
         // the bakery starts small: c.bakery 0..0.5 lights only its shop-door flame, 0.5..1 the whole house
         const bakOnly = Math.abs(H.x - 33.6) < 0.5 && H.side === 1 && H.x < front && !isShell;
-        H.flames.forEach((s, j) => flameSet(s, frame + j * 3, bakOnly ? (j === H.flames.length - 1 ? cl((c.bakery ?? 0) / 0.5) * 1.25 : cl(((c.bakery ?? 0) - 0.5) / 0.5)) : fk * (j >= H.flames.length - 5 ? 1.15 : 1) * (isShell && j < H.flames.length - 5 ? 0.6 : 1)));
+        H.flames.forEach((s, j) => flameSet(s, frame + j * 3, bakOnly ? (j === H.flames.length - 1 ? cl((c.bakery ?? 0) / 0.5) * 1.25 * (1 - cl(c.bakDoorOff ?? 0)) : cl(((c.bakery ?? 0) - 0.5) / 0.5)) : fk * (j >= H.flames.length - 5 ? 1.15 : 1) * (isShell && j < H.flames.length - 5 ? 0.6 : 1)));
         H.smoke.forEach((m) => smokeSet(m, t, isShell ? 0.9 : k, -1.2 * wind));
         H.wins.forEach((w) => ((w.material as THREE.MeshBasicMaterial).opacity = night * 0.9));
         const sp = H.g.userData.sign as THREE.Group | undefined;
@@ -517,7 +534,7 @@ export const city: SetBuilder = () => {
       }
       for (const L of lanterns) { const f = 0.9 + 0.1 * Math.sin(t * 13 + L.base); L.light.intensity = night * L.base * f; L.g.visible = night > 0.05; }
       cat.visible = night > 0.5;
-      bucket.visible = (c.bucket ?? 0) > 0;
+      bucket.visible = (c.bucket ?? 0) > 0; bucket.position.y = c.bucketY ?? 0;   // the mayor lets it drop
       // menu board
       const ms = Math.round(c.menu ?? 0);
       if (ms !== lastMenu) { lastMenu = ms; menuMat.map = menuTex(Math.max(0, Math.min(3, ms))); menuMat.needsUpdate = true; }

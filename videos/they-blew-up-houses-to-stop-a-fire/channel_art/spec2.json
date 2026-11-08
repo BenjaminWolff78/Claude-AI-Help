@@ -1,0 +1,198 @@
+[
+ {
+  "out": "/home/claude/fire/art/r1/pp.png",
+  "w": 800,
+  "h": 800,
+  "scale": 1,
+  "preview": {
+   "set": "skyline",
+   "light": "banner",
+   "pos": [
+    200,
+    1.98,
+    3.2
+   ],
+   "look": [
+    200,
+    1.86,
+    0
+   ],
+   "fov": 39,
+   "cInf": 0,
+   "cast": [
+    {
+     "who": "lou",
+     "mark": "louPP",
+     "scale": 1.4,
+     "o": {
+      "expr": "sly",
+      "facing": 0,
+      "armR": [
+       [
+        26,
+        22
+       ],
+       [
+        34,
+        46
+       ]
+      ],
+      "armL": [
+       [
+        -26,
+        22
+       ],
+       [
+        -34,
+        46
+       ]
+      ],
+      "headTilt": -3
+     }
+    }
+   ]
+  }
+ },
+ {
+  "out": "/home/claude/fire/art/r1/thumb_wide.png",
+  "w": 1280,
+  "h": 720,
+  "scale": 1,
+  "preview": {
+   "set": "city",
+   "light": "fireDusk",
+   "pos": [
+    -12.6,
+    1.5,
+    1.9
+   ],
+   "look": [
+    -3.0,
+    2.9,
+    -2.4
+   ],
+   "fov": 34,
+   "t": 1.47,
+   "cInf": 3,
+   "ctl": {
+    "front": 8.4,
+    "shell": 17,
+    "barrels": 1,
+    "wind": 1,
+    "b1n": 0.14
+   },
+   "cast": [
+    {
+     "who": "capt",
+     "pos": [
+      -7.4,
+      0,
+      -0.6
+     ],
+     "o": {
+      "expr": "yikes",
+      "facing": -1,
+      "tilt": 10,
+      "mode": "run",
+      "phase": 0.3,
+      "propL": "linstock",
+      "armL": [
+       [
+        -22,
+        -6
+       ],
+       [
+        -30,
+        -28
+       ]
+      ],
+      "armR": [
+       [
+        22,
+        -20
+       ],
+       [
+        8,
+        -44
+       ]
+      ],
+      "armRFront": true,
+      "hatLift": 0.6,
+      "look": 0.6
+     }
+    }
+   ]
+  }
+ },
+ {
+  "out": "/home/claude/fire/art/r1/thumb_tall.png",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "preview": {
+   "set": "city",
+   "light": "fireDusk",
+   "pos": [
+    -11.4,
+    1.35,
+    1.6
+   ],
+   "look": [
+    -2.4,
+    2.6,
+    -2.6
+   ],
+   "fov": 46,
+   "t": 1.47,
+   "cInf": 3,
+   "ctl": {
+    "front": 8.4,
+    "shell": 17,
+    "barrels": 1,
+    "wind": 1,
+    "b1n": 0.14
+   },
+   "cast": [
+    {
+     "who": "capt",
+     "pos": [
+      -7.2,
+      0,
+      -0.5
+     ],
+     "o": {
+      "expr": "yikes",
+      "facing": -1,
+      "tilt": 10,
+      "mode": "run",
+      "phase": 0.3,
+      "propL": "linstock",
+      "armL": [
+       [
+        -22,
+        -6
+       ],
+       [
+        -30,
+        -28
+       ]
+      ],
+      "armR": [
+       [
+        22,
+        -20
+       ],
+       [
+        8,
+        -44
+       ]
+      ],
+      "armRFront": true,
+      "hatLift": 0.6,
+      "look": 0.6
+     }
+    }
+   ]
+  }
+ }
+]

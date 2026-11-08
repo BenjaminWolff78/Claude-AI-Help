@@ -602,16 +602,20 @@ const ARF = {
 // (the dust carries the dissolve into the night bakery).
 const S1CAP: V3 = [-4.0, 0, -1.95], S1RUN: V3 = [-6.7, 0, -0.7], S1F0: V3 = [-3.62, 0.08, -2.42], S1F1: V3 = [-3.25, 0.5, -2.82];
 SHOT_CAMS[1] = () => {
-  const A = { pos: [-9.7, 1.3, 0.7] as V3, look: [-1.2, 2.0, -2.5] as V3, fov: 44 };
+  // frame 1 close and big: the kneeling Captain (42% of the frame) holds the linstock to the barrel's fuse, the house
+  // front beside him; as he scrambles at us the camera backs off to a wider view with the whole house in frame for the
+  // BOOM (40), then cranes up and back over the dust and the new gap
+  const A0 = { pos: [-7.4, 1.25, -0.85] as V3, look: [-3.85, 1.05, -2.45] as V3, fov: 44 };
+  const A1 = { pos: [-10.5, 1.6, 1.4] as V3, look: [-4.6, 2.4, -2.6] as V3, fov: 46 };
   const B = { pos: [-15.5, 5.4, 1.4] as V3, look: [2.0, 3.0, -1.6] as V3, fov: 46 };
-  const S1 = FS(() => A, 0, 0.0012, -0.006), S2 = FS(() => B, 92, 0.0006, 0.004);
-  return [K(0, S1, 24, true), K(56, glideTo(S1, 56, S2, 97, 0.5), 1)];
+  const S0 = F(() => A0, 0, 0.0010), S1 = FS(() => A1, 36, 0.0012, -0.006), S2 = FS(() => B, 92, 0.0006, 0.004);
+  return [K(0, S0, 24, true), K(12, glideTo(S0, 12, S1, 36, 0.2), 1), K(56, glideTo(S1, 56, S2, 97, 0.5), 1)];
 };
 KICKS.push([40 / 30, 0.9]);
 SHOT_ACTS[1] = (f, s) => {
   const r = runPath(1, s, [S1CAP, S1RUN], f, 16, 38, 1.2);
   const kneel = (k: number): P => ({ mode: "kneel", kneelK: k, expr: "determined", facing: -1, tilt: -6, armL: [[-26, 8], [-50, 16]] as A2, armLFront: true, propL: "linstock", propLAng: -0.9, propK: f * 0.3, armR: [[22, 20], [12, 34]] as A2 });
-  const cap: P = f < 16 ? flow(f, [[0, kneel(1)], [6, { ...kneel(1), expr: "sly", headTilt: 4 }, 6], [10, { ...kneel(0.4), expr: "yikes", armL: [[-20, 4], [-30, -10]] as A2 }, 6]]) as P
+  const cap: P = f < 16 ? flow(f, [[0, kneel(1)], [6, { ...kneel(1), expr: "sly", headTilt: 4 }, 6], [8, { ...kneel(0.8), expr: "blank", headTilt: 2 }, 2], [10, { ...kneel(0.4), expr: "yikes", armL: [[-20, 4], [-30, -10]] as A2 }, 6]]) as P
     : f < 38 ? { mode: "run", phase: r.phase, facing: r.facing, expr: "yikes", tilt: 8, propL: "linstock", propLAng: -0.4, propK: f * 0.3, armL: [[-22, -6], [-30, -28]] as A2, hatLift: 0.2 }
     : flow(f, [
       [38, { expr: "yikes", facing: -1, tilt: 4, propL: "linstock", propLAng: -0.4, armL: [[-22, -6], [-30, -28]] as A2, look: -0.6 }],
@@ -629,11 +633,12 @@ SHOT_ACTS[1] = (f, s) => {
   const cam95 = camAt(1, s, 95).pos;
   return {
     ctl: { front: 8.4, shell: 17, barrels: 1, wind: 1, b1n: (f - 40) / 30, hook: 1, hookAge: 99 },
-    cast: [C("capt", capPos, pose(null, cap), { idx: 1 }), C("sold1", [-7.1, 0, -2.6], pose(null, sold), { idx: 2 })],
-    fx: fxs(f < 40 ? sparkCard("s1", sp, f, 0.28) : null, f >= 40 && f < 52 ? glowBurst("bm1", [-4.2, 2.5, -3.2], 9, 1 - (f - 40) / 12, "255,210,120") : null,
+    cast: [C("capt", capPos, pose(null, cap), { idx: 1 }), C("sold1", [-5.6, 0, -2.9], pose(null, sold), { idx: 2 })],
+    fx: fxs(f < 40 ? sparkCard("s1", sp, f, 0.28) : null, f >= 40 && f < 49 ? glowBurst("bm1", [-4.2, 2.5, -3.2], 4.5, 1 - (f - 40) / 9, "255,210,120") : null,   // a burst at the house, not a frame wash
       cloudRoll("d1", [-4.4, 1.0, -2.4], [cam95[0] + 3.2, 1.6, cam95[2] - 0.9], f, 66, 97, 5, 2.6)),
-    focus: f < 16 ? [S1CAP[0], 1.0, S1CAP[2]] : f < 46 ? [capPos[0], 1.5, capPos[2]] : [-3.6, 2.4, -2.8],
-    subj: f < 46 ? "capt" : null,
+    // focus stays on the Captain through the blast (never a blurred foreground character over a sharp background)
+    focus: f < 16 ? [S1CAP[0], 1.0, S1CAP[2]] : [capPos[0], 1.5, capPos[2]],
+    subj: f < 70 ? "capt" : null,
   };
 };
 lens3([[0, DOF_FS], [46, DOF_WS, 30]]);
@@ -641,55 +646,74 @@ lens3([[0, DOF_FS], [46, DOF_WS, 30]]);
 // ================================================= SCENE 2 (95-337) 1666, NIGHT: the bakery catches, the mayor shrugs
 // One continuous camera path: out of the dust, a crane down over the night roofs (the cat on the ridge, lit windows) to
 // the bakery door, where a small flame licks the shop front; "caught fire" (202-209): it whooshes up the whole house
-// and the baker bursts out flapping a rag (making it worse). A glide to the mayor (nightcap, candle, bucket) who
-// waddles up, leans in, squints: "One bucket could handle that" (lip-sync 270-302, the bucket lifted on "bucket"), sets
-// the bucket on the step, yawns and pads off home; the camera cranes up with the smoke (same camera on into scene 3).
-const MAY_STOP: V3 = [33.95, 0, -2.25];
+// and the baker bursts out flapping a rag (making it worse), runs a panicked loop and flaps at his burning door. A glide
+// along the street to a depth two-shot: the mayor (nightcap, candle, ONE BUCKET) waddles into the foreground, squints:
+// "One bucket could handle that" (lip-sync 270-302, the bucket lifted on "bucket") while the baker freezes behind him and
+// stares (the reactor). He sets the bucket down in the street, yawns, pads off; the baker runs for water; the lone
+// bucket holds the frame into the time-jump dissolve (same camera on into scene 3).
+const MAY_STOP: V3 = [33.95, 0, -2.25], BAK_STOP: V3 = [32.4, 0, -2.8];
+// mayor right and near (3.4 m), baker left and deeper (4.8 m) by his door: no overlap, faces in the upper third
+const S2CC = { pos: [35.8, 2.1, 0.8] as V3, look: [33.3, 0.9, -2.55] as V3, fov: 48 };
+// slow push-in on the two; once the mayor has gone, a crane down onto the lone bucket (lifts it clear of the Shorts UI)
+const S2HOLD = (f: number): Shot => {
+  const b = FS(() => S2CC, 252, 0.0008, -0.001)(f), k = sm(f, 314, 338), T: V3 = [33.5, 0.2, -1.94];
+  return { ...b, pos: [b.pos[0] - 0.25 * k, b.pos[1] - 0.7 * k, b.pos[2] - 0.2 * k], look: [lerp(b.look[0], T[0], 0.4 * k), b.look[1] - 0.75 * k, lerp(b.look[2], T[2], 0.4 * k)] };
+};
 SHOT_CAMS[2] = () => {
-  const A = { pos: [27.2, 9.6, 1.9] as V3, look: [33.2, 5.4, -3.6] as V3, fov: 50 };
+  // high over the street looking east along the night roofs to the bakery end ("London's made of wood"), then down to its door
+  const A = { pos: [25.0, 8.2, 0.4] as V3, look: [35.5, 3.6, -2.6] as V3, fov: 50 };
   const B = { pos: [30.2, 1.25, 2.55] as V3, look: [32.7, 2.45, -3.6] as V3, fov: 44 };
-  const Cc = { pos: [31.65, 1.72, 0.45] as V3, look: [33.9, 1.72, -2.25] as V3, fov: 34 };
-  const SC = FS(() => Cc, 252, 0.0008, 0.0025);
-  return [K(95, spline([{ f: 95, ...A }, { f: 196, ...B }, { f: 252, ...Cc }]), 24, true), K(252, SC, 1)];
+  return [K(95, spline([{ f: 95, ...A }, { f: 196, ...B }, { f: 252, ...S2CC }]), 24, true), K(252, S2HOLD, 1)];
 };
 SHOT_ACTS[2] = (f, s) => {
   const door = MK(s, "bakerDoor");
-  const bk = runPath(2, s, [[door[0], 0, -2.75], [door[0] - 0.9, 0, -1.8], [31.3, 0, -1.25]], f, 204, 222, 1.0);
+  const bk = runPath(2, s, [[door[0], 0, -2.75], [31.7, 0, -1.9], [32.8, 0, -1.9], BAK_STOP], f, 204, 234, 1.0);
+  const bo = runPath(2, s, [BAK_STOP, [31.0, 0, -1.9], [28.8, 0, -0.6]], f, 318, 340, 1.0);
   const flap = Math.sin(st(f, 2) * 0.9);
-  const baker: P = f < 222 ? { mode: "run", phase: bk.phase, facing: bk.facing, expr: "yikes", tilt: 6, propR: "rag", armR: [[26, -16 + 10 * flap], [40, -46 + 24 * flap]] as A2, armRFront: true, sweat: 1 }
-    : { expr: f < 300 ? "yikes" : "dismay", facing: 1, tilt: 3, propR: "rag", armR: [[28, -14 + 12 * flap], [46, -40 + 26 * flap]] as A2, armRFront: true, sweat: 1, look: 0.6 };
-  const mw = walkPath(2, s, [[36.6, 0, -1.0], [35.0, 0, -1.9], MAY_STOP], f, 206, 252);
-  const mo = walkPath(2, s, [MAY_STOP, [35.3, 0, -1.2], [37.6, 0, 0.2]], f, 318, 352);
+  const flapP: P = { expr: "yikes", facing: -1, tilt: 3, propR: "rag", armR: [[28, -14 + 12 * flap], [46, -40 + 26 * flap]] as A2, armRFront: true, sweat: 1 };
+  const baker: P = f < 234 ? { mode: "run", phase: bk.phase, facing: bk.facing, expr: "yikes", tilt: 6, propR: "rag", armR: [[26, -16 + 10 * flap], [40, -46 + 24 * flap]] as A2, armRFront: true, sweat: 1 }
+    : f >= 318 ? { mode: "run", phase: bo.phase, facing: bo.facing, expr: "determined", tilt: 8, propR: "rag", armR: [[26, -10], [40, -36]] as A2, armRFront: true, sweat: 1 }
+    : f < 266 ? flapP
+    : flow(f, [
+      [266, flapP],
+      [268, { expr: "aghast", facing: 1, tilt: 0, propR: "rag", armR: [[22, 14], [16, 30]] as A2, armRFront: true, sweat: 1, look: 0.3 }, 3],   // freezes, stares at the mayor
+      [303, { expr: "blank", facing: 1, tilt: 4, propR: "rag", armR: [[22, 14], [16, 30]] as A2, armRFront: true, sweat: 1, look: -0.6 }, 4], // looks down at the bucket
+      [312, { expr: "determined", facing: -1, tilt: 6, propR: "rag", armR: [[26, -10], [40, -36]] as A2, armRFront: true, sweat: 1 }, 4],      // turns to run
+    ]) as P;
+  const mw = walkPath(2, s, [[41.5, 0, 0.2], [36.6, 0, -1.0], [35.0, 0, -1.9], MAY_STOP], f, 140, 252);
+  const mo = walkPath(2, s, [MAY_STOP, [34.9, 0, -2.6], [36.4, 0, -2.3]], f, 314, 372);   // off to the right along the houses
   const BUCK = "bucket";
-  const mayIdle: P = { expr: "bored", facing: -1, propR: BUCK, armR: [[22, 26], [26, 42]] as A2, armRFront: true, propL: "candle", armL: [[-24, 6], [-22, -14]] as A2, propK: f, hatTilt: 6 };
+  // the bucket in his LEFT hand (screen left, toward the baker) so he sets it down away from his exit; candle in the right
+  const mayIdle: P = { expr: "bored", facing: -1, propL: BUCK, armL: [[-22, 26], [-26, 42]] as A2, armLFront: true, propR: "candle", armR: [[24, 6], [22, -14]] as A2, armRFront: true, propK: f, hatTilt: 6 };
   const mayor: P = f < 252 ? { ...mayIdle, mode: "walk", phase: mw.phase, facing: mw.facing, expr: "sleep" }
-    : f >= 318 ? { ...mayIdle, mode: "walk", phase: mo.phase, facing: mo.facing, expr: "sleep", propR: undefined, armR: undefined }
+    : f >= 314 ? { ...mayIdle, mode: "walk", phase: mo.phase, facing: mo.facing, expr: "sleep", propL: undefined, armL: undefined }
     : speak(f, 270, 302, flow(f, [
       [252, { ...mayIdle, expr: "sleep" }],
       [254, { ...mayIdle, expr: "bored", tilt: -10, headTilt: -4, look: -0.5 }, 8],                                                       // leans in, squints
-      [266, { ...mayIdle, expr: "smug", tilt: -2, armR: [[22, -4], [30, -24]] as A2 }, 6],                                                    // lifts the bucket
-      [278, { ...mayIdle, expr: "smug", tilt: 0, armR: [[24, -14], [34, -40]] as A2, headTilt: 4 }, 3],                                      // "bucket": up
-      [290, { ...mayIdle, expr: "bored", tilt: -2, armR: [[24, -4], [32, -22]] as A2, headTilt: -3 }, 8],
-      [302, { ...mayIdle, expr: "bored", tilt: -22, armR: [[16, 30], [-4, 58]] as A2 }, 6],                                                  // sets it on the step
-      [309, { ...mayIdle, expr: "sleep", tilt: -6, propR: undefined, armR: [[18, 26], [10, 42]] as A2 }, 3],
-      [311, { ...mayIdle, expr: "sleep", tilt: 4, mouth: "O", propR: undefined, armR: ARF.cheer, armL: [[-24, -30], [-28, -60]] as A2, headBack: 0.6 }, 5], // yawn + stretch
+      [266, { ...mayIdle, expr: "smug", tilt: -2, armL: [[-22, -4], [-30, -24]] as A2 }, 6],                                                  // lifts the bucket
+      [278, { ...mayIdle, expr: "smug", tilt: 0, armL: [[-24, -14], [-34, -40]] as A2, headTilt: 4 }, 3],                                    // "bucket": up
+      [290, { ...mayIdle, expr: "bored", tilt: -2, armL: [[-24, -4], [-32, -22]] as A2, headTilt: -3 }, 8],
+      [297, { ...mayIdle, expr: "bored", tilt: -6, armL: [[-28, 6], [-54, 10]] as A2, look: -0.4 }, 6],                                    // holds it out to the side...
+      [305, { ...mayIdle, expr: "sleep", tilt: -2, propL: undefined, armL: [[-28, 4], [-54, 4]] as A2 }, 2],                                 // ...and lets it drop
+      [309, { ...mayIdle, expr: "sleep", tilt: 0, propL: undefined, armL: [[-18, 26], [-10, 42]] as A2 }, 4],
+      [307, { ...mayIdle, expr: "sleep", tilt: 4, mouth: "O", propL: undefined, armL: [[-24, -30], [-28, -60]] as A2, armR: [[26, -24], [30, -52]] as A2, headBack: 0.6 }, 4], // yawn + stretch
     ]) as P);
-  const mayPos = f < 252 ? mw.p : f >= 318 ? mo.p : MAY_STOP;
+  const mayPos = f < 252 ? mw.p : f >= 314 ? mo.p : MAY_STOP;
   const bak = sm(f, 186, 200) * 0.45 + 0.05;
   return {
-    ctl: { night: 1, wind: 0.55, bakery: f < 200 ? 0.22 + bak * 0.5 : 0.5 + 0.5 * sm(f, 200, 210), bucket: f >= 309 ? 1 : 0 },
+    ctl: { night: 1, wind: 0.55, bakery: f < 200 ? 0.22 + bak * 0.5 : 0.5 + 0.5 * sm(f, 200, 210), bakDoorOff: lin(f, 201, 205), bucket: f >= 305 ? 1 : 0, bucketY: f < 305 ? 0 : Math.max(0, 0.62 - 4.9 * ((f - 305) / 30) ** 2) },
     cast: [
-      ...(f >= 204 ? [C("baker", f < 222 ? bk.p : [31.3, 0, -1.25], pose(null, baker), { idx: 1 })] : []),
-      C("mayor", mayPos, pose(null, mayor), { idx: 2 }),
+      ...(f >= 204 ? [C("baker", f < 234 ? bk.p : f >= 318 ? bo.p : BAK_STOP, pose(null, baker), { idx: 1 })] : []),
+      C("mayor", mayPos, pose(null, f >= 305 && f < 314 ? { ...mayor, propL: undefined } : mayor), { idx: 2 }),   // the bucket leaves his hand as it lands
       C("neighbour", [30.2, 0, 2.7], flow(f, [[95, { expr: "sleep", facing: 1, propR: "lantern", armR: [[22, 10], [26, -8]] as A2, armRFront: true, propK: f }], [205, { expr: "shock", facing: 1, propR: "lantern", armR: [[22, -6], [28, -30]] as A2, armRFront: true, propK: f, tilt: -4 }, 4]]), { idx: 3 }),
       C("granny", [36.4, 0, 2.75], flow(f, [[95, { expr: "neutral", facing: -1, propR: "candle", armR: [[22, 10], [20, -8]] as A2, armRFront: true, propK: f }], [205, { expr: "aghast", facing: -1, propR: "candle", armR: [[22, 10], [20, -8]] as A2, armRFront: true, propK: f, armL: [[-22, -6], [-12, -30]] as A2 }, 4], [304, { expr: "dismay", facing: -1, propR: "candle", armR: [[22, 10], [20, -8]] as A2, armRFront: true, propK: f, look: 0.5 }, 8]]), { idx: 4 }),
     ],
-    fx: fxs(f >= 200 && f < 214 ? glowBurst("wh", [32.5, 2.5, -3.0], 6, 1 - (f - 200) / 14) : null),
-    focus: follow(f, [[110, [33.2, 4.0, -3.6]], [214, [door[0], 1.4, -3.0], 60], [252, () => [mayPos[0], 1.85, mayPos[2]], 22]]),
-    subj: f < 232 ? null : "mayor",
+    fx: fxs(f >= 200 && f < 212 ? glowBurst("wh", [32.5, 2.2, -3.2], 2.6, 0.6 * (1 - (f - 200) / 12)) : null, ...splash("bk2", [33.5, 0.22, -1.94], f - 316, 0.35)),
+    focus: follow(f, [[110, [33.2, 4.0, -3.6]], [214, [door[0], 1.4, -3.0], 60], [252, () => [mayPos[0], 1.85, mayPos[2]], 22], [318, [33.5, 0.3, -1.94], 20]]),
+    subj: f < 242 || f >= 318 ? null : "mayor",
   };
 };
-lens3([[95, DOF_WS], [188, DOF_FS, 40], [252, DOF_CU, 20]]);
+lens3([[95, DOF_WS], [188, DOF_FS, 40], [252, DOF_MS, 20]]);
 
 // ================================================= SCENE 3 (337-513) BY MORNING: roof to roof -> the riverfront -> buckets
 // The same camera, dawn now (a time-jump dissolve on the same path): flames hop roof to roof westward (embers), the
@@ -697,13 +721,14 @@ lens3([[95, DOF_WS], [188, DOF_FS, 40], [252, DOF_CU, 20]]);
 // over the street to the warehouses on the quay (PITCH & TAR) going up ("The whole riverfront."), then dives over the
 // warehouses down to a bucket chain on the quay: the baker throws a bucket at a burning warehouse door, it hisses to
 // steam, the flames don't even flicker ("Buckets do nothing.").
-const CH: V3[] = [[23.9, 0, 13.3], [24.75, 0, 14.0], [23.4, 0, 15.0], [24.6, 0, 15.8]];
+// the baker at the PITCH & TAR door (door centre x 23.6, front z 12.66), the chain running off to the east
+const CH: V3[] = [[24.2, 0, 13.35], [25.75, 0, 14.15], [26.5, 0, 14.7], [27.3, 0, 15.25]];   // the chain stays just out of the throw shot
 SHOT_CAMS[3] = () => {
-  const A = { pos: [31.65, 1.72, 0.45] as V3, look: [33.9, 1.72, -2.25] as V3, fov: 34 };
+  const h = S2HOLD(339), A = { pos: h.pos, look: h.look, fov: h.fov ?? 48 };   // = scene 2's camera at the dissolve (no double image)
   const B = { pos: [25.4, 14.0, 1.2] as V3, look: [30.8, 7.2, -6.4] as V3, fov: 50 };
   const Cc = { pos: [21.0, 15.5, 5.6] as V3, look: [31.0, 4.5, -3.0] as V3, fov: 50 };
   const D = { pos: [13.5, 9.5, 25.0] as V3, look: [24.0, 3.2, 11.0] as V3, fov: 50 };
-  const E = { pos: [21.4, 1.9, 18.8] as V3, look: [24.4, 1.55, 13.6] as V3, fov: 40 };
+  const E = { pos: [23.3, 2.1, 19.4] as V3, look: [23.65, 1.95, 12.66] as V3, fov: 46 };   // whole PITCH & TAR sign, door left, baker right: throw, hiss, nothing
   const SE = FS(() => E, 472, 0.0008, 0.0025);
   return [K(337, spline([{ f: 339, ...A }, { f: 398, ...B }, { f: 426, ...Cc }, { f: 452, ...D }, { f: 472, ...E }]), 24, true), K(472, SE, 1)];
 };
@@ -724,8 +749,8 @@ SHOT_ACTS[3] = (f, s) => {
       C("baker", CH[0], pose(null, thrower), { idx: 1 }),
       C("cit1", CH[1], pose(null, passer(1)), { idx: 2 }), C("cit3", CH[2], pose(null, passer(2)), { idx: 3 }), C("cit4", CH[3], pose(null, passer(3)), { idx: 4 }),
     ],
-    fx: fxs(waterArc("w3", [23.5, 1.5, 13.25], [23.6, 1.4, 12.75], lin(f, 488, 494), 0.8), splash("sp3", [23.6, 1.3, 12.72], f - 494, 1.1),
-      f >= 494 ? cloudRoll("stm3", [23.5, 1.3, 12.75], [22.9, 3.6, 12.7], f, 494, 520, 3, 1.1, true) : null),
+    fx: fxs(waterArc("w3", [23.95, 1.5, 13.2], [23.35, 1.4, 12.75], lin(f, 488, 494), 0.8), splash("sp3", [23.35, 1.3, 12.72], f - 494, 1.1),
+      f >= 494 ? cloudRoll("stm3", [23.3, 1.3, 12.75], [22.8, 3.6, 12.7], f, 494, 520, 3, 1.1, true) : null),
     focus: follow(f, [[337, [33.6, 1.6, -3.0]], [398, [31.0, 7.0, -4.5], 50], [428, [31.0, 5.0, -3.0], 30], [452, [24.0, 3.2, 11.0], 26], [472, [CH[0][0], 1.6, CH[0][2]], 20]]),
     subj: f < 480 ? null : "baker",
   };
@@ -740,8 +765,9 @@ const SOUP: V3 = [-46.9, 0, -2.6];
 SHOT_CAMS[4] = () => {
   const A = { pos: [-44.5, 1.3, 8.6] as V3, look: [-55.0, 15.0, -1.5] as V3, fov: 54 };
   const B = fit([body(SOUP, 0, 1.55, 0.42), [[-46.4, 0.1, -1.6], 0, 0.3, 0.4]], 38, 6, 36, 0.82, -0.1, 0.05);
-  const SA = FS(() => A, 513, 0.0006, 0.004), SB = FS(() => B, 575, 0.0008, 0.008);
-  return [K(513, SA, 24, true), K(575, SB, 24, true)];
+  const SA = FS(() => A, 513, 0.0006, 0.004), SB = FS(() => B, 578, 0.0008, 0.008);
+  // one shot: the camera cranes down with the falling lead ("runs down the street") onto the cook, no cut
+  return [K(513, SA, 24, true), K(556, glideTo(SA, 556, SB, 578, 0, [0, 0, 0], 0, 0.25), 1)];
 };
 SHOT_ACTS[4] = (f, s) => {
   const kn = (o: P): P => ({ mode: "kneel", kneelK: 1, facing: 1, ...o });
@@ -755,13 +781,13 @@ SHOT_ACTS[4] = (f, s) => {
   return {
     ctl: { cath: 1, lead: sm(f, 522, 562), front: -44, shell: -30, wind: 0.6 },
     cast: [C("soupGuy", SOUP, pose(null, cook), { idx: 1 }),
-      C("cit2", [-46.0, 0, 2.3], flow(f, [[513, { expr: "aghast", facing: -1, armR: [[22, -10], [12, -34]] as A2, armL: [[-22, -10], [-12, -34]] as A2, headBack: 0.6 }], [592, { expr: "yikes", facing: -1, armR: [[22, -10], [12, -34]] as A2, armL: [[-22, -10], [-12, -34]] as A2, look: -0.4 }, 6]]), { idx: 2 })],
+      C("cit2", [-47.8, 0, 2.2], flow(f, [[513, { expr: "aghast", facing: -1, armR: [[22, -10], [12, -34]] as A2, armL: [[-22, -10], [-12, -34]] as A2, headBack: 0.6 }], [592, { expr: "yikes", facing: -1, armR: [[22, -10], [12, -34]] as A2, armL: [[-22, -10], [-12, -34]] as A2, look: -0.4 }, 6]]), { idx: 2 })],
     fx: fxs(f >= 584 && f < 604 ? sparkle("lead", [SOUP[0] + 0.35, 1.0, SOUP[2] + 0.25], f - 586, 0.22, "#ffffff") : null),
-    focus: f < 575 ? [-51.3, 13.0, -2.2] : [SOUP[0], 1.0, SOUP[2]],
-    subj: f < 575 ? null : "soupGuy",
+    focus: follow(f, [[513, [-51.3, 13.0, -2.2]], [574, [SOUP[0], 1.0, SOUP[2]], 16]]),
+    subj: f < 570 ? null : "soupGuy",
   };
 };
-lens3([[513, DOF_WS], [575, DOF_CU]]);
+lens3([[513, DOF_WS], [566, DOF_CU, 12]]);
 
 // ================================================= SCENE 5 (613-1050) DAY TWO: powder, mockery, the hooks fail
 // 5a+b 613-742 (one move): the Captain and two soldiers roll POWDER barrels up the street toward the fire (truck along);
@@ -780,19 +806,25 @@ const CAP5: V3 = [barrelAt(0, 999)[0] - 0.62, 0, -0.3];
 const CROWD5 = { neighbour: [9.4, 0, 2.95] as V3, wife: [10.5, 0, 2.6] as V3, kid66: [11.3, 0, 1.8] as V3, cit2: [12.2, 0, 3.0] as V3, cit3: [9.0, 0, -2.85] as V3, cit1: [10.0, 0, -2.5] as V3, granny: [11.2, 0, -2.75] as V3 };
 SHOT_CAMS[5] = (s) => {
   const grp = (f: number): V3 => barrelAt(1, f);
-  const A = (f: number) => { const g = grp(f); return { pos: [g[0] - 5.6, 2.0, 2.45] as V3, look: [g[0] + 3.4, 1.3, -1.3] as V3, fov: 46 }; };
-  const Bw = inRoom(fit([body(CROWD5.wife, 0.9, 2.1, 0.4), body(CROWD5.neighbour, 0.9, 2.1, 0.3), body(CROWD5.kid66, 0.6, 1.5, 0.3)], -104, 4, 40, 0.86, 0.1), ST);
+  const A = (f: number) => { const g = grp(f); return { pos: [g[0] - 6.4, 2.05, 2.5] as V3, look: [g[0] + 3.2, 1.25, -0.45] as V3, fov: 46 }; };   // all three pushers well inside the frame
+  // a little higher (el 9): the burning upper floors sit above the heads instead of on them
+  const Bw = inRoom(fit([body(CROWD5.wife, 0.9, 2.1, 0.4), body(CROWD5.neighbour, 0.9, 2.1, 0.3), body(CROWD5.kid66, 0.6, 1.5, 0.3)], -104, 9, 40, 0.86, 0.1), ST);
   const Cc = { pos: [9.75, 1.72, 0.95] as V3, look: [CAP5[0], 1.62, CAP5[2]] as V3, fov: 36 };
-  const Dd = { pos: [9.6, 1.62, -2.5] as V3, look: [10.0, 1.3, 2.6] as V3, fov: 40 };
-  const E = { pos: [11.4, 1.6, 3.0] as V3, look: [15.2, 3.0, -2.8] as V3, fov: 54 };
-  const Fj = (f: number) => { const u = sm(f, 886, 946); return { pos: [lerp(11.4, 9.6, u), lerp(1.6, 2.0, u), lerp(3.0, 2.4, u)] as V3, look: [lerp(15.2, 12.4, u), lerp(3.0, 5.0, u), lerp(-2.8, -3.4, u)] as V3, fov: lerp(54, 52, u) }; };
-  const Gw = inRoom(fit([body(CROWD5.wife, 0.95, 2.15, 0.42)], -128, 3, 34, 0.8, -0.18), ST);
+  const Dd = { pos: [10.9, 1.6, -2.3] as V3, look: [11.15, 1.15, 2.6] as V3, fov: 56 };   // the kid booming between the wife and cit2
+  // the hook: a low angle from the middle of the street (in front of the onlookers, never among them) up at the pullers
+  // and the hooked upper floors; then a pan up and left with the embers as they jump the gap onto the north row
+  const E = { pos: [9.2, 1.5, 1.6] as V3, look: [16.5, 2.2, -1.5] as V3, fov: 62 };   // braced faces at ~60% height, above the captions
+  const Fj = (f: number) => { const u = sm(f, 886, 946); return { pos: [lerp(9.2, 8.8, u), lerp(1.5, 1.8, u), lerp(1.6, 0.9, u)] as V3, look: [lerp(16.5, 12.6, u), lerp(2.2, 5.2, u), lerp(-1.5, -3.4, u)] as V3, fov: lerp(62, 54, u) }; };
+  // the wife: a slow orbit around her (she stays put, the street turns behind her)
+  const Gw = (f: number) => inRoom(fit([body(CROWD5.wife, 0.95, 2.15, 0.42)], lerp(-122, -116, lin(f, 940, 990)), 3, 34, 0.8, -0.12), ST);
   const Hc = fit([body(CAP5, 0.6, 2.2, 0.4)], -47, 3, 40, 0.72, -0.15);   // the Captain left of frame, the burning row behind him
   const Iend = { pos: [7.6, 3.4, 1.4] as V3, look: [20.0, 3.6, -4.0] as V3, fov: 44 };
-  const SA = F(A, 613, 0.0004), SB = FS(() => Bw, 694, 0.0008, 0.0025), SC = FS(() => Cc, 742, 0.0008, -0.0025), SD = FS(() => Dd, 806, 0.0006, 0.022);
-  const SE = FS(() => E, 847, 0.0008, 0.012, [[874, 0.004, 12]]), SF = F(Fj, 886, 0.0002), SG = FS(() => Gw, 945, 0.0010, 0.012), SH = FS(() => Hc, 983, 0.0008, 0.012), SI = F(() => Iend, 1046, 0.0006);
-  return [K(613, SA, 24, true), K(666, glideTo(SA, 666, SB, 694, 0.6), 1), K(742, SC, 24, true), K(806, SD, 24, true),
-    K(847, SE, 24, true), K(884, glideTo(SE, 884, SF, 894), 1), K(945, SG, 24, true), K(983, SH, 24, true), K(1018, glideTo(SH, 1018, SI, 1046, 0, [0, 0, 0], 0.4), 1)];
+  const SA = F(A, 613, 0.0004), SB = FS(() => Bw, 694, 0.0008, 0.0025), SC = FS(() => Cc, 738, 0.0008, -0.0025), SD = FS(() => Dd, 798, 0.0006, -0.005);
+  const SE = FS(() => E, 858, 0.0008, -0.006, [[874, 0.004, 12]]), SF = F(Fj, 886, 0.0002), SG = F(Gw, 940, 0.0010), SH = FS(() => Hc, 1002, 0.0008, 0.012), SI = F(() => Iend, 1046, 0.0006);
+  // shots: barrels->crowd glide 613-738 | Captain 738-798 | laugh 798-858 | hook + embers 858-940 | wife, then a quick
+  // whip-glide to the Captain and on up the house row 940-1050 (every shot 2 s or more; cuts on beats)
+  return [K(613, SA, 24, true), K(666, glideTo(SA, 666, SB, 694, 1.6, [0, 0, 0], 0.35), 1), K(738, SC, 24, true), K(798, SD, 24, true),
+    K(858, SE, 24, true), K(884, glideTo(SE, 884, SF, 894), 1), K(940, SG, 24, true), K(990, glideTo(SG, 990, SH, 1002), 1), K(1018, glideTo(SH, 1018, SI, 1046, 0, [0, 0, 0], 0.4), 1)];
 };
 KICKS.push([876 / 30, 0.6]);
 SHOT_ACTS[5] = (f, s) => {
@@ -816,7 +848,7 @@ SHOT_ACTS[5] = (f, s) => {
   const flee = (who: keyof typeof CROWD5, i: number, base: P, laughAt: number): CastPlace => {
     const lane = -2.9 + 0.55 * (i - 3), pts: V3[] = [CROWD5[who], [CROWD5[who][0] - 2, 0, lane], [-1 - 1.2 * (i - 3), 0, lane]], a0 = 928 + (i - 3) * 6, r = runPath(5, s, pts, f, a0, a0 + Math.round((polyLen(pts) / 4.2) * 30), 1.2);
     if (f < a0) return stage(who, i, base, laughAt);
-    return C(who, r.p, pose(null, r.moving ? { mode: "run", phase: r.phase, facing: r.facing, expr: "yikes", tilt: 8, hatLift: 0.2, armR: [[24, -10], [36, -36]] as A2 } : { expr: "dismay", facing: 1, look: 0.6 }), { idx: 20 + i });
+    return C(who, r.p, pose(null, r.moving || f < a0 + 6 ? { mode: "run", phase: r.phase, facing: r.facing, expr: "yikes", tilt: 8, hatLift: 0.2, armR: [[24, -10], [36, -36]] as A2 } : { expr: "yikes", facing: 1, look: 0.6 }), { idx: 20 + i });
   };
   const stage = (who: keyof typeof CROWD5, i: number, base: P, laughAt: number): CastPlace => C(who, CROWD5[who], pose(null, flow(f, [
     [613, { ...base, expr: base.expr ?? "neutral" }],
@@ -844,35 +876,38 @@ SHOT_ACTS[5] = (f, s) => {
   ]) as P), { idx: 26 });
   // the hook pullers (baker + cit4): braced on the ropes from 613, heave 852-866, let go and scramble back 866-880
   const pull = (who: string, at: V3, run: V3, i: number): CastPlace => {
-    const r = runPath(5, s, [at, run], f, 866, 880, 1.0);
+    // they let go as the floors come down and scramble clear, straight on west out of the street (lane clear of the Captain)
+    const pts: V3[] = [at, run, [run[0] - 1.5, 0, -1.25], [-6.5, 0, -1.25]], r = runPath(5, s, pts, f, 866, 866 + Math.round((polyLen(pts) / 4.4) * 30), 1.2);
     const heave = Math.sin(st(f) * 0.5 + i) * (f > 850 && f < 866 ? 1 : 0.3);
-    const o: P = f < 846 ? flow(f, [[613, { expr: "neutral", facing: -1, look: -0.4 }], [683, { expr: "aghast", facing: -1 }, 4], [829, { ...laughP(f, 829, i + 6), facing: -1 }, 4]]) as P
+    const o: P = f < 846 ? flow(f, [[613, { expr: "neutral", facing: -1, look: -0.4 }], [683, { expr: "aghast", facing: -1 }, 4], [829, { ...laughP(f, 829, i + 6), facing: -1 }, 4], [840, { expr: "determined", facing: -1, look: -0.3 }, 4]]) as P
       : f < 866 ? { mode: "brace", braceK: sm(f, 846, 852), facing: -1, expr: "strain", tilt: 14 + 6 * heave, armR: [[26, -4], [48, -10]] as A2, armL: [[20, 2], [44, -2]] as A2, armRFront: true, sweat: 1 }
-      : f < 880 ? { mode: "run", phase: r.phase, facing: r.facing, expr: "yikes", tilt: 8, hatLift: 0.3 }
-      : flow(f, [[880, { expr: "yikes", facing: -1, look: 0.6 }], [912, { expr: "dismay", facing: -1, look: 0.7, armR: [[22, -6], [10, -32]] as A2 }, 8]]) as P;
+      : r.moving || f < 872 ? { mode: "run", phase: r.phase, facing: r.facing, expr: "yikes", tilt: 8, hatLift: 0.3, armR: [[24, -10], [36, -36]] as A2 }
+      : { expr: "yikes", facing: 1, look: 0.6 };   // same face on arrival (no bare swap)
     return C(who, f < 866 ? at : r.p, pose(null, o), { idx: 30 + i });
   };
   const hk = sm(f, 860, 879);
+  // sold1 backs off to the powder cart while nobody is looking (keeps him out of the lens in the Captain's shot)
+  const S1A: V3 = [barrelAt(1, 999)[0] - 0.62, 0, 0.6], s1w = walkPath(5, s, [S1A, [3.2, 0, 1.0]], f, 872, 920);
   return {
     ctl: { night: 0, front: 19.2, shell: 29, wind: 1, roll: f < 742 ? ROLL(f) : 5.4, hookPole: f >= 846 ? 1 : 0, hook: hk, hookAge: (f - 876) / 30, jump: lin(f, 886, 934) * 1.15, bucket: 1 },
     cast: [
-      capt, ...(f < 742 ? [pusher(1, "sold1"), pusher(2, "sold2")] : [C("sold1", [barrelAt(1, 999)[0] - 0.62, 0, 0.6], pose(null, flow(f, [[742, { expr: "nervous", facing: 1 }], [827, { expr: "sheepish", facing: 1, look: 0.5 }, 6]])), { idx: 11 }), C("sold2", [barrelAt(2, 999)[0] - 0.62, 0, 1.5], pose(null, flow(f, [[742, { expr: "neutral", facing: 1 }], [827, { expr: "sheepish", facing: 1 }, 6]])), { idx: 12 })]),
+      capt, ...(f < 742 ? [pusher(1, "sold1"), pusher(2, "sold2")] : [C("sold1", f < 872 ? S1A : s1w.p, pose(null, f >= 872 && f < 920 ? { mode: "walk", phase: s1w.phase, facing: s1w.facing, expr: "sheepish" } : flow(f, [[742, { expr: "nervous", facing: 1 }], [827, { expr: "sheepish", facing: 1, look: 0.5 }, 6], [920, { expr: "nervous", facing: 1, look: 0.4 }, 6]])), { idx: 11 }), C("sold2", [barrelAt(2, 999)[0] - 0.62, 0, 1.5], pose(null, flow(f, [[742, { expr: "neutral", facing: 1 }], [827, { expr: "sheepish", facing: 1 }, 6]])), { idx: 12 })]),
       wife, kid,
       stage("neighbour", 1, { expr: "neutral", facing: -1, hatTilt: 4 }, 829),
       stage("cit2", 2, { expr: "neutral", facing: -1 }, 828),
       flee("cit3", 3, { expr: "neutral", facing: 1 }, 830),
       flee("cit1", 4, { expr: "neutral", facing: 1 }, 827),
       flee("granny", 5, { expr: "neutral", facing: 1, armR: [[22, 20], [12, 34]] as A2 }, 831),
-      pull("baker", MK(s, "pull1"), [12.8, 0, 1.1], 1), pull("cit4", MK(s, "pull2"), [13.3, 0, 0.0], 2),
+      pull("baker", MK(s, "pull1"), [12.3, 0, -1.7], 1), pull("cit4", MK(s, "pull2"), [13.2, 0, -2.5], 2),
     ],
-    fx: fxs(f >= 876 && f < 900 ? glowBurst("hk", [16.8, 1.5, -1.0], 5, 1 - (f - 876) / 24, "230,210,180") : null,
+    fx: fxs(
       ...[0, 1, 2].map((i) => { const u = lin(f, 886 + i * 6, 930 + i * 4); return u > 0 && u < 1 ? brand("j" + i, [lerp(20.6, 12.8, u), 6.2 + 3.2 * Math.sin(Math.PI * u) - i * 0.4, -4.2 + i * 0.5], f + i * 7, 1.1 - i * 0.2) : null; })),
-    focus: follow(f, [[613, (g) => [barrelAt(1, g)[0], 1.0, 0.6]], [702, [CROWD5.wife[0], 1.85, CROWD5.wife[2]], 26], [742, [CAP5[0], 1.9, CAP5[2]]], [806, [10.6, 1.6, 2.4]],
-      [847, [14.2, 1.6, 1.6]], [884, [16.8, 4.5, -3.0], 12], [940, [12.6, 5.0, -3.6], 40], [945, [CROWD5.wife[0], 1.85, CROWD5.wife[2]]], [983, [CAP5[0], 1.95, CAP5[2]]], [1046, [14.0, 3.0, -3.6], 30]]),
-    subj: f < 680 ? "capt" : f < 742 ? "wife" : f < 806 ? "capt" : f < 847 ? "kid66" : f < 884 ? "baker" : f < 945 ? null : f < 983 ? "wife" : f < 1016 ? "capt" : null,
+    focus: follow(f, [[613, (g) => [barrelAt(1, g)[0], 1.0, 0.6]], [702, [CROWD5.wife[0], 1.85, CROWD5.wife[2]], 26], [738, [CAP5[0], 1.9, CAP5[2]]], [798, [11.1, 1.4, 2.1]],
+      [858, [14.3, 1.6, -0.3]], [884, [16.8, 4.5, -3.0], 12], [936, [12.6, 5.0, -3.6], 4], [940, [CROWD5.wife[0], 1.85, CROWD5.wife[2]]], [1000, [CAP5[0], 1.95, CAP5[2]], 8], [1046, [14.0, 3.0, -3.6], 30]]),
+    subj: f < 680 ? "capt" : f < 738 ? "wife" : f < 798 ? "capt" : f < 858 ? "kid66" : f < 884 ? "baker" : f < 940 ? null : f < 994 ? "wife" : f < 1016 ? "capt" : null,
   };
 };
-lens3([[613, DOF_FS], [706, DOF_MS, 20], [742, DOF_CU], [806, DOF_MS], [847, DOF_FS], [945, DOF_CU], [983, DOF_MS], [1016, DOF_FS, 30]]);
+lens3([[613, DOF_FS], [706, DOF_MS, 20], [738, DOF_CU], [798, DOF_MS], [858, DOF_FS], [940, DOF_CU], [992, DOF_MS, 8], [1016, DOF_FS, 30]]);
 
 // ================================================= SCENE 6 (1050-1267) YOU + DOMINOES (today, a backyard picnic table)
 // Shape match from the house row: a low 3/4 view along the domino line. YOUR hand sets the last domino at the start
@@ -970,7 +1005,8 @@ SHOT_CAMS[8] = () => {
   const R = (f: number) => { const p = sparkAt(Math.min(f, 1494)); return { pos: [p[0] - 2.4, 0.72, lerp(2.2, 1.6, lin(f, 1446, 1494))] as V3, look: [p[0] + 2.4, 0.42, p[2] * 0.4 - 0.4] as V3, fov: 44 }; };
   const Cb = (f: number) => ({ pos: [lerp(-11.8, -11.2, lin(f, 1506, 1548)), lerp(3.6, 3.9, lin(f, 1506, 1548)), 1.9] as V3, look: [lerp(-0.5, 0.6, lin(f, 1506, 1548)), 2.4, -0.7] as V3, fov: 50 });
   const D = (f: number) => { const u = lin(f, 1584, 1652); return { pos: [lerp(-7.5, -6.6, u), 15.5, lerp(1.0, 1.15, u)] as V3, look: [lerp(7.5, 7.7, u), lerp(2.3, 2.2, u), -0.8] as V3, fov: 46 }; };
-  const E = (f: number) => { const u = lin(f, 1652, 1723); return { pos: [lerp(9.1, 8.98, u), 1.56, lerp(2.4, 2.5, u)] as V3, look: [5.08, 0.95, -0.32] as V3, fov: 40 }; };
+  // the payoff keeps moving: a slow orbit (10 deg) around the last flame while the mayor runs in and throws his bucket
+  const E = (f: number) => { const u = sm(f, 1652, 1723), a = ((34 - 10 * u) * Math.PI) / 180, r = lerp(4.85, 4.55, u); return { pos: [5.08 + r * Math.cos(a), 1.56, -0.32 + r * Math.sin(a)] as V3, look: [5.08, 0.95, -0.32] as V3, fov: 40 }; };
   const SA = F(() => A, 1406, 0.0004), SB = FS(() => B, 1444, 0.001, 0.003), SR = F(R, 1446, 0.0001), SC = F(Cb, 1506, 0.0002), SD = F(D, 1584, 0.0002), SE = F(E, 1652, 0.0004);
   return [K(1406, SA, 24, true), K(1406, glideTo(SA, 1406, SB, 1444, 0, [0, 0.6, 0]), 1), K(1444, glideTo(SB, 1444, SR, 1466, 0, [0, 0, 0], 0, 0.2), 1),
     K(1482, glideTo(SR, 1482, SC, 1506, 0.3), 1), K(1546, glideTo(SC, 1546, SD, 1584, 0.4), 1), K(1652, SE, 24, true)];
