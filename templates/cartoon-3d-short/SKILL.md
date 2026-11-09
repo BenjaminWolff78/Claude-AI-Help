@@ -14,12 +14,13 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 8. Colour is strong and clear: real time of day, no milky haze, no outlines on the world, purple only in a sunset sky.
 9. No frame is mostly black or mostly blur; the subject is readable at phone size.
 10. No blurred face or head anywhere in the frame, foreground included.
+11. Faces (part 15): every character's face matches the expression plan for that beat; every two-shot of a key beat shows opposite faces (calm vs panic, calm vs laughing, smirk vs angry); shock (circle eyes) only on turning points and never on the hero; the doubter's dismissal beats use the moustache mouth or anger.
 
-Print a contact sheet of the key frames with PASS/FAIL for each of the 10 checks before you render, and show it to the user.
+Print a contact sheet of the key frames with PASS/FAIL for each of the 11 checks before you render, and show it to the user.
 
 ## Before anything else
-- Read the section "MASTER PROMPT v10.14 (full text)" at the end of this file, in full, and the "v10.14 overrides", "v10.13 overrides" and "v10.12 overrides" sections below. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
-- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL, AM). Their written summaries are in "Boards" below. For acting, study A, B, X, AC/AD and AG in particular; for focus, objects and detail, AH; for hands doing the work, AI; for showing the big moments, AJ; for the lit, textured world, time of day and fire, AK (with S); for characters in groups, AL; for people in every beat, the in-world demo and one ending, AM.
+- Read the section "MASTER PROMPT v10.15 (full text)" at the end of this file, in full (part 15, faces, is its last part), the "Face library" section, and the "v10.14 overrides", "v10.13 overrides" and "v10.12 overrides" sections below. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
+- Look at every board image the user has attached in the chat (A-Y, Z-Z2, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL, AM). Their written summaries are in "Boards" below. For acting, study A, B, X, AC/AD and AG in particular; for focus, objects and detail, AH; for hands doing the work, AI; for showing the big moments, AJ; for the lit, textured world, time of day and fire, AK (with S); for characters in groups, AL; for people in every beat, the in-world demo and one ending, AM. For the eight faces and when each one is used, AN.
 - Where they disagree with this file, the master prompt wins. A newer master prompt pasted or attached in the chat wins over both.
 - Exception: the "Smooth acting" section below is a newer user rule (2026-11-05). It wins over master prompt v10.10 and earlier where they disagree (instant expression swaps, 1-3 frame actions). A newer master prompt overrides it only if it says so explicitly.
 - Exception: the "Channel data" section below is a newer user rule (2026-11-05). Its title, description, tags, topic-priority and length rules win over master prompt v10.10 and over "Script length".
@@ -31,6 +32,19 @@ Print a contact sheet of the key frames with PASS/FAIL for each of the 10 checks
   - -14.3 LUFS with the voice loudest; music about 15 dB under the voice (v10.14 music rules: ducked under quoted lines, cut on the last spoken word, no fade-out) and SFX about 17 dB under.
   - The 15 dB music level and the no-fade ending are for these Rick's Clips-style videos only (a test, from 2026-11-08: report how it sounds after each video). Every other channel keeps music about 19 dB under the voice with the fade-out before the end.
   - The mp4 has the same name as the mp3.
+
+## Face library (v10.15, master prompt part 15 and board AN; works with "Smooth acting")
+The eight faces of board AN and their names in fig.ts (`expr`). The rules for when each is used are in part 15 at the end of this file. Faces change by the Smooth acting rule (about 6 frames, 10 through a "realising" face between opposite moods), complete on the word, and hold 1-2 s.
+1. SHOCK: `shock` (white circle eyes with a dot pupil, small O), `aghast`, `yikes` (huge eyes, bared teeth); breakdown = `breakdown` (circle eyes + gritted grid teeth + sweat drop); manic or oblivious = `eureka`.
+2. MOUSTACHE MOUTH: `tache` (half-lids, wide downturned mouth with curled ends); gloating = `tacheUp` (curled up). A real moustache in the look can sit over it.
+3. MOCKING LAUGH: `mock` (closed upward arcs, brows up, mouth wide open with teeth, blush) with `shake: 1` on the body; `laugh` or `guffaw` (squeezed eyes) for the biggest roar.
+4. SCHEMER: `scheme` (half-lid squint, raised brow, toothy grin); polite fake smile = `fakegrin` (closed arcs + gritted rectangle); quieter `sly`, `smug`.
+5. HERO CALM: `neutral`, `bored` (half-lids, flat mouth), eyes calmly closed = `calm`, one-sided smirk = `smug`, set jaw = `determined`.
+6. ANGER: `fury` (sharp V brows, line eyes, gritted grid teeth); escalated = `rage` (purple face + steam from the ears; `purple: 0..1` tints any face); milder `angry`; a yelling mouth with `mouth: "tOBig"`.
+7. WORRY: `worry` (brows up in the middle, dot eyes, wavy mouth, sweat drop), `nervous`, `dismay`, `gulp`.
+8. HAPPY: `smile_closed`, `joy`, `beam`, `proud`; IMPACT: `strain` (squeezed eyes, bared teeth).
+Added on 2026-11-08 because they were missing: `tache`, `tacheUp`, `fakegrin`, `fury`, `rage` (+ steam, `purple`), `breakdown`, `scheme`, `mock` (+ blush), `worry` (sweat implied).
+Before animating, write the expression plan (part 15 D) and code the acts from it: a table of beats with each on-screen character's face; the role defaults (hero calm or smirk, doubter or authority moustache mouth or anger, crowd laugh, schemer grin, victims worry), left only on a story beat; the shock beats (3-8, turning points only, never the hero); and the opposite pair in each key two-shot. The gate's faces line checks the key frames against it.
 
 ## v10.14 overrides (user rule 2026-11-08; master prompt part 14 and boards AK, AL, AM; wins over every rule below, including the v10.13 and v10.12 overrides, where they disagree)
 Deleted from this file and from the master prompt below: "shadows light and blue-violet", violet or purple shadows at golden hour or sunset, ink lines on the 3D world, "effects are flat 2D cartoon sprites", the night-blue look at "You see," (now only where the story's time of day changes), and the camera-hold, relocation and camera-travel number targets. The colour grade has no purple tint.
@@ -463,6 +477,7 @@ Learned on the "Grape Bricks" remake. It wins over boards AC/AD where they say b
 - **AK:** colour and world, Rick vs "They Blew Up Houses to Stop a Fire". Rick gives every scene a real time of day (warm day setup, deep-blue night or storm, bright payoff) and builds rich, textured, lit 3D sets: brick, plaster, wood, cloud skies, sun shadows, and lamps and fires that glow and light the ground and the people. Ours: one purple-pink grade on every scene (39% of samples purple-magenta against Rick's 11-30%, mostly sunset skies), flat colour boxes with ink outlines, rows of identical flat flames that light nothing, cream cloud banks over the frame, and an olive second ending.
 - **AL:** characters in groups. Rick's characters stand at different depths, overlap and touch, turn three-quarter toward each other, and have thin black limbs and textured costumes. Ours: the Captain's thick cream tube legs, flat rows of three facing the camera with arms down, the named Captain missing from the shot, and a beret frozen in mid-air above a head at 20.1 s.
 - **AM:** people, the demo and the ending. Rick explains in-world with the same characters, keeps object inserts short (Storm Oil: two inserts, 2.5 s in all) and ends on the payoff. Ours: a modern kid's domino demo on a lawn under the caption, an empty setup street, a 7.4 s climax with no person, the chalk line and SOLD OUT stamp appearing by themselves, and a second modern ending with new people.
+- **AN:** facial expressions in five of Rick's Shorts (Ancient Jar, Storm Oil, Railroads, Drivers, Japan Job): eight faces and the story moment that triggers each. Shock (white circle eyes, tiny pupils, sweat drop) only on turning points; the moustache mouth (wide downturned curl, half-lids) for doubters and authority, curled up when gloating; the whole group's closed-eye mocking laugh; the schemer's half-lid toothy grin or fake gritted smile; the hero's calm half-lids or one-sided smirk next to someone panicking; anger from V brows and gritted grid teeth up to a purple face with steam; worry with a wavy mouth and sweat; happy closed arcs, and squeezed eyes with bared teeth on impact.
 - **AE:** transitions that fit any story: subject-position match dissolve, smoke/dust/light dissolve, through the story object, shape-match dissolve, plus "pick by situation" (see the transitions rules above).
 
 # Cartoon 3D story short (installed from github.com/mromidev/claude-animated-shorts, MIT)
@@ -590,7 +605,7 @@ Characters never go through objects at all: not through a car body or door, a de
 - Build the cover pose as a THUMB branch of the first shot (`getInputProps().thumb`), so frame 1 and the cover show the same moment.
 - Progress bar in the chat: when the render-progress mod is on, write /home/claude/.render-progress.json (title, stage prep/rendering/paused/finishing/done, framesDone, totalFrames, framesPerMin, capFrames = last frame of the running batch, tailMin, etaMin, updatedAt) when the render starts and after every chunk; the bar reads it every 10 s.
 
-## MASTER PROMPT v10.14 (full text, as given by the user on 2026-11-08, with the rules part 14 D deletes taken out and the music rules added as part 14 G; replaces v10.13 and earlier)
+## MASTER PROMPT v10.15 (full text: v10.14 as given by the user on 2026-11-08, with the rules part 14 D deletes taken out and the music rules added as part 14 G, plus part 15 (faces, board AN) at the end; replaces v10.13 and earlier)
 (Where part 8 B2 and B4 say expressions swap instantly and actions take 1-3 frames, the "Smooth acting" section above overrides it, except for impacts. Where it gives title, length or voice rules, the "Channel data" and "Voice" sections above override it.)
 
 RICK'S CLIPS MASTER PROMPT v10 (COMPLETE). This one document REPLACES v4, v5, v6, v7 and every add-on (characters, universal rules, camera/focus, act-out, v8, v9). Do not use any earlier prompt or add-on. Reference images: A-O (Rick frames), P-U (transitions, detail, objects, acting), V-Y (characters, camera flow, acting, showing the title thing). The pictures are the spec; where words and pictures disagree, the pictures win. Make every decision yourself and tell me what you decided.
@@ -1088,3 +1103,38 @@ G. MUSIC FOR EVERY VIDEO (added by the user on 2026-11-08 as part of v10.14; win
 4. Keep the music clearly audible but under the voice: about 15 dB below the voice instead of 19, still ducked under quoted lines, and listen to check.
 5. Put a sound effect on every on-screen action (about 12-18 per video: clinks, creaks, crowd laughs, crackling fire, rumbles), and one big impact on the payoff. Keep the old rule: soft whooshes, few ringing sounds.
 6. Print a music and sound cue sheet: time, what happens on screen, what the music does, which sound effect plays.
+
+FACIAL EXPRESSIONS: WHICH FACE, WHEN (part 15 of v10; reference image AN; keeps the Smooth acting transitions)
+From face crops of Ancient Jar, Storm Oil, Railroads, Drivers Filming the Road and Japan Job (browser captures, board A) and vidIQ walkthroughs of all five, which logged 19-23 face changes per video (about one every 2-3 s across the cast).
+
+A. THE EIGHT FACES (match each to the closest name in the face library, compare the drawing with board AN, and add any that are missing)
+1. SHOCK: eyes become white circles about twice normal size with a tiny black dot pupil; brows jump up (or pinch in for alarm); small "o" or flat mouth; sweat drop. Variants: + gritted teeth = breakdown; + wide toothy grin = manic or oblivious.
+2. MOUSTACHE MOUTH (disapproval, authority): a wide downturned arc with flared or curled ends that reads like a handlebar moustache, half-lidded eyes (a straight upper lid cuts the top of the pupil), one brow slightly raised. For some older men and authority figures (the emperor) it is their signature mouth and stays in every emotion (a laugh keeps the curled corners). Curled UP = smug or gloating. Some characters wear a real moustache instead.
+3. MOCKING LAUGH: closed upward-arc eyes, brows up, mouth wide open with the top teeth, blush; the whole group laughs together and their bodies shake.
+4. SCHEMER: half-lid squint + one raised brow + wide toothy grin; or closed arcs + a gritted rectangular grin for a polite, fake smile.
+5. HERO CALM: half-lidded eyes, flat brows, tiny flat mouth or tiny "o"; eyes calmly closed while being yelled at; a one-sided smirk when he knows something.
+6. ANGER: brows in a sharp V, squinted line eyes, gritted teeth drawn as a grid; escalates to a purple face plus steam, or a wide-open yelling mouth.
+7. WORRY: brows tilted up in the middle, dot or circle eyes, wavy squiggly mouth, sweat drop.
+8. HAPPY: closed upward arcs + small smile. IMPACT: eyes squeezed shut + bared teeth on a crash or strain.
+
+B. WHEN EACH FACE IS USED
+- Every character has a default face that fits the role: hero = calm or smirk; doubter or authority = moustache mouth or anger; the crowd = laugh; schemer = schemer grin; victims = worry or shock. They leave the default only on a story beat.
+- Hook: the hero's smirk or calm (Railroads, Storm Oil), or the schemer's grin (Drivers).
+- Warning line said aloud: SHOCK on the person who sees the danger (Jar 4.6 "run").
+- Mockery beats ("burst out laughing", "laughed even harder", "couldn't be happier"): the whole group LAUGHS for 2-3 s while the hero stays CALM in the same shot.
+- Dismissal or fake-out: the doubter's MOUSTACHE MOUTH (Jar 14-25) or a thrilled grin (Railroads 45 "his boss is thrilled"), next to the hero's calm.
+- The boss discovers the hero's "mistake": ANGER, drawn literally from the narration ("his face goes purple" = purple face plus steam).
+- Someone about to be blamed or sensing trouble: WORRY with a sweat drop.
+- The disaster or twist lands: SHOCK on the person it hits; the hero stays calm or allows a small smile or smirk at the payoff.
+- Getting caught or the final collapse: SHOCK with gritted teeth, or a wavy downturned mouth (Drivers 55, Japan 59.5).
+- SHOCK is saved for turning points: 3-8 per video in these five, never on the calm hero.
+
+C. HOW
+- The CONTRAST is the joke: in every two-shot of a key beat, the two faces are opposites (calm vs panic, calm vs laughing, smirk vs angry).
+- Draw the narration literally: "laughing" = laugh, "screaming" = open shout, "a big smile" = grin, "face goes purple" = purple plus steam.
+- Each active character changes face about every 2-3 s, always on a beat. Changes follow the Smooth acting rule (about 6 frames, 10 frames through a "realising" face between opposite moods), complete on the word; hold 1-2 s.
+- Extras: a sweat drop for worry or shock, blush for laughing or embarrassment, steam for rage, a sparkle for a show-off's wink, tears for fake crying.
+
+D. CHECK (add to the final table)
+- An expression plan before animating: for each beat, each on-screen character's face, from the eight faces.
+- Key-frame faces match the plan; every two-shot of a key beat shows contrasting faces; shock used only on turning points and never on the hero; the doubter's dismissal beats use the moustache mouth or anger.
