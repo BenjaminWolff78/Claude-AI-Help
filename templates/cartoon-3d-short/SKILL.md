@@ -4,16 +4,18 @@ description: "Make a Rick's Clips-style vertical story short (2D cartoon charact
 ---
 
 ## STILL-FRAME GATE (user rule, 2026-11-08; read first; run on one key frame of every shot BEFORE rendering; fix every FAIL)
-1. The main character in story shots fills 35-70% of the frame height and isn't cut by the frame edge. Wide shots at most 1 in 4.
+1. Medium shots: the main character fills 35-70% of the frame height. Close-ups (head and shoulders) may go bigger, in up to 1 in 4 shots. A shot counts as wide only when the main character is under 25% of the frame height; at most 1 in 4 shots are wide. Legs cropped by the bottom edge are fine. FAIL only when a head or face is sliced by a side edge or the top edge.
 2. Nothing in the middle of the frame between the camera and the subject: no pole, bollard, sign or barrel across the frame or a face. Foreground framing only in the outer 20%.
 3. The speaking or acting character is in sharp focus; never a blurred face. No stray white blurs, smudges or blobs anywhere.
 4. A character is in every story beat, reacting (crews on sinking ships, crowds at disasters). Object-only inserts 2 s max, except the mechanism explanation.
-5. The title object fills 40%+ of the frame in the hook and the reveal, and its change is shown happening (for a load line: the water rises to the line as cargo goes on, then past it).
+5. The title object fills 40%+ of the frame in the hook and the reveal, and its change is shown happening (for a load line: the water rises to the line as cargo goes on, then past it). REQUIRED in the hook and at the reveal; evaluate it, never leave it blank.
 6. No heads stacked directly behind other heads; no characters standing on odd spots (smokestacks, roofs) unless the story says so.
-7. Props have shape: bevelled crates, rounded barrels, planks and rivets on hulls, varied building shapes. No plain cubes or flat slabs.
+7. Props have shape: bevelled crates, rounded barrels, planks and rivets on hulls, varied building shapes. No plain cubes or flat slabs. Evaluate it on every frame, never leave it blank: any plain cube crate or flat slab is a FAIL. Crates vary in size and carry lids, rope and wear instead of plain stacked cubes.
 8. Colour is strong and clear: real time of day, no milky haze, no outlines on the world, purple only in a sunset sky.
+9. No frame is mostly black or mostly blur; the subject is readable at phone size.
+10. No blurred face or head anywhere in the frame, foreground included.
 
-Print a contact sheet of the key frames with PASS/FAIL for each of the 8 checks before you render, and show it to the user.
+Print a contact sheet of the key frames with PASS/FAIL for each of the 10 checks before you render, and show it to the user.
 
 ## Before anything else
 - Read the section "MASTER PROMPT v10.14 (full text)" at the end of this file, in full, and the "v10.14 overrides", "v10.13 overrides" and "v10.12 overrides" sections below. It is the skill's MASTER_PROMPT.md, kept inside this file because the skill is saved as one file.
