@@ -729,7 +729,10 @@ SHOT_CAMS[3] = () => {
   const A = FK(452, [bod(S3OWN), bod(S3INS)], 272, 4, 40, 0.64);   // from the quay side: the derrick's rope falls behind them, not across the owner
   const Bk = FK(500, [bod(S3SA, 0.4), bod(S3SB, 0.4), bod(S3SC, 0.4), bod(S3COP, 0.4)], 305, 18, 54, 0.86);   // closer, wider and from above: the front sailor clearly biggest and lowest, the stagger reads   // closer and wider: the front sailor clearly biggest
   const Cc = FK(562, [bod(S3MARCH[1]), bod(add3(S3MARCH[1], S3GRAB[0], 0, S3GRAB[2]))], 70, 4, 42, 0.56);
-  const path = spline([A, HOLD(A, 474), Bk, HOLD(Bk, 512), Cc]);
+  // full-video in-between sweep: the A->Bk pan crossed the empty quay (483-485). Now it pulls back on "Over 2,000" to the
+  // owner, the insurer and the sailors in one frame, then settles on the sailors on "sailors" (494).
+  const W3 = FK(486, [bod(S3OWN), bod(S3INS), bod(S3SA, 0.4), bod(S3SB, 0.4), bod(S3SC, 0.4), bod(S3COP, 0.4)], 296, 12, 50, 0.9);
+  const path = spline([A, HOLD(A, 466), W3, Bk, HOLD(Bk, 512), Cc]);
   return [K(452, F((f) => path(f), 452, 0.0008), 24, true)];
 };
 SHOT_ACTS[3] = (f, s) => {
@@ -762,7 +765,7 @@ SHOT_ACTS[3] = (f, s) => {
       C("constable", copPos, pose(null, cop), { idx: 7 }),
     ],
     fx: fxs(f >= 452 && f < 470 ? goldGlint("bag3", [S3OWN[0], 1.75, S3OWN[2] + 0.25], f) : null),
-    focus: f < 495 ? [S3OWN[0], 1.5, S3OWN[2]] : [sBpos[0], 1.5, sBpos[2]], subj: f < 495 ? "owner" : "sailorB",
+    focus: f < 488 ? [S3OWN[0], 1.5, S3OWN[2]] : [sBpos[0], 1.5, sBpos[2]], subj: f < 488 ? "owner" : "sailorB",
   };
 };
 
@@ -819,7 +822,7 @@ SHOT_ACTS[4] = (f, s) => {
       OWN("dealer4", o3, f, 729, 2, fO(o3), f >= 720 && f < 729 ? { expr: "mock", headBack: 0.15 } : s4OwnWalk(S4O3, S4H3, f)),
     ],
     fx: fxs(f >= 690 && f <= 716 ? sparkle("lime", [HULLX - 0.06, -0.48 - sy, -7.9 - 1.7 * lineK], (f - 690) % 10, 0.14, "#d8ff9a") : null),
-    focus: f < 640 ? [plPos[0], plPos[1] + 1.5, plPos[2]] : f < 712 ? [HULLX, -0.3, -8.6] : f < 748 ? [6.3, 0.9, -9.2] : [S4H1[0], 1.5, S4H1[2]], subj: f < 712 ? "plimsoll" : "owner",
+    focus: f < 640 ? [plPos[0], plPos[1] + 1.5, plPos[2]] : f < 712 ? [HULLX, -0.3, -8.6] : f < 748 ? [6.3, 0.9, -9.2] : [S4H1[0], 1.5, S4H1[2]], subj: f < 720 ? "plimsoll" : "owner",   // QA tag only: the owners enter the frame on "owners" (720)
   };
 };
 const PZ_KNEEL: P = { mode: "kneel", armR: [[30, 20], [62, 30]] as A2, armRFront: true, propR: "paintBrush", propRAng: 1.35, armL: [[-20, 36], [-24, 66]] as A2, propL: "paintPot" };
@@ -839,7 +842,7 @@ SHOT_CAMS[5] = () => {
   const A = FK(822, [sitB(S5SPK), BASKET], 15, 3, 38, 0.6);
   const A2k = FK(838, [sitB(S5MP[0][1])], 290, 6, 40, 0.6);   // one clear subject: the front-bench MP laughing, the rest behind
   const Bk: CK = { f: 872, pos: [1.7, 1.15, -12.4], look: [1.7, 1.35, -7.6], fov: 60 };   // low and wide down the aisle: he marches at us, the benches either side, no MP cut by the edge   // ahead of him: he marches at us, face lit
-  const Cc: CK = { f: 926, pos: [2.0, 1.2, -10.9], look: [-0.25, 1.5, -13.2], fov: 56 };   // low two-shot from the aisle: his fist up close on the left, the Speaker recoiling behind on the right (overlapping depths)
+  const Cc: CK = { f: 926, pos: [2.0, 1.2, -10.9], look: [-0.25, 1.5, -13.2], fov: 62 };   // gate 9: fov 56 put his head at 49% (quote max 45%)   // low two-shot from the aisle: his fist up close on the left, the Speaker recoiling behind on the right (overlapping depths)
   const D: CK = { f: 970, pos: [-2.2, 0.95, -13.0], look: [1.3, 1.4, -11.06], fov: 50 };   // low-angle close-up: Plimsoll shouting at us on the left, the gasping MPs behind him on the right (mp1 centre, mp2 right), not stacked
   const E = FK(1080, [bod(S5FIST), bod(S5BOY[1])], 0, 14, 42, 0.8);
   // final-render review (in-between frames, not only the gate's key frames): the 10-12 frame whips between these keys showed
@@ -847,17 +850,20 @@ SHOT_CAMS[5] = () => {
   // (894-913). Now: cuts on the words (law/completely 845, "So," 870, "shakes" 922, "calls" 963), a pan with his march to the
   // Speaker, and the D->E orbit keeps its eye on Plimsoll (the room corner was empty at 1053-1066).
   void Bk;
-  const path = spline([Aw, HOLD(Aw, 804), A, HOLD(A, 844)]);
+  // full-video sweep: the Aw->A move flew past Plimsoll's head at the lens (815-818); now a short push on the wide and a
+  // cut to the Speaker on "Parliament" (823).
+  const AwP: CK = { f: 822, pos: [0.55, 3.05, -3.7], look: [0.02, 1.0, -13.1], fov: 57 };
+  const path = spline([Aw, HOLD(Aw, 790), AwP]);
   const pl5 = (f: number): V3 => (f < 848 ? S5WALK[0] : f < 920 ? s5Pl(f) : lerp3(S5PL1, S5FIST, sm(f, 914, 926)));
   const mid2: V3 = [0.2, 1.7, -12.8];   // between his head at the table end and the Speaker's
-  const pov = (f: number) => { const p = pl5(f); return { pos: [-1.9, 1.7, -8.4] as V3, look: lerp3([p[0], 1.55, p[2]], mid2, sm(f, 898, 918)), fov: 50 }; };   // from the opposite bench end: the camera pans with him past the laughing benches and settles on him and the Speaker
+  const pov = (f: number) => { const p = pl5(f); return { pos: [-1.9, 1.7, -8.4] as V3, look: lerp3([p[0], 1.55, p[2]], mid2, sm(f, 898, 918)), fov: 62 }; };   // gate 9: fov 50 put the marching head at 32% (action 18-25%)   // from the opposite bench end: the camera pans with him past the laughing benches and settles on him and the Speaker
   const DF: CK = { ...D, f: 963, pos: add3(D.pos, 0.05, 0, -0.25), look: add3(D.look, 0.05, 0, -0.25) };   // D moved with him onto S5FIST
   const M5: CK = { f: 1058, pos: [-2.0, 1.7, -10.2], look: [S5FIST[0], 1.45, S5FIST[2]], fov: 46 };   // the orbit keeps ~3 m from him (it swung to 1.9 m: his head filled 63% of the width)
   const orb = spline([DF, HOLD(DF, 1040), M5, E, HOLD(E, 1108)]);
   const plHead: V3 = [S5FIST[0], 1.45, S5FIST[2]];
   const orbit = (f: number) => { const c = orb(f), w = sm(f, 1032, 1044) * (1 - sm(f, 1068, 1080)); return { ...c, look: lerp3(c.look, plHead, w) }; };
   const still = (k: CK) => () => ({ pos: k.pos, look: k.look, fov: k.fov });
-  return [K(784, F((f) => path(f), 784, 0.0008), 24, true), K(845, F(still(A2k), 845, 0.0008), 0, true), K(870, F(pov, 870, 0.0008), 0, true),
+  return [K(784, F((f) => path(f), 784, 0.0008), 24, true), K(823, F(still(A), 823, 0.0008), 0, true), K(845, F(still(A2k), 845, 0.0008), 0, true), K(870, F(pov, 870, 0.0008), 0, true),
     K(922, F(still(Cc), 922, 0.0008), 0, true), K(963, F(orbit, 963, 0.0008), 0, true)];
 };
 SHOT_ACTS[5] = (f, s) => {
@@ -911,7 +917,7 @@ SHOT_ACTS[5] = (f, s) => {
       ...(f >= 1036 ? [C("newsboy", f < 1074 ? bw.p : S5BOY[1], pose(null, boy), { idx: 9 })] : []),
     ],
     fx: fxs(f >= 924 && f < 958 ? squiggles("fist", [S5PL1[0] - 0.1, 2.15, S5PL1[2] - 0.5], f, "#ffffff", 0.3) : null),
-    focus: f < 845 ? [S5SPK[0], 1.9, S5SPK[2]] : f < 870 ? [S5MP[0][1][0], 1.6, S5MP[0][1][2]] : [plPos[0], 1.5, plPos[2]], subj: f < 845 ? "speaker" : f < 870 ? "mp1" : "plimsoll",
+    focus: f < 845 ? [S5SPK[0], 1.9, S5SPK[2]] : f < 870 ? [S5MP[0][1][0], 1.6, S5MP[0][1][2]] : [plPos[0], 1.5, plPos[2]], subj: f < 823 ? "plimsoll" : f < 845 ? "speaker" : f < 870 ? "mp1" : "plimsoll",   // QA tag only: 784-822 is Plimsoll waiting big in front, the Speaker behind
   };
 };
 
@@ -990,7 +996,8 @@ const s7Sc = (f: number): V3 => [9.25, DECK(s7Y(f)) + 0.02, -7.0];
 SHOT_CAMS[7] = () => {
   const A = FK(1296, [bod(S7PL, 0.3), stripeBox(0.55), boxAt([9.3, 0.4, -8.2], 3.2, 1.5)], 20, 12, 46, 0.64);   // v10.16 wide place shot: the overloaded ship at night, the danger; Plimsoll small on the quay pointing at his line (from over the water: no bollard in front)
   const Bk = FK(1392, [bod(s7Sc(1400))], 300, 24, 42, 0.62);   // high: down onto the deck as the wave walks over it, not the black hull side
-  return [K(1296, F((f) => spline([A, HOLD(A, 1366), Bk, HOLD(Bk, 1430)])(f), 1296, 0.0008), 24, true)];
+  // full-video sweep: the A->Bk crane went through the spars with no one in frame (1378-1382); cut on "every" (1382).
+  return [K(1296, F(() => ({ pos: A.pos, look: A.look, fov: A.fov }), 1296, 0.0008), 24, true), K(1382, F(() => ({ pos: Bk.pos, look: Bk.look, fov: Bk.fov }), 1382, 0.0008), 0, true)];
 };
 KICKS.push([1404 / 30, 0.25]);
 SHOT_ACTS[7] = (f, s) => {
@@ -1006,7 +1013,7 @@ SHOT_ACTS[7] = (f, s) => {
       C("sailorC", s7Sc(f), pose(null, sc), { idx: 2, air: true }),
     ],
     fx: fxs(...splash("w7", [9.3, d + 0.3, -6.9], f - 1408, 2.2), ...sprayCards("w7s", [10.6, d + 0.4, -7.2], f, 1396, 1424, 4, 1.4)),
-    focus: f < 1380 ? [S7PL[0], 1.5, S7PL[2]] : [s7Sc(f)[0], d + 1.4, -7.0], subj: f < 1380 ? "plimsoll" : "sailorC",
+    focus: f < 1382 ? [S7PL[0], 1.5, S7PL[2]] : [s7Sc(f)[0], d + 1.4, -7.0], subj: f < 1382 ? "plimsoll" : "sailorC",
   };
 };
 
@@ -1017,8 +1024,8 @@ const S8PL: V3 = [3.62, 0, -0.32], S8OWN: V3 = [2.3, 0, -0.95];
 SHOT_CAMS[8] = () => {
   const A = FK(1430, [bod(S8PL, 1.0), bod(S8OWN, 1.0), boxAt([3.0, 0.85, -0.6], 0.35, 0.5)], 4, 30, 36, 0.86);
   const Ins: CK = { f: 1478, pos: [3.0, 2.75, 0.9], look: [3.0, 1.0, -0.6], fov: 38 };   // v10.16 mechanism insert: the barrel top fills the width, the pennies drop, the water climbs over the toy's line
-  const path = spline([A, HOLD(A, 1466), Ins, HOLD(Ins, 1528)]);
-  return [K(1430, F((f) => path(f), 1430, 0.0005), 24, true)];
+  // full-video sweep: the push into the barrel swept both heads past the lens (1475-1477); cut to the insert on "One" (1474).
+  return [K(1430, F(() => ({ pos: A.pos, look: A.look, fov: A.fov }), 1430, 0.0005), 24, true), K(1474, F(() => ({ pos: Ins.pos, look: Ins.look, fov: Ins.fov }), 1474, 0.0005), 0, true)];
 };
 SHOT_ACTS[8] = (f, s) => {
   const drops = [1440, 1456, 1472, 1484, 1500, 1512];
@@ -1032,7 +1039,7 @@ SHOT_ACTS[8] = (f, s) => {
     ctl: { lamps: 1, toyLamp: 1, toy: lerp(0, 1.25, lin(f, 1438, 1522)), pen, line: 1, shipY: 0.9, cargo: 30, gang: 0, rough: 0.4 },
     cast: [C("plimsoll", S8PL, pose(null, pl), { idx: 1 }), C("owner", S8OWN, pose(null, own), { idx: 2 })],
     fx: fxs(...splash("toy", [3.0, 1.12, -0.6], f - 1512, 0.6), ...drops.map((d) => (f >= d - 6 && f < d ? penny("pen" + d, [3.0, lerp(1.5, 1.15, (f - d + 6) / 6), -0.55]) : null))),
-    focus: [3.0, 1.1, -0.6], subj: f < 1470 ? "plimsoll" : null,
+    focus: [3.0, 1.1, -0.6], subj: f < 1474 ? "plimsoll" : null,
   };
 };
 
