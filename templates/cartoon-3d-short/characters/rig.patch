@@ -1,0 +1,298 @@
+--- a/fig.ts
++++ b/fig.ts
+@@ -182,8 +182,9 @@
+   /** rotate (deg) / scale the whole drawing about the card point (300, 600): 2D sheets and insets only */ turn?: number; zoom?: number;
+ };
+-const BUILDS = { adult: { a: 118, torso: 1.1, legs: 1.4, tw: 0.8 }, stout: { a: 120, torso: 1.15, legs: 1.3, tw: 0.94 },
+-  kid: { a: 112, torso: 0.85, legs: 1.0, tw: 0.72 }, tall: { a: 116, torso: 1.15, legs: 1.5, tw: 0.76 },
+-  thin: { a: 114, torso: 1.12, legs: 1.45, tw: 0.62 }, lanky: { a: 110, torso: 1.25, legs: 1.62, tw: 0.6 },
+-  plump: { a: 120, torso: 1.12, legs: 1.2, tw: 1.06 } };
++// v13 (Rick measured, board AT / AL / J full bodies): legs ~1.18 head heights, torso ~1.05 head heights and ~0.82 head widths
++const BUILDS = { adult: { a: 118, torso: 1.05, legs: 1.18, tw: 0.82 }, stout: { a: 120, torso: 1.1, legs: 1.1, tw: 0.94 },
++  kid: { a: 112, torso: 0.82, legs: 0.85, tw: 0.74 }, tall: { a: 116, torso: 1.12, legs: 1.28, tw: 0.78 },
++  thin: { a: 114, torso: 1.08, legs: 1.24, tw: 0.66 }, lanky: { a: 110, torso: 1.2, legs: 1.38, tw: 0.62 },
++  plump: { a: 120, torso: 1.08, legs: 1.02, tw: 1.06 } };
+ /** metres the card must travel per phase unit in mode "stride" (feet planted), at CastPlace scale 1 */
+ export const strideM = (o: Look, opts: FigOpts = {}) => { const Bd = BUILDS[o.build ?? "adult"], HH = 2 * Bd.a * 0.94; return 2 * (opts.stride ?? 0.55 * HH) * 0.00216; };
+@@ -537,5 +538,5 @@
+   // v10.14 rule 7 (board AL): every character, hero included, has thin black stick arms and legs (trouser colours are ignored)
+   const legCol = INK, armCol = INK, footCol = o.shoes ?? o.boots ?? INK; void bare;
+-  const legW = 5.8 * u, footW = 7.5 * u;
++  const legW = 5.6 * u, footW = 6.8 * u;
+   const Ta = ((Bd.tw / 2) * W) / 1.06, Ltot = (Bd.legs + 0.12) * HH;
+   // lying on the back: the whole drawing slides right so the back rests on the card's centre line (the ground)
+@@ -547,5 +548,5 @@
+   const legs: { hip: P2; pts: P2[] }[] = [];
+   for (const side of [-1, 1]) {
+-    let k: P2, f: P2; const hx = 300 + side * 15 * u; let toe: P2 | null = null;
++    let k: P2, f: P2; const hx = 300 + side * 10 * u; let toe: P2 | null = null;
+     if (NEW) {
+       const th = two * (phase + (side > 0 ? 0.5 : 0)), hip: P2 = [hx, hipY];
+@@ -607,7 +608,9 @@
+     else if (mode === "walk") {
+       const up = Math.max(0, Math.sin(two * (phase + (side > 0 ? 0.5 : 0)))) * 0.28 * HH;
+-      f = [300 + side * 22 * u + Math.sin(two * (phase + (side > 0 ? 0.5 : 0))) * 8 * u * fs, sole - 4 * u - up];
+-      k = [(hx + f[0]) / 2 + side * (1.5 * u + up * 0.16), (hipY + f[1]) / 2 - up * 0.08];
+-    } else { f = [300 + side * 22 * u, sole - 4 * u]; k = [(hx + f[0]) / 2 + side * 1.5 * u, (hipY + f[1]) / 2]; }
++      f = [300 + side * 13 * u + Math.sin(two * (phase + (side > 0 ? 0.5 : 0))) * 8 * u * fs, sole - 4 * u - up];
++      // v13 (AV2 fix): the knee bends FORWARD, toward the facing side (a leg never kinks backwards); front-on it bows outward
++      const kd = Math.sign(fs) * Math.min(1, Math.abs(fs) * 1.6) + side * Math.max(0, 1 - Math.abs(fs) * 1.6);
++      k = [(hx + f[0]) / 2 + kd * (1.5 * u + up * 0.45), (hipY + f[1]) / 2 - up * 0.08];
++    } else { f = [300 + side * 13 * u, sole - 4 * u]; k = [(hx + f[0]) / 2 + side * 1.2 * u, (hipY + f[1]) / 2]; }
+     let lp: P2[] = [];
+     if (dress && !o.mini && mode !== "sit" && !NEW && !STRIDE && !KNEEL && !PUSH && !HOP) { f = [300 + side * 12 * u, sole - 4 * u]; lp = [[f[0], sole - 0.4 * HH], [f[0], (sole - 0.4 * HH + f[1]) / 2], f]; p.stroke(lp, legW, o.capri || o.tallBoots ? INK : legCol); lp = []; }
+@@ -618,6 +621,6 @@
+     legs.push({ hip: [hx, hipY], pts: lp });
+     const dir = fs || side;
+-    if (toe) footStroke(p, [f[0] - toe[0] * 3 * u, f[1] - toe[1] * 3 * u], [f[0] + toe[0] * 13 * u, f[1] + toe[1] * 13 * u], footW, footCol);
+-    else footStroke(p, [f[0] - dir * 3 * u, f[1]], [f[0] + dir * 13 * u, f[1] + 0.5 * u], footW, footCol);
++    if (toe) footStroke(p, [f[0] - toe[0] * 2 * u, f[1] - toe[1] * 2 * u], [f[0] + toe[0] * 9 * u, f[1] + toe[1] * 9 * u], footW, footCol);
++    else footStroke(p, [f[0] - dir * 2 * u, f[1]], [f[0] + dir * (fs ? 9 : 6.5) * u, f[1] + 0.5 * u], footW, footCol);
+   }
+   // ---- shorts (running shorts, or trousers cut ragged): one piece per thigh + the seat, outlined as one shape ----
+@@ -667,5 +670,5 @@
+     if (STRIDE && fs) { const sw2 = Math.sin(two * phase) * side; return [[fs * 6 * sw2 + side * 3, 0.48 * HH / u], [fs * 16 * sw2 + side * 4, 1.0 * HH / u - Math.abs(sw2) * 6]]; }
+     const sw = mode === "walk" || STRIDE ? Math.sin(two * phase) * side : 0;
+-    return [[side * (0.27 * T.a / u + 4), 0.48 * HH / u], [side * (0.27 * T.a / u + 7) - side * 6 * sw, 1.02 * HH / u - Math.abs(sw) * 9]];
++    return [[side * (0.27 * T.a / u + 5), 0.38 * HH / u], [side * (0.27 * T.a / u + 6) - side * 6 * sw, 0.74 * HH / u - Math.abs(sw) * 7]];
+   };
+   const armL = opts.armL ?? hangArm(-1), armR = opts.armR ?? hangArm(1);
+@@ -683,5 +686,5 @@
+     if (prop) drawProp(p, prop, a[2], u, ang, opts.propK ?? 0);
+     if (o.gloves) { const q = ap[ap.length - 3]; p.band([q, a[2]], shade(o.gloves, 0.9), 8 * u, 1.2 * u, "round"); p.ell(a[2][0], a[2][1], 7 * u, 6.5 * u, o.gloves, 1.4 * u); p.stroke([[a[2][0] - 3 * u, a[2][1] - 1 * u], [a[2][0] + 2 * u, a[2][1] + 3 * u]], 1.1 * u, shade(o.gloves, 0.7)); }
+-    else p.dot(a[2][0], a[2][1], 5.5 * u);
++    else p.dot(a[2][0], a[2][1], 4.8 * u);
+   };
+   // cape behind
+@@ -877,5 +880,5 @@
+     p.ell(kx, ky, 3 * u, 3 * u, shade(bc, 0.85), 1.2 * u);
+   }
+-  if (o.beard) { const bp = blobPts(300 + 12 * u * facing, hc + 0.5 * H.b, { ...H, a: H.a * 0.92, b: H.b * 0.85, egg: -0.3, seed: seed + 5 }); p.shadedFill(bp, o.beard, mul(o.beard, SH_FELT), light, H.a); p.inkRing(bp, ow * 0.8, thick); }
++  if (o.beard) { const bp = blobPts(300 + 0.8 * TURN.mouth * u * turnK(facing), hc + 0.5 * H.b, { ...H, a: H.a * 0.92, b: H.b * 0.85, egg: -0.3, seed: seed + 5 }); p.shadedFill(bp, o.beard, mul(o.beard, SH_FELT), light, H.a); p.inkRing(bp, ow * 0.8, thick); }
+   const hp = blobPts(300, hc, H);
+   const sick = opts.sick ?? (expr === "green" ? 0.5 : 0), purple = opts.purple ?? (expr === "rage" ? 1 : 0);
+@@ -900,8 +903,8 @@
+   hair(p, o, hp, H, hc, light, fs, u, ow, thick);
+   if (o.chops) for (const s of [-1, 1]) { // mutton chops down the cheeks
+-    const x0 = 300 + 12 * u * facing;
++    const x0 = 300 + 0.6 * TURN.mouth * u * turnK(facing);
+     p.poly([[x0 + s * 0.8 * H.a, hc - 0.3 * H.b], [x0 + s * 0.97 * H.a, hc + 0.05 * H.b], [x0 + s * 0.86 * H.a, hc + 0.55 * H.b], [x0 + s * 0.56 * H.a, hc + 0.62 * H.b], [x0 + s * 0.42 * H.a, hc + 0.36 * H.b], [x0 + s * 0.66 * H.a, hc + 0.12 * H.b], [x0 + s * 0.68 * H.a, hc - 0.3 * H.b]], o.chops, 1.8 * u);
+   }
+-  if (o.sideburns && !BK) for (const s of [-1, 1]) { // short tapered sideburns from under the temple curls down the cheek
++  if (o.sideburns && !BK && o.hairStyle !== "tufts") for (const s of [-1, 1]) { // short tapered sideburns from under the temple curls down the cheek
+     const ex = (k: number) => { const pts = hp.filter(([x, y]) => Math.sign(x - 300) === s && Math.abs(y - (hc + k * H.b)) < 0.09 * H.b); return pts.length ? Math.max(...pts.map(([x]) => Math.abs(x - 300))) : H.a * 0.95; };
+     const y0 = hc - 0.36 * H.b, y1 = hc + 0.12 * H.b, w0 = ex(-0.36), w1 = ex(0.12);
+@@ -918,7 +921,28 @@
+   }
+   const brim = !!o.hat && o.hat !== "bonnet" && o.hat !== "none" && o.hat !== "headband" && o.hat !== "laurel" && !opts.noHat;
+-  if (BK) { // back of the head: hair (or a darker nape) over the lower part of the egg, a centre seam on the coat
+-    const nape = hp.filter(([, y]) => y > hc - 0.1 * H.b);
+-    if (nape.length > 3) { nape.sort((a, b) => Math.atan2(a[1] - hc, a[0] - 300) - Math.atan2(b[1] - hc, b[0] - 300)); p.shadedFill(nape, o.hair ?? "#e6ddd2", mul(o.hair ?? "#e6ddd2", SH_FELT), light, H.a, 0.35); p.poly(nape, null, ow * 0.6); }
++  if (BK) { // back of the head: short hair from under the cap band (or the crown) down to a rounded hairline above the nape
++    const hcol = o.hair ?? "#e6ddd2", capped = !!o.hat && CAPS.has(o.hat) && !opts.noHat, top = capped ? hc - H.b + 0.36 * H.b : hc - 0.1 * H.b, line = hc + 0.7 * H.b;
++    // v13: with hair and no flat cap, the back hair starts at the crown (any hat is drawn over it), so no white band shows
++    // between a hat or the crown and the hair; bald or hairless characters keep the low fringe.
++    const topB = !capped && o.hair && o.hairStyle !== "bald" ? hc - 1.3 * H.b : top;
++    // v13 (AV2 fix): the hair runs down to the jaw line on both sides and only the nape stays white: a neck column about
++    // 0.4 W wide with straight sides and a softly rounded top hairline, which ends in the coat collar drawn below. Hair,
++    // white neck, collar reads as the back of a person; the old full-width white crescent under the hair read as a grin.
++    const nw = 0.38 * H.a, nTop = line - 0.2 * H.b, low = hc + 1.4 * H.b;
++    const back: P2[] = [[300 - 1.3 * H.a, topB], [300 + 1.3 * H.a, topB], [300 + 1.3 * H.a, low], [300 + nw, low]];
++    for (let i = 0; i <= 12; i++) { const a = rad(i * 15), c = Math.cos(a); back.push([300 + nw * c, nTop + 0.07 * H.b * Math.pow(Math.abs(c), 3) + (Math.abs(c) > 0.97 ? 0.05 * H.b : 0)]); }
++    back.push([300 - nw, low], [300 - 1.3 * H.a, low]);
++    p.clip(hp, () => { p.shadedFill(back, hcol, mul(hcol, SH_FELT), light, H.a, 0.35); p.poly(back, null, ow * 0.6);
++      for (const x of [-0.7, -0.5, 0.5, 0.7]) p.stroke([[300 + x * H.a, top + 0.1 * H.b], [300 + x * 1.04 * H.a, line + 0.12 * H.b]], 1.2 * u, shade(hcol, 0.74));
++      for (const x of [-0.2, 0.2]) p.stroke([[300 + x * H.a, top + 0.1 * H.b], [300 + x * H.a, nTop - 0.05 * H.b]], 1.2 * u, shade(hcol, 0.74));
++      p.stroke([[300 - 0.55 * nw, nTop + 0.1 * H.b], [300 - 0.5 * nw, hc + 0.84 * H.b]], 1.1 * u, "rgba(60,40,60,0.16)");   // soft neck creases
++      p.stroke([[300 + 0.55 * nw, nTop + 0.1 * H.b], [300 + 0.5 * nw, hc + 0.84 * H.b]], 1.1 * u, "rgba(60,40,60,0.16)"); });
++    p.inkRing(hp, ow, thick);
++    { // the collar of whatever the body wears, drawn OVER the head outline so the neck runs into it
++      const cc = shade(o.singlet ?? o.dress ?? o.drape ?? o.coat, 0.8), cy1 = hc + 0.8 * H.b, cy2 = hc + 1.14 * H.b;
++      const col: P2[] = [[300 - 0.74 * H.a, cy2], [300 - 0.66 * H.a, cy1 + 0.07 * H.b], [300 - 0.52 * H.a, cy1 + 0.01 * H.b], [300, cy1 - 0.02 * H.b], [300 + 0.52 * H.a, cy1 + 0.01 * H.b], [300 + 0.66 * H.a, cy1 + 0.07 * H.b], [300 + 0.74 * H.a, cy2]];
++      p.poly(col, cc, ow * 0.8);
++      p.stroke([[300 - 0.55 * H.a, cy1 + 0.1 * H.b], [300 + 0.55 * H.a, cy1 + 0.1 * H.b]], 1.2 * u, shade(o.singlet ?? o.dress ?? o.drape ?? o.coat, 0.6));   // collar seam
++    }
+   } else face(p, 300, hc, W, expr, facing, look, Math.max(blink, opts.swapLid ?? 0), brim, o, (opts.mouth ?? opts.mouthX) as MouthK | undefined, Math.max(sweat, expr === "breakdown" || expr === "worry" ? 1 : 0), fillK > 0.62 ? mix(HEAD, "#8f55c4", 0.8) : headCol,
+     (FACE_UP[expr] ?? 0) + 9 * clamp(opts.headBack ?? 0, 0, 1), opts.monoclePop ?? 0, phase, opts.brow, clamp(opts.steam ?? (expr === "rage" ? 1 : 0), 0, 1));
+@@ -948,10 +972,14 @@
+   const col = o.hair; if (!col || o.hairStyle === "bald") return;
+   const crown = hc - H.b;
+-  if (o.hairStyle === "tufts") { // curls peeking out under a hat brim at both temples
+-    for (const s of [-1, 1]) {
+-      const x0 = 300 + s * 0.86 * H.a, y0 = hc - 0.42 * H.b;
+-      const pts: P2[] = [[x0 - s * 14 * u, y0 - 8 * u], [x0 + s * 6 * u, y0 - 10 * u], [x0 + s * 9 * u, y0], [x0 + s * 4 * u, y0 + 3 * u], [x0 + s * 7 * u, y0 + 11 * u], [x0, y0 + 9 * u], [x0 - s * 6 * u, y0 + 2 * u]];
+-      p.poly(pts, col, 1.6 * u);
++  if (o.hairStyle === "tufts") {
++    const y0 = crown + 0.4 * H.b;   // just under the cap band
++    for (const s of (fs ? [-fs] : [-1, 1])) {
++      const edge = Math.max(...hp.filter(([x, y]) => Math.sign(x - 300) === s && Math.abs(y - (y0 + 0.25 * H.b)) < 0.12 * H.b).map(([x]) => Math.abs(x - 300)), 0.9 * H.a);
++      const big = fs ? 1.55 : 1, cx0 = 300 + s * (edge + 0.02 * H.a), cy0 = y0 + 0.24 * H.b * big;
++      const patch = ellPts(cx0, cy0, 0.24 * H.a * big, 0.36 * H.b * big);
++      p.clip(hp, () => { p.shadedFill(patch, col, mul(col, SH_FELT), light, H.a, 0.35); p.poly(patch, null, ow * 0.75);
++        for (const k of [0, 1]) p.stroke([[cx0 - s * (0.16 + 0.06 * k) * H.a * big, cy0 - 0.24 * H.b * big], [cx0 - s * (0.1 + 0.04 * k) * H.a * big, cy0 + 0.2 * H.b * big]], 1.1 * u, shade(col, 0.72)); });
+     }
++    p.inkRing(hp, ow, thick);
+     return;
+   }
+@@ -962,5 +990,6 @@
+     // sorted from the left lower side (angle ~ -180+) over the top to the right lower side: close with the face window
+     const L = outer.filter(([x]) => x < 300).sort((a, b) => b[1] - a[1]), Rr = outer.filter(([x]) => x >= 300).sort((a, b) => a[1] - b[1]);
+-    const ring: P2[] = [...L, ...Rr, [300 + 1.04 * H.a, ys + 0.06 * H.b], [300 + wx, ys], [300 + wx * 0.98, fr + 6 * u], [300 + wx * 0.7, fr], [300, fr + 2 * u], [300 - wx * 0.7, fr], [300 - wx * 0.98, fr + 6 * u], [300 - wx, ys], [300 - 1.04 * H.a, ys + 0.06 * H.b]];
++    const wc = 300 + 0.6 * TURN.eye * u * turnK(fs);   // v13: the face window slides with the 3/4 turn, so the far-side hair grows
++    const ring: P2[] = [...L, ...Rr, [300 + 1.04 * H.a, ys + 0.06 * H.b], [wc + wx, ys], [wc + wx * 0.98, fr + 6 * u], [wc + wx * 0.7, fr], [wc, fr + 2 * u], [wc - wx * 0.7, fr], [wc - wx * 0.98, fr + 6 * u], [wc - wx, ys], [300 - 1.04 * H.a, ys + 0.06 * H.b]];
+     p.shadedFill(ring, col, mul(col, SH_FELT), light, H.a, 0.35); p.inkRing(ring, ow * 0.85, thick, 0.35);
+     p.stroke(curve([300 - 0.5 * H.a, crown + 0.2 * H.b], [300 - 0.1 * H.a, crown + 0.06 * H.b], [300 + 0.4 * H.a, crown + 0.16 * H.b], 8), 2.2 * u, "rgba(255,255,255,0.25)");
+@@ -1018,11 +1047,17 @@
+ };
+ 
++/** v13 3/4 turn (board AO: in Rick's 3/4 deadpan both eyes sit in the near half of the face). Per unit of `facing`
++ *  the eyes slide TURN.eye % of the head width toward the facing side, the mouth TURN.mouth %, and the eye gap
++ *  narrows by TURN.gap (foreshortening). At facing 0.7: far eye ~+8 % W, near eye ~+31 % W from the head centre.
++ *  The slide stops growing past |facing| 0.75 (turnK) so a full side view keeps glasses and brows inside the head. */
++export const TURN = { eye: 28, mouth: 24, gap: 0.3 };
++export const turnK = (facing: number) => clamp(facing, -0.75, 0.75);
+ const face = (p: Pen, cx: number, cy0: number, W: number, expr: Face, facing: number, look: number, blink: number, brim: boolean, o: Look, mo: MouthK | undefined, sweat: number, skin = HEAD,
+   up = 0, mpop = 0, phase = 0, browOv?: [number, number], steamK = 0) => {
+-  const u = W / 100, F0 = faceOf(expr), F = browOv ? { ...F0, brow: browOv } : F0, fx = cx + 15 * u * facing, cy = cy0 - up * u;
+-  const ex = (F.eye[0] === "shock" || F.eye[0] === "huge" ? 12 : 13) * u, ey = cy;
++  const u = W / 100, F0 = faceOf(expr), F = browOv ? { ...F0, brow: browOv } : F0, fx = cx + TURN.eye * u * turnK(facing), cy = cy0 - up * u;
++  const ex = (F.eye[0] === "shock" || F.eye[0] === "huge" ? 13 : 14) * u, ey = cy, exN = ex * (1 - TURN.gap * Math.abs(facing));
+   const capped = !!o.hat && CAPS.has(o.hat);
+   for (const side of [-1, 1]) {
+-    const x = fx + side * ex * (1 - 0.1 * Math.abs(facing));   // v10.16 A1: a 3/4 turn narrows the eye gap
++    const x = fx + side * exN;   // v13: a 3/4 turn slides the eyes to the near half and narrows the gap
+     const k0 = F.eye[(facing ? side === Math.sign(facing) : side > 0) ? 1 : 0];
+     const kind: XEye = k0 === "x" || k0 === "closed" ? k0 : k0 === "huge" ? (blink >= 1 ? "dash" : blink > 0 ? "shockHalf" : "huge")
+@@ -1046,16 +1081,16 @@
+     }
+     else eye(p, kind, x, ey, u, side, look, skin);
+-    const [dI, dO] = F.brow, by = ey - (brim ? 17 : 20) * u;
++    const [dI, dO] = F.brow, by = ey - 15 * u; void brim;
+     if (kind === "shock" || kind === "shockHalf" || kind === "huge") p.arc(x, by - 6 * u, 9 * u, 3 * u, 200, 340, 4 * u);
+-    else taper(p, [x - side * 8.5 * u, by + dI * u], [x + side * 8.5 * u, by + dO * u], 5 * u, 2.5 * u);
++    else taper(p, [x - side * 8 * u, by + dI * u], [x + side * 9 * u, by + dO * u], 5.4 * u, 2.6 * u);
+     if (o.glasses) { if (o.bigGlasses) { p.ell(x, ey, 14.5 * u, 13.5 * u, "rgba(220,240,255,0.25)", 0); p.ell(x, ey, 14.5 * u, 13.5 * u, null, 2.8 * u); p.arc(x - 4 * u, ey - 5 * u, 7 * u, 5 * u, 200, 250, 1.6 * u, "rgba(255,255,255,0.9)"); }
+       else p.ell(x, ey, 12 * u, 11 * u, null, 1.8 * u); }
+     if (o.monocle && side > 0 && mpop <= 0) p.ell(x, ey, 12 * u, 12 * u, null, 2.2 * u);
+   }
+-  if (o.glasses) { const gw = o.bigGlasses ? 14.5 : 12; p.stroke([[fx - ex + gw * u, ey - (o.bigGlasses ? 2 : 0) * u], [fx + ex - gw * u, ey - (o.bigGlasses ? 2 : 0) * u]], (o.bigGlasses ? 2.4 : 1.6) * u); }
+-  if (o.catEye) p.stroke([[fx - ex + 10 * u, ey - 3 * u], [fx + ex - 10 * u, ey - 3 * u]], 1.8 * u, o.catEye);
+-  if (o.shades) p.stroke([[fx - ex + 11 * u, ey - 3 * u], [fx + ex - 11 * u, ey - 3 * u]], 1.8 * u);
+-  if (o.goggles && !capped) for (const side of [-1, 1]) p.ell(fx + side * ex, ey - 32 * u, 10 * u, 8 * u, "#9ad7e8", 2 * u);
+-  const mx = cx + 16 * u * facing, my = cy + 20 * u;
++  if (o.glasses) { const gw = o.bigGlasses ? 14.5 : 12; p.stroke([[fx - exN + gw * u, ey - (o.bigGlasses ? 2 : 0) * u], [fx + exN - gw * u, ey - (o.bigGlasses ? 2 : 0) * u]], (o.bigGlasses ? 2.4 : 1.6) * u); }
++  if (o.catEye) p.stroke([[fx - exN + 10 * u, ey - 3 * u], [fx + exN - 10 * u, ey - 3 * u]], 1.8 * u, o.catEye);
++  if (o.shades) p.stroke([[fx - exN + 11 * u, ey - 3 * u], [fx + exN - 11 * u, ey - 3 * u]], 1.8 * u);
++  if (o.goggles && !capped) for (const side of [-1, 1]) p.ell(fx + side * exN, ey - 32 * u, 10 * u, 8 * u, "#9ad7e8", 2 * u);
++  const mx = cx + TURN.mouth * u * turnK(facing), my = cy + 20 * u;
+   const mk = (mo ?? F.mouth) as XMouth;
+   const talkK = typeof mk === "string" && /^t[A-Z]/.test(mk) ? (mk as TalkK) : null;
+@@ -1091,5 +1126,5 @@
+     else for (const s of [-1, 1]) taper(p, [mx + s * 1.5 * u, cy + (12.5 + moDy) * u], [mx + s * 17 * u, cy + (13 + moDy) * u], 5.5 * u, 1.8 * u, o.moustache);
+   }
+-  if (expr === "mock") for (const sd of [-1, 1]) p.ell(cx + sd * 24 * u * (1 - 0.1 * Math.abs(facing)) + 14 * u * facing, cy + 10 * u, 7 * u, 3.6 * u, "rgba(240,120,130,0.45)", 0);   // blush
++  if (expr === "mock") for (const sd of [-1, 1]) p.ell(cx + sd * 24 * u * (1 - TURN.gap * Math.abs(facing)) + TURN.mouth * u * turnK(facing), cy + 10 * u, 7 * u, 3.6 * u, "rgba(240,120,130,0.45)", 0);   // blush
+   if (steamK > 0) for (const sd of [-1, 1]) for (let k = 0; k < 3; k++) { // steam out of the ears: pops in on the key word, then puffs upward on the phase
+     const t = ((phase * 1.4 + k / 3) % 1 + 1) % 1, pop = clamp(steamK * 3 - k, 0, 1), sx = cx + sd * (50 + 10 * t) * u, sy = cy - (4 + 26 * t) * u, r = (5 + 6 * t) * u * pop;
+@@ -1101,5 +1136,5 @@
+   }
+   if (o.monocle && mpop > 0) { /* drawn by monoclePop() after the hat */   } else if (o.monocle && o.monoCord && !o.glasses) { // cord from the monocle down to the lapel
+-    const P: P2 = [fx + ex, ey + 12 * u], A: P2 = [fx + ex - 8 * u, cy0 + 58 * u];
++    const P: P2 = [fx + exN, ey + 12 * u], A: P2 = [fx + exN - 8 * u, cy0 + 58 * u];
+     p.stroke(curve(P, [P[0] + 12 * u, (P[1] + A[1]) / 2], A, 12), 1.2 * u, "#e8c14a");
+   }
+@@ -1108,6 +1143,6 @@
+ /** the popped monocle (FigOpts.monoclePop > 0): flies up off the eye, drops and dangles on its gold cord; drawn after the hat */
+ const monoclePop = (p: Pen, cx: number, cy0: number, W: number, expr: Face, facing: number, up: number, mpop: number) => {
+-  const u = W / 100, F = faceOf(expr), fx = cx + 15 * u * facing, cy = cy0 - up * u;
+-  const ex = (F.eye[0] === "shock" || F.eye[0] === "huge" ? 12 : 13) * u, ey = cy;
++  const u = W / 100, F = faceOf(expr), fx = cx + TURN.eye * u * turnK(facing), cy = cy0 - up * u;
++  const ex = (F.eye[0] === "shock" || F.eye[0] === "huge" ? 13 : 14) * u * (1 - TURN.gap * Math.abs(facing)), ey = cy;
+     const ex0: [number, number] = [fx + ex, ey], A: P2 = [fx + ex - 8 * u, cy0 + 58 * u], D: P2 = [fx + ex - 3 * u, cy0 + 84 * u];
+     const t1 = clamp(mpop / 0.35, 0, 1), t2 = clamp((mpop - 0.35) / 0.65, 0, 1), top: P2 = [ex0[0] + 15 * u, ex0[1] - 32 * u];
+@@ -1169,10 +1204,40 @@
+     });
+     p.poly(dome, null, ow);
+-  } else if (k === "beanie" || k === "flatcap" || k === "stripecap") {
++  } else if (k === "flatcap" || k === "stripecap") {
++    // v13 (Rick's newsboy / railroad caps, boards AO + AT): the cap sits HIGH - its band is ~20 % down the head so both brows
++    // show under it - and the soft crown puffs up above the skull and overhangs toward the facing side. Panel seams run from
++    // a top button, a darker band wraps the bottom edge, and a dark crescent peak hangs under the band toward the face.
++    const d = fs || 0, cut = crown + 0.2 * HH, cutL = hc - lift * HH;
++    const raw = blobPts(cx, cutL, { ...H, a: H.a * 1.06, b: H.b * 1.05, seed: seed + 2 }).filter(([, y]) => y < cut);
++    raw.sort((p1, p2) => Math.atan2(p1[1] - cutL, p1[0] - cx) - Math.atan2(p2[1] - cutL, p2[0] - cx));
++    const top0 = Math.min(...raw.map(([, y]) => y)), span = Math.max(1, cut - top0);
++    const hw = Math.max(...raw.map(([x]) => Math.abs(x - cx)));   // the skull's half-width at the band
++    const dome = raw.map(([x, y]) => { const h = (cut - y) / span, sx = 1.1;   // band = the skull width there (+5 %, so it wraps), the soft crown balloons out above it
++      return [cx + (x - cx) * sx * (1 + 0.2 * Math.sin(Math.PI * Math.min(1, h * 1.8))) + d * 0.08 * W * h * h, cut - (cut - y) * 1.75] as P2; });
++    void hw;
++    if (dome.length < 3) return;
++    const cap = R(dome), topY = cut - span * 1.75, btn: P2 = [cx + d * 0.08 * W, topY + 0.035 * HH];
++    p.shadedFill(cap, col, mul(col, SH_FELT), light, H.a, 0.35);
++    p.clip(cap, () => {
++      for (const t of [-0.75, -0.38, 0, 0.38, 0.75]) { // panel seams fanning out from the top button
++        const end: P2 = [cx + d * 0.05 * W + t * 0.56 * W, cut + 2 * u], mid: P2 = [(btn[0] + end[0]) / 2 + t * 0.12 * W, (btn[1] + end[1]) / 2 - 0.02 * HH];
++        if (k === "stripecap") p.band(R(curve(btn, mid, end, 10)), o.band ?? "#e8eef4", 0.055 * W, 0);
++        else p.stroke(R(curve(btn, mid, end, 10)), 1.3 * u, shade(col, 0.74));
++      }
++      p.band(R([[cx - 0.7 * W, cut - 0.028 * HH], [cx + 0.7 * W, cut - 0.028 * HH]]), shade(col, k === "stripecap" ? 0.55 : 0.72), 0.056 * HH, 0);   // the band
++      p.stroke(R(curve([cx - 0.42 * W, topY + 0.12 * HH], [cx - 0.12 * W - d * 0.05 * W, topY + 0.03 * HH], [cx + 0.18 * W, topY + 0.05 * HH], 10)), 2.6 * u, "rgba(255,255,255,0.34)");   // highlight streak
++    });
++    p.clip(cap, () => p.stroke(R([[cx - 0.6 * W, cut - 0.056 * HH], [cx + 0.6 * W, cut - 0.056 * HH]]), 1.4 * u, shade(col, 0.45)));
++    p.poly(cap, null, ow);
++    const [bx, by] = R([btn])[0]; p.ell(bx, by, 0.035 * W, 0.03 * W, shade(col, 0.82), 1.4 * u);
++    const [vx, vy] = R([[cx + d * 0.13 * W, cut - 0.5 * u]])[0];   // the peak
++    p.ell(vx, vy, 0.36 * W, 0.075 * HH, shade(col, k === "stripecap" ? 0.4 : 0.6), ow, 0, 180, deg);
++    p.stroke(R([[cx + d * 0.13 * W - 0.24 * W, cut + 1.5 * u], [cx + d * 0.13 * W + 0.24 * W, cut + 1.5 * u]]), 1.6 * u, "rgba(255,255,255,0.22)");
++  } else if (k === "beanie") {
+     const cut = crown + 0.36 * HH;
+     const cap = lowCap(cut, col, k === "beanie" ? 1.06 : 1.04);
+     if (cap.length < 3) return;
+     p.shadedFill(cap, col, mul(col, SH_FELT), light, H.a, 0.35);
+-    if (k !== "flatcap" && o.band) p.clip(cap, () => { for (let i = 0; i < 7; i++) { const y = crown - 0.1 * HH + i * 0.08 * HH; if (k === "beanie") p.band(R([[cx - W, y], [cx + W, y]]), o.band!, 0.035 * HH, 0); else p.band(R([[cx - 0.6 * W + i * 0.16 * W, cut], [cx - 0.3 * W + i * 0.1 * W, crown - 0.05 * HH]]), o.band!, 0.03 * HH, 0); } });
++    if (o.band) p.clip(cap, () => { for (let i = 0; i < 7; i++) { const y = crown - 0.1 * HH + i * 0.08 * HH; if (k === "beanie") p.band(R([[cx - W, y], [cx + W, y]]), o.band!, 0.035 * HH, 0); else p.band(R([[cx - 0.6 * W + i * 0.16 * W, cut], [cx - 0.3 * W + i * 0.1 * W, crown - 0.05 * HH]]), o.band!, 0.03 * HH, 0); } });
+     p.poly(cap, null, ow);
+     if (k === "beanie") p.poly(R([[cx - 0.52 * W, cut - 0.07 * HH], [cx + 0.52 * W, cut - 0.07 * HH], [cx + 0.53 * W, cut + 0.02 * HH], [cx - 0.53 * W, cut + 0.02 * HH]]), shade(col, 0.85), ow * 0.8);
+--- a/toon.ts
++++ b/toon.ts
+@@ -256,8 +256,8 @@
+   const lx = x + look * 3 * u, lw = 3.8 * u;
+   switch (kind) {
+-    case "dot": p.ell(lx, ey, 3.8 * u, 5.5 * u, INK, 0); break;
+-    case "small": p.ell(lx, ey, 3 * u, 4.4 * u, INK, 0); break;
+-    case "lid": p.ell(lx, ey - u, 7 * u, 6 * u, INK, 0, 0, 180); p.stroke([[x - 9 * u, ey - u], [x + 9 * u, ey - u]], lw); break;
+-    case "slit": p.ell(lx, ey, 7 * u, 2.6 * u, INK, 0, 0, 180); p.stroke([[x - 9 * u, ey], [x + 9 * u, ey]], lw); break;
++    case "dot": p.ell(lx, ey, 4.4 * u, 6.2 * u, INK, 0); break;
++    case "small": p.ell(lx, ey, 3.4 * u, 5 * u, INK, 0); break;
++    case "lid": p.ell(x + look * 1.5 * u, ey - 1.5 * u, 7.6 * u, 8.2 * u, INK, 0, 0, 180); p.stroke([[x - 8.4 * u, ey - 1.5 * u], [x + 8.4 * u, ey - 1.5 * u]], 4.6 * u); break;
++    case "slit": p.ell(x + look * 1.5 * u, ey, 7.6 * u, 4.6 * u, INK, 0, 0, 180); p.stroke([[x - 8.4 * u, ey], [x + 8.4 * u, ey]], 4.6 * u); break;
+     case "happy": p.arc(x, ey + 3 * u, 8 * u, 6 * u, 200, 340, lw); break;
+     case "dash": p.stroke([[x - 8.5 * u, ey], [x + 8.5 * u, ey]], lw); break;
+@@ -283,12 +283,22 @@
+ };
+ 
++/** a brush stroke along an elliptical arc: w thick in the middle, tapering to points (Rick's smirks, smiles, frowns) */
++export const brushArc = (p: Pen, cx: number, cy: number, rx: number, ry: number, a0: number, a1: number, w: number, col = INK, skew = 0) => {
++  const N = 18, out: P2[] = [], inn: P2[] = [];
++  for (let i = 0; i <= N; i++) {
++    const t = i / N, a = rad(a0 + (a1 - a0) * t), h = 0.5 * w * Math.pow(Math.sin(Math.PI * t), 0.7) * (1 + skew * (t - 0.5)) + 0.12 * w;
++    const c = Math.cos(a), sn = Math.sin(a), nx = c / rx, ny = sn / ry, nl = Math.hypot(nx, ny) || 1;
++    const px = cx + rx * c, py = cy + ry * sn; out.push([px + (nx / nl) * h, py + (ny / nl) * h]); inn.push([px - (nx / nl) * h, py - (ny / nl) * h]);
++  }
++  p.poly([...out, ...inn.reverse()], col, 0);
++};
+ export const mouth = (p: Pen, kind: MouthK, mx: number, my: number, u: number, k = 1) => {
+   const mw = 4 * u;
+   switch (kind) {
+-    case "dash": p.stroke([[mx - 5.5 * u * k, my], [mx + 5.5 * u * k, my - 0.8 * u]], mw); break;
+-    case "frown": p.arc(mx, my + 3 * u, 6.5 * u * k, 3.5 * u, 200, 340, mw); break;
+-    case "smirk": p.arc(mx + u, my - 3 * u, 7 * u * k, 4 * u, 10, 150, mw); break;
+-    case "smile": p.arc(mx, my - 3 * u, 8 * u * k, 4.5 * u, 20, 160, mw); break;
+-    case "smileWide": p.arc(mx, my - 4 * u, 11 * u * k, 6 * u, 15, 165, mw); break;
++    case "dash": brushArc(p, mx, my - 30 * u, 32 * u * k, 30 * u, 78, 102, 3.8 * u); break;
++    case "frown": brushArc(p, mx, my + 4 * u, 7.5 * u * k, 4.5 * u, 200, 340, 4.4 * u); break;
++    case "smirk": brushArc(p, mx + 1.5 * u, my - 4 * u, 7.5 * u * k, 4.6 * u, 15, 150, 4.6 * u, INK, 0.5); break;   // one-sided: fuller at the raised corner
++    case "smile": brushArc(p, mx, my - 4 * u, 8.5 * u * k, 5 * u, 20, 160, 4.6 * u); break;
++    case "smileWide": brushArc(p, mx, my - 5 * u, 11.5 * u * k, 6.5 * u, 15, 165, 5 * u); break;
+     case "grin": dmouth(p, mx, my - u, 12 * u * k, 8 * u, u); break;
+     case "laugh": dmouth(p, mx, my, 16 * u * k, 11 * u, u, true); break;

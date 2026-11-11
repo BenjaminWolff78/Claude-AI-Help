@@ -1,0 +1,278 @@
+[
+ {
+  "out": "joe_model_sheet.jpg",
+  "cols": 5,
+  "bg": "#cdb48e",
+  "items": [
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "smug"
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "neutral",
+     "facing": 0.7
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "smug",
+     "facing": -0.7,
+     "armR": [
+      [
+       22,
+       8
+      ],
+      [
+       38,
+       -14
+      ]
+     ]
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "smug",
+     "facing": 0.7,
+     "mouth": "tWide"
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "neutral",
+     "back": true
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "shock"
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "mock"
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "fury",
+     "facing": -0.7
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "worry",
+     "facing": 0.7
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "neutral",
+     "mode": "walk",
+     "facing": 1,
+     "phase": 0.25
+    }
+   }
+  ]
+ },
+ {
+  "out": "joe_heads.jpg",
+  "cols": 4,
+  "bg": "#cdb48e",
+  "items": [
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "smug",
+     "facing": 0
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "smug",
+     "facing": 0.7
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "neutral",
+     "facing": -0.7
+    }
+   },
+   {
+    "look": {
+     "seed": 7,
+     "hat": "flatcap",
+     "hatCol": "#7b8793",
+     "hair": "#c4682c",
+     "hairStyle": "tufts",
+     "coat": "#a8502c",
+     "vest": "#dfb34a",
+     "scarf": "#1c8e5a",
+     "patches": "#6a4a2c",
+     "buttons": "#6b4320"
+    },
+    "o": {
+     "expr": "neutral",
+     "back": true
+    }
+   }
+  ]
+ }
+]
