@@ -1,0 +1,1127 @@
+[
+{
+"word": "A",
+"start": 0.0,
+"end": 0.12
+},
+{
+"word": "farmer",
+"start": 0.12,
+"end": 0.42
+},
+{
+"word": "covered",
+"start": 0.42,
+"end": 0.78
+},
+{
+"word": "his",
+"start": 0.78,
+"end": 0.96
+},
+{
+"word": "oranges",
+"start": 0.96,
+"end": 1.24
+},
+{
+"word": "in",
+"start": 1.24,
+"end": 1.52
+},
+{
+"word": "ice",
+"start": 1.52,
+"end": 1.76
+},
+{
+"word": "to",
+"start": 1.76,
+"end": 2.0
+},
+{
+"word": "stop",
+"start": 2.0,
+"end": 2.24
+},
+{
+"word": "them",
+"start": 2.24,
+"end": 2.4
+},
+{
+"word": "from",
+"start": 2.4,
+"end": 2.58
+},
+{
+"word": "freezing.",
+"start": 2.58,
+"end": 2.96
+},
+{
+"word": "You",
+"start": 3.22,
+"end": 3.26
+},
+{
+"word": "see,",
+"start": 3.26,
+"end": 3.44
+},
+{
+"word": "a",
+"start": 3.6,
+"end": 3.68
+},
+{
+"word": "killer",
+"start": 3.68,
+"end": 3.96
+},
+{
+"word": "freeze",
+"start": 3.96,
+"end": 4.36
+},
+{
+"word": "is",
+"start": 4.36,
+"end": 4.52
+},
+{
+"word": "hitting",
+"start": 4.52,
+"end": 4.72
+},
+{
+"word": "Florida,",
+"start": 4.72,
+"end": 5.08
+},
+{
+"word": "and",
+"start": 5.3,
+"end": 5.36
+},
+{
+"word": "while",
+"start": 5.36,
+"end": 5.52
+},
+{
+"word": "his",
+"start": 5.52,
+"end": 5.66
+},
+{
+"word": "neighbor",
+"start": 5.66,
+"end": 5.92
+},
+{
+"word": "Duane",
+"start": 5.92,
+"end": 6.26
+},
+{
+"word": "lights",
+"start": 6.26,
+"end": 6.54
+},
+{
+"word": "fires",
+"start": 6.54,
+"end": 6.9
+},
+{
+"word": "under",
+"start": 6.9,
+"end": 7.18
+},
+{
+"word": "his",
+"start": 7.18,
+"end": 7.34
+},
+{
+"word": "trees,",
+"start": 7.34,
+"end": 7.62
+},
+{
+"word": "Earl",
+"start": 7.9,
+"end": 7.94
+},
+{
+"word": "turns",
+"start": 7.94,
+"end": 8.26
+},
+{
+"word": "on",
+"start": 8.26,
+"end": 8.48
+},
+{
+"word": "the",
+"start": 8.48,
+"end": 8.6
+},
+{
+"word": "sprinklers.",
+"start": 8.6,
+"end": 8.98
+},
+{
+"word": "Duane",
+"start": 9.3,
+"end": 9.48
+},
+{
+"word": "laughs,",
+"start": 9.48,
+"end": 9.78
+},
+{
+"word": "He's",
+"start": 10.04,
+"end": 10.14
+},
+{
+"word": "making",
+"start": 10.14,
+"end": 10.44
+},
+{
+"word": "popsicles!,",
+"start": 10.44,
+"end": 11.02
+},
+{
+"word": "and",
+"start": 11.26,
+"end": 11.42
+},
+{
+"word": "bets",
+"start": 11.42,
+"end": 11.62
+},
+{
+"word": "a",
+"start": 11.62,
+"end": 11.76
+},
+{
+"word": "crate",
+"start": 11.76,
+"end": 11.98
+},
+{
+"word": "the",
+"start": 11.98,
+"end": 12.18
+},
+{
+"word": "grove",
+"start": 12.18,
+"end": 12.42
+},
+{
+"word": "is",
+"start": 12.42,
+"end": 12.54
+},
+{
+"word": "dead",
+"start": 12.54,
+"end": 12.84
+},
+{
+"word": "by",
+"start": 12.84,
+"end": 13.04
+},
+{
+"word": "morning.",
+"start": 13.04,
+"end": 13.36
+},
+{
+"word": "Earl",
+"start": 13.56,
+"end": 13.64
+},
+{
+"word": "shrugs:",
+"start": 13.64,
+"end": 14.16
+},
+{
+"word": "Ice",
+"start": 14.22,
+"end": 14.32
+},
+{
+"word": "keeps",
+"start": 14.32,
+"end": 14.54
+},
+{
+"word": "'em",
+"start": 14.54,
+"end": 14.7
+},
+{
+"word": "warm.",
+"start": 14.7,
+"end": 14.96
+},
+{
+"word": "Wait,",
+"start": 15.12,
+"end": 15.26
+},
+{
+"word": "ice",
+"start": 15.44,
+"end": 15.58
+},
+{
+"word": "keeps",
+"start": 15.58,
+"end": 15.82
+},
+{
+"word": "oranges",
+"start": 15.82,
+"end": 16.22
+},
+{
+"word": "warm?",
+"start": 16.22,
+"end": 16.58
+},
+{
+"word": "By",
+"start": 16.72,
+"end": 16.88
+},
+{
+"word": "nine,",
+"start": 16.88,
+"end": 17.16
+},
+{
+"word": "the",
+"start": 17.4,
+"end": 17.52
+},
+{
+"word": "leaves",
+"start": 17.52,
+"end": 17.76
+},
+{
+"word": "are",
+"start": 17.76,
+"end": 17.96
+},
+{
+"word": "glazed,",
+"start": 17.96,
+"end": 18.5
+},
+{
+"word": "and",
+"start": 18.68,
+"end": 18.8
+},
+{
+"word": "Duane's",
+"start": 18.8,
+"end": 19.18
+},
+{
+"word": "farmhands",
+"start": 19.18,
+"end": 19.62
+},
+{
+"word": "are",
+"start": 19.62,
+"end": 19.78
+},
+{
+"word": "laughing",
+"start": 19.78,
+"end": 20.16
+},
+{
+"word": "at",
+"start": 20.16,
+"end": 20.4
+},
+{
+"word": "him.",
+"start": 20.4,
+"end": 20.56
+},
+{
+"word": "By",
+"start": 20.72,
+"end": 20.84
+},
+{
+"word": "midnight,",
+"start": 20.84,
+"end": 21.2
+},
+{
+"word": "every",
+"start": 21.36,
+"end": 21.66
+},
+{
+"word": "orange",
+"start": 21.66,
+"end": 22.0
+},
+{
+"word": "is",
+"start": 22.0,
+"end": 22.2
+},
+{
+"word": "a",
+"start": 22.2,
+"end": 22.38
+},
+{
+"word": "glass",
+"start": 22.38,
+"end": 22.6
+},
+{
+"word": "ball,",
+"start": 22.6,
+"end": 22.96
+},
+{
+"word": "and",
+"start": 23.08,
+"end": 23.18
+},
+{
+"word": "the",
+"start": 23.18,
+"end": 23.3
+},
+{
+"word": "town",
+"start": 23.3,
+"end": 23.48
+},
+{
+"word": "calls",
+"start": 23.48,
+"end": 23.76
+},
+{
+"word": "him",
+"start": 23.76,
+"end": 24.06
+},
+{
+"word": "Popsicle",
+"start": 24.06,
+"end": 24.5
+},
+{
+"word": "Earl.",
+"start": 24.5,
+"end": 24.74
+},
+{
+"word": "At",
+"start": 24.96,
+"end": 25.08
+},
+{
+"word": "three",
+"start": 25.08,
+"end": 25.58
+},
+{
+"word": "a.m.,",
+"start": 25.58,
+"end": 25.58
+},
+{
+"word": "a",
+"start": 25.76,
+"end": 25.92
+},
+{
+"word": "branch",
+"start": 25.92,
+"end": 26.16
+},
+{
+"word": "snaps",
+"start": 26.16,
+"end": 26.58
+},
+{
+"word": "under",
+"start": 26.58,
+"end": 26.86
+},
+{
+"word": "the",
+"start": 26.86,
+"end": 27.02
+},
+{
+"word": "ice,",
+"start": 27.02,
+"end": 27.24
+},
+{
+"word": "and",
+"start": 27.36,
+"end": 27.54
+},
+{
+"word": "Duane",
+"start": 27.54,
+"end": 27.78
+},
+{
+"word": "hollers,",
+"start": 27.78,
+"end": 28.2
+},
+{
+"word": "Told",
+"start": 28.36,
+"end": 28.56
+},
+{
+"word": "ya,",
+"start": 28.56,
+"end": 28.8
+},
+{
+"word": "popsicles!",
+"start": 28.8,
+"end": 29.48
+},
+{
+"word": "It's",
+"start": 29.48,
+"end": 29.94
+},
+{
+"word": "so",
+"start": 29.94,
+"end": 30.16
+},
+{
+"word": "cold",
+"start": 30.16,
+"end": 30.56
+},
+{
+"word": "the",
+"start": 30.68,
+"end": 30.74
+},
+{
+"word": "scarecrow",
+"start": 30.74,
+"end": 31.24
+},
+{
+"word": "asks",
+"start": 31.24,
+"end": 31.52
+},
+{
+"word": "to",
+"start": 31.52,
+"end": 31.74
+},
+{
+"word": "come",
+"start": 31.74,
+"end": 31.88
+},
+{
+"word": "in.",
+"start": 31.88,
+"end": 32.1
+},
+{
+"word": "Duane's",
+"start": 32.3,
+"end": 32.48
+},
+{
+"word": "thermometer",
+"start": 32.48,
+"end": 32.84
+},
+{
+"word": "hits",
+"start": 32.84,
+"end": 33.1
+},
+{
+"word": "twenty four,",
+"start": 33.1,
+"end": 33.72
+},
+{
+"word": "and",
+"start": 33.88,
+"end": 34.0
+},
+{
+"word": "four",
+"start": 34.0,
+"end": 34.24
+},
+{
+"word": "hours",
+"start": 34.24,
+"end": 34.48
+},
+{
+"word": "below",
+"start": 34.48,
+"end": 34.74
+},
+{
+"word": "twenty eight",
+"start": 34.74,
+"end": 35.22
+},
+{
+"word": "turns",
+"start": 35.22,
+"end": 35.68
+},
+{
+"word": "oranges",
+"start": 35.68,
+"end": 36.04
+},
+{
+"word": "to",
+"start": 36.04,
+"end": 36.4
+},
+{
+"word": "ice.",
+"start": 36.4,
+"end": 36.66
+},
+{
+"word": "But",
+"start": 37.0,
+"end": 37.06
+},
+{
+"word": "Earl",
+"start": 37.06,
+"end": 37.32
+},
+{
+"word": "never",
+"start": 37.32,
+"end": 37.68
+},
+{
+"word": "turns",
+"start": 37.68,
+"end": 38.06
+},
+{
+"word": "the",
+"start": 38.06,
+"end": 38.22
+},
+{
+"word": "water",
+"start": 38.22,
+"end": 38.4
+},
+{
+"word": "off.",
+"start": 38.4,
+"end": 38.64
+},
+{
+"word": "That's",
+"start": 38.76,
+"end": 38.96
+},
+{
+"word": "the",
+"start": 38.96,
+"end": 39.1
+},
+{
+"word": "trick:",
+"start": 39.1,
+"end": 39.32
+},
+{
+"word": "when",
+"start": 39.48,
+"end": 39.56
+},
+{
+"word": "water",
+"start": 39.56,
+"end": 39.84
+},
+{
+"word": "freezes,",
+"start": 39.84,
+"end": 40.22
+},
+{
+"word": "it",
+"start": 40.48,
+"end": 40.6
+},
+{
+"word": "actually",
+"start": 40.6,
+"end": 40.94
+},
+{
+"word": "gives",
+"start": 40.94,
+"end": 41.24
+},
+{
+"word": "off",
+"start": 41.24,
+"end": 41.44
+},
+{
+"word": "heat.",
+"start": 41.44,
+"end": 41.7
+},
+{
+"word": "Every",
+"start": 41.92,
+"end": 42.2
+},
+{
+"word": "drop",
+"start": 42.2,
+"end": 42.46
+},
+{
+"word": "that",
+"start": 42.46,
+"end": 42.64
+},
+{
+"word": "freezes",
+"start": 42.64,
+"end": 42.94
+},
+{
+"word": "warms",
+"start": 42.94,
+"end": 43.44
+},
+{
+"word": "the",
+"start": 43.44,
+"end": 43.58
+},
+{
+"word": "orange",
+"start": 43.58,
+"end": 43.82
+},
+{
+"word": "a",
+"start": 43.82,
+"end": 43.98
+},
+{
+"word": "little,",
+"start": 43.98,
+"end": 44.12
+},
+{
+"word": "so",
+"start": 44.28,
+"end": 44.4
+},
+{
+"word": "while",
+"start": 44.4,
+"end": 44.56
+},
+{
+"word": "the",
+"start": 44.56,
+"end": 44.72
+},
+{
+"word": "water",
+"start": 44.72,
+"end": 44.92
+},
+{
+"word": "keeps",
+"start": 44.92,
+"end": 45.12
+},
+{
+"word": "coming,",
+"start": 45.12,
+"end": 45.46
+},
+{
+"word": "it",
+"start": 45.64,
+"end": 45.74
+},
+{
+"word": "stays",
+"start": 45.74,
+"end": 45.98
+},
+{
+"word": "at",
+"start": 45.98,
+"end": 46.16
+},
+{
+"word": "thirty two,",
+"start": 46.16,
+"end": 46.62
+},
+{
+"word": "above",
+"start": 46.84,
+"end": 47.12
+},
+{
+"word": "twenty eight.",
+"start": 47.12,
+"end": 47.6
+},
+{
+"word": "Ever",
+"start": 47.8,
+"end": 47.92
+},
+{
+"word": "see",
+"start": 47.92,
+"end": 48.12
+},
+{
+"word": "a",
+"start": 48.12,
+"end": 48.28
+},
+{
+"word": "tub",
+"start": 48.28,
+"end": 48.36
+},
+{
+"word": "of",
+"start": 48.36,
+"end": 48.52
+},
+{
+"word": "water",
+"start": 48.52,
+"end": 48.74
+},
+{
+"word": "in",
+"start": 48.74,
+"end": 48.9
+},
+{
+"word": "a",
+"start": 48.9,
+"end": 49.04
+},
+{
+"word": "cellar?",
+"start": 49.04,
+"end": 49.2
+},
+{
+"word": "Same",
+"start": 49.48,
+"end": 49.6
+},
+{
+"word": "trick:",
+"start": 49.6,
+"end": 49.88
+},
+{
+"word": "the",
+"start": 50.06,
+"end": 50.1
+},
+{
+"word": "tub",
+"start": 50.1,
+"end": 50.28
+},
+{
+"word": "freezes,",
+"start": 50.28,
+"end": 50.62
+},
+{
+"word": "so",
+"start": 50.9,
+"end": 51.06
+},
+{
+"word": "the",
+"start": 51.06,
+"end": 51.22
+},
+{
+"word": "jam",
+"start": 51.22,
+"end": 51.44
+},
+{
+"word": "jars",
+"start": 51.44,
+"end": 51.66
+},
+{
+"word": "don't.",
+"start": 51.66,
+"end": 52.1
+},
+{
+"word": "At",
+"start": 52.2,
+"end": 52.32
+},
+{
+"word": "sunrise,",
+"start": 52.32,
+"end": 52.7
+},
+{
+"word": "the",
+"start": 52.94,
+"end": 53.04
+},
+{
+"word": "ice",
+"start": 53.04,
+"end": 53.26
+},
+{
+"word": "slides",
+"start": 53.26,
+"end": 53.64
+},
+{
+"word": "off,",
+"start": 53.64,
+"end": 53.96
+},
+{
+"word": "and",
+"start": 54.06,
+"end": 54.2
+},
+{
+"word": "Popsicle",
+"start": 54.2,
+"end": 54.58
+},
+{
+"word": "Earl's",
+"start": 54.58,
+"end": 54.96
+},
+{
+"word": "oranges",
+"start": 54.96,
+"end": 55.2
+},
+{
+"word": "are",
+"start": 55.2,
+"end": 55.54
+},
+{
+"word": "full",
+"start": 55.54,
+"end": 55.84
+},
+{
+"word": "of",
+"start": 55.84,
+"end": 56.04
+},
+{
+"word": "juice.",
+"start": 56.04,
+"end": 56.24
+},
+{
+"word": "Duane",
+"start": 56.24,
+"end": 56.76
+},
+{
+"word": "still",
+"start": 56.76,
+"end": 57.06
+},
+{
+"word": "says",
+"start": 57.06,
+"end": 57.34
+},
+{
+"word": "it",
+"start": 57.34,
+"end": 57.5
+},
+{
+"word": "doesn't",
+"start": 57.5,
+"end": 57.8
+},
+{
+"word": "count,",
+"start": 57.8,
+"end": 58.02
+},
+{
+"word": "because",
+"start": 58.1,
+"end": 58.32
+},
+{
+"word": "technically,",
+"start": 58.32,
+"end": 58.9
+},
+{
+"word": "Earl",
+"start": 59.14,
+"end": 59.24
+},
+{
+"word": "froze",
+"start": 59.24,
+"end": 59.62
+},
+{
+"word": "his",
+"start": 59.62,
+"end": 59.84
+},
+{
+"word": "first.",
+"start": 59.84,
+"end": 60.2
+},
+{
+"word": "But",
+"start": 60.42,
+"end": 60.56
+},
+{
+"word": "he",
+"start": 60.56,
+"end": 60.74
+},
+{
+"word": "paid",
+"start": 60.74,
+"end": 60.92
+},
+{
+"word": "the",
+"start": 60.92,
+"end": 61.06
+},
+{
+"word": "bet",
+"start": 61.06,
+"end": 61.22
+},
+{
+"word": "anyway,",
+"start": 61.22,
+"end": 61.46
+},
+{
+"word": "with",
+"start": 61.62,
+"end": 61.76
+},
+{
+"word": "a",
+"start": 61.76,
+"end": 61.88
+},
+{
+"word": "crate",
+"start": 61.88,
+"end": 62.06
+},
+{
+"word": "of",
+"start": 62.06,
+"end": 62.2
+},
+{
+"word": "his",
+"start": 62.2,
+"end": 62.3
+},
+{
+"word": "own",
+"start": 62.3,
+"end": 62.56
+},
+{
+"word": "oranges,",
+"start": 62.56,
+"end": 62.98
+},
+{
+"word": "frozen",
+"start": 63.28,
+"end": 63.4
+},
+{
+"word": "solid.",
+"start": 63.4,
+"end": 63.88
+}
+]

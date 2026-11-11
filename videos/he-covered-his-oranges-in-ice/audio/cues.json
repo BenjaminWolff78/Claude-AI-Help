@@ -1,0 +1,142 @@
+[
+{
+"t": 0.0,
+"sfx": "night_long",
+"gain_db": -10,
+"dur": 64.2,
+"loop": true,
+"what": "AMB crickets + breeze (whole night)"
+},
+{
+"t": 0.05,
+"sfx": "hose_spray",
+"gain_db": -2,
+"what": "Earl's hose on the tree"
+},
+{
+"t": 1.1,
+"sfx": "ice_tinkle",
+"gain_db": -3,
+"what": "ice forms on the oranges"
+},
+{
+"t": 6.05,
+"sfx": "fire_whoomp",
+"gain_db": -1,
+"what": "Duane's pot lights"
+},
+{
+"t": 8.15,
+"sfx": "valve_burst",
+"gain_db": 0,
+"what": "valve heave, sprinklers burst on"
+},
+{
+"t": 9.45,
+"sfx": "laugh_small",
+"gain_db": -2,
+"what": "Duane laughs"
+},
+{
+"t": 11.75,
+"sfx": "crate_thunk",
+"gain_db": 0,
+"what": "Duane slaps the bet crate"
+},
+{
+"t": 18.7,
+"sfx": "laugh_small",
+"gain_db": 0,
+"what": "the farmhands laugh"
+},
+{
+"t": 21.3,
+"sfx": "ice_tinkle",
+"gain_db": 0,
+"what": "glass-ball oranges glint"
+},
+{
+"t": 23.3,
+"sfx": "crowd_laugh",
+"gain_db": 0,
+"what": "the town laughs at the gate"
+},
+{
+"t": 25.8,
+"sfx": "branch_crack",
+"gain_db": 2,
+"what": "the iced bough cracks and crashes (impact)"
+},
+{
+"t": 29.55,
+"sfx": "knock_door",
+"gain_db": 0,
+"what": "the scarecrow knocks, the door opens"
+},
+{
+"t": 32.35,
+"sfx": "glass_tap",
+"gain_db": -2,
+"what": "the thermometer column drops"
+},
+{
+"t": 34.2,
+"sfx": "fire_fizzle",
+"gain_db": -1,
+"what": "Duane's pots gutter out"
+},
+{
+"t": 37.1,
+"sfx": "hose_spray",
+"gain_db": -3,
+"what": "Earl keeps the water on"
+},
+{
+"t": 38.76,
+"sfx": "stinger",
+"gain_db": 0,
+"what": "STINGER: That's the trick"
+},
+{
+"t": 41.9,
+"sfx": "ice_tinkle",
+"gain_db": -2,
+"what": "drops freeze on the orange"
+},
+{
+"t": 50.15,
+"sfx": "ice_tap",
+"gain_db": 0,
+"what": "the tub skins over, ladle tap"
+},
+{
+"t": 52.9,
+"sfx": "ice_shatter_big",
+"gain_db": 2,
+"what": "PAYOFF: the ice slides off in sheets (big)"
+},
+{
+"t": 55.0,
+"sfx": "juice_squeeze",
+"gain_db": 0,
+"what": "Earl squeezes the juice"
+},
+{
+"t": 60.0,
+"sfx": "crate_slide",
+"gain_db": 0,
+"what": "Duane heaves his crate up and over the fence"
+},
+{
+"t": 61.0,
+"sfx": "crate_thunk",
+"gain_db": -3,
+"what": "the tossed crate lands at Earl's feet"
+},
+{
+"t": 63.27,
+"sfx": "clonk",
+"gain_db": 2,
+"what": "the frozen orange clonks on the top rail"
+}
+]
