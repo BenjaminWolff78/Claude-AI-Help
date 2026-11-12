@@ -6,7 +6,7 @@ import { bundle } from "@remotion/bundler"; import { renderMedia, selectComposit
 const TOTAL = 1924, N = 96, dir = "out/chunks"; fs.mkdirSync(dir, { recursive: true });
 const A0 = Number(process.argv[2] ?? 0), B0 = Number(process.argv[3] ?? TOTAL - 1);
 const TITLE = "He Covered His Oranges in Ice to Stop Them Freezing";
-const inputProps = { post: { dpr: 0.6, cardK: 0.6, msaa: 0, shadow: 2048 } };   // software GL: ~5-12 s per frame (MSAA 4 doubled it, 4096 shadows and dark lights cost more)
+const inputProps = { post: { dpr: 0.55, cardK: 0.6, msaa: 1, shadow: 1536 } };   // software GL: ~12-17 s per frame. msaa 0 + lens = BLANK frames (depth feedback loop): keep msaa >= 1
 const browserExecutable = "/usr/bin/google-chrome", chromiumOptions = { gl: "angle-egl" };
 const done = () => fs.readdirSync(dir).filter((f) => /^c_\d{4}\.mp4$/.test(f)).reduce((s, f) => { const a = Number(f.slice(2, 6)); return s + Math.min(N, TOTAL - a); }, 0);
 let framesThisRun = 0;

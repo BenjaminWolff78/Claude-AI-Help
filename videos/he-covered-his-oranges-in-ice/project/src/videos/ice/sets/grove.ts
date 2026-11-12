@@ -164,7 +164,7 @@ const orangeTree = (b: Batch, parent: THREE.Object3D, p: V3, h: number, seed: nu
     const th = r() * TAU, ph = 0.5 + r() * 1.6, rad = L[3] * (1.06 + r() * 0.06);
     const q: V3 = [L[0] + Math.cos(th) * Math.sin(ph) * rad, L[1] + Math.cos(ph) * rad * 0.86, L[2] + Math.sin(th) * Math.sin(ph) * rad];
     if (Math.hypot(q[0], q[2]) < R0 * 0.55) continue;
-    fruit.push(q); cb.add(new THREE.SphereGeometry(0.062, 10, 8).translate(q[0], q[1], q[2]), fruitM);
+    fruit.push(q); cb.add(new THREE.SphereGeometry(0.062, detail >= 2 ? 9 : 6, detail >= 2 ? 7 : 4).translate(q[0], q[1], q[2]), fruitM);   // render speed: fewer tris on far fruit
   }
   cb.build(crown); crown.traverse((m) => { (m as THREE.Mesh).castShadow = true; m.receiveShadow = true; });
   return { crown, lumps, fruit, seed };
@@ -174,7 +174,7 @@ const iceCoat = (crown: THREE.Group, t: Tree, iceM: THREE.Material, ballM: THREE
   const g = new THREE.Group(); crown.add(g);
   const ib = new Batch(), r = rng(t.seed * 19 + 5);
   for (const L of t.lumps) ib.add(new THREE.IcosahedronGeometry(L[3] * 1.16, 1).scale(1, 0.9, 1).rotateY(r() * TAU).translate(L[0], L[1], L[2]), iceM);
-  for (const q of t.fruit) ib.add(new THREE.SphereGeometry(0.082, 12, 10).translate(q[0], q[1] - 0.006, q[2]), ballM);
+  for (const q of t.fruit) ib.add(new THREE.SphereGeometry(0.082, 9, 7).translate(q[0], q[1] - 0.006, q[2]), ballM);
   for (let i = 0; i < nIcicle; i++) {
     const L = t.lumps[Math.floor(r() * t.lumps.length)]; if (!L || L[1] - L[3] < 0.9) continue;
     const th = r() * TAU, x = L[0] + Math.cos(th) * L[3] * 0.8, z = L[2] + Math.sin(th) * L[3] * 0.8, y = L[1] - L[3] * 0.78, len = 0.05 + r() * 0.1;
@@ -305,7 +305,7 @@ export const grove = (): SetDef => {
   let ti = 0;
   for (const z of ROWS_E) for (const x of COLS_E) {
     if ((z === 8 && x < -5) || (z === 2 && x === -3.2)) continue;   // the valve yard by the fence stays open
-    const near = Math.abs(x) < 10 && z > -18, det = near ? 2 : Math.abs(x) < 20 && z > -40 ? 1 : 0;
+    const near = Math.abs(x) < 10 && z > -18, det = Math.abs(x) < 6 && z > -11 ? 2 : near ? 1 : Math.abs(x) < 20 && z > -40 ? 1 : 0;
     const h = 3.5 + rng(ti * 7 + 1)() * 0.5, hero = x === -3.2 && z === -4;
     const t = orangeTree(b, root, [x, 0, z], hero ? 3.7 : h, 100 + ti, hero ? 2 : det, det === 0 ? 0 : hero ? 46 : near ? 34 : 18, leafE, peelE, hero ? heroSkip : undefined, cutE);
     earlTrees.push(t); ti++;
@@ -349,7 +349,7 @@ export const grove = (): SetDef => {
   { const r = rng(808); for (let i = 0; i < 18; i++) { const a = (i / 18) * TAU + r() * 0.3, el = -0.3 + r() * 0.9, L = 0.11 + r() * 0.05; const geo = new THREE.PlaneGeometry(L, L * 0.45, 6, 2); const pp = geo.attributes.position as THREE.BufferAttribute; for (let k = 0; k < pp.count; k++) { const x = pp.getX(k); pp.setZ(k, -0.25 * (x / L) ** 2 * L); } geo.computeVertexNormals(); geo.translate(L / 2 + 0.05, 0, 0);
       const m = new THREE.Mesh(geo, leafOne); m.rotation.set(r() * 0.6 - 0.3, -a, el); m.position.set(-0.03 - r() * 0.04, 0.06 + r() * 0.06, 0); m.castShadow = true; heroLeaves.add(m);
       const gz = new THREE.Mesh(geo, leafGlaze); gz.rotation.copy(m.rotation); gz.position.copy(m.position); gz.scale.setScalar(1.03); gz.renderOrder = 3; heroLeaves.add(gz); } }
-  const hoIceM = new THREE.MeshPhysicalMaterial({ color: "#f6fcff", transmission: 1, thickness: 0.03, ior: 1.31, roughness: 0.04, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.05, transparent: true, opacity: 0 });
+  const hoIceM = new THREE.MeshPhysicalMaterial({ color: "#eef8ff", roughness: 0.04, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.05, transparent: true, opacity: 0, depthWrite: false });   // no transmission: it re-rendered the whole grove every frame (software GL)
   const hoIce = new THREE.Mesh(new THREE.SphereGeometry(0.1, 48, 32), hoIceM); hoIce.renderOrder = 3; heroOr.add(hoIce);
   const hoIcicles = new THREE.Group(); heroOr.add(hoIcicles);
   { const ib3 = new Batch(); for (let k = 0; k < 5; k++) { const a = (k / 5) * TAU + 0.3, L = 0.025 + (k % 3) * 0.015; ib3.add(new THREE.ConeGeometry(0.007, L, 6).rotateX(Math.PI).translate(Math.cos(a) * 0.05, -0.1 - L / 2, Math.sin(a) * 0.05), icM); } ib3.build(hoIcicles); }
@@ -378,7 +378,7 @@ export const grove = (): SetDef => {
   const COLS_D = [4.0, 9.5, 15.0, 20.5, 26.0, 31.5];
   const ROWS_D = [8.5, 2.5, -3.5, -9.5, -15.5, -21.5, -27.5, -33.5, -39.5, -45.5, -51.5, -57.5, -63.5];
   ROWS_D.forEach((z, zi) => COLS_D.forEach((x, xi) => {
-    const near = x < 12 && z > -18, det = near ? 2 : x < 22 && z > -40 ? 1 : 0;
+    const near = x < 12 && z > -18, det = x < 6 && z > -6 ? 2 : near ? 1 : x < 22 && z > -40 ? 1 : 0;
     const t = orangeTree(b, root, [x, 0, z], 3.4 + rng(zi * 13 + xi)() * 0.5, 500 + zi * 10 + xi, det, det === 0 ? 0 : near ? 32 : 16, leafD, peelD, undefined, cutD); dTrees.push(t);
     if (det > 0) { const fg = new THREE.Group(); t.crown.add(fg); const fb = new Batch(); for (const L of t.lumps) fb.add(new THREE.IcosahedronGeometry(L[3] * 1.15, 1).scale(1, 0.89, 1).translate(L[0], L[1], L[2]), dFrostM); for (const q of t.fruit) fb.add(new THREE.SphereGeometry(0.067, 8, 6).translate(q[0], q[1], q[2]), dFrostM); fb.build(fg); dFrostG.push(fg); }
   }));
@@ -460,6 +460,8 @@ export const grove = (): SetDef => {
   const jet = new THREE.Mesh(new THREE.BufferGeometry(), jetM); jet.renderOrder = 5; root.add(jet); let jetKey = "";
   b.build(root);
   root.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh && !m.layers.isEnabled(NOINK)) { if (!(m.material as THREE.Material).transparent) m.castShadow = true; m.receiveShadow = true; } });
+  // render speed (software GL): crowns more than ~14 m from the action cast no shadow (the shadow pass renders every caster)
+  for (const t of [...earlTrees, ...dTrees]) { const p = t.crown.position; if (Math.abs(p.x) > 14 || p.z < -20) t.crown.traverse((o) => { (o as THREE.Mesh).castShadow = false; }); }
   frostG.castShadow = false;
 
   const marks: Record<string, V3> = {
@@ -483,7 +485,7 @@ export const grove = (): SetDef => {
     pose: (t, c) => {
       const ice = cl(c.ice ?? 0), melt = cl(c.melt ?? 0), iceK = ice * (1 - sm(melt * 1.4));
       iceM.opacity = 0.55 * iceK; ballM.opacity = 0.34 * iceK; glintM.opacity = iceK * (c.glint ?? 1); icM.opacity = 0.85 * (ice > 0.35 ? sm((ice - 0.35) / 0.4) : 0) * (1 - sm(melt * 1.6));
-      hoIceM.opacity = iceK; leafGlaze.opacity = 0.6 * iceK;
+      hoIceM.opacity = 0.1 * iceK; leafGlaze.opacity = 0.6 * iceK;
       iceGroups.forEach((g) => (g.visible = iceK > 0.01)); snapIce.visible = iceK > 0.01;
       hoIce.visible = iceK > 0.01; hoIcicles.visible = ice > 0.5 && melt < 0.6;
       sparkle(glints, t, iceK * (c.glint ?? 1)); glints.forEach((s) => (s.visible = iceK > 0.05));
@@ -502,7 +504,7 @@ export const grove = (): SetDef => {
         const key = [A.x, A.y, A.z, B.x, B.y, B.z, Math.round(hoK * 20)].map((v) => v.toFixed(2)).join(",");
         if (key !== jetKey) { jetKey = key; jet.geometry.dispose(); const pts = Array.from({ length: 13 }, (_, i) => arc((i / 12) * hoK)); jet.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, 0.014, 8, false); }
         jetT.offset.y = -t * 3.2;
-        a.needsUpdate = true; hoseMist.forEach((m, i) => { const u = (t * 0.8 + i / 3) % 1; m.position.set(B.x + 0.1 * Math.sin(i * 2), B.y + u * 0.3, B.z); (m.material as THREE.SpriteMaterial).opacity = 0.25 * hoK * Math.sin(Math.PI * u); m.scale.set(0.2 + u * 0.35, (0.2 + u * 0.35) * 0.7, 1); }); }
+        a.needsUpdate = true; hoseMist.forEach((m, i) => { const u = (t * 0.8 + i / 3) % 1; m.position.set(B.x + 0.1 * Math.sin(i * 2), B.y + u * 0.3, B.z); (m.material as THREE.SpriteMaterial).opacity = 0.1 * hoK * Math.sin(Math.PI * u); m.scale.set(0.1 + u * 0.18, (0.1 + u * 0.18) * 0.7, 1); }); }   // faint: it read as a white blob in close shots
       else hoseMist.forEach((m) => ((m.material as THREE.SpriteMaterial).opacity = 0));
       jet.visible = hoK > 0.01;
       // frost on the ground, Duane's frost

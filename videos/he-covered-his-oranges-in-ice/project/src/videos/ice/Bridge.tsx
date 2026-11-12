@@ -52,7 +52,13 @@ const useKit = () => {
 
 const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
   const f = useCurrentFrame();
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
+  // render speed (software GL): the sun's shadow map is redrawn every 2nd frame (and on every jump or shot change); the
+  // stale frame reuses the previous map with its own matrix, so static casters stay exact and movers lag one frame
+  const sh = useMemo(() => ({ f: -9, id: -1 }), []);
+  gl.shadowMap.autoUpdate = false;
+  gl.shadowMap.needsUpdate = f % 2 === 0 || f !== sh.f + 1 || id !== sh.id;
+  sh.f = f; sh.id = id;
   const world = useMemo(() => new World(kit), [kit]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const on = useMemo(toggles, []);
@@ -77,8 +83,11 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
     </EffectComposer>
   ), [fx, on]);
   const cam = camera as THREE.PerspectiveCamera;
+  const tU0 = performance.now();
   target.copy(world.update(id, f, cam, scene));
+  const tU1 = performance.now();
   noInkFallback(world.root);
+  if ((getInputProps() as { tprof?: boolean }).tprof) console.log(`T|f${f} update ${(tU1 - tU0).toFixed(0)}ms inkfb ${(performance.now() - tU1).toFixed(0)}ms`);
   // thin-lens focus: distance along the view axis to the shot's focus point (default: the camera's look target)
   const d = dofAt(f);
   cam.getWorldDirection(fwd);
@@ -106,7 +115,7 @@ const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
 const dprOverride = () => (getInputProps() as { post?: { dpr?: number } }).post?.dpr;
 const ShotView: React.FC<{ id: number; kit: Kit; alpha: number }> = ({ id, kit, alpha }) => { const vc = useVideoConfig(); return (
   <AbsoluteFill style={{ opacity: alpha }}>
-    <ThreeCanvas width={vc.width} height={vc.height} {...(dprOverride() ? { dpr: dprOverride() } : {})} shadows gl={{ antialias: false, stencil: false, powerPreference: "high-performance", toneMappingExposure: 1.0 }}
+    <ThreeCanvas width={vc.width} height={vc.height} {...(dprOverride() ? { dpr: dprOverride() } : {})} shadows={((getInputProps() as { post?: { shadowType?: "basic" | "percentage" | "soft" } }).post?.shadowType) ?? true} gl={{ antialias: false, stencil: false, powerPreference: "high-performance", toneMappingExposure: 1.0 }}
       camera={{ fov: 40, near: 0.2, far: 1500 }}>
       <Inner id={id} kit={kit} />
     </ThreeCanvas>

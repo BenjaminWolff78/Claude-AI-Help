@@ -1,0 +1,62 @@
+{
+  "_about": "v10.15 part 15 expression plan for 'Owners Sank Their Own Ships, So He Painted a Line'. Written before animating; the gate's check 11 holds every key frame to it. faces: allowed expr names per character in that beat. triggers: v10.15 E (board AN2) words that drive a face step, with the frame of the word.",
+  "hero": "plimsoll",
+  "roles": {
+    "plimsoll": "hero", "owner": "doubter+schemer", "insurer": "schemer", "dealer2": "crowd", "dealer4": "crowd",
+    "sailorA": "victim", "sailorB": "victim", "sailorC": "victim", "docker": "worker", "constable": "authority",
+    "speaker": "authority", "mp1": "crowd", "mp2": "crowd", "mp3": "crowd", "mp4": "crowd", "newsboy": "happy",
+    "inspector": "authority", "clerk": "authority"
+  },
+  "role_defaults": {
+    "hero": ["calm", "determined", "bored", "smug", "proud", "smile_closed", "stern", "neutral"],
+    "doubter+schemer": ["scheme", "tache", "tacheUp", "sly"],
+    "schemer": ["fakegrin", "scheme", "sly"],
+    "crowd": ["tache", "tacheUp", "mock", "guffaw", "laugh"],
+    "victim": ["worry", "nervous"],
+    "worker": ["strain", "neutral", "worry"],
+    "authority": ["tache", "tacheUp", "stern", "cold"],
+    "happy": ["beam", "joy", "grin"]
+  },
+  "shock_faces": ["shock", "yikes", "aghast", "breakdown", "dazed"],
+  "shock_beats": [
+    [400, "the storm sinks PROSPERITY: the rowers (disaster lands)"],
+    [922, "the fist in the Speaker's face: the Speaker"],
+    [982, "\"villains\": the MPs gasp together"],
+    [1137, "\"the law passes\": the owner"],
+    [1396, "the wave walks onto the deck: sailorC"],
+    [1722, "NOT SAILING: the owner is caught (breakdown)"]
+  ],
+  "beats": [
+    {"f": [0, 105], "words": "Shipowners loaded their own ships until they sank, and got rich doing it.", "faces": {"owner": ["scheme", "tacheUp"], "insurer": ["fakegrin"], "sailorA": ["worry"], "sailorB": ["worry"], "docker": ["strain"]}},
+    {"f": [105, 245], "words": "You see, in Victorian Britain, an old ship insured for more than it was worth, was worth more sunk.", "faces": {"owner": ["scheme", "sly"], "insurer": ["fakegrin", "scheme"], "sailorA": ["worry"], "sailorB": ["worry"], "docker": ["strain"]}},
+    {"f": [245, 337], "words": "So, owners piled on cargo until the deck was almost underwater.", "faces": {"owner": ["scheme"], "insurer": ["fakegrin"], "sailorA": ["worry"], "sailorB": ["worry"], "docker": ["strain"]}},
+    {"f": [337, 389], "words": "The owner pats the hull. She'll float,", "faces": {"owner": ["tacheUp", "scheme"], "insurer": ["fakegrin"], "sailorA": ["worry"], "sailorB": ["worry"], "docker": ["strain"]}},
+    {"f": [389, 452], "words": "she doesn't. Insurance pays out,", "faces": {"sailorA": ["yikes", "breakdown"], "sailorB": ["yikes", "breakdown"], "sailorC": ["yikes", "breakdown"]}},
+    {"f": [452, 562], "words": "and he buys two more. Over 2,000 sailors went to court for refusing to climb aboard.", "faces": {"owner": ["scheme", "sly"], "insurer": ["fakegrin"], "constable": ["tache"], "sailorA": ["angry", "worry", "cold"], "sailorB": ["angry", "worry", "cold"], "sailorC": ["angry", "worry", "cold"]}},
+    {"f": [562, 650], "words": "Then, a politician named Samuel Plimsoll shows up with a paint pot.", "faces": {"plimsoll": ["determined"], "owner": ["tache"], "dealer2": ["tache"], "dealer4": ["tache"]}},
+    {"f": [650, 720], "words": "His plan to save every sailor? One line of paint.", "faces": {"plimsoll": ["calm", "determined", "bored"], "owner": ["tache"], "dealer2": ["tache"], "dealer4": ["tache"]}},
+    {"f": [720, 784], "words": "The owners howl. Paintbrush Plimsoll!", "faces": {"plimsoll": ["bored"], "owner": ["mock", "guffaw", "laugh"], "dealer2": ["mock", "guffaw", "laugh"], "dealer4": ["mock", "guffaw", "laugh"]},
+      "triggers": [[720, "owners", "all three: closed-arc eyes, grin, brows up"], [729, "howl", "all three: mouths wide open, heads back, bodies shake"], [749, "Paintbrush Plimsoll!", "the quote plays on the laughing face (held)"]]},
+    {"f": [784, 834], "words": "In 1875, Parliament drops his law", "faces": {"speaker": ["tache", "tacheUp"], "mp1": ["tache"], "mp2": ["tache"], "mp3": ["tache"], "mp4": ["tache"], "plimsoll": ["determined"]}},
+    {"f": [834, 870], "words": "completely.", "faces": {"speaker": ["tacheUp", "tache"], "mp1": ["mock", "guffaw"], "mp2": ["mock", "guffaw"], "mp3": ["mock", "guffaw"], "mp4": ["mock", "guffaw"], "plimsoll": ["determined"]}},
+    {"f": [870, 920], "words": "So, Plimsoll marches up to the speaker,", "faces": {"plimsoll": ["determined"], "speaker": ["tache"], "mp1": ["tache"], "mp2": ["tache"], "mp3": ["tache"], "mp4": ["tache"]}},
+    {"f": [920, 964], "words": "shakes his fist in his face,", "faces": {"plimsoll": ["determined", "angry", "fury"], "speaker": ["aghast"], "mp1": ["tache"], "mp2": ["tache"], "mp3": ["tache"], "mp4": ["tache"]},
+      "triggers": [[924, "shakes", "brows drop (angry), the fist shakes"], [930, "his", "teeth grit"], [937, "fist", "full fury face"]]},
+    {"f": [964, 1005], "words": "and calls them all villains.", "faces": {"plimsoll": ["fury"], "speaker": ["aghast", "tacheUp"], "mp1": ["tache", "aghast"], "mp2": ["tache", "aghast"], "mp3": ["tache", "aghast"], "mp4": ["tache", "aghast"]},
+      "triggers": [[964, "calls", "open shout (tOBig) at the benches"], [982, "villains", "the MPs gasp together"]]},
+    {"f": [1005, 1034], "words": "He has to apologize,", "faces": {"plimsoll": ["sheepish"], "speaker": ["tacheUp"], "mp1": ["aghast", "tacheUp"], "mp2": ["aghast", "tacheUp"], "mp3": ["aghast", "tacheUp"], "mp4": ["aghast", "tacheUp"]},
+      "triggers": [[1005, "He", "the fury drops off his face"], [1016, "apologize", "the stiff bow is complete"]]},
+    {"f": [1034, 1108], "words": "but the newspapers love it, and Britain takes his side.", "faces": {"plimsoll": ["smug", "proud"], "newsboy": ["beam"], "speaker": ["tacheUp", "tache"], "mp1": ["tacheUp", "worry"], "mp2": ["tacheUp", "worry"], "mp3": ["tacheUp", "worry"], "mp4": ["tacheUp", "worry"]}},
+    {"f": [1108, 1160], "words": "A year later, the law passes.", "faces": {"owner": ["tacheUp", "shock"], "inspector": ["tache"], "clerk": ["tache"], "plimsoll": ["smile", "proud"]}},
+    {"f": [1160, 1240], "words": "Every ship needs a line. One catch. Owners paint it wherever they like.", "faces": {"owner": ["worry", "scheme"], "inspector": ["tache"], "clerk": ["tache"], "plimsoll": ["proud", "calm"]}},
+    {"f": [1240, 1296], "words": "One paints it on the smokestack.", "faces": {"owner": ["scheme", "tacheUp"], "plimsoll": ["calm", "bored"], "inspector": ["tache"]}},
+    {"f": [1296, 1396], "words": "Here's the trick. Load a ship heavier, and it sinks deeper, until every wave", "faces": {"plimsoll": ["determined", "stern"], "sailorC": ["worry"]}},
+    {"f": [1396, 1430], "words": "walks onto the deck.", "faces": {"plimsoll": ["determined", "stern"], "sailorC": ["shock", "breakdown"]}},
+    {"f": [1430, 1528], "words": "Picture a toy boat in a barrel. One more penny, and the water's over the line.", "faces": {"plimsoll": ["smug"], "owner": ["tache", "worry", "gulp"]}},
+    {"f": [1528, 1625], "words": "In 1890, the government finally decides where the line goes.", "faces": {"inspector": ["tache"], "plimsoll": ["calm", "proud"], "owner": ["tache", "tacheUp"], "sailorA": ["worry"], "sailorB": ["worry"], "sailorC": ["worry"]}},
+    {"f": [1625, 1713], "words": "So, the next time that owner pats his hull, the water's over the line,", "faces": {"owner": ["tacheUp", "worry"], "inspector": ["tache"], "plimsoll": ["calm", "smile_closed", "proud"], "sailorA": ["worry"], "sailorB": ["worry"], "sailorC": ["worry"]}},
+    {"f": [1713, 1746], "words": "and his ship stays home.", "faces": {"owner": ["breakdown", "worry"], "inspector": ["tache"], "plimsoll": ["smile_closed", "calm"], "sailorA": ["worry"], "sailorB": ["worry"], "sailorC": ["worry"]}},
+    {"f": [1746, 1856], "words": "Today, every cargo ship on Earth carries Paintbrush Plimsoll's circle.", "faces": {"plimsoll": ["proud", "smile_closed"], "owner": ["sheepish", "worry"], "inspector": ["tache"], "sailorA": ["joy", "grin", "worry"], "sailorB": ["joy", "grin", "worry"], "sailorC": ["joy", "grin", "worry"]}},
+    {"f": [1856, 1926], "words": "Now, when an owner says, she'll float, she has to!", "faces": {"owner": ["sheepish", "smile_closed", "smile"], "plimsoll": ["smug", "smile_closed", "proud"], "inspector": ["tache"], "sailorA": ["joy", "grin"], "sailorB": ["joy", "grin"], "sailorC": ["joy", "grin"]}}
+  ]
+}

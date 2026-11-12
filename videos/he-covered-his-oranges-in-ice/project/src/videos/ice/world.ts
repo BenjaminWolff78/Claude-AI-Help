@@ -100,7 +100,7 @@ export class World {
     // the three.js sun only drives shadows + direction: its colour is black, the two-tone uniforms carry the light, so
     // point lights (lamps, candles, windows) are the only thing in directDiffuse and add their pools on top (shade.ts)
     this.sun = new THREE.DirectionalLight("#000000", 1);
-    this.sun.castShadow = true; { const sm = ((getInputProps() as { post?: { shadow?: number } }).post?.shadow) ?? 4096; this.sun.shadow.mapSize.set(sm, sm); }
+    this.sun.castShadow = !((getInputProps() as { post?: { noShadow?: boolean } }).post?.noShadow); { const sm = ((getInputProps() as { post?: { shadow?: number } }).post?.shadow) ?? 4096; this.sun.shadow.mapSize.set(sm, sm); }
     R.add(this.hemi, this.sun, this.sun.target);
     for (let i = 0; i < 9; i++) {
       const a = (i / 9) * Math.PI * 2 + 0.3, d = 620 + (i % 3) * 60;
@@ -144,6 +144,7 @@ export class World {
     const sunDir = fw.clone().multiplyScalar(Math.cos(az)).addScaledVector(rt, Math.sin(az)).multiplyScalar(Math.cos(el)).setY(Math.sin(el)).normalize();
     this.hemi.color.set(L.sky); this.hemi.groundColor.set(L.ground); this.hemi.intensity = L.hemiI * 0.6;
     if (REAL) { this.sun.color.set(L.sunCol); this.sun.intensity = L.sunI; this.hemi.intensity = L.hemiI; this.sun.shadow.radius = 3; }
+    { const want = !((getInputProps() as { post?: { noShadow?: boolean } }).post?.noShadow) && L.sunI > 0.01; if (this.sun.castShadow !== want) this.sun.castShadow = want; }   // no shadow pass under a black sun (cellar)
     const Rr = THREE.MathUtils.clamp(dist * 1.2 + 8, 12, 60);
     this.sun.position.copy(look).addScaledVector(sunDir, 200); this.sun.target.position.copy(look);
     const sc = this.sun.shadow.camera; sc.left = -Rr; sc.right = Rr; sc.top = Rr; sc.bottom = -Rr; sc.near = 20; sc.far = 420; sc.updateProjectionMatrix();

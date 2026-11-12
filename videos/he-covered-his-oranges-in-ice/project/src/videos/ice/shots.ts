@@ -595,8 +595,13 @@ SHOT_CAMS[1] = (s) => {
   // shot 2 (96-236): one calm crane up and over the fence (horizon in the top fifth), landing on Duane lighting his pots
   const B1 = CKf(150, [-0.5, 2.6, -0.2], [2.647, 1.359, 0.986], 50);
   const B2 = CKf(188, [0.55, 1.45, 4.3], [2.453, 0.983, 1.104], 46);
-  const cA1 = COMP(A1, 0, 0.0007), cB1 = COMP(B1, 0, 0.0007), cB2 = COMP(B2, 0, 0.0007);
-  const p1 = spline([A0, HOLD(A0, 27), cA1, HOLD(cA1, 96), cB1, cB2, HOLD(cB2, 236)]);
+  // mid keys (sweep fixes): M1 swings the glide out to Earl's far side so he slides off screen right instead of the
+  // camera skimming his hat; MC carries the crane up over the rows (horizon a third down) so the look never drops to
+  // the ground while it turns from the orange to Duane's side
+  const M1 = CKf(48, [-1.4, 1.6, -0.9], [-1.62, 1.86, -3.32], 44);
+  const MC = CKf(118, [-1.2, 3.0, -0.8], [1.5, 2.2, -6.0], 48);
+  const cA1 = COMP(A1, 0, 0.0007), cB1 = COMP(B1, 0, 0.0007), cB2 = COMP(B2, 0, 0.0007), cM1 = COMP(M1, 0, 0.0007), cMC = COMP(MC, 0, 0.0007);
+  const p1 = spline([A0, HOLD(A0, 27), cM1, cA1, HOLD(cA1, 96), cMC, cB1, cB2, HOLD(cB2, 236)]);
   // shot 3 (236-276): whip to Earl heaving the valve wheel (whole body), the sprinklers burst on behind him (262)
   const C3 = CKf(244, [0.0, 1.28, 5.9], [-1.116, 0.992, 2.619], 48);   // whole body, the wheel left of him
   const c3 = F(() => C3, 244, 0.0016);
@@ -604,7 +609,7 @@ SHOT_CAMS[1] = (s) => {
   const D4 = CKf(284, [1.3, 1.33, -2.0], [0.281, 1.066, 0.555], 46), D4b = CKf(360, [1.2, 1.32, -1.7], [0.302, 1.103, 0.563], 44);
   const cD4b = COMP(D4b, 284, 0.0012), d4 = spline([D4, HOLD(D4, 345), cD4b, HOLD(cD4b, 406)]);
   // shot 5 (406-454): Earl CU from his side (the fire pots behind): "Ice keeps 'em warm."
-  const E5 = CKf(414, [-2.6, 1.3, 1.0], [-1.014, 1.12, 2.565], 44);
+  const E5 = CKf(414, [-1.8, 1.3, 0.7], [-1.05, 1.12, 2.6], 44);   // sweep fix: the valve wheel clears his thumb (wheel 29% right of his body)
   // shot 6 (454-501): whip round on his look and push into the hero orange
   const F6 = OR_CLOSE;
   return [K(0, F((f) => p1(f), 0, 0.0007), 24, true),
@@ -819,7 +824,10 @@ SHOT_CAMS[7] = (s) => {
   const end6 = (f: number) => camAt(6, s, Math.min(f, 1109));
   const A = CKf(1124, [0.25, 1.35, 0.0], [-0.619, 1.104, -2.138], 46);
   const B = CKf(1236, [-1.12, 1.94, -2.52], [-1.58, 1.76, -3.5], 40);
-  const p = spline([A, HOLD(A, 1162), B, HOLD(B, 1257), MAC_O, HOLD(MAC_O, 1360), MAC_T, HOLD(MAC_T, 1412), { ...MAC_O, f: 1433, fov: 40 }]);
+  // sweep fix: a mid key swings the push out to Earl's far side so he slides off frame right on "trick" instead of
+  // the camera skimming over his face, then it lands on the hero orange
+  const M7 = CKf(1196, [-1.2, 1.55, -1.0], [-1.5, 1.8, -3.3], 42);
+  const p = spline([A, HOLD(A, 1162), M7, B, HOLD(B, 1257), MAC_O, HOLD(MAC_O, 1360), MAC_T, HOLD(MAC_T, 1412), { ...MAC_O, f: 1433, fov: 40 }]);
   return [K(1110, swing(end6, 1109, F((f) => p(f), 1124, 0.0010), 1124, 0.6), 1, true)];
 };
 SHOT_ACTS[7] = (f, s) => {

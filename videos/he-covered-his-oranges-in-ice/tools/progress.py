@@ -28,7 +28,11 @@ def compose():
     st = rj(STATE, {"stage": "prep", "tailMin": 30})
     live = rj(LIVE, {})
     done_chunks = sorted(int(os.path.basename(p)[2:6]) for p in glob.glob(os.path.join(CHUNKS, "c_[0-9][0-9][0-9][0-9].mp4")))
-    done = sum(min(N, TOTAL - a) for a in done_chunks)
+    # a file c_A covers A up to the next 96-frame boundary, or up to the next file that starts sooner (split chunks)
+    def span(a):
+        nxt = [b for b in done_chunks if b > a]
+        return min((a // N + 1) * N, nxt[0] if nxt else TOTAL, TOTAL) - a
+    done = sum(span(a) for a in done_chunks)
     stage = st.get("stage", "prep")
     in_chunk = 0
     cap = live.get("chunkEnd", min(TOTAL - 1, N - 1))
