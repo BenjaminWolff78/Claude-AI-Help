@@ -1,0 +1,18 @@
+{
+ "hips":      {"armR":[[30,40],[4,74]],"armL":[[-30,40],[-4,74]]},
+ "pointR":    {"armR":[[40,18],[88,8]]},
+ "pointRUp":  {"armR":[[34,-14],[66,-56]]},
+ "cheer":     {"armR":[[30,-30],[36,-80]],"armL":[[-30,-30],[-36,-80]]},
+ "haulR":     {"armR":[[30,30],[6,4]],"armRFront":true,"armL":[[-20,40],[-30,82]]},
+ "pushR":     {"facing":1,"armR":[[38,22],[84,26]],"armL":[[24,30],[70,32]],"armRFront":true},
+ "paper":     {"armL":[[-26,44],[-10,62]],"armR":[[26,44],[10,62]],"armRFront":true,"armLFront":true,"propR":"newspaper"},
+ "shrug":     {"armR":[[34,20],[52,-6]],"armL":[[-34,20],[-52,-6]]},
+ "handOut":   {"armR":[[30,30],[62,30]],"armRFront":true},
+ "holdUpR":   {"armR":[[30,0],[40,-40]]},
+ "carry":     {"armR":[[30,40],[10,52]],"armL":[[-30,40],[-10,52]],"armRFront":true,"armLFront":true},
+ "facepalm":  {"armR":[[30,10],[4,-40]],"armRFront":true},
+ "laughBelly":{"armR":[[26,44],[6,70]],"armL":[[-26,44],[-6,70]],"armRFront":true,"armLFront":true},
+ "reach":     {"armR":[[36,10],[78,-4]],"armL":[[-10,36],[30,40]],"armLFront":true},
+ "chinThink": {"armR":[[30,40],[6,-6]],"armRFront":true,"armL":[[-24,44],[4,58]],"armLFront":true},
+ "wave":      {"armR":[[34,-20],[56,-60]]}
+}

@@ -1,0 +1,1157 @@
+[
+{
+"word": "He",
+"start": 0.0,
+"end": 0.18
+},
+{
+"word": "beat",
+"start": 0.18,
+"end": 0.38
+},
+{
+"word": "the",
+"start": 0.38,
+"end": 0.58
+},
+{
+"word": "brick",
+"start": 0.58,
+"end": 0.78
+},
+{
+"word": "tax",
+"start": 0.78,
+"end": 1.04
+},
+{
+"word": "by",
+"start": 1.04,
+"end": 1.26
+},
+{
+"word": "making",
+"start": 1.26,
+"end": 1.52
+},
+{
+"word": "every",
+"start": 1.52,
+"end": 1.9
+},
+{
+"word": "brick",
+"start": 1.9,
+"end": 2.16
+},
+{
+"word": "twice",
+"start": 2.16,
+"end": 2.48
+},
+{
+"word": "as",
+"start": 2.48,
+"end": 2.72
+},
+{
+"word": "tall.",
+"start": 2.72,
+"end": 3.04
+},
+{
+"word": "You",
+"start": 3.22,
+"end": 3.24
+},
+{
+"word": "see,",
+"start": 3.24,
+"end": 3.4
+},
+{
+"word": "England",
+"start": 3.66,
+"end": 3.72
+},
+{
+"word": "just",
+"start": 3.72,
+"end": 3.98
+},
+{
+"word": "lost",
+"start": 3.98,
+"end": 4.22
+},
+{
+"word": "a",
+"start": 4.22,
+"end": 4.42
+},
+{
+"word": "costly",
+"start": 4.42,
+"end": 4.76
+},
+{
+"word": "war,",
+"start": 4.76,
+"end": 5.14
+},
+{
+"word": "so",
+"start": 5.26,
+"end": 5.32
+},
+{
+"word": "the",
+"start": 5.32,
+"end": 5.46
+},
+{
+"word": "king",
+"start": 5.46,
+"end": 5.6
+},
+{
+"word": "taxes",
+"start": 5.6,
+"end": 5.94
+},
+{
+"word": "every",
+"start": 5.94,
+"end": 6.4
+},
+{
+"word": "brick:",
+"start": 6.4,
+"end": 6.72
+},
+{
+"word": "half",
+"start": 6.88,
+"end": 7.02
+},
+{
+"word": "a",
+"start": 7.02,
+"end": 7.18
+},
+{
+"word": "crown",
+"start": 7.18,
+"end": 7.38
+},
+{
+"word": "per",
+"start": 7.38,
+"end": 7.62
+},
+{
+"word": "thousand.",
+"start": 7.62,
+"end": 7.92
+},
+{
+"word": "So",
+"start": 8.16,
+"end": 8.28
+},
+{
+"word": "Amos",
+"start": 8.28,
+"end": 8.52
+},
+{
+"word": "pours",
+"start": 8.52,
+"end": 8.88
+},
+{
+"word": "his",
+"start": 8.88,
+"end": 9.06
+},
+{
+"word": "clay",
+"start": 9.06,
+"end": 9.28
+},
+{
+"word": "into",
+"start": 9.28,
+"end": 9.52
+},
+{
+"word": "moulds",
+"start": 9.52,
+"end": 9.78
+},
+{
+"word": "twice",
+"start": 9.78,
+"end": 10.16
+},
+{
+"word": "as",
+"start": 10.16,
+"end": 10.4
+},
+{
+"word": "deep,",
+"start": 10.4,
+"end": 10.62
+},
+{
+"word": "and",
+"start": 10.7,
+"end": 10.8
+},
+{
+"word": "the",
+"start": 10.8,
+"end": 10.88
+},
+{
+"word": "guy",
+"start": 10.88,
+"end": 11.02
+},
+{
+"word": "next",
+"start": 11.02,
+"end": 11.24
+},
+{
+"word": "door",
+"start": 11.24,
+"end": 11.46
+},
+{
+"word": "drops",
+"start": 11.46,
+"end": 11.76
+},
+{
+"word": "his",
+"start": 11.76,
+"end": 12.0
+},
+{
+"word": "shovel",
+"start": 12.0,
+"end": 12.22
+},
+{
+"word": "laughing.",
+"start": 12.22,
+"end": 12.7
+},
+{
+"word": "He's",
+"start": 12.88,
+"end": 13.02
+},
+{
+"word": "baking",
+"start": 13.02,
+"end": 13.34
+},
+{
+"word": "bread",
+"start": 13.34,
+"end": 13.66
+},
+{
+"word": "now!",
+"start": 13.66,
+"end": 14.04
+},
+{
+"word": "he",
+"start": 14.14,
+"end": 14.28
+},
+{
+"word": "yells,",
+"start": 14.28,
+"end": 14.5
+},
+{
+"word": "the",
+"start": 14.72,
+"end": 14.82
+},
+{
+"word": "whole",
+"start": 14.82,
+"end": 15.06
+},
+{
+"word": "yard",
+"start": 15.06,
+"end": 15.42
+},
+{
+"word": "joins",
+"start": 15.42,
+"end": 15.72
+},
+{
+"word": "in,",
+"start": 15.72,
+"end": 16.0
+},
+{
+"word": "and",
+"start": 16.04,
+"end": 16.16
+},
+{
+"word": "soon",
+"start": 16.16,
+"end": 16.4
+},
+{
+"word": "the",
+"start": 16.4,
+"end": 16.62
+},
+{
+"word": "village",
+"start": 16.62,
+"end": 16.84
+},
+{
+"word": "calls",
+"start": 16.84,
+"end": 17.1
+},
+{
+"word": "them",
+"start": 17.1,
+"end": 17.32
+},
+{
+"word": "Amos's",
+"start": 17.32,
+"end": 17.9
+},
+{
+"word": "loaves.",
+"start": 17.9,
+"end": 18.24
+},
+{
+"word": "But",
+"start": 18.38,
+"end": 18.46
+},
+{
+"word": "who",
+"start": 18.46,
+"end": 18.66
+},
+{
+"word": "would",
+"start": 18.66,
+"end": 18.8
+},
+{
+"word": "pay",
+"start": 18.8,
+"end": 18.96
+},
+{
+"word": "for",
+"start": 18.96,
+"end": 19.14
+},
+{
+"word": "a",
+"start": 19.14,
+"end": 19.28
+},
+{
+"word": "brick",
+"start": 19.28,
+"end": 19.48
+},
+{
+"word": "that's",
+"start": 19.48,
+"end": 19.78
+},
+{
+"word": "twice",
+"start": 19.78,
+"end": 20.04
+},
+{
+"word": "as",
+"start": 20.04,
+"end": 20.22
+},
+{
+"word": "heavy?",
+"start": 20.22,
+"end": 20.48
+},
+{
+"word": "The",
+"start": 20.66,
+"end": 20.76
+},
+{
+"word": "first",
+"start": 20.76,
+"end": 20.98
+},
+{
+"word": "week,",
+"start": 20.98,
+"end": 21.26
+},
+{
+"word": "nobody",
+"start": 21.44,
+"end": 21.66
+},
+{
+"word": "buys:",
+"start": 21.66,
+"end": 22.0
+},
+{
+"word": "the",
+"start": 22.24,
+"end": 22.32
+},
+{
+"word": "builders",
+"start": 22.32,
+"end": 22.56
+},
+{
+"word": "say",
+"start": 22.56,
+"end": 22.84
+},
+{
+"word": "they're",
+"start": 22.84,
+"end": 23.04
+},
+{
+"word": "too",
+"start": 23.04,
+"end": 23.18
+},
+{
+"word": "heavy,",
+"start": 23.18,
+"end": 23.5
+},
+{
+"word": "and",
+"start": 23.6,
+"end": 23.74
+},
+{
+"word": "the",
+"start": 23.74,
+"end": 23.86
+},
+{
+"word": "taxman",
+"start": 23.86,
+"end": 24.26
+},
+{
+"word": "counts",
+"start": 24.26,
+"end": 24.56
+},
+{
+"word": "every",
+"start": 24.56,
+"end": 24.96
+},
+{
+"word": "loaf",
+"start": 24.96,
+"end": 25.18
+},
+{
+"word": "anyway.",
+"start": 25.18,
+"end": 25.52
+},
+{
+"word": "A",
+"start": 25.72,
+"end": 25.8
+},
+{
+"word": "brick's",
+"start": 25.8,
+"end": 26.14
+},
+{
+"word": "a",
+"start": 26.14,
+"end": 26.24
+},
+{
+"word": "brick,",
+"start": 26.24,
+"end": 26.46
+},
+{
+"word": "Amos,",
+"start": 26.5,
+"end": 26.82
+},
+{
+"word": "he",
+"start": 27.0,
+"end": 27.14
+},
+{
+"word": "sneers,",
+"start": 27.14,
+"end": 27.58
+},
+{
+"word": "stamping",
+"start": 27.72,
+"end": 28.2
+},
+{
+"word": "his",
+"start": 28.2,
+"end": 28.3
+},
+{
+"word": "ledger,",
+"start": 28.3,
+"end": 28.54
+},
+{
+"word": "and",
+"start": 28.74,
+"end": 28.84
+},
+{
+"word": "Amos",
+"start": 28.84,
+"end": 29.14
+},
+{
+"word": "just",
+"start": 29.14,
+"end": 29.42
+},
+{
+"word": "nods:",
+"start": 29.42,
+"end": 29.66
+},
+{
+"word": "Exactly.",
+"start": 29.66,
+"end": 30.24
+},
+{
+"word": "Then",
+"start": 30.62,
+"end": 30.62
+},
+{
+"word": "one",
+"start": 30.94,
+"end": 31.06
+},
+{
+"word": "broke",
+"start": 31.06,
+"end": 31.34
+},
+{
+"word": "builder",
+"start": 31.34,
+"end": 31.7
+},
+{
+"word": "tries",
+"start": 31.7,
+"end": 31.98
+},
+{
+"word": "them,",
+"start": 31.98,
+"end": 32.18
+},
+{
+"word": "and",
+"start": 32.24,
+"end": 32.32
+},
+{
+"word": "his",
+"start": 32.32,
+"end": 32.46
+},
+{
+"word": "wall",
+"start": 32.46,
+"end": 32.7
+},
+{
+"word": "goes",
+"start": 32.7,
+"end": 32.88
+},
+{
+"word": "up",
+"start": 32.88,
+"end": 33.12
+},
+{
+"word": "so",
+"start": 33.12,
+"end": 33.36
+},
+{
+"word": "fast",
+"start": 33.36,
+"end": 33.72
+},
+{
+"word": "his",
+"start": 33.72,
+"end": 33.92
+},
+{
+"word": "tea's",
+"start": 33.92,
+"end": 34.34
+},
+{
+"word": "still",
+"start": 34.34,
+"end": 34.54
+},
+{
+"word": "hot.",
+"start": 34.54,
+"end": 34.8
+},
+{
+"word": "By",
+"start": 34.96,
+"end": 35.08
+},
+{
+"word": "spring,",
+"start": 35.08,
+"end": 35.4
+},
+{
+"word": "three",
+"start": 35.56,
+"end": 35.74
+},
+{
+"word": "builders",
+"start": 35.74,
+"end": 36.08
+},
+{
+"word": "want",
+"start": 36.08,
+"end": 36.34
+},
+{
+"word": "loaves,",
+"start": 36.34,
+"end": 36.68
+},
+{
+"word": "and",
+"start": 36.76,
+"end": 36.96
+},
+{
+"word": "by",
+"start": 36.96,
+"end": 37.12
+},
+{
+"word": "summer",
+"start": 37.12,
+"end": 37.4
+},
+{
+"word": "the",
+"start": 37.54,
+"end": 37.68
+},
+{
+"word": "taxman's",
+"start": 37.68,
+"end": 38.2
+},
+{
+"word": "ledger",
+"start": 38.2,
+"end": 38.36
+},
+{
+"word": "is",
+"start": 38.36,
+"end": 38.64
+},
+{
+"word": "half",
+"start": 38.64,
+"end": 38.88
+},
+{
+"word": "empty.",
+"start": 38.88,
+"end": 39.24
+},
+{
+"word": "That's",
+"start": 39.38,
+"end": 39.64
+},
+{
+"word": "the",
+"start": 39.64,
+"end": 39.76
+},
+{
+"word": "trick:",
+"start": 39.76,
+"end": 40.0
+},
+{
+"word": "the",
+"start": 40.18,
+"end": 40.22
+},
+{
+"word": "king",
+"start": 40.22,
+"end": 40.44
+},
+{
+"word": "taxed",
+"start": 40.44,
+"end": 40.8
+},
+{
+"word": "bricks,",
+"start": 40.8,
+"end": 41.12
+},
+{
+"word": "not",
+"start": 41.44,
+"end": 41.56
+},
+{
+"word": "clay.",
+"start": 41.56,
+"end": 41.86
+},
+{
+"word": "Same",
+"start": 42.08,
+"end": 42.24
+},
+{
+"word": "clay",
+"start": 42.24,
+"end": 42.52
+},
+{
+"word": "in",
+"start": 42.52,
+"end": 42.68
+},
+{
+"word": "every",
+"start": 42.68,
+"end": 43.0
+},
+{
+"word": "wall,",
+"start": 43.0,
+"end": 43.28
+},
+{
+"word": "but",
+"start": 43.42,
+"end": 43.52
+},
+{
+"word": "bricks",
+"start": 43.52,
+"end": 43.78
+},
+{
+"word": "twice",
+"start": 43.78,
+"end": 44.14
+},
+{
+"word": "as",
+"start": 44.14,
+"end": 44.34
+},
+{
+"word": "tall",
+"start": 44.34,
+"end": 44.62
+},
+{
+"word": "means",
+"start": 44.62,
+"end": 44.84
+},
+{
+"word": "half",
+"start": 44.84,
+"end": 45.14
+},
+{
+"word": "as",
+"start": 45.14,
+"end": 45.3
+},
+{
+"word": "many",
+"start": 45.3,
+"end": 45.54
+},
+{
+"word": "bricks,",
+"start": 45.54,
+"end": 45.82
+},
+{
+"word": "and",
+"start": 46.0,
+"end": 46.26
+},
+{
+"word": "half",
+"start": 46.26,
+"end": 46.52
+},
+{
+"word": "the",
+"start": 46.52,
+"end": 46.66
+},
+{
+"word": "tax.",
+"start": 46.66,
+"end": 46.96
+},
+{
+"word": "Picture",
+"start": 47.18,
+"end": 47.28
+},
+{
+"word": "an",
+"start": 47.28,
+"end": 47.58
+},
+{
+"word": "inn",
+"start": 47.58,
+"end": 47.74
+},
+{
+"word": "charging",
+"start": 47.74,
+"end": 48.06
+},
+{
+"word": "a",
+"start": 48.06,
+"end": 48.34
+},
+{
+"word": "penny",
+"start": 48.34,
+"end": 48.54
+},
+{
+"word": "a",
+"start": 48.54,
+"end": 48.76
+},
+{
+"word": "mug:",
+"start": 48.76,
+"end": 48.88
+},
+{
+"word": "you",
+"start": 48.96,
+"end": 49.02
+},
+{
+"word": "don't",
+"start": 49.02,
+"end": 49.2
+},
+{
+"word": "drink",
+"start": 49.2,
+"end": 49.34
+},
+{
+"word": "less,",
+"start": 49.34,
+"end": 49.64
+},
+{
+"word": "you",
+"start": 49.84,
+"end": 49.94
+},
+{
+"word": "bring",
+"start": 49.94,
+"end": 50.1
+},
+{
+"word": "a",
+"start": 50.1,
+"end": 50.24
+},
+{
+"word": "bigger",
+"start": 50.24,
+"end": 50.46
+},
+{
+"word": "mug.",
+"start": 50.46,
+"end": 50.68
+},
+{
+"word": "Was",
+"start": 50.8,
+"end": 50.88
+},
+{
+"word": "it",
+"start": 50.88,
+"end": 51.02
+},
+{
+"word": "cheating?",
+"start": 51.02,
+"end": 51.22
+},
+{
+"word": "No",
+"start": 51.48,
+"end": 51.64
+},
+{
+"word": "law",
+"start": 51.64,
+"end": 51.88
+},
+{
+"word": "ever",
+"start": 51.88,
+"end": 52.14
+},
+{
+"word": "said",
+"start": 52.14,
+"end": 52.42
+},
+{
+"word": "how",
+"start": 52.42,
+"end": 52.64
+},
+{
+"word": "big",
+"start": 52.64,
+"end": 52.82
+},
+{
+"word": "a",
+"start": 52.82,
+"end": 52.96
+},
+{
+"word": "brick",
+"start": 52.96,
+"end": 53.12
+},
+{
+"word": "had",
+"start": 53.12,
+"end": 53.32
+},
+{
+"word": "to",
+"start": 53.32,
+"end": 53.44
+},
+{
+"word": "be.",
+"start": 53.44,
+"end": 53.64
+},
+{
+"word": "So",
+"start": 53.72,
+"end": 53.92
+},
+{
+"word": "Parliament",
+"start": 53.92,
+"end": 54.24
+},
+{
+"word": "made",
+"start": 54.24,
+"end": 54.52
+},
+{
+"word": "one:",
+"start": 54.52,
+"end": 54.74
+},
+{
+"word": "any",
+"start": 54.82,
+"end": 54.96
+},
+{
+"word": "brick",
+"start": 54.96,
+"end": 55.24
+},
+{
+"word": "over",
+"start": 55.24,
+"end": 55.48
+},
+{
+"word": "three",
+"start": 55.48,
+"end": 55.76
+},
+{
+"word": "inches",
+"start": 55.76,
+"end": 55.98
+},
+{
+"word": "tall",
+"start": 55.98,
+"end": 56.36
+},
+{
+"word": "pays",
+"start": 56.36,
+"end": 56.68
+},
+{
+"word": "double.",
+"start": 56.68,
+"end": 57.0
+},
+{
+"word": "Too",
+"start": 57.1,
+"end": 57.2
+},
+{
+"word": "late:",
+"start": 57.2,
+"end": 57.44
+},
+{
+"word": "the",
+"start": 57.44,
+"end": 57.7
+},
+{
+"word": "taxman's",
+"start": 57.7,
+"end": 58.26
+},
+{
+"word": "own",
+"start": 58.26,
+"end": 58.44
+},
+{
+"word": "new",
+"start": 58.44,
+"end": 58.7
+},
+{
+"word": "house",
+"start": 58.7,
+"end": 58.92
+},
+{
+"word": "was",
+"start": 58.92,
+"end": 59.1
+},
+{
+"word": "already",
+"start": 59.1,
+"end": 59.46
+},
+{
+"word": "up,",
+"start": 59.46,
+"end": 59.72
+},
+{
+"word": "built",
+"start": 59.84,
+"end": 59.92
+},
+{
+"word": "entirely",
+"start": 59.92,
+"end": 60.46
+},
+{
+"word": "of",
+"start": 60.46,
+"end": 60.82
+},
+{
+"word": "Amos's",
+"start": 60.82,
+"end": 61.28
+},
+{
+"word": "loaves.",
+"start": 61.28,
+"end": 61.7
+}
+]

@@ -1,0 +1,580 @@
+{
+ "amos": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "r61: smug / pitch / strain - lids+smirk, dots+wide smile, squeeze+teeth (no twins)"
+  ],
+  "hat": [
+   "PASS",
+   "hat low on the head, brows visible, outlined shape"
+  ],
+  "body": [
+   "PASS",
+   "simple torso, costume reads from colour and shape"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the dots sit exactly on the loaf's two bottom corners, arms running into them"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r60: a lean into a point, head tilted (the head-scratch was upright and stiff)"
+  ],
+  "light": [
+   "PASS",
+   "r76i: a key side and a shade side on every body (the far third of the coat shaded toward the source), a warm rim on the key side, and a real cast shadow on the sunlit yard ground"
+  ]
+ },
+ "tax": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "readable at a glance, brows and mouth carry it"
+  ],
+  "hat": [
+   "PASS",
+   "r71: tricorn seated a little deeper over the crown, brows still clear"
+  ],
+  "body": [
+   "PASS",
+   "simple torso, costume reads from colour and shape"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the forearm crosses the front of the ledger to the thumb dot (it vanished behind the book)"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76: aghast - both arms flung up and out, leaning back, sweat (one arm up read as a wave)"
+  ],
+  "light": [
+   "PASS",
+   "r76i: laneSunset - a warm rim band on the sun side of head and coat, the far side shaded"
+  ]
+ },
+ "ned": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "readable at a glance, brows and mouth carry it"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: the bowler seated higher, a clear gap over both brows"
+  ],
+  "body": [
+   "PASS",
+   "r60: tall build, torso 0.78 head widths (the lanky pencil torso was 0.62)"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the dots sit exactly on the loaf's two bottom corners, arms running into them"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: braced and straining, the loaf on both dots under its corners"
+  ],
+  "light": [
+   "PASS",
+   "r52: costume keeps its colour (was blown out in day light)"
+  ]
+ },
+ "bess": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "r61: shock / worry / calm - her f_1520 shock face is on the sheet"
+  ],
+  "hat": [
+   "PASS",
+   "r76b: the bonnet ruffle is a row of small outlined scallops inside the head (open strokes ran past the outline)"
+  ],
+  "body": [
+   "PASS",
+   "r76i: an A-line dress - narrow shoulders, a waist, a skirt flaring to a flat hem band at mid-shin"
+  ],
+  "limbs": [
+   "PASS",
+   "r76g: the jug at her hip in the near hand, the dot inside the handle"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: shock - both hands thrown up wide of her head, leaning back, eyes wide"
+  ],
+  "light": [
+   "PASS",
+   "r76i: the bar lamp keys one side of the body, the far side shaded, a warm rim on the lamp side, costume saturation held at its painted colour"
+  ]
+ },
+ "silas": {
+  "head": [
+   "PASS",
+   "white head, plum ink, a shaped moustache with a plum outline"
+  ],
+  "expr": [
+   "PASS",
+   "r76d: laugh / smug / aghast / worry - four different faces"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: red striped cap over short hair - no side tufts"
+  ],
+  "body": [
+   "PASS",
+   "r76e: no rolled cuffs (they floated as yellow blocks on the arms)"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the shovel planted beside his boot, blade on the floor, his hand on the top of the shaft"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r62: rocks back guffawing and pointing"
+  ],
+  "light": [
+   "PASS",
+   "r76i: a key side and a shade side on every body (the far third of the coat shaded toward the source), a warm rim on the key side, and a real cast shadow on the sunlit yard ground"
+  ]
+ },
+ "crier": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "r76b: proclaiming (open mouth) / stern / strain / aghast - four different faces"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: a black-trimmed bicorne with volume (the flat red tricorn read as a paper crown)"
+  ],
+  "body": [
+   "PASS",
+   "r61: gold sash on the red coat (it did not say town crier)"
+  ],
+  "limbs": [
+   "PASS",
+   "r76d: the Act pinched at the middle of its edge, held out at chest height"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: leans back 14 deg shouting, the bell swung high above his hat, the Act held out"
+  ],
+  "light": [
+   "PASS",
+   "r76i: the bar lamp keys one side of the body, the far side shaded, a warm rim on the lamp side, costume saturation held at its painted colour"
+  ]
+ },
+ "bld1": {
+  "head": [
+   "PASS",
+   "white head, plum ink, r68b: brows clear of the cap peak"
+  ],
+  "expr": [
+   "PASS",
+   "r76b: grin / smug / eureka / worry - no twins (beam doubled grin)"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: the cap wraps the skull at head width, peak at the front (it hung out like a lid)"
+  ],
+  "body": [
+   "PASS",
+   "r66: plum coat (slate + apron read as Amos)"
+  ],
+  "limbs": [
+   "PASS",
+   "r52: dot hand on the brick's lower edge, arm in front"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: braced and beaming, his loaf carried on both dots under its corners"
+  ],
+  "light": [
+   "PASS",
+   "r52: costume keeps its colour (was blown out in day light)"
+  ]
+ },
+ "bld2": {
+  "head": [
+   "PASS",
+   "white head, plum ink, a shaped moustache with a plum outline"
+  ],
+  "expr": [
+   "PASS",
+   "r76g: eureka / worry / laugh / proud - no twins"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: side-parted hair (the curl read as a pot lid)"
+  ],
+  "body": [
+   "PASS",
+   "r76b: rust coat with a soft check and a mustard neckerchief"
+  ],
+  "limbs": [
+   "PASS",
+   "thin limbs, the dot hand on the prop"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: leans in grinning, a coin stack on each visible dot"
+  ],
+  "light": [
+   "PASS",
+   "r76i: scene light changes the costume's value only - its saturation held to the painted colour"
+  ]
+ },
+ "bld3": {
+  "head": [
+   "PASS",
+   "r76i: a curled handlebar moustache under a slate flat cap"
+  ],
+  "expr": [
+   "PASS",
+   "r76i: brows clear in every face"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: a slate-grey flat cap with a peak, the plum outline clear"
+  ],
+  "body": [
+   "PASS",
+   "r76i: grey coat, brown leather waistcoat, blue neckerchief - no apron (he read as Amos)"
+  ],
+  "limbs": [
+   "PASS",
+   "thin limbs, the dot hand on the prop"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: leans in grinning, coins held out at chest height on the dot"
+  ],
+  "light": [
+   "PASS",
+   "r52: costume keeps its colour (was blown out in day light)"
+  ]
+ },
+ "bv1": {
+  "head": [
+   "PASS",
+   "r76i: a round head with an auburn bun on top (the bob cut the face square)"
+  ],
+  "expr": [
+   "PASS",
+   "r76i: brows clear in every face"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: a rounded bob with a fringe, the ends curled in at the jaw (the thin cap and bun read as bald)"
+  ],
+  "body": [
+   "PASS",
+   "r76i: an A-line dress - narrow shoulders, a waist, a skirt flaring to a flat hem band at mid-shin"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: a long loaf of bread held out on the dot"
+  ],
+  "views": [
+   "PASS",
+   "r76i: a real 3/4 - the skirt flares on the near side, the far arm tucked behind, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76h: mocking, a hand at her mouth, the other pointing"
+  ],
+  "light": [
+   "PASS",
+   "r76i: dark brown hair that stays brown in noon sun"
+  ]
+ },
+ "bv2": {
+  "head": [
+   "PASS",
+   "white head, plum ink, one outlined moustache in every face (no handlebar swap)"
+  ],
+  "expr": [
+   "PASS",
+   "r76c: brows visible in every face (the fedora brim hid them)"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: 12% headroom above the crown in the head and hat crops"
+  ],
+  "body": [
+   "PASS",
+   "simple torso, costume reads from colour and shape"
+  ],
+  "limbs": [
+   "PASS",
+   "r76b: the sack hangs from its tied neck in the dot"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: laughing, leaning back as one piece, head inside the cell"
+  ],
+  "light": [
+   "PASS",
+   "r52: costume keeps its colour (was blown out in day light)"
+  ]
+ },
+ "bv3": {
+  "head": [
+   "PASS",
+   "r52: sheet re-cropped to the kid's face"
+  ],
+  "expr": [
+   "PASS",
+   "r52: sheet re-cropped to the kid's face"
+  ],
+  "hat": [
+   "PASS",
+   "r76h: a spiky kid's mop of dark hair"
+  ],
+  "body": [
+   "PASS",
+   "r76: raspberry coat with a cream scarf"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the loaf of bread held clear of his body, the dot under its middle, forearm showing"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76h: hops with both arms up, laughing (a kid's verb)"
+  ],
+  "light": [
+   "PASS",
+   "r52: sheet re-cropped to the kid's face"
+  ]
+ },
+ "bv4": {
+  "head": [
+   "PASS",
+   "r76e: bare head, brows clear above the eyes, hair in a bun"
+  ],
+  "expr": [
+   "PASS",
+   "r76e: brows visible in every face"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: pigtails with red ribbons (the bob boxed her face and repeated bv1)"
+  ],
+  "body": [
+   "PASS",
+   "r76i: an A-line dress - narrow shoulders, a waist, a skirt flaring to a flat hem band at mid-shin"
+  ],
+  "limbs": [
+   "PASS",
+   "r76f: a full-size broom, bristles on the ground"
+  ],
+  "views": [
+   "PASS",
+   "r76i: a real 3/4 - the skirt flares on the near side, the far arm tucked behind, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: laughing, one arm waved high and wide clear of the head, the other on her hip"
+  ],
+  "light": [
+   "PASS",
+   "r76g: costume keeps its colour in the street light"
+  ]
+ },
+ "bv5": {
+  "head": [
+   "PASS",
+   "white head, plum ink, brows above the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "readable at a glance, brows and mouth carry it"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: the head and hat crops start above the crown - the whole top hat shows"
+  ],
+  "body": [
+   "PASS",
+   "r76i: an ochre smock (no longer grey like the builder), tall build"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the newspaper held out at his side, the forearm across its front to the thumb dot"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: leans in 15 deg wagging a raised finger, head cocked"
+  ],
+  "light": [
+   "PASS",
+   "r76i: laneSunset - a warm rim band on the sun side of head and coat, the far side shaded"
+  ]
+ },
+ "drk1": {
+  "head": [
+   "PASS",
+   "r76i: the standard adult head, the crop now framed on his own head (the chin was cut)"
+  ],
+  "expr": [
+   "PASS",
+   "r76i: his own set - a tipsy half-lid smirk, a sheepish wobble, dizzy spiral eyes"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: the bowler sits higher - a clear gap between brim and brows"
+  ],
+  "body": [
+   "PASS",
+   "r76i: the standard adult torso under the head (the stout build sank his head into the coat)"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the tankard held out at his hip, the whole arm showing, the dot through the handle"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: a toast - tankard raised a head above the bowler, head back"
+  ],
+  "light": [
+   "PASS",
+   "r76i: the bar lamp keys one side of the body, the far side shaded, a warm rim on the lamp side, costume saturation held at its painted colour"
+  ]
+ },
+ "drk2": {
+  "head": [
+   "PASS",
+   "r76b: shorter, lower handlebar curls, clear of the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "readable at a glance, brows and mouth carry it"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: slicked hair (the spikes repeated bv3)"
+  ],
+  "body": [
+   "PASS",
+   "r76i: a bottle-green coat over the gold check waistcoat, thin build"
+  ],
+  "limbs": [
+   "PASS",
+   "r76i: the dot hand grips through the tankard handle"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: the tankard tipped at his mouth, head thrown back, eyes shut"
+  ],
+  "light": [
+   "PASS",
+   "r76i: the bar lamp keys one side of the body, the far side shaded, a warm rim on the lamp side, costume saturation held at its painted colour"
+  ]
+ },
+ "bkr": {
+  "head": [
+   "PASS",
+   "r76b: shorter, lower moustache curls, clear of the eyes"
+  ],
+  "expr": [
+   "PASS",
+   "r76i: joy is a closed-mouth beam with blush, laugh an open grin, shock wide-eyed - no twins"
+  ],
+  "hat": [
+   "PASS",
+   "r76i: a tall white pleated baker's toque, white apron"
+  ],
+  "body": [
+   "PASS",
+   "simple torso, costume reads from colour and shape"
+  ],
+  "limbs": [
+   "PASS",
+   "r63: his bread held up in one hand (the pinched brick is gone)"
+  ],
+  "views": [
+   "PASS",
+   "r76g: the whole body turns - narrower torso, far shoulder tucked behind it, near foot stepping toward the facing side, costume centre line shifted"
+  ],
+  "acting": [
+   "PASS",
+   "r76i: grinning, the bread held up and out clear of his body on the dot"
+  ],
+  "light": [
+   "PASS",
+   "r52: costume keeps its colour (was blown out in day light)"
+  ]
+ }
+}

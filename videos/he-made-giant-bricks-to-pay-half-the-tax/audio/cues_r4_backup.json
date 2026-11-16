@@ -1,0 +1,252 @@
+[
+{
+"t": 0.3,
+"sfx": "birds",
+"gain_db": -7
+},
+{
+"t": 4.6,
+"sfx": "birds",
+"gain_db": -7
+},
+{
+"t": 9.9,
+"sfx": "birds",
+"gain_db": -7
+},
+{
+"t": 14.3,
+"sfx": "birds",
+"gain_db": -7
+},
+{
+"t": 0.0,
+"sfx": "crate_thunk",
+"gain_db": 0
+},
+{
+"t": 0.6,
+"sfx": "brick",
+"gain_db": -2
+},
+{
+"t": 7.17,
+"sfx": "stamp",
+"gain_db": -7
+},
+{
+"t": 8.77,
+"sfx": "slap",
+"gain_db": 0
+},
+{
+"t": 9.5,
+"sfx": "crate_slide",
+"gain_db": -5
+},
+{
+"t": 11.85,
+"sfx": "shovel",
+"gain_db": 0
+},
+{
+"t": 12.0,
+"sfx": "laugh_small",
+"gain_db": -2
+},
+{
+"t": 14.7,
+"sfx": "crowd_laugh",
+"gain_db": -3
+},
+{
+"t": 15.4,
+"sfx": "cart",
+"gain_db": -3,
+"dur": 4.6,
+"loop": true
+},
+{
+"t": 16.4,
+"sfx": "crowd_laugh",
+"gain_db": -6
+},
+{
+"t": 20.0,
+"sfx": "brick",
+"gain_db": -2
+},
+{
+"t": 20.6,
+"sfx": "rain",
+"gain_db": -8,
+"dur": 10.0,
+"loop": true
+},
+{
+"t": 24.3,
+"sfx": "stamp",
+"gain_db": -11
+},
+{
+"t": 24.75,
+"sfx": "stamp",
+"gain_db": -11
+},
+{
+"t": 25.2,
+"sfx": "stamp",
+"gain_db": -11
+},
+{
+"t": 27.87,
+"sfx": "stamp",
+"gain_db": 0
+},
+{
+"t": 31.7,
+"sfx": "brick",
+"gain_db": 0
+},
+{
+"t": 32.6,
+"sfx": "brick",
+"gain_db": -4
+},
+{
+"t": 32.93,
+"sfx": "brick",
+"gain_db": -4
+},
+{
+"t": 33.27,
+"sfx": "brick",
+"gain_db": -4
+},
+{
+"t": 33.6,
+"sfx": "brick",
+"gain_db": -4
+},
+{
+"t": 34.2,
+"sfx": "steam",
+"gain_db": -6
+},
+{
+"t": 35.2,
+"sfx": "birds",
+"gain_db": -8
+},
+{
+"t": 36.4,
+"sfx": "birds",
+"gain_db": -9
+},
+{
+"t": 36.5,
+"sfx": "page",
+"gain_db": -2
+},
+{
+"t": 38.9,
+"sfx": "glass_tap",
+"gain_db": -6
+},
+{
+"t": 39.37,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 39.4,
+"sfx": "night_long",
+"gain_db": -12,
+"dur": 7.8,
+"loop": true
+},
+{
+"t": 41.2,
+"sfx": "knock_door",
+"gain_db": -9
+},
+{
+"t": 42.07,
+"sfx": "knock_door",
+"gain_db": -9
+},
+{
+"t": 43.4,
+"sfx": "chalk",
+"gain_db": -4
+},
+{
+"t": 44.1,
+"sfx": "chalk",
+"gain_db": -4
+},
+{
+"t": 45.0,
+"sfx": "chalk",
+"gain_db": -4
+},
+{
+"t": 46.0,
+"sfx": "coins",
+"gain_db": -2
+},
+{
+"t": 46.4,
+"sfx": "coins",
+"gain_db": -3
+},
+{
+"t": 47.2,
+"sfx": "inn",
+"gain_db": -11,
+"dur": 9.9,
+"loop": true
+},
+{
+"t": 48.33,
+"sfx": "glass_tap",
+"gain_db": -1
+},
+{
+"t": 48.77,
+"sfx": "crate_thunk",
+"gain_db": -3
+},
+{
+"t": 49.2,
+"sfx": "pour",
+"gain_db": -3,
+"dur": 2.6,
+"loop": true
+},
+{
+"t": 50.3,
+"sfx": "crowd_laugh",
+"gain_db": -7
+},
+{
+"t": 53.33,
+"sfx": "crate_thunk",
+"gain_db": 0
+},
+{
+"t": 54.53,
+"sfx": "knock_door",
+"gain_db": 0
+},
+{
+"t": 57.6,
+"sfx": "birds",
+"gain_db": -9
+},
+{
+"t": 60.83,
+"sfx": "boom",
+"gain_db": 2
+}
+]
