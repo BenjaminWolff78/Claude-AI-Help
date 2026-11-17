@@ -1,0 +1,297 @@
+[
+{
+"t": 0.0,
+"sfx": "birds",
+"gain_db": -10
+},
+{
+"t": 0.4,
+"sfx": "cluck",
+"gain_db": -4
+},
+{
+"t": 3.07,
+"sfx": "key_click",
+"gain_db": -6
+},
+{
+"t": 3.47,
+"sfx": "squawk",
+"gain_db": 0
+},
+{
+"t": 4.33,
+"sfx": "hydraulic",
+"gain_db": -2
+},
+{
+"t": 5.6,
+"sfx": "coins",
+"gain_db": 0
+},
+{
+"t": 6.9,
+"sfx": "lid_clang",
+"gain_db": -6
+},
+{
+"t": 7.1,
+"sfx": "bags_thud",
+"gain_db": 0
+},
+{
+"t": 9.3,
+"sfx": "flap",
+"gain_db": -4
+},
+{
+"t": 9.5,
+"sfx": "cluck",
+"gain_db": -6
+},
+{
+"t": 10.2,
+"sfx": "hen_mutter",
+"gain_db": -6
+},
+{
+"t": 11.7,
+"sfx": "marker",
+"gain_db": -6
+},
+{
+"t": 13.2,
+"sfx": "laugh_small",
+"gain_db": 0
+},
+{
+"t": 14.17,
+"sfx": "horn_long",
+"gain_db": 0
+},
+{
+"t": 14.4,
+"sfx": "flap",
+"gain_db": -4
+},
+{
+"t": 17.07,
+"sfx": "squawk",
+"gain_db": -2
+},
+{
+"t": 18.53,
+"sfx": "bell_noon",
+"gain_db": -4
+},
+{
+"t": 19.0,
+"sfx": "crowd_laugh",
+"gain_db": -2
+},
+{
+"t": 19.25,
+"sfx": "cluck",
+"gain_db": -6
+},
+{
+"t": 20.2,
+"sfx": "crate_slide",
+"gain_db": -8
+},
+{
+"t": 21.3,
+"sfx": "engine",
+"gain_db": -6
+},
+{
+"t": 22.07,
+"sfx": "honk2",
+"gain_db": 0
+},
+{
+"t": 23.0,
+"sfx": "thump",
+"gain_db": -4
+},
+{
+"t": 23.73,
+"sfx": "honk2",
+"gain_db": 0
+},
+{
+"t": 24.73,
+"sfx": "honk2",
+"gain_db": -2
+},
+{
+"t": 26.3,
+"sfx": "pecks",
+"gain_db": -6
+},
+{
+"t": 26.9,
+"sfx": "hen_mutter",
+"gain_db": -6
+},
+{
+"t": 28.2,
+"sfx": "flap",
+"gain_db": -4
+},
+{
+"t": 29.93,
+"sfx": "whoosh_up",
+"gain_db": -2
+},
+{
+"t": 30.35,
+"sfx": "thump",
+"gain_db": 0
+},
+{
+"t": 30.9,
+"sfx": "lid_clang",
+"gain_db": -6
+},
+{
+"t": 31.5,
+"sfx": "birds",
+"gain_db": -8
+},
+{
+"t": 32.0,
+"sfx": "whistle",
+"gain_db": -6
+},
+{
+"t": 32.3,
+"sfx": "boing",
+"gain_db": -6
+},
+{
+"t": 33.13,
+"sfx": "boing",
+"gain_db": -6
+},
+{
+"t": 33.97,
+"sfx": "boing",
+"gain_db": -4
+},
+{
+"t": 34.48,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 34.9,
+"sfx": "door_click",
+"gain_db": -6
+},
+{
+"t": 35.3,
+"sfx": "flap",
+"gain_db": -2
+},
+{
+"t": 35.4,
+"sfx": "cluck",
+"gain_db": -4
+},
+{
+"t": 35.8,
+"sfx": "scale_beep",
+"gain_db": -6
+},
+{
+"t": 36.7,
+"sfx": "pecks",
+"gain_db": -6
+},
+{
+"t": 38.5,
+"sfx": "pecks",
+"gain_db": -6
+},
+{
+"t": 39.2,
+"sfx": "pecks",
+"gain_db": -6
+},
+{
+"t": 40.07,
+"sfx": "slurp",
+"gain_db": 0
+},
+{
+"t": 41.4,
+"sfx": "door_click",
+"gain_db": -6
+},
+{
+"t": 42.07,
+"sfx": "knock_hollow",
+"gain_db": -2
+},
+{
+"t": 42.8,
+"sfx": "pour",
+"gain_db": -4
+},
+{
+"t": 43.3,
+"sfx": "flap",
+"gain_db": -6
+},
+{
+"t": 43.4,
+"sfx": "cluck",
+"gain_db": -6
+},
+{
+"t": 44.2,
+"sfx": "beeper",
+"gain_db": -6
+},
+{
+"t": 45.4,
+"sfx": "plop",
+"gain_db": -2
+},
+{
+"t": 46.9,
+"sfx": "page",
+"gain_db": -8
+},
+{
+"t": 47.7,
+"sfx": "pecks",
+"gain_db": -6
+},
+{
+"t": 49.1,
+"sfx": "clonk",
+"gain_db": -4
+},
+{
+"t": 49.5,
+"sfx": "pour",
+"gain_db": -4
+},
+{
+"t": 50.0,
+"sfx": "crowd_laugh",
+"gain_db": -10
+},
+{
+"t": 53.4,
+"sfx": "flap",
+"gain_db": -4
+},
+{
+"t": 53.8,
+"sfx": "cluck",
+"gain_db": -4
+}
+]
