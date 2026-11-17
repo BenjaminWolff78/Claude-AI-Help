@@ -1,0 +1,8 @@
+{
+ "budget": {"style_lock_rounds": [0, 3], "side_by_side_rounds": [0, 1], "sweep_1fps": [0, 1], "kit_remeasures": [0, 2]},
+ "runs": [
+  {"check": "rick_watch_3", "what": "3 newest story Shorts, full length, vidIQ walkthrough + frame sheets + motion/focus metric", "result": "his motion median 8.8-14.6 vs ours 3.6; centre/edge 2.1-3.3 vs ours 2.8", "at": "2026-11-16T06:30"},
+  {"check": "set_stills", "parts": ["bin", "desk", "heap"], "result": "fixed: bin label, desk wood + bookcases, mound core texture; desk lowered to 0.86 m", "at": "2026-11-16"},
+  {"check": "keyframes_k1", "parts": ["scene1", "scene2"], "result": "5 staging hits fixed (hook bin, truck framing, column in the crane, desk distance, walk into lens)", "at": "2026-11-16"}
+ ]
+}
