@@ -55,7 +55,7 @@ const RD: V3 = [TX2 - 1.7, 1.75, TZ2 - 1.2];
 const SH2a = { pos: [-11.4, 1.65, -6.5] as V3, look: [-10.5, 1.85, -2.9] as V3, fov: 58 };
 const s2a = F(() => SH2a, 127, 0.0016);
 const SH2b = { pos: [TX2 - 0.5, 4.9, 0.7] as V3, look: [TX2 - 0.1, 2.9, -1.2] as V3, fov: 50 };
-const s2b = F(() => SH2b, 206, 0.0012);
+const s2b = F(() => SH2b, 206, 0.0004);
 // Odile walks east pushing the cart (from x -2.6 at 277 to x 3.0 at 367)
 const oWalk = (f: number): V3 => [lerp(-2.6, 3.0, lin(f, 277, 367)), SW, -4.25];
 const s2c = (f: number): Shot => { const o = oWalk(f); return { pos: [o[0] - 0.2, 1.5, -1.0], look: [o[0] + 0.35, 1.15, -4.6], fov: 54, roll: 0 }; };
@@ -63,7 +63,7 @@ const BRH = cabHead(TX2), O2: V3 = [-6.55, SW, -3.35];
 const SH2d = frameOn(BRH, 144, 0.3, 44, 50, 0.05, 0.42);
 const s2d = F(() => SH2d, 376, 0.002);
 const SH2e = frameTwo(BRH, head(O2), 180, 66, 32, 50, 0.5, 0.42);
-const s2e = F(() => SH2e, 486, 0.0016);
+const s2e = F(() => SH2e, 486, 0.0005);
 const SH2f = { pos: [-5.7, 1.65, 3.0] as V3, look: [-5.0, 0.95, 7.0] as V3, fov: 56 };
 const s2f = F(() => SH2f, 563, 0.002);
 SHOT_CAMS[2] = () => [K(118, swing(s1, 118, s2a, 127, 0.1), 1),          // whip left onto the truck's readout

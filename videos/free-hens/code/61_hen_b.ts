@@ -9,10 +9,11 @@ const BR4: V3 = [-8.8, SW, -4.35];
 const s4bBase = F(() => ({ pos: [-7.5, 1.15, -1.0] as V3, look: [-8.55, 0.85, -3.95] as V3, fov: 54 }), 880, 0.0016);
 const s4b = (f: number): Shot => { const c = s4bBase(f), up = 0.55 * Math.sin(Math.PI * lin(f, 897, 921)); return { ...c, look: [c.look[0], c.look[1] + up, c.look[2]] }; };   // tilts up with the flying bin
 const bx4 = (f: number) => -8.6 + 0.08 * Math.min(Math.max(0, f - 945), 1018 - 945);
+const bz4 = (f: number) => lerp(-4.5, -2.75, sm(f, 945, 976)), by4 = (f: number) => lerp(SW, 0.02, sm(f, 945, 976));
 const s4c = (f: number): Shot => { const x = bx4(f) + 0.012 * Math.max(0, f - 1018), k = creep(f, 945, 0.0012); const look: V3 = [x + 0.5, 1.35, -3.2]; return { pos: lerp3(look, [x + 0.3, 1.5, 0.2], k), look, fov: 54, roll: 0 }; };
 SHOT_CAMS[4] = () => [K(787, s4a, 1, true),
   K(857, glideTo(s4a, 857, s4b, 882, 2.0, [0, 0, 0], 0.75, 0.4), 1),      // crane up over the garden wall and down onto the street
-  K(945, glideTo(s4b, 945, s4c, 962, 0.2), 1)];                           // glide along the row of bins as spring arrives
+  K(945, glideTo(s4b, 945, s4c, 978, 0.2), 1)];                           // glide along the row of bins as spring arrives
 const FLICK = [[3, -6.4, 969], [4, -4.4, 994], [5, -2.4, 1019]] as [number, number, number][];
 SHOT_ACTS[4] = (f, s) => {
   const cast: CastPlace[] = [];
@@ -41,10 +42,10 @@ SHOT_ACTS[4] = (f, s) => {
   }
   if (f >= 945) {
     const x = bx4(f), walking = f < 1018, flickNow = FLICK.some(([, , f0]) => f >= f0 - 4 && f < f0 + 10);
-    cast.push(C("bruno", [x, 0.02, -2.75], pose(null, { expr: flickNow || f >= 1019 ? "beam" : "smug", mode: walking ? "walk" : "stand", phase: ph(f, 15), facing: toward(4, s, f, [x, 0, -2.75], [x + 1, 0, -2.75]),
+    cast.push(C("bruno", [x, by4(f), bz4(f)], pose(null, { expr: flickNow || f >= 1019 ? "beam" : "smug", mode: walking ? "walk" : "stand", phase: ph(f, 15), facing: toward(4, s, f, [x, 0, bz4(f)], [x + 1, 0, bz4(f)]),
       armR: flickNow || f >= 1019 ? [[24, -22], [30, -58]] as A2 : AR.downR, armRFront: true, mouth: f % 40 < 20 && !flickNow ? "o" : undefined }), { idx: 10 }));   // whistles; one finger up
   }
-  return { ctl, cast, fx: [], focus: follow(f, [[787, [-5.6, 0.75, -10.4]], [846, [-5.3, 1.2, -10.0], 8], [882, head(BR4), 16], [960, (g: number) => head([bx4(g), 0.02, -2.75]), 14]]), subj: f < 857 ? "neige" : "bruno" };
+  return { ctl, cast, fx: [], focus: follow(f, [[787, [-5.6, 0.75, -10.4]], [846, [-5.3, 1.2, -10.0], 8], [882, head(BR4), 16], [970, (g: number) => head([bx4(g), by4(g), bz4(g)]), 20]]), subj: f < 857 ? "neige" : "bruno" };
 };
 const TAU_ = Math.PI * 2;
 lens3([[787, B_MS], [882, B_FS, 16], [962, B_FS]]);
@@ -69,7 +70,7 @@ const s5f = F(() => SH5f, 1394, 0.0018);
 SHOT_CAMS[5] = () => [K(1034, s5a, 1, true),
   K(1080, glideTo(s5a, 1080, s5b, 1100, 0.3, [0.5, 0, 0]), 1),          // glide from the lock to the scale as the hens race over
   K(1152, glideTo(s5b, 1152, s5c, 1166), 1),                            // push in to the bowl
-  K(1241, glideTo(s5c, 1241, s5d, 1259, 1.6, [0, 0, 0], 0.6, 0.5), 1),                       // pull out to the back door
+  K(1241, glideTo(s5c, 1241, s5d, 1270, 0.8), 1),                       // pull out to the back door
   K(1310, glideTo(s5d, 1310, s5e, 1326, 0.2), 1),                       // glide down to the nest
   K(1384, glideTo(s5e, 1384, s5f, 1404, 0.5, [0, 0, 0], 0, 0.6), 1)];                      // up and round to the doorway two-shot
 SHOT_ACTS[5] = (f, s) => {
@@ -93,12 +94,12 @@ SHOT_ACTS[5] = (f, s) => {
   };
   const RT: V3 = [-7.64, 0.62, -9.78], NT: V3 = [-7.16, 0.62, -9.78];
   const peckK = (f0: number, f1: number) => (f >= f0 && f < f1 ? 30 * Math.sin(Math.PI * lin(f, f0, f1)) : 0);
-  if (f < 1241) {
+  if (f < 1286) {
     const r = runTo("rousse", 0, RT, 20); if (r) cast.push(r);
     else if (f >= 1094) { const who = f >= 1174 && f < 1200 ? "rousseC" : "rousse", k = (f >= 1150 && f < 1174) || (f >= 1176 && f < 1198) ? 1 : 0;
       cast.push(hen(who, RT, { facing: 1, tilt: f < 1152 ? peckK(1100, 1112) + peckK(1124, 1136) : Math.max(peckK(1150, 1162), peckK(1176, 1188)), propK: k, headTilt: k ? -10 : 0, phase: f / 30 }, 20)); }
-    const n = runTo("neige", 6, NT, 21); if (n) cast.push(n);
-    else if (f >= 1100) cast.push(hen("neige", NT, { facing: -1, tilt: f < 1152 ? peckK(1112, 1124) + peckK(1136, 1148) : peckK(1200, 1212), propK: f >= 1200 && f < 1226 ? 1 : 0, headTilt: f >= 1212 && f < 1226 ? -20 : 0, mouth: f >= 1212 && f < 1222 ? "O" : undefined, phase: f / 30 }, 21));
+    const n = f >= 1241 ? null : runTo("neige", 6, NT, 21); if (f >= 1241) cast.push(hen("neige", NT, { facing: -1, tilt: peckK(1250, 1262) + peckK(1272, 1284), phase: f / 30 }, 21)); if (n) cast.push(n);
+    else if (f >= 1100 && f < 1241) cast.push(hen("neige", NT, { facing: -1, tilt: f < 1152 ? peckK(1112, 1124) + peckK(1136, 1148) : peckK(1200, 1212), propK: f >= 1200 && f < 1226 ? 1 : 0, headTilt: f >= 1212 && f < 1226 ? -20 : 0, mouth: f >= 1212 && f < 1222 ? "O" : undefined, phase: f / 30 }, 21));
   }
   if (f >= 1060 && f < 1152) cast.push(C("luc", [-6.55, SW, -9.95], flow(f, [[1060, { expr: "smile", facing: -1, armR: AR.downR }], [1068, { expr: "proud", facing: -1, tilt: 8, armR: [[26, 14], [44, 30]] as A2, armRFront: true }, 6], [1090, { expr: "smile", facing: -1, armR: AR.downR }, 8]]), { idx: 2 }));
   if (f >= 1100 && f < 1152) cast.push(C("zoe", [-8.25, SW, -9.95], flow(f, [[1100, { expr: "joy", facing: 1 }], [1124, { expr: "joy", facing: 1, tilt: 12, armR: [[22, 10], [36, 20]] as A2 }, 8]]), { idx: 4 }));
@@ -112,7 +113,9 @@ SHOT_ACTS[5] = (f, s) => {
       [1282, { expr: "proud", facing: toward(5, s, f, p, [p[0] - 1, 0, p[2]]), tilt: 10, propR: f < 1292 ? "caddyFull" : "caddy", propRAng: 1.5 * sm(f, 1282, 1290), armR: [[28, 4], [48, 2]] as A2, armRFront: true }, 6],
     ]), { idx: 2 }));
     const P0 = [-7.2, SW, -10.6];
-    ([["rousse", [-8.6, SW, -11.6], 20], ["neige", [-8.0, SW, -12.2], 21], ["henBlack", [-9.4, SW, -10.0], 22], ["henGold", [-6.4, SW, -12.4], 23]] as [string, V3, number][]).forEach(([who, a, idx], i) => {
+    if (f >= 1286) cast.push(...([["rousse", RT, 20, 0], ["neige", NT, 21, 3]] as [string, V3, number, number][]).map(([who, a, idx, d]) => { const end: V3 = [-7.2 + (idx === 20 ? -0.35 : 0.3), SW, -10.6 + (idx === 20 ? -0.25 : -0.3)], g: V3 = [a[0], SW, a[2] + 0.5];
+      return f < 1294 + d ? henHop(who, a, g, f, 1286 + d, 1294 + d, idx, -1, 0.25) : f < 1308 + d ? hen(who, lerp3(g, end, lin(f, 1294 + d, 1308 + d)), { mode: "run", phase: f / 4, facing: toward(5, s, f, g, end) }, idx) : pecker(who, end, f, idx, 1, d); }));
+    ([ ["henBlack", [-9.4, SW, -10.0], 22], ["henGold", [-6.4, SW, -12.4], 23]] as [string, V3, number][]).forEach(([who, a, idx], i0) => { const i = i0 + 2;
       const end: V3 = [P0[0] + [-0.35, 0.3, -0.2, 0.35][i], SW, P0[2] + [-0.25, -0.3, 0.32, 0.2][i]], u = lin(f, 1294 + i * 2, 1308 + i * 2);
       cast.push(u <= 0 ? pecker(who, a, f, idx, a[0] < P0[0] ? 1 : -1, i) : u < 1 ? hen(who, lerp3(a, end, u), { mode: "run", phase: f / 4, facing: toward(5, s, f, a, end) }, idx) : pecker(who, end, f, idx, end[0] < P0[0] ? 1 : -1, i));
     });
