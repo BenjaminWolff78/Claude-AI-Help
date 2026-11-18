@@ -1,0 +1,237 @@
+[
+{
+"t": 0.103,
+"sfx": "orb_hum",
+"gain_db": -2
+},
+{
+"t": 2.469,
+"sfx": "whoosh_soft",
+"gain_db": -4
+},
+{
+"t": 5.144,
+"sfx": "zap",
+"gain_db": 0
+},
+{
+"t": 6.245,
+"sfx": "zap",
+"gain_db": -1
+},
+{
+"t": 8.076,
+"sfx": "shimmer",
+"gain_db": 0
+},
+{
+"t": 8.951,
+"sfx": "ticks",
+"gain_db": -2
+},
+{
+"t": 10.906,
+"sfx": "growl",
+"gain_db": 0
+},
+{
+"t": 11.626,
+"sfx": "zap",
+"gain_db": -2
+},
+{
+"t": 12.861,
+"sfx": "shrink",
+"gain_db": 0
+},
+{
+"t": 13.478,
+"sfx": "shimmer",
+"gain_db": -4
+},
+{
+"t": 14.713,
+"sfx": "page",
+"gain_db": -2
+},
+{
+"t": 18.211,
+"sfx": "whistle",
+"gain_db": -3
+},
+{
+"t": 18.931,
+"sfx": "pop",
+"gain_db": 0
+},
+{
+"t": 22.017,
+"sfx": "zap",
+"gain_db": -2
+},
+{
+"t": 23.818,
+"sfx": "thud",
+"gain_db": 0
+},
+{
+"t": 24.692,
+"sfx": "footsteps",
+"gain_db": -4
+},
+{
+"t": 25.515,
+"sfx": "clank",
+"gain_db": -2
+},
+{
+"t": 25.927,
+"sfx": "zap",
+"gain_db": -2
+},
+{
+"t": 27.007,
+"sfx": "thud",
+"gain_db": 0
+},
+{
+"t": 27.676,
+"sfx": "thud",
+"gain_db": -3
+},
+{
+"t": 27.851,
+"sfx": "thud",
+"gain_db": -4
+},
+{
+"t": 28.015,
+"sfx": "thud",
+"gain_db": -4
+},
+{
+"t": 28.19,
+"sfx": "thud",
+"gain_db": -5
+},
+{
+"t": 28.365,
+"sfx": "thud",
+"gain_db": -5
+},
+{
+"t": 30.248,
+"sfx": "shimmer",
+"gain_db": -5
+},
+{
+"t": 32.481,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 34.981,
+"sfx": "sneeze",
+"gain_db": 0
+},
+{
+"t": 37.038,
+"sfx": "zap",
+"gain_db": -3
+},
+{
+"t": 38.479,
+"sfx": "heal",
+"gain_db": 0
+},
+{
+"t": 39.816,
+"sfx": "zap",
+"gain_db": -3
+},
+{
+"t": 39.971,
+"sfx": "zap",
+"gain_db": -4
+},
+{
+"t": 40.948,
+"sfx": "footsteps",
+"gain_db": -3
+},
+{
+"t": 43.212,
+"sfx": "marker",
+"gain_db": -6
+},
+{
+"t": 45.269,
+"sfx": "zap",
+"gain_db": -3
+},
+{
+"t": 45.681,
+"sfx": "footsteps",
+"gain_db": -2
+},
+{
+"t": 46.607,
+"sfx": "crowd_laugh",
+"gain_db": -8
+},
+{
+"t": 47.841,
+"sfx": "shimmer",
+"gain_db": -4
+},
+{
+"t": 50.311,
+"sfx": "lever",
+"gain_db": 0
+},
+{
+"t": 50.619,
+"sfx": "beeps",
+"gain_db": -1
+},
+{
+"t": 51.442,
+"sfx": "zap",
+"gain_db": -5
+},
+{
+"t": 53.294,
+"sfx": "rewind",
+"gain_db": -2
+},
+{
+"t": 55.146,
+"sfx": "marker",
+"gain_db": -4
+},
+{
+"t": 56.381,
+"sfx": "page",
+"gain_db": -3
+},
+{
+"t": 57.41,
+"sfx": "chalk",
+"gain_db": -2
+},
+{
+"t": 58.953,
+"sfx": "page",
+"gain_db": -4
+},
+{
+"t": 64.92,
+"sfx": "sneeze",
+"gain_db": -2
+},
+{
+"t": 65.023,
+"sfx": "zap",
+"gain_db": -6
+}
+]

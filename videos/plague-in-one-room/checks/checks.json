@@ -1,0 +1,46 @@
+{
+ "video": "They Put a Plague in One Room and It Took a Whole City",
+ "budget": {
+  "style_lock_rounds": "2 of 3",
+  "side_by_side": "1 of 1",
+  "sweep_1fps": "0 of 1",
+  "kit_measures": "re-measure 1 of 2 used; 2 reserved for the final"
+ },
+ "runs": [
+  {
+   "what": "scripted checks on previz1",
+   "file": "/home/claude/p7/previz/checks1.json",
+   "result": "picture 11/27 hit (knight 2 too close to the lens, printout and lever at the frame edge, wolf/Rolf off edge, prankster behind the lens, journal at the edge), pierce 5 (champion through the crowd, runner through the traveller, the end stroller through the stall post), lens 6 (the rack), anim 124 (wolf lunge slid, scientist slid, priest arm pop)",
+   "fixed_in": "hook creep cut to punches only, knight 2 stops short, office and rack framings, champion path, traveller timing, gate and study restaged, wolf runs, scientist steps, priest blend 12 f"
+  },
+  {
+   "what": "kit measure 1 on previz1",
+   "file": "/home/claude/untrusted/kit/plague_previz1_a_vs_rick.md",
+   "result": "voice 4.95 syl/s HIGH (outside all 27), push-in share 90% HIGH, moves 3.8/10 s LOW, fast p90 10.9 LOW, still holds 0.93 HIGH, cuts 6.6/min HIGH, saturation 0.54 HIGH, animation 3.0 LOW; brightness 108 OK, detail 14.5 OK, opening speed OK, calm stretches OK",
+   "fixed_in": "voice re-tempo'd 1.07 -> 1.04 (65.5 s video, every shot time-warped to match), sideways slides on the holds, gentler pushes, saturation 0.86-0.92 per place, background strollers"
+  },
+  {
+   "what": "scripted checks on previz2",
+   "file": "/home/claude/p7/previz2/checks2.json",
+   "result": "picture 7/27 hit (mostly framings already changed after the previz started: knight 2, prankster, lever, dev1/scientist low in frame), pierce 8 (strollers through barrels, Bram's legs in the counter), lens 1",
+   "fixed_in": "strollers moved to open ground, Bram behind the counter, office camera lowered"
+  },
+  {
+   "what": "kit re-measure 1 on previz2",
+   "file": "/home/claude/untrusted/kit/plague_previz2_a_vs_rick.md",
+   "result": "voice now OK; camera too still (moving 42%, median 1.8, moves 3.1/10 s, fast p90 7.6), push-in share 81% HIGH, saturation 0.54 HIGH, animation 3.0 LOW, calm p90 5.65 HIGH (edge), length 65.5 s (inside the 62-66 rule)",
+   "fixed_in": "push on every sentence start, sideways nudges on key words, creep 0.0012 + slides 0.0032 m/f on holds, faster crane-to-board glide, saturation 0.72-0.82 per place, flickering torches and swaying banners"
+  },
+  {
+   "what": "scripted checks on previz3 (changed chunks re-rendered)",
+   "file": "/home/claude/p7/previz3/checks3.json",
+   "result": "picture 6/27 (customer and lever at the frame edge, prankster too near the lens, dev1/scientist low or at the edge, mist under the lens as intended), pierce 4 (runners through the line-up and traveller, the queue scattering into itself), lens 7 (Bram behind an awning post)",
+   "fixed_in": "customer, rack, office and study framings; prankster starts further in; runners veer into the woods; traveller enters after them; queue scatters apart; healer's neighbours moved out of the glide"
+  },
+  {
+   "what": "side-by-side 15 fps vs BA (1 of 1)",
+   "file": "/home/claude/p7/sbs/ours15.png",
+   "result": "the pet stone lift, the wolf popping out, Rolf's fall, the champion's countdown and fall, and the healer's run all go through in-between frames; no pose switches"
+  }
+ ]
+}
