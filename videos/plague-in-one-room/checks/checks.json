@@ -3,8 +3,8 @@
  "budget": {
   "style_lock_rounds": "2 of 3",
   "side_by_side": "1 of 1",
-  "sweep_1fps": "0 of 1",
-  "kit_measures": "re-measure 1 of 2 used; 2 reserved for the final"
+  "sweep_1fps": "1 of 1 (final)",
+  "kit_measures": "measure 1 + re-measures 2 of 2 (previz2, final)"
  },
  "runs": [
   {
@@ -41,6 +41,18 @@
    "what": "side-by-side 15 fps vs BA (1 of 1)",
    "file": "/home/claude/p7/sbs/ours15.png",
    "result": "the pet stone lift, the wolf popping out, Rolf's fall, the champion's countdown and fall, and the healer's run all go through in-between frames; no pose switches"
+  },
+  {
+   "what": "kit re-measure 2 on the final",
+   "file": "/home/claude/untrusted/kit/plague_final_vs_rick.md",
+   "result": "OK: still/drift/moving 3.5/31.3/65.2%, median speed 2.78, ease 5 f, roll 0.36, cuts 4.58/min, captions 2.58/s, brightness 109.3, white 1.07%, near-black 1, shot changes 4.12/10 s, calm p90 5.04, voice 4.81 syl/s, 11.8 words/sentence. OPEN: fast p90 10.4 LOW, moves 4.3/10 s LOW, push-in 82% HIGH, still holds 0.83 HIGH, opening speed 8.0 HIGH, saturation 0.53 HIGH, detail 12.7 LOW, animation 2.0 LOW, calm >=3 s 8 HIGH, length 65.5 (inside the user's 62-66 rule)",
+   "fixed_in": "budget used up: listed as open in CP6"
+  },
+  {
+   "what": "1 fps sweep on the final (66 frames)",
+   "file": "/home/claude/p7/sweep/",
+   "result": "the two office workers stood one behind the other at 53-56 s (one face hidden ~3 s); a check of the walk found dev1 walking through dev2 at ~53 s; one re-rendered chunk had 11 frames with the world missing (a render glitch, not in the code)",
+   "fixed_in": "dev1 writes at OFFICE-1.15 and dev2 spins the dial from DIAL-0.5; dev1 walks past in front of dev2; the paper moved to dev1's open side; chunks 1520, 1600 and 1680 re-rendered and dark-frame checked"
   }
  ]
 }

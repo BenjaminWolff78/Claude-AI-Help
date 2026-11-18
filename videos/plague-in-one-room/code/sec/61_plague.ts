@@ -298,7 +298,8 @@ SHOT_ACTS[3] = (f, s) => {
 lens3([[500, B_WS], [534, B_MS, 12], [800, B_WS, 12], [898, B_MS, 12], [1186, B_WS, 14], [1222, B_MS, 14]]);
 
 // ================================================= STORY SHOT 4 (1372-1642) THE OFFICE: quarantine, restart, rewind
-const DEV2M: V3 = [PT.OFFICE[0] - 2.25, 0, -3.3], DEV1R: V3 = [PT.RACK[0] - 0.75, 0, -3.55], DEV1W: V3 = [PT.OFFICE[0] - 0.5, 0, -4.05];
+const DEV2M: V3 = [PT.OFFICE[0] - 2.25, 0, -3.3], DEV1R: V3 = [PT.RACK[0] - 0.75, 0, -3.55], DEV1W: V3 = [PT.OFFICE[0] - 1.15, 0, -3.85];
+const D2DIAL: V3 = [PT.DIAL[0] - 0.5, 0, -4.05];
 const MONSH = { pos: [PT.OFFICE[0] - 1.5, 1.5, -0.8] as V3, look: [PT.OFFICE[0] - 1.75, 1.32, -4.9] as V3, fov: 58 };
 const c4a = FS(() => MONSH, 1372, 0.0009, 0.0015, [[1394, 0.005, 10]]);
 const RACKSH = { pos: [PT.RACK[0] - 0.6, 1.5, -0.9] as V3, look: [PT.RACK[0] + 0.55, 1.35, -4.4] as V3, fov: 58 };
@@ -311,7 +312,7 @@ SHOT_ACTS[4] = (f, s) => {
   const back = sm(f, 1498, 1512), rew = sm(f, 1553, 1590);
   const ctl: Ctl = { mapRed: f < 1460 ? 0.4 : f < 1478 ? 0.8 : f < 1498 ? 0.8 * (1 - sm(f, 1478, 1486)) : 0.8 * back * (1 - rew), qMap: f < 1460 ? sm(f, 1390, 1410) : 0, lever: sm(f, 1465, 1473) * (1 - sm(f, 1488, 1500)), blink: f >= 1474 && f < 1496 ? 1 : 0, rewind: -2.5 * rew };
   // dev2 points at the ring on the map (1394), groans as the dots walk around it (1430-1450); later spins the dial (1550-1590)
-  const d2 = f < 1520 ? DEV2M : lerp3(DEV2M, [PT.DIAL[0] - 0.75, 0, -3.95], sm(f, 1520, 1540));
+  const d2 = f < 1520 ? DEV2M : lerp3(DEV2M, D2DIAL, sm(f, 1520, 1540));
   const d2w = f >= 1520 && f < 1540;
   const dev2Arm = armSeq(f, [[1372, fixA([[22, 8], [30, 22]])], [1392, fixA([[26, -12], [52, -24]]), 10], [1440, fixA([[20, -10], [10, -36]]), 8], [1470, fixA([[22, 8], [30, 22]]), 12],
     [1542, (g) => { const a = Math.PI / 2 + 2.5 * Math.PI * 2 * sm(g, 1553, 1590); return armTo(4, s, g, d2, [PT.DIAL[0] + 0.32 * Math.cos(a), PT.DIAL[1] + 0.32 * Math.sin(a), PT.DIAL[2] + 0.12], 1, 0.4); }, 12], [1596, fixA([[22, 8], [30, 22]]), 12]]);
@@ -321,15 +322,16 @@ SHOT_ACTS[4] = (f, s) => {
   dev2.o = { ...dev2.o, armR: dev2Arm, armRFront: true } as FigOpts;
   cast.push(dev2);
   // dev1 yanks RESTART (1462-1474), cheers (1478), then gasps as the red comes back (1504); writes the missing line (1600-1630)
-  const d1 = f < 1530 ? DEV1R : lerp3(DEV1R, DEV1W, sm(f, 1530, 1560));
+  const D1MID: V3 = [PT.DIAL[0] + 0.1, 0, -3.1];   // sweep fix: dev1 walks IN FRONT of dev2 (whose arm reaches back to the dial) instead of through him
+  const d1 = f < 1530 ? DEV1R : f < 1546 ? lerp3(DEV1R, D1MID, sm(f, 1530, 1546)) : lerp3(D1MID, DEV1W, sm(f, 1546, 1562));
   const leverT: V3 = [PT.RACK[0] + 0.62, 1.3 + 0.7 * Math.cos(1.1 * sm(f, 1465, 1473) * (1 - sm(f, 1488, 1500))), PT.RACK[2] + 0.2 + 0.7 * Math.sin(1.1 * sm(f, 1465, 1473) * (1 - sm(f, 1488, 1500)))];
   const dev1Arm = armSeq(f, [[1372, fixA([[22, 8], [30, 22]])], [1450, (g) => armTo(4, s, g, d1, leverT, 1, 0.6), 12], [1476, fixA([[24, -20], [30, -52]]), 6], [1500, fixA([[22, -4], [14, -30]]), 4], [1532, fixA([[22, 8], [30, 22]]), 12],
-    [1598, fixA([[22, -2], [26, -26]]), 10]]);
-  const dev1L = armSeq(f, [[1372, fixA([[-22, 8], [-30, 22]])], [1600, (g) => fixA([[-22, 0], [-30 + 8 * Math.sin(g * 0.9), -16 + 4 * Math.cos(g * 1.3)]])(g), 10], [1632, fixA([[-24, -14], [-34, -40]]), 8]]);
-  const dev1 = C("dev1", d1, f >= 1530 && f < 1560 ? pose(null, { expr: "neutral", mode: "walk", phase: (f - 1530) / 14, facing: -1 }) : flow(f, [
+    [1600, (g) => fixA([[22, 0], [30 - 8 * Math.sin(g * 0.9), -16 + 4 * Math.cos(g * 1.3)]])(g), 10], [1632, fixA([[24, -14], [34, -40]]), 8]]);
+  const dev1L = armSeq(f, [[1372, fixA([[-22, 8], [-30, 22]])], [1598, fixA([[-22, -2], [-26, -26]]), 10]]);
+  const dev1 = C("dev1", d1, f >= 1530 && f < 1562 ? pose(null, { expr: "neutral", mode: "walk", phase: (f - 1530) / 14, facing: -1 }) : flow(f, [
     [1372, { expr: "neutral", facing: -0.4 }], [1462, { expr: "determined", facing: 0.7, tilt: 6 }, 8], [1476, { expr: "joy", facing: -0.4, tilt: -4 }, 6], [1504, { expr: "shock", facing: -0.6, tilt: -8, headBack: 0.4 }, 3],
     [1514, { expr: "aghast", facing: -0.6 }, 10], [1598, { expr: "eureka", facing: 0.3 }, 10], [1626, { expr: "beam", facing: 0.2, tilt: -3 }, 10]]), { idx: 2 });
-  dev1.o = { ...dev1.o, armR: dev1Arm, armRFront: true, armL: dev1L, armLFront: true, propR: f >= 1598 ? "scrollCode" : undefined, propK: f >= 1610 ? 1 : 0, propL: f >= 1598 ? "pen" : undefined } as FigOpts;
+  dev1.o = { ...dev1.o, armR: dev1Arm, armRFront: true, armL: dev1L, armLFront: true, propL: f >= 1598 ? "scrollCode" : undefined, propK: f >= 1610 ? 1 : 0, propR: f >= 1598 ? "pen" : undefined } as FigOpts;
   cast.push(dev1);
   if (f >= 1610) fx.push(tag("immO", "PETS: IMMUNE", [d1[0] + 0.2, 1.9, d1[2] + 0.3], "#2a5a2a", "#c8f8b0", 0.5));
   const focus = follow(f, [[1372, [PT.OFFICE[0] - 1.4, 1.42, -4.9]], [1450, [PT.RACK[0], 1.4, -4.2], 20], [1490, [PT.OFFICE[0] - 0.9, 1.6, -4.9], 20], [1598, head(DEV1W, 1.2), 12]]);
