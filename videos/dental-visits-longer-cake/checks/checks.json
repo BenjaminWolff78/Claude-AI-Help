@@ -1,0 +1,47 @@
+{
+ "video": "He Made Dental Visits Longer and Got Cake",
+ "budget": {
+  "style_lock_rounds": "3 of 3",
+  "side_by_side": "1 of 1",
+  "sweep_1fps": "0 of 1 (after the final render)",
+  "kit_measures": "re-measure 1 of 2 used (previz3); 2 reserved for the final"
+ },
+ "runs": [
+  {
+   "what": "scripted checks 1-12 on previz1 (all frames)",
+   "file": "/home/claude/p6/previz/checks1.json",
+   "result": "framing 1823 rows (mostly off-edge heads in glides and the old Vance/lab framings), picture 11 of 25 missed, whip 59 (window transits), pierce 16 (passer-by through the mailbox), anim 70 (arm switches, sit-up slide), screen 13, 3 cuts min gap 170 f",
+   "fixed_in": "arm timelines (armSeq/path3), rig turns, Vance/lab/wall/end framings, passer-by path, widened doorway, Hal beside the drawer"
+  },
+  {
+   "what": "kit on previz1",
+   "file": "/home/claude/untrusted/kit/previz1_a_vs_rick.md",
+   "result": "brightness 130 OK, white 1.33 OK, voice 4.67 OK; camera clearly moving 35 LOW, moves 8.0/10 s HIGH, shot changes 6.73 HIGH, fast moves 30 HIGH, roll 1.15 HIGH, detail 14.0 LOW, animation 3.0 LOW",
+   "fixed_in": "push-in creep on every hold, fewer and slower glides and cranes, orbit halved, livelier breathing and arm drift, wall detail"
+  },
+  {
+   "what": "scripted checks 1-12 on previz2 (all frames)",
+   "file": "/home/claude/p6/previz2/checks2.json",
+   "result": "picture 9/25 hit (cake handover edge, ice pack, Pratt heads off edge in wide holds), pierce 11 (mailbox 196-250, hydrant 120-140, A-board 1055-1118, open drawer 1283-1293, bowlers overlapping off-screen), lens 65 (desk at 620, lamp at 1056), focus 9, screen 16 short holds, 1 edge jump 1753, whip 68, anim 59",
+   "fixed_in": "opening reframed, lab restaged (hand in tub, thermometer visible), Friday crane replaced by a hard cut at 512, receptionist and egg-timer framings, bench turned, walker paths rerouted, Hal walks clear of the drawer, focus keys for the receptionist and Pratt"
+  },
+  {
+   "what": "scripted checks on previz3 (all frames; changed chunks re-rendered)",
+   "file": "/home/claude/p6/previz3/checks3b.json",
+   "result": "pierce: only character-to-character overlaps off screen and seated 'roof' notes (checked in strips); picture hits are reclined/edge projections confirmed on screen in the strips except the cake handoff (fixed); edge 0; cuts 5",
+   "fixed_in": "cake handoff push eased; door opens before the walkers; bowlers staggered"
+  },
+  {
+   "what": "kit re-measure 1 on previz3",
+   "file": "/home/claude/untrusted/kit/previz3_a_vs_rick.md",
+   "result": "OK: still, moves/10 s, move length, ease-in, brightness 127, saturation, white 1.71, detail 14.8, animation 4.0, length, calm count, voice 4.67, sentences. Outside: clearly moving 42 LOW, median speed 1.7 LOW, fast p90 30.7 HIGH, push-in share 54 LOW, roll 1.23 HIGH, still holds 0.73 HIGH, opening speed 1.15 LOW, cuts 5.69/min HIGH, shot changes 6.65 HIGH, calm p90 3.47 LOW (edge), caption changes 2.48 LOW (edge)",
+   "fixed_in": "fast opening dolly, hold creep x2.6/2.2, the five biggest turns lengthened 4-8 f, the ending crane removed (one hard cut at 1751)"
+  },
+  {
+   "what": "side-by-side 15 fps strips vs BA (1 of 1)",
+   "file": "/home/claude/p6/sbs/ours15.png",
+   "result": "Hal's cake grip, Dot sitting up, Vance's laugh, Pratt's walk and the volunteer's reach all pass through in-between frames; Mae's egg twist is small (head tilt + breathing only) - accepted"
+  }
+ ],
+ "note_plague": "plague video ledger: /home/claude/p7/checks.json"
+}
