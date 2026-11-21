@@ -3,22 +3,53 @@
  "budget": {
   "style_lock_rounds": "1 of 3",
   "still_gate": "1 pass of 40 stills + 2 look passes (10 and 5 stills)",
-  "side_by_side": "0 of 1 so far",
-  "sweep_1fps": "0 of 1 so far (final)",
-  "kit_measures": "measure 1 (previz3); re-measures 0 of 2 so far"
+  "side_by_side": "1 of 1 (local only, reference frames never uploaded)",
+  "sweep_1fps": "1 of 1 (final)",
+  "kit_measures": "measure 1 (previz3) + re-measures 2 of 2 (first final, fixed final)"
  },
  "runs": [
-  {"what": "still gate (40 stills, old cameras)", "file": "/home/claude/p8/gate/h*.jpg",
+  {
+   "what": "still gate (40 stills, old cameras)",
+   "file": "/home/claude/p8/gate/h*.jpg",
    "result": "heads 60-70% of the frame width, the hook skull hidden behind Agus, pendopo posts across shots, a farmer over Ralph, the sign back blacking out the night, the shed see-through, the papaya a blob, the repaint not showing, big dust, a $ card",
-   "fixed_in": "fitH framing at Rick's sizes (board AP), restaged hook, posts moved, queue into the yard, front two-shot at night, shed ceiling, papaya rebuilt, live sign material, small dust, 120 cents card"},
-  {"what": "scripted checks on previz1", "file": "/home/claude/p8/previz/sg1.json",
+   "fixed_in": "fitH framing at Rick's sizes (board AP), restaged hook, posts moved, queue into the yard, front two-shot at night, shed ceiling, papaya rebuilt, live sign material, small dust, 120 cents card"
+  },
+  {
+   "what": "scripted checks on previz1",
+   "file": "/home/claude/p8/previz/sg1.json",
    "result": "landing 14, lens 243, whip 76, framing 1323, picture 6, blank 34 (sign back), pop 12, focus 9, pierce 5, anim 240",
-   "fixed_in": "heads raised above the captions (fitH raise), lane names de-duplicated, Agus exits left, Ralph off the lamp, Agus off the bank, Ralph off the table edge, inserts subject-free"},
-  {"what": "scripted checks on previz3", "file": "/home/claude/p8/previz3/sg3.json",
+   "fixed_in": "heads raised above the captions (fitH raise), lane names de-duplicated, Agus exits left, Ralph off the lamp, Agus off the bank, Ralph off the table edge, inserts subject-free"
+  },
+  {
+   "what": "scripted checks on previz3",
+   "file": "/home/claude/p8/previz3/sg3.json",
    "result": "name 0, landing 11 (5 inserts by design), lens 177, whip 52, edge 0, blank 0, action 0, picture 3, pop 6 (during glides), pierce 6, anim 87 (hammer strikes)",
-   "fixed_in": "tin box widened, shed and lane cameras re-aimed, shed villagers apart, papaya blend"},
-  {"what": "kit measure 1 on previz3", "file": "/home/claude/untrusted/kit/skull_previz3_vs_rick.md",
+   "fixed_in": "tin box widened, shed and lane cameras re-aimed, shed villagers apart, papaya blend"
+  },
+  {
+   "what": "kit measure 1 on previz3",
+   "file": "/home/claude/untrusted/kit/skull_previz3_vs_rick.md",
    "result": "opening speed 1.08 LOW (outside all 27), cuts 12.8/min HIGH (strike shakes, a 4 f glide, the papaya swap read as cuts), moving 90% HIGH, drifting 9% LOW, roll 1.09 HIGH, saturation 0.65 HIGH (outside all 27), brightness 82 LOW, near-black 8% HIGH (outside all 27), voice 4.24 syl/s LOW, length 65.7 HIGH; OK: speed, fast p90, moves/10 s, ease, detail, animation, shot changes, calm stretches, sentence length",
-   "fixed_in": "opening swoop, kicks halved and strike punches softened, glides 12+ f, papaya blend, creep x2.6 -> x1.7, grades desaturated and brightened, night/shed/lid lit (look stills 0.48-0.58 saturation, 90-118 brightness)"}
- ]
+   "fixed_in": "opening swoop, kicks halved and strike punches softened, glides 12+ f, papaya blend, creep x2.6 -> x1.7, grades desaturated and brightened, night/shed/lid lit (look stills 0.48-0.58 saturation, 90-118 brightness)"
+  },
+  {
+   "what": "1 fps sweep of the assembled final (66 frames, 3 sheets)",
+   "file": "/home/claude/p8/sweep/sheet*.jpg",
+   "result": "a near-blank shed wall mid-whip at about 20 s (frames 606-620), a wall then an empty lane at 23 s (the shed-to-lane whip), an empty yard frame mid-glide at 39 s (kids to the elder), the STILL ONE card cut to TILL ONE at the left edge from 52 s, a seam at the 960 chunk boundary (older bundle)",
+   "fixed_in": "c3d starts on the whole shed front with the door centred and the glide leads with the look; a hard cut on 'because' (frame 694) straight to the hammerers' lane; the elder glide leads with the look; STILL ONE card moved 8 cm screen-right and 0.24 -> 0.2; chunks 0, 560, 640, 720, 880, 1120, 1520 re-rendered from one fixed bundle (checked with low-res stills first: fixchk/strip.jpg, card.jpg)"
+  },
+  {
+   "what": "kit re-measure 2 of 2 on the fixed final",
+   "file": "/home/claude/untrusted/kit/skull_final2_vs_rick.md",
+   "result": "brightness 98.2 -> 107.2 OK, near-black 2.0 -> 0.0 OK, saturation 0.461 OK, roll 0.77 HIGH, opening 1.87 LOW, fast p90 9.4 LOW, moves 4.9/10 s LOW, cuts 5.48/min HIGH, captions 2.42/s LOW, animation 3.0 LOW, length 65.7 HIGH, voice 4.24 syl/s LOW; all other rows OK",
+   "fixed_in": "budget spent; the open rows are reported in CP6"
+  },
+  {
+   "what": "side-by-side with the reference frames (local only)",
+   "file": "/home/claude/p8/sbs (local, not committed)",
+   "result": "characters, size, captions and sharpness match; gap: colour variety (about 70% of the runtime in warm wood and late sun)",
+   "fixed_in": "noted for the next video: a colour key per setting"
+  }
+ ],
+ "verdict": "CP6 PASS with 4 known gaps (voice 4.24 syl/s and the biggest number at 21.4 s, the cut question line, the camera rows, 10 vidIQ calls)"
 }

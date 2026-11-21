@@ -58,12 +58,11 @@ const REST_R: A2 = [[22, 10], [28, 26]], REST_L: A2 = [[-22, 10], [-28, 26]], BA
 const AGT: V3 = [-0.78, 0, 0.7], RAL: V3 = [0.25, 0, -0.62];
 const Q: V3[] = [[0.55, 0, 1.12], [0.8, 0, 1.9], [0.6, 0, 2.7], [0.85, 0, 3.5], [0.65, 0, 4.3], [0.9, 0, 5.1]];   // the queue runs out into the yard
 const QW = ["farmer1", "joko", "farmer2", "farmer3", "farmer4", "vil3"];
-const COL_A = 0.18, COL_B = -1.08;   // the 12-coin column: Ralph flicks it (100) and it slides the length of the table into Agus's palm
+const COL_A = 0.18, COL_B = -1.0;   // the 12-coin column: Ralph flicks it (100) and it slides the length of the table into Agus's palm
 
 // ================================================= STORY SHOT 1 (0-300) THE STATION, morning: the hook + "You see,"
-const c1base = () => fitH([body(AGT, 0.6, 2.1, 0.42), [SMASH, -0.05, 0.15, 0.18]], 2, 8, 42, 0.30, 0.3);
-const c1a = F((f) => { const b = c1base(), k = 1 - Math.pow(1 - Math.min(1, Math.max(0, f / 54)), 3);   // the opening swoop: from up-left and back, eased out by 1.8 s
-  return { pos: lerp3([b.pos[0] - 1.5, b.pos[1] + 0.7, b.pos[2] + 0.7], b.pos, k), look: lerp3([b.look[0] - 0.3, b.look[1] - 0.1, b.look[2]], b.look, k), fov: b.fov }; }, 54, 0.0014, [[13, 0.004, 7]]);   // the swoop comes from the left: the queue (right) never enters the frame
+const c1a = F((f) => { const k = sm(f, 0, 60), b = fitH([body(AGT, 0.6, 2.1, 0.42), [SMASH, -0.05, 0.15, 0.18]], lerp(-15, 2, k), 8, 42, 0.30, 0.3);   // the opening: an arc from the left and a slight drop, eased over 2 s (kit: first 3 s too static)
+  return { pos: [b.pos[0], b.pos[1] + 0.5 * (1 - k), b.pos[2]] as V3, look: b.look, fov: b.fov }; }, 54, 0.0014, [[13, 0.004, 7]]);
 const c1b = F(() => fitH([body(AGT, 0.7, 2.0, 0.4), [[COL_B, 0.8, 0.38], 0, 0.1, 0.06]], -8, 10, 40, 0.36, 0.3), 96, 0.0012);
 const c1c = F(() => fitH([body(RAL, 0.5, 2.1, 0.4), [SIGN, -0.32, 0.32, 0.56]], -20, 6, 46, 0.24), 150, 0.0009);
 const c1d = F(() => fitH([body(RAL, 0.4, 2.1, 0.4), body(Q[0], 0.4, 2.0, 0.4), body(Q[1], 0.4, 2.0, 0.4)], 45, 8, 46, 0.22), 232, 0.0008);
@@ -89,6 +88,7 @@ SHOT_ACTS[1] = (f, s) => {
     [262, { expr: "smug", facing: 0.4, look: 0.6 }, 12],
   ]), ...(f >= 142 ? walkO(aw1, { expr: "smug" }) : {}), armR: aArm, armRFront: true, propR: "hammer", armL: aArmL, armLFront: true, propL: f >= 134 ? "coin" : undefined } as FigOpts, { idx: 1 }));
   fx.push(...strikeSmear("ag", hd(AGT, 1.75), SKTOP(SMASH), f, 15), ...chips("sk", SMASH, f - 15, 10));
+  if (f >= 124 && f < 146) fx.push(...wordCard("x12c", "12 COINS", [AGT[0] - 0.4, 1.12, AGT[2] + 0.3], f - 124, 22, "#f4c430", 0.4));   // "paid twelve times more": the payoff reads on the coins
   if (f >= 15 && f < 23) fx.push(...wordCard("crk", "CRACK!", [SMASH[0] - 0.05, SMASH[1] + 0.45, SMASH[2] + 0.1], f - 15, 8, "#f4c430", 0.3));
   // RALPH: flinches at the blow, pushes the 12-coin column across with two fingers (94-126), pleased; turns to the sign and taps
   // it on "ten cents" (196-222), takes a coin and drops it in farmer 1's palm on "piece" (242), then writes in the ledger
@@ -186,10 +186,10 @@ const c3a = F(() => fitH([body(AGT, 0.6, 2.1, 0.42), [SMASH, -0.05, 0.15, 0.2], 
 const c3t = F(() => ({ pos: [1.95, 2.35, 1.3] as V3, look: [-0.08, 0.84, 0.16] as V3, fov: 38 }), 494, 0.0012);
 const c3b = F(() => fitH([body(Q[1], 0.3, 2.05, 0.42), body(Q[2], 0.3, 2.05, 0.42), body(Q[3], 0.3, 2.05, 0.42)], 70, 6, 46, 0.17), 520, 0.0012, [[529, 0.008, 7], [545, 0.006, 7]]);
 const c3c = F((f) => { const w = polyAt(AGW, sm(f, 600, 660)).p; return fitH([body(w, 0.3, 2.05, 0.42), body(RAL, 0.5, 2.1, 0.4)], -20, 6, 46, 0.2); }, 568, 0.0008);
-const c3d = F((f) => { const k = sm(f, 612, 640); return { pos: lerp3([8.8, 1.7, 3.6], [9.1, 1.55, 0.9], k), look: lerp3([9.0, 1.3, 0.0], [9.25, 1.3, -3.0], k), fov: lerp(50, 54, k) }; }, 640, 0.0018, [[637, 0.009, 8], [669, 0.007, 7]]);
-const c3e = F((f) => { const k = sm(f, 696, 730); return { pos: lerp3([10.2, 1.7, 2.2], [13.0, 1.75, 0.6], k), look: lerp3([11.6, 1.0, 1.2], [17.2, 0.6, 4.0], k), fov: 50 }; }, 730, 0.0014, [[737, 0.009, 7]]);
+const c3d = F((f) => { const k = sm(f, 612, 640); return { pos: lerp3([9.0, 1.8, 5.0], [9.1, 1.55, 0.9], k), look: lerp3([9.1, 1.35, -1.0], [9.25, 1.3, -3.0], k), fov: lerp(50, 54, k) }; }, 640,   /* starts on the whole shed front, door centred (sweep: the old start was a blank wall) */ 0.0018, [[637, 0.009, 8], [669, 0.007, 7]]);
+const c3e = F((f) => { const k = sm(f, 696, 730); return { pos: lerp3([10.6, 1.7, 2.0], [13.0, 1.75, 0.6], k), look: lerp3([14.6, 0.8, 3.6], [17.2, 0.6, 4.0], k), fov: 50 }; }, 730,   /* looks at the hammerers from the start (sweep: an empty lane) */ 0.0014, [[737, 0.009, 7]]);
 SHOT_CAMS[3] = () => [K(455, c3a, 1), K(490, glideTo(c3a, 490, c3t, 500), 1), K(518, glideTo(c3t, 518, c3b, 528, 0.1, [0, 0.3, 0], 0, 0.35), 1),
-  K(566, glideTo(c3b, 566, c3c, 578, 0.1), 1), K(606, glideTo(c3c, 606, c3d, 616, 0.25, [0, 0.4, 0]), 1), K(692, glideTo(c3d, 692, c3e, 704, 0.1), 1)];
+  K(566, glideTo(c3b, 566, c3c, 578, 0.1), 1), K(606, glideTo(c3c, 606, c3d, 618, 0.25, [0, 0.4, 0], 0, 0.5), 1), K(694, c3e, 1, true)];
 KEY_PUNCH.push(496, 545, 637, 669);
 KEY_NUDGE.push(506, 584, 712);
 SUN_REF[3] = 500;
@@ -279,7 +279,7 @@ const SHA: V3 = [0.5, 1.36, -0.45], SHB: V3 = [0.74, 1.36, -0.45];
 const c4a = F(() => fitH([body(RAL4, 0.5, 2.15, 0.42), [LAMP, 0, 0.35, 0.15]], 22, 6, 44, 0.3), 760, 0.0016, [[791, 0.007, 7]]);
 const c4i = F(() => fitH([body(RAL4, 0.95, 2.15, 0.42), [lerp3(SHA, SHB, 0.5), -0.1, 0.1, 0.2]], 12, 4, 38, 0.42), 838, 0.0022, [[853, 0.012, 8]]);
 const c4b = F(() => fitH([body(JK4, 0.45, 2.05, 0.42), body(AG4, 0.45, 2.05, 0.42)], 15, 5, 46, 0.26), 877, 0.0014, [[893, 0.008, 7], [947, 0.007, 7]]);
-const c4c = F(() => fitH([body(RAL4, 0.4, 2.15, 0.42), body(AG4, 0.4, 2.05, 0.42), body(JK4, 0.4, 2.05, 0.42)], 5, 8, 48, 0.18), 961, 0.0012, [[988, 0.007, 7], [1020, 0.008, 7]]);
+const c4c = F(() => fitH([body(RAL4, 0.4, 2.15, 0.42), body(AG4, 0.4, 2.05, 0.42), body(JK4, 0.4, 2.05, 0.42)], 30, 8, 48, 0.18 /* az 30: Ralph clear of Joko (az 5 hid him behind Joko's head) */), 961, 0.0012, [[988, 0.007, 7], [1020, 0.008, 7]]);
 SHOT_CAMS[4] = () => [K(760, c4a, 1, true), K(834, glideTo(c4a, 834, c4i, 846), 1), K(866, glideTo(c4i, 866, c4b, 877, 0.05, [0.9, 0, 0]), 1), K(948, glideTo(c4b, 948, c4c, 960, 0.1), 1)];
 KEY_PUNCH.push(791, 859, 912, 1013);
 KEY_NUDGE.push(831, 932, 982, 1031);
@@ -287,7 +287,7 @@ SUN_REF[4] = 780;
 SHOT_ACTS[4] = (f, s) => {
   const cast: CastPlace[] = [], fx: FxSpec[] = [];
   // the shards: on the table (760-786), lifted to the lamp (786-800), turned (800-850), slid together - they FIT (853-862)
-  const lift = sm(f, 786, 800), A0: V3 = [0.42, 0.84, -0.2], B0: V3 = [0.68, 0.84, -0.15];
+  const lift = sm(f, 786, 800) - sm(f, 962, 974), A0: V3 = [0.48, 0.84, -0.22], B0: V3 = [0.6, 0.84, -0.22];   // after the fit he lays the two joined pieces down (962-974)
   const pA = lerp3(A0, SHA, lift), pB = lerp3(B0, SHB, lift); pA[1] += 0.01 * Math.sin(f * 0.21); pB[1] += 0.01 * Math.sin(f * 0.19 + 1);
   const bagP: V3 = f < 1000 ? [0.95, 0.9, -0.15] : lerp3([0.95, 0.9, -0.15], [0.3, 1.22, 0.32], sm(f, 1000, 1012)), hand: V3 = [-0.02, 1.0, 0.68];
   const ctl: Ctl = { skVis: 0, shVis: 1, shAx: pA[0], shAy: pA[1], shAz: pA[2], shBx: pB[0], shBy: pB[1], shBz: pB[2], shFit: sm(f, 853, 862),
@@ -296,11 +296,11 @@ SHOT_ACTS[4] = (f, s) => {
   // decision: a glance at the river (982, points off left), grinds his fists ("crushed", 988), lifts the "100" bag and pours it
   // into Agus's cupped hands (1013-1045)
   const rR = armSeq(f, [[760, (g) => armTo(4, s, g, RAL4, [B0[0], B0[1] + 0.02, B0[2]], 1, 0.3)], [786, (g) => armTo(4, s, g, RAL4, lerp3(B0, SHB, sm(g, 786, 800)), 1, 0.3), 2],
-    [853, (g) => armTo(4, s, g, RAL4, lerp3(SHB, [0.65, 1.36, -0.45], sm(g, 853, 862)), 1, 0.3), 2], [966, fixA(REST_R), 10],
+    [853, (g) => armTo(4, s, g, RAL4, lerp3(lerp3(SHB, [0.65, 1.36, -0.45], sm(g, 853, 862)), [0.62, 0.88, -0.22], sm(g, 962, 974)), 1, 0.3), 2], [976, fixA(REST_R), 8],
     [984, fixA([[16, -6], [6, -12]]), 4], [998, (g) => armTo(4, s, g, RAL4, [bagP[0] + 0.05, bagP[1] + 0.12, bagP[2]], 1, 0.4), 6]]);
   const rL = armSeq(f, [[760, (g) => armTo(4, s, g, RAL4, [A0[0], A0[1] + 0.02, A0[2]], -1, 0.3)], [786, (g) => armTo(4, s, g, RAL4, lerp3(A0, SHA, sm(g, 786, 800)), -1, 0.3), 2],
-    [853, (g) => armTo(4, s, g, RAL4, lerp3(SHA, [0.59, 1.36, -0.45], sm(g, 853, 862)), -1, 0.3), 2], [966, fixA(REST_L), 10],
-    [978, fixA([[-30, -10], [-58, -18]]), 4], [986, fixA([[-14, -6], [-4, -12]]), 4], [1000, fixA(REST_L), 8]]);
+    [853, (g) => armTo(4, s, g, RAL4, lerp3(lerp3(SHA, [0.59, 1.36, -0.45], sm(g, 853, 862)), [0.56, 0.88, -0.22], sm(g, 962, 974)), -1, 0.3), 2], [976, fixA(REST_L), 8],
+    [980, fixA([[-30, -10], [-58, -18]]), 4], [988, fixA([[-14, -6], [-4, -12]]), 4], [1000, fixA(REST_L), 8]]);
   cast.push(C("ralph", RAL4, { ...flow(f, [
     [760, { expr: "tache", facing: 0.4, tilt: 6, look: 0.5 }],
     [791, { expr: "stare", facing: 0.2, tilt: 2, look: 0.3 }, 8],
@@ -346,7 +346,7 @@ const SRI5: V3 = [15.55, 0, 6.6], ELD: V3 = [23.05, 0, 2.95], AG5: V3 = [25.75, 
 const c5a = F(() => fitH([body(KIDS[0][1], 0.0, 1.45, 0.34), body(KIDS[1][1], 0.0, 1.45, 0.34), body(KIDS[2][1], 0.0, 1.45, 0.34), [TIN, 0, 0.2, 0.4]], -172, 10, 46, 0.27, 0.2), 1063, 0.0016, [[1094, 0.008, 7], [1150, 0.007, 6]]);
 const c5b = F(() => fitH([body(ELD, 0.0, 1.75, 0.42), [PILE, 0, 0.4, 0.4]], -160, 8, 46, 0.25), 1180, 0.0014, [[1199, 0.008, 7]]);
 const c5c = F(() => fitH([body(AG5, 0.3, 2.1, 0.42), [BELL, -0.25, 0.1, 0.35]], -150, 6, 44, 0.26), 1220, 0.0014, [[1245, 0.009, 7]]);
-SHOT_CAMS[5] = () => [K(1063, c5a, 1, true), K(1172, glideTo(c5a, 1172, c5b, 1190, 0.2), 1), K(1212, glideTo(c5b, 1212, c5c, 1228, 0.1), 1)];
+SHOT_CAMS[5] = () => [K(1063, c5a, 1, true), K(1172, glideTo(c5a, 1172, c5b, 1188, 0.2, [0, 0, 0], 0, 0.6), 1), K(1212, glideTo(c5b, 1212, c5c, 1228, 0.1), 1)];
 KEY_PUNCH.push(1090, 1150, 1225);
 KEY_NUDGE.push(1106, 1168, 1245);
 SUN_REF[5] = 1080;
@@ -389,7 +389,9 @@ lens3([[1063, DOF_FS], [1180, DOF_FS, 12], [1220, DOF_MS, 12]]);
 // TWELVE coins (1343-1372); "whatever you pay for, people make more of" = crane up: the queue now snakes past the shed.
 const c6r = F(() => fitH([body(RAL, 0.5, 2.15, 0.42), [TRAY, 0, 0.15, 0.95]], 10, 14, 46, 0.24), 1264, 0.0016, [[1275, 0.008, 7], [1298, 0.008, 7]]);
 const c6a = F(() => ({ pos: [1.75, 2.45, 1.35] as V3, look: [-0.28, 0.84, 0.15] as V3, fov: 40 }), 1306, 0.0016, [[1343, 0.009, 7]]);
-const c6b = F((f) => { const k = sm(f, 1384, 1440); return { pos: lerp3([1.75, 2.45, 1.35], [3.6, 5.2, 7.4], k), look: lerp3([-0.28, 0.84, 0.15], [1.6, 0.9, 2.2], k), fov: lerp(40, 54, k) }; }, 1440, 0.0008);
+const c6b = F((f) => {   // pull back under the eaves first (z), then rise (y): the crane never passes through the roof
+  const kz = sm(f, 1384, 1418), ky = sm(f, 1404, 1444), k = sm(f, 1384, 1440);
+  return { pos: [lerp(1.75, 3.6, kz), lerp(2.45, 5.2, ky), lerp(1.35, 7.4, kz)] as V3, look: lerp3([-0.28, 0.84, 0.15], [1.6, 0.9, 2.2], k), fov: lerp(40, 54, k) }; }, 1440, 0.0008);
 SHOT_CAMS[6] = () => [K(1264, c6r, 1, true), K(1298, glideTo(c6r, 1298, c6a, 1312), 1), K(1376, glideTo(c6a, 1376, c6b, 1392), 1)];
 KEY_PUNCH.push(1275, 1326, 1363);
 KEY_NUDGE.push(1310, 1401, 1432);
@@ -423,8 +425,8 @@ const c7box = () => fitH([body(SRI7, 0.0, 1.75, 0.42), [PLATE, 0, 0.15, 0.2], bo
 const c7a = F(() => c7box(), 1453, 0.0016, [[1484, 0.008, 7], [1540, 0.008, 7]]);
 const c7p = F(() => ({ pos: [PLATE[0] + 0.12, PLATE[1] + 0.95, PLATE[2] + 0.62] as V3, look: [PLATE[0], PLATE[1] + 0.05, PLATE[2]] as V3, fov: 40 }), 1480, 0.002, [[1484, 0.008, 6]]);
 const c7q = F(() => ({ pos: [PLATE[0] + 0.12, PLATE[1] + 0.95, PLATE[2] + 0.62] as V3, look: [PLATE[0], PLATE[1] + 0.05, PLATE[2]] as V3, fov: 40 }), 1536, 0.002, [[1540, 0.008, 6]]);
-const c7s = F((f) => { const k = sm(f, 1558, 1583); return { pos: [PLATE[0] + 0.12, PLATE[1] + 0.95 + 0.3 * k, PLATE[2] + 0.62 + 0.4 * k] as V3, look: [PLATE[0] - 0.3 * k, PLATE[1] + 0.05 + 3.0 * k, PLATE[2] - 2.4 * k] as V3, fov: 40 + 6 * k }; }, 1583, 0.0005);
-SHOT_CAMS[7] = () => [K(1453, c7a, 1), K(1474, glideTo(c7a, 1474, c7p, 1488), 1), K(1508, glideTo(c7p, 1508, c7a, 1520), 1), K(1530, glideTo(c7a, 1530, c7q, 1542), 1), K(1556, glideTo(c7q, 1556, c7s, 1566), 1)];
+const c7sUnused = F((f) => { const k = sm(f, 1558, 1583); return { pos: [PLATE[0] + 0.12, PLATE[1] + 0.95 + 0.3 * k, PLATE[2] + 0.62 + 0.4 * k] as V3, look: [PLATE[0] - 0.3 * k, PLATE[1] + 0.05 + 3.0 * k, PLATE[2] - 2.4 * k] as V3, fov: 40 + 6 * k }; }, 1583, 0.0005);
+SHOT_CAMS[7] = () => [K(1453, c7a, 1), K(1474, glideTo(c7a, 1474, c7p, 1488), 1), K(1508, glideTo(c7p, 1508, c7a, 1520), 1), K(1530, glideTo(c7a, 1530, c7q, 1542), 1)]   // ends on the whole papaya (the old tilt-up met the house wall);
 KEY_PUNCH.push(1466, 1517);
 KEY_NUDGE.push(1493, 1561);
 SUN_REF[7] = 1460;
@@ -446,12 +448,12 @@ SHOT_ACTS[7] = (f, s) => {
       [1561 + i * 3, { expr: "dismay", facing: -0.5, tilt: 4, armR: REST_R }, 4]]), armRFront: true } as FigOpts, { idx: 10 + i, scale: 0.78 }));
   });
   if (f >= 1517 && f < 1530) fx.push(...wordCard("x12p", "12 SLICES!", [PLATE[0] + 0.15, 1.15, PLATE[2] + 0.1], f - 1517, 13, "#f4c430", 0.4));
-  if (f >= 1561 && f < 1576) fx.push(...wordCard("still1", "STILL ONE", [PLATE[0] + 0.1, 1.15, PLATE[2] + 0.1], f - 1561, 15, "#f4c430", 0.4));
+  if (f >= 1556 && f < 1578) fx.push(...wordCard("still1", "STILL ONE", [PLATE[0] + 0.08, PLATE[1] + 0.2, PLATE[2] + 0.12], f - 1556, 22, "#f4c430", 0.2));
   cast.push(C("henGold", [19.4 + 0.3 * Math.sin(f * 0.03), 0, 1.4], { facing: Math.cos(f * 0.03) > 0 ? 1 : -1, phase: f / 6 } as FigOpts, { idx: 40, scale: 0.9 }));
-  const focus = follow(f, [[1453, [PLATE[0], PLATE[1] + 0.1, PLATE[2]]], [1560, [PLATE[0] - 0.3, 3.0, PLATE[2] - 2.4], 20]]);
+  const focus = follow(f, [[1453, [PLATE[0], PLATE[1] + 0.1, PLATE[2]]]]);
   return { ctl, cast, fx, focus, subj: (f >= 1478 && f < 1512) || f >= 1534 ? null : "sri" };
 };
-lens3([[1453, DOF_MS], [1478, DOF_INSERT, 8], [1510, DOF_MS, 8], [1534, DOF_INSERT, 8], [1558, DOF_WS, 16]]);
+lens3([[1453, DOF_MS], [1478, DOF_INSERT, 8], [1510, DOF_MS, 8], [1534, DOF_INSERT, 8]]);
 
 // ================================================= STORY SHOT 8 (1583-1972) DAWN AT THE STATION: the payoff
 const RAL8: V3 = [0.12, 0, -0.72], RALS: V3 = [0.22, 0, -0.95], AG8: V3 = [0.55, 0, 0.95], GSK: V3 = [0.25, 0.95, 0.3];
@@ -507,3 +509,4 @@ SHOT_ACTS[8] = (f, s) => {
 };
 lens3([[1583, DOF_MS], [1646, DOF_INSERT, 8], [1712, DOF_MS, 10], [1826, DOF_FS, 10], [1930, DOF_CU, 8]]);
 KICKS.push([1859 / 30, 5]);
+void c7sUnused;
