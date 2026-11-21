@@ -1,0 +1,139 @@
+[
+ {
+  "t": 0.5,
+  "sfx": "bone_crack"
+ },
+ {
+  "t": 0.6,
+  "sfx": "tinkle",
+  "gain_db": -4
+ },
+ {
+  "t": 3.333,
+  "sfx": "coin_slide",
+  "gain_db": -2
+ },
+ {
+  "t": 8.133,
+  "sfx": "plink",
+  "gain_db": -5
+ },
+ {
+  "t": 11.067,
+  "sfx": "crumble"
+ },
+ {
+  "t": 15.933,
+  "sfx": "bone_crack"
+ },
+ {
+  "t": 16.033,
+  "sfx": "tinkle",
+  "gain_db": -4
+ },
+ {
+  "t": 17.667,
+  "sfx": "crowd_laugh",
+  "gain_db": -3
+ },
+ {
+  "t": 19.533,
+  "sfx": "coins",
+  "gain_db": -3
+ },
+ {
+  "t": 21.2,
+  "sfx": "chalk",
+  "gain_db": -3
+ },
+ {
+  "t": 22.067,
+  "sfx": "rattle"
+ },
+ {
+  "t": 23.733,
+  "sfx": "taps",
+  "gain_db": -3
+ },
+ {
+  "t": 24.567,
+  "sfx": "squawk",
+  "gain_db": -2
+ },
+ {
+  "t": 28.533,
+  "sfx": "click_fit"
+ },
+ {
+  "t": 33.767,
+  "sfx": "coin_pour"
+ },
+ {
+  "t": 36.467,
+  "sfx": "taps",
+  "gain_db": -4
+ },
+ {
+  "t": 38.333,
+  "sfx": "plink",
+  "gain_db": -2
+ },
+ {
+  "t": 38.667,
+  "sfx": "plink",
+  "gain_db": -2
+ },
+ {
+  "t": 38.933,
+  "sfx": "plink",
+  "gain_db": -2
+ },
+ {
+  "t": 41.267,
+  "sfx": "bike_bell",
+  "gain_db": -2
+ },
+ {
+  "t": 43.667,
+  "sfx": "plink",
+  "gain_db": -3
+ },
+ {
+  "t": 44.533,
+  "sfx": "bone_crack",
+  "gain_db": -2
+ },
+ {
+  "t": 44.833,
+  "sfx": "coin_pour",
+  "gain_db": -4
+ },
+ {
+  "t": 48.567,
+  "sfx": "chop",
+  "gain_db": -2
+ },
+ {
+  "t": 53.467,
+  "sfx": "stinger"
+ },
+ {
+  "t": 58.067,
+  "sfx": "brush",
+  "gain_db": -4
+ },
+ {
+  "t": 59.133,
+  "sfx": "brush",
+  "gain_db": -4
+ },
+ {
+  "t": 61.967,
+  "sfx": "slap"
+ },
+ {
+  "t": 63.067,
+  "sfx": "squelch",
+  "gain_db": -3
+ }
+]
