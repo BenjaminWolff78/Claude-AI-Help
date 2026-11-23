@@ -610,7 +610,7 @@ export const CAST: Record<string, Look> = {
   vil3: { seed: 809, hat: "caping", hatCol: "#c8a468", coat: "#4a7a3a", stripes: "#e8d8a0", sarong: "#5a2a2a", legs: "#5a2a2a", build: "thin" },
   vil4: { seed: 811, hair: "#1d1410", hairStyle: "short", coat: "#d8a03a", batik: "#7a2a1a", sarong: "#2a3a6a", legs: "#2a3a6a", rolled: true },
   // ---- "They Banned Cars One Day a Week and Got More Cars" (Mexico City 1989) ----
-  memo: { seed: 901, hair: "#1d1410", hairStyle: "short", moustache: "#1d1410", moStyle: "neat", coat: "#e2a23a", stripes: "#8a3a2a", collar: "#f4f0e6", legs: "#3a4a6a", watch: true },
+  memo: { seed: 901, hair: "#1d1410", hairStyle: "short", moustache: "#5a3a26", moStyle: "neat", coat: "#e2a23a", stripes: "#8a3a2a", collar: "#f4f0e6", legs: "#3a4a6a", watch: true },
   hugo: { seed: 907, hair: "#2a1d14", hairStyle: "slick", moustache: "#2a1d14", moStyle: "handlebar", coat: "#c8352e", hawaii: "#f4d06a", shortSleeve: true, legs: "#3a3a44", build: "stout" },
   mayor: { seed: 911, hair: "#8a8a8a", hairStyle: "parted", moustache: "#8a8a8a", moStyle: "walrus", coat: "#2a2a3a", lapels: true, shirt: "#f2ead6", tie: "#2f7a4a", sash: "#c8352e", carnation: "#f4f0e6", legs: "#2a2a3a", build: "plump" },
   cop: { seed: 919, hat: "kepi", hatCol: "#2a3a6a", band: "#d8a83a", moustache: "#3a2a1a", coat: "#2f4a8a", police: true, belt: "#1a1a22", legs: "#26324e", build: "tall" },
