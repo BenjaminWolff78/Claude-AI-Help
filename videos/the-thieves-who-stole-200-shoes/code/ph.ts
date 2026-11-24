@@ -59,9 +59,14 @@ export const phLoad = () => {
 };
 
 /** the PMREM'd HDRI for scene.environment (built lazily with the live renderer) */
+// 2026-11-24: one PMREM cache PER RENDERER. A dissolve mounts a second canvas (its own WebGL context); a PMREM texture
+// built there is a render target with no data in the first context, so after the dissolve the shot lit with a black
+// environment (shot 10 rendered at half brightness until the next chunk started fresh).
+const ENV_BY = new WeakMap<THREE.WebGLRenderer, Partial<Record<PhHdri, THREE.Texture>>>();
 export const phEnv = (name: PhHdri, renderer: THREE.WebGLRenderer) => {
-  if (!ENV[name] && HDR[name]) { const pm = new THREE.PMREMGenerator(renderer); ENV[name] = pm.fromEquirectangular(HDR[name]!).texture; pm.dispose(); }
-  return ENV[name] ?? null;
+  let E = ENV_BY.get(renderer); if (!E) { E = {}; ENV_BY.set(renderer, E); }
+  if (!E[name] && HDR[name]) { const pm = new THREE.PMREMGenerator(renderer); E[name] = pm.fromEquirectangular(HDR[name]!).texture; pm.dispose(); }
+  return E[name] ?? null;
 };
 
 const matCache = new Map<string, THREE.MeshStandardMaterial>();

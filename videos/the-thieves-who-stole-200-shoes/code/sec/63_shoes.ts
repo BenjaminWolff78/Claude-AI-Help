@@ -39,7 +39,8 @@ const lowOn = (p: V3, fov = 44): { pos: V3; look: V3; fov: number } => ({ pos: [
 
 // ================================================= SHOT 1 (0-158) HOOK: the boss sweeps a shelf into a box (night)
 const B1: V3 = [-2.25, FLr, 4.22], SK1: V3 = [-3.45, FLr, 3.05];
-const c1a = F(() => cam3([-0.95, 1.62, 1.15], [-2.62, 1.15, 4.4], 50), 0, 0.0028);
+// the opening trucks left while it pushes in (kit: camera speed in the first 3 s was 2.97 px/frame, Rick 3.7-7.8)
+const c1a = FS(() => cam3([-0.95, 1.62, 1.15], [-2.62, 1.15, 4.4], 50), 0, 0.0028, -0.003);
 const c1b = F(() => cam3([0.05, 1.5, 2.8], [0.4, 1.42, 4.95], 48), 116, 0.0016);
 SHOT_CAMS[1] = () => [K(0, c1a, 1, true), K(96, glideTo(c1a, 96, c1b, 128, 0.04), 1)];
 SHOT_ACTS[1] = (f, s) => {
@@ -225,7 +226,7 @@ const c6b = F((f) => { const n = nbPath6(Math.max(1140, Math.min(f, 1200))); ret
 // high over the seated crew's heads (they stay below/beside the frame), looking down at the kneeling boss, the boxes and the pile
 const c6c = F(() => cam3([GX - 0.75, 2.3, 3.0], [GX - 1.1, 0.5, 5.35], 50), 1240, 0.0016, [[1258, 0.005, 6], [1291, 0.005, 6], [1324, 0.008, 8]]);
 const c6d = F(() => lowOn(PILE_P), 1349, 0.0);
-SHOT_CAMS[6] = () => [K(1044, c6a, 1, true), K(1112, glideTo(c6a, 1112, c6b, 1150, 0.1), 1), K(1214, glideTo(c6b, 1214, c6c, 1240, 0.06), 1), K(1336, glideTo(c6c, 1336, c6d, 1349, 0, [0, 0, 0], 0.3), 1)];
+SHOT_CAMS[6] = () => [K(1044, c6a, 1, true), K(1112, glideTo(c6a, 1112, c6b, 1150, 0.1), 1), K(1204, glideTo(c6b, 1204, c6c, 1248, 0.06), 1), K(1336, glideTo(c6c, 1336, c6d, 1349, 0, [0, 0, 0], 0.3), 1)];
 SHOT_ACTS[6] = (f, s) => {
   const cast: CastPlace[] = [], fx: FxSpec[] = [];
   const pileN = f < 1258 ? 0 : f < 1324 ? Math.min(14, Math.floor((f - 1258) / 5) + 1) : Math.round(lerp(14, 34, sm(f, 1324, 1334)));
@@ -297,12 +298,14 @@ const LEFT_START = 12, LEFT_END = 44;
 const leftsAt = (f: number) => Math.floor(lerp(LEFT_START, LEFT_END, lin(f, 1580, 1676)));
 const slotP = (n: number): V3 => { const { r, c } = LEFT_ORDER(n); return [SH0.COLS[c], SH0.ROWS[r], 4.925]; };
 const S9: V3 = slotP(8);
-const ownX9 = (f: number) => SH0.COLS[Math.min(14, Math.floor(leftsAt(f) / 6))] + 0.55;
+// the owner side-steps to the next column over 13 frames (a box filter over the column steps; it jumped 0.39 m in one frame)
+const ownX9s = (f: number) => SH0.COLS[Math.min(14, Math.floor(leftsAt(f) / 6))] + 0.55;
+const ownX9 = (f: number) => { let a = 0; for (let k = -6; k <= 6; k++) a += ownX9s(f + k); return a / 13; };
 const c9a = F(() => cam3([S9[0] + 0.03, S9[1] + 0.07, 3.97], [S9[0], S9[1] + 0.05, 4.95], 44), 1575, 0.0012);
 const c9b = (f: number) => { const x = ownX9(f); return { pos: [x + 0.6, 1.58, 2.25] as V3, look: [x - 0.25, 1.3, 4.95] as V3, fov: 54, roll: 0 }; };
 const LP = (f: number) => slotP(Math.max(0, leftsAt(f) - 1));
 const c9c = (f: number) => { const p = slotP(LEFT_END - 1); return { pos: [p[0] + 0.03, p[1] + 0.07, 3.97] as V3, look: [p[0], p[1] + 0.05, 4.95] as V3, fov: 44, roll: 0 }; };
-SHOT_CAMS[9] = () => [K(1575, c9a, 1, true), K(1612, glideTo(c9a, 1612, c9b, 1640, 0.08), 1), K(1662, glideTo(c9b, 1662, c9c, 1682), 1)];
+SHOT_CAMS[9] = () => [K(1575, c9a, 1, true), K(1612, glideTo(c9a, 1612, c9b, 1640, 0.08), 1), K(1650, glideTo(c9b, 1650, c9c, 1684), 1)];
 SHOT_ACTS[9] = (f, s) => {
   const cast: CastPlace[] = [], fx: FxSpec[] = [];
   const nl = leftsAt(f);
@@ -321,16 +324,18 @@ lens3([[1575, DOF_INSERT], [1640, DOF_MS, 28], [1682, DOF_INSERT, 20]]);
 const BOSS10: V3 = [GX - 1.6, 0.65, 3.75 - 0.32], NB10: V3 = [GX + 0.6, 0.05, 4.7];
 const c10a = F(() => lowOn(PILE_P), 1682, 0.0012);
 const c10b = F(() => cam3([BOSS10[0] + 0.55, 1.42, 1.35], [BOSS10[0] + 0.05, 0.98, BOSS10[2]], 54), 1730, 0.0016, [[1736, 0.005, 8], [1778, 0.008, 8]]);
-// the camera rises first (yLead 0.5) so the pull-back from the pile clears the monobloc chair and the crates (it flew through the chair)
-SHOT_CAMS[10] = () => [K(1682, c10a, 1, true), K(1720, glideTo(c10a, 1720, c10b, 1744, 0.3, [0, 0, 0], 0.5), 1)];
+// kit 2026-11-24: the three fastest glides (83-111 px/frame) lengthened to 34-44 frames
+// the camera rises first (yLead 0.4) so the pull-back from the pile clears the monobloc chair and the crates (it flew through the chair)
+SHOT_CAMS[10] = () => [K(1682, c10a, 1, true), K(1714, glideTo(c10a, 1714, c10b, 1752, 0.3, [0, 0, 0], 0.4), 1)];
 SHOT_ACTS[10] = (f, s) => {
   const cast: CastPlace[] = [], fx: FxSpec[] = [];
   const ctl: Ctl = { loot: 2, lootOn: 1, fill0: 10, fill1: 9, fill2: 6, dump: 1, pile: 34, pileHide: f >= 1720 ? PILE_I : -1, table: 12, trOn: 1, trX: GX + 2.9, trY: 0.05, trZ: 1.4, trYaw: -1.2, gdoor: 0.92, side: val(f, [[1700, 0], [1704, 1], [1708, 1], [1712, 0]]) };
   // the boss: holds a right shoe up (the match), sits, shoves it onto his LEFT foot (1736-1772), stands and hops in pain (1778)
-  const cram = sm(f, 1740, 1768), up = f >= 1772;
-  cast.push(sitC(BOSS, up ? [BOSS10[0], 0.05, BOSS10[2]] : BOSS10, 0.05, { ...flow(f, [[1682, { expr: "determined", facing: 0.3, mode: "sit" }], [1736, { expr: "strain", facing: 0.4, mode: "sit", tilt: -10 }, 6], [1772, { expr: "strain", facing: 0.2 }, 6], [1778, { expr: "breakdown", facing: 0.1, mode: "hop", lift: 0.6 + 0.3 * Math.sin((f - 1778) * 0.7), phase: (f - 1778) / 6 }, 4]]),
-    armR: f < 1720 ? [[24, 20], [30, 44]] as A2 : f < 1736 ? [[24, -6], [34, -30]] as A2 : !up ? [[20, 20], [8 + 10 * cram, 54]] as A2 : [[30, -10], [52, -26]] as A2, armRFront: true, propR: f >= 1720 && f < 1736 ? "snkR" : undefined, propK: WALL_K,
-    armL: f >= 1736 && !up ? [[-14, 22], [0 + 6 * Math.sin(f * 0.9), 52]] as A2 : up ? [[-30, -10], [-52, -26]] as A2 : undefined, armLFront: true,
+  // standing up blends over 1772-1778: the arms swing up and the seat height only drops once the pose mode has switched (no one-frame pop)
+  const cram = sm(f, 1740, 1768), up = f >= 1772, upK = sm(f, 1772, 1778);
+  cast.push(sitC(BOSS, f >= 1776 ? [BOSS10[0], 0.05, BOSS10[2]] : BOSS10, 0.05, { ...flow(f, [[1682, { expr: "determined", facing: 0.3, mode: "sit" }], [1736, { expr: "strain", facing: 0.4, mode: "sit", tilt: -10 }, 6], [1772, { expr: "strain", facing: 0.2 }, 6], [1778, { expr: "breakdown", facing: 0.1, mode: "hop", lift: 0.6 + 0.3 * Math.sin((f - 1778) * 0.7), phase: (f - 1778) / 6 }, 4]]),
+    armR: f < 1720 ? [[24, 20], [30, 44]] as A2 : f < 1736 ? [[24, -6], [34, -30]] as A2 : !up ? [[20, 20], [8 + 10 * cram, 54]] as A2 : arcArm([[20, 20], [18, 54]], [[30, -10], [52, -26]], upK), armRFront: true, propR: f >= 1720 && f < 1736 ? "snkR" : undefined, propK: WALL_K,
+    armL: f >= 1736 && !up ? [[-14, 22], [0 + 6 * Math.sin(f * 0.9), 52]] as A2 : up ? arcArm([[-14, 22], [0, 52]], [[-30, -10], [-52, -26]], upK) : undefined, armLFront: true,
     snkFeet: f >= 1736 ? "#2a5a9a" : undefined, snkSame: f >= 1736 ? -1 : undefined, snkWrong: f >= 1736 ? cram : undefined } as FigOpts, { idx: 1 }));
   // the neighbour storms out through the side door and slams it (1712)
   if (f < 1716) { const np = path3(f, [[1682, NB10], [1708, [GX + 5.2, 0.05, 6.45]]]);
