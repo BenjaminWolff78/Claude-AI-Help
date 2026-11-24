@@ -1,0 +1,162 @@
+[
+{
+"t": 0.0,
+"sfx": "shoedrop",
+"gain_db": -2
+},
+{
+"t": 0.8,
+"sfx": "shoedrop",
+"gain_db": -5
+},
+{
+"t": 1.4,
+"sfx": "shoedrop",
+"gain_db": -3
+},
+{
+"t": 5.267,
+"sfx": "freewheel",
+"gain_db": -5
+},
+{
+"t": 8.933,
+"sfx": "clank2",
+"gain_db": 0
+},
+{
+"t": 10.033,
+"sfx": "clank2",
+"gain_db": 0
+},
+{
+"t": 13.767,
+"sfx": "snap",
+"gain_db": 2
+},
+{
+"t": 13.967,
+"sfx": "thud",
+"gain_db": -2
+},
+{
+"t": 14.6,
+"sfx": "shutter",
+"gain_db": -1
+},
+{
+"t": 21.367,
+"sfx": "thump",
+"gain_db": -3
+},
+{
+"t": 22.133,
+"sfx": "thump",
+"gain_db": -3
+},
+{
+"t": 22.433,
+"sfx": "thump",
+"gain_db": -3
+},
+{
+"t": 23.467,
+"sfx": "freewheel",
+"gain_db": -6
+},
+{
+"t": 27.433,
+"sfx": "flip",
+"gain_db": -4
+},
+{
+"t": 31.067,
+"sfx": "slurp",
+"gain_db": -5
+},
+{
+"t": 33.4,
+"sfx": "laugh_small",
+"gain_db": -6
+},
+{
+"t": 35.067,
+"sfx": "glass_tap",
+"gain_db": -1
+},
+{
+"t": 37.333,
+"sfx": "gate_squeak",
+"gain_db": -4
+},
+{
+"t": 41.933,
+"sfx": "shoedrop",
+"gain_db": -7
+},
+{
+"t": 42.2,
+"sfx": "shoedrop",
+"gain_db": -7
+},
+{
+"t": 43.033,
+"sfx": "shoedrop",
+"gain_db": -6
+},
+{
+"t": 44.133,
+"sfx": "shoedrop",
+"gain_db": 0
+},
+{
+"t": 44.433,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 46.4,
+"sfx": "whoosh_soft",
+"gain_db": -8
+},
+{
+"t": 48.1,
+"sfx": "flap",
+"gain_db": -7
+},
+{
+"t": 50.167,
+"sfx": "brush",
+"gain_db": -7
+},
+{
+"t": 51.667,
+"sfx": "plop",
+"gain_db": -6
+},
+{
+"t": 52.933,
+"sfx": "click_fit",
+"gain_db": -4
+},
+{
+"t": 53.9,
+"sfx": "click_fit",
+"gain_db": -4
+},
+{
+"t": 54.7,
+"sfx": "click_fit",
+"gain_db": -4
+},
+{
+"t": 57.067,
+"sfx": "slam",
+"gain_db": 0
+},
+{
+"t": 59.267,
+"sfx": "boing",
+"gain_db": -5
+}
+]
