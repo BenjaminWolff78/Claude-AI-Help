@@ -109,7 +109,11 @@ export const pigset = (): SetDef => {
   for (const x of [-2.66, -0.6]) mb.span([x, 1.0, -0.03], [x + 0.06, 2.1, 0.11], trim);
   mb.span([-3.76, 2.1, -0.03], [-2.84, 2.16, 0.11], trim); for (const x of [-3.76, -2.9]) mb.span([x, FL, -0.03], [x + 0.06, 2.1, 0.11], trim);
   // the tail board: pale whitewashed planks behind the tails (dark tails read against it)
-  mb.span([PG0.TAILW.x0 - 0.06, 0.28, -0.028], [PG0.TAILW.x1 + 0.06, 2.66, -0.004], mat("white_plaster_rough_01", 1.6, "#f2e8d6", { rough: 1, env: 0.6 }));
+  { const wt = ctex("pgTailBoard", 512, 512, (g, r) => { for (let i = 0; i < 4; i++) { g.fillStyle = ["#ebe3cf", "#e4dcc6", "#eee6d4", "#e1d8c2"][i]; g.fillRect(0, i * 128, 512, 128); g.fillStyle = "rgba(70,52,36,0.55)"; g.fillRect(0, i * 128, 512, 3); }
+      for (let i = 0; i < 70; i++) { g.strokeStyle = `rgba(120,96,70,${0.05 + r() * 0.08})`; g.lineWidth = 1 + r() * 2; const y = r() * 512; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(170, y + (r() - 0.5) * 6, 340, y + (r() - 0.5) * 6, 512, y); g.stroke(); }
+      for (let i = 0; i < 120; i++) { g.fillStyle = `rgba(110,84,60,${r() * 0.07})`; g.fillRect(r() * 512, r() * 512, 3 + r() * 20, 1 + r() * 3); } });
+    wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(1 / 1.3, 1 / 1.3); wt.colorSpace = THREE.SRGBColorSpace;
+    mb.span([PG0.TAILW.x0 - 0.06, 0.28, -0.028], [PG0.TAILW.x1 + 0.06, 2.66, -0.004], new THREE.MeshStandardMaterial({ map: wt, roughness: 0.92, envMapIntensity: 0.6 })); }   // the whitewashed tail board
   // the counter shelf + brackets
   mb.span([-2.72, 1.0, -0.44], [-0.48, 1.06, 0.04], mat("wood_table_worn", 1.2, "#d0b898"));
   for (const x of [-2.5, -0.7]) { const sh = new THREE.Shape([new THREE.Vector2(0, 0), new THREE.Vector2(0.36, 0), new THREE.Vector2(0, -0.36)]); const eg = new THREE.ExtrudeGeometry(sh, { depth: 0.05, bevelEnabled: false }); eg.rotateY(Math.PI / 2); mb.add(eg, trim, [x - 0.025, 1.0, 0]); }
@@ -319,12 +323,13 @@ export const pigset = (): SetDef => {
     // far woods tint by the light
     const fm = root.userData.forestMat as THREE.MeshBasicMaterial; if (fm) fm.color.set(dusk ? "#5a4e54" : light === "pgWoods" ? "#9a9c84" : "#a8a88c");
     // the herd: c.herd 0..1 (share of the herd in view, nearest first), c.treeK 0 scattered .. 1 the branching trails
-    { const n = Math.round(cl(c.herd ?? 0) * HERD_N), tk = sm(cl(c.treeK ?? 0)), list: { p: V3; kind: number; ph: number; flip: boolean; s: number; on: boolean }[] = [];
-      for (let i = 0; i < n; i++) { const h = herdSpots[i]; const wob = (c.herdWalk ?? 1) * Math.sin(t * h.spd + i) * 0.6;
+    // (a pig never pops in: each one stands up out of the grass over the next RS pigs' worth of c.herd)
+    { const RS = 110, nf = cl(c.herd ?? 0) * (HERD_N + RS), n = Math.min(HERD_N, Math.ceil(nf)), tk = sm(cl(c.treeK ?? 0)), list: { p: V3; kind: number; ph: number; flip: boolean; s: number; on: boolean }[] = [];
+      for (let i = 0; i < n; i++) { const h = herdSpots[i]; const wob = (c.herdWalk ?? 1) * Math.sin(t * h.spd + i) * 0.6, up = sm(cl((nf - i) / RS));
         let x = h.x + wob * (h.dir ? 1 : -1), z = h.z + 0.3 * Math.cos(t * h.spd * 0.7 + i);
         if (tk > 0 && i < treeSpots.length) { const [tx, tz] = treeSpots[i]; x = lerp(x, tx, tk); z = lerp(z, tz, tk); }
         const piglet = h.kind === 2 || h.kind === 3, s = (piglet ? 0.42 : h.kind === 4 ? 0.95 : 0.78) * (1 + 0.1 * hsh(i, 2));
-        list.push({ p: [x, hf(x, z), z], kind: tk > 0.5 && i > 0 ? (i % 4 === 0 ? 0 : 2 + (i % 2)) : h.kind, ph: t * (0.9 + h.spd) + h.ph, flip: tk > 0.5 ? false : h.dir, s, on: true }); }
+        list.push({ p: [x, hf(x, z) - (1 - up) * 0.75 * s, z], kind: tk > 0.5 && i > 0 ? (i % 4 === 0 ? 0 : 2 + (i % 2)) : h.kind, ph: t * (0.9 + h.spd) + h.ph, flip: tk > 0.5 ? false : h.dir, s: s * (0.75 + 0.25 * up), on: up > 0.02 }); }
       herdTint.set(dusk ? "#8a7676" : "#d8d0c0"); hd.set(list, herdTint); }
     void Mt;
   };
