@@ -48,6 +48,19 @@ const herd1 = (id: number, f: number, s: SetDef): CastPlace[] => {
   return out;
 };
 
+/** a smooth camera travel through waypoints (Catmull-Rom, chord-length timed so the speed is even), eased in and out;
+ *  W / L are the in-between camera / look points; the first and last come from the two shots */
+const crPt = (pts: V3[], u: number): V3 => {
+  const L = pts.slice(1).map((p, i) => Math.hypot(p[0] - pts[i][0], p[1] - pts[i][1], p[2] - pts[i][2]) || 1e-6), T = L.reduce((a, b) => a + b, 0);
+  let d = Math.max(0, Math.min(1, u)) * T, i = 0; while (i < L.length - 1 && d > L[i]) { d -= L[i]; i++; }
+  const t = Math.min(1, d / L[i]), p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+  return [0, 1, 2].map((k) => 0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t * t + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t * t * t)) as V3;
+};
+const crMove = (from: (f: number) => Shot, a: number, to: (f: number) => Shot, b: number, W: V3[], Lk: V3[]) => (f: number): Shot => {
+  const s0 = from(a), e = to(f), u = sm(f, a, b);
+  return { pos: crPt([s0.pos, ...W, e.pos], u), look: crPt([s0.look, ...Lk, e.look], u), fov: lerp(s0.fov ?? 40, e.fov ?? 40, u), roll: 0 };
+};
+
 // ================================================= SHOT 1 (0-139) HOOK: the tail slapped down, two twenties peeled off
 // pull back past the queue to the woods edge, piglets trotting out of the trees on "more pigs than ever"
 const c1a = F(() => cam3([-1.45, 1.58, -3.45], [-1.62, 1.45, 0], 42), 0, 0.0016);
@@ -102,7 +115,9 @@ SHOT_ACTS[3] = (f, s) => {
   const k = strike(f);
   const sw = walkPath(3, s, [[0.45, 0, -0.72], [2.35, 0, -0.62]], f, 282, 306);   // he walks from the price board to the tail board (no jump at the scene change)
   cast.push(C(SHED, sw.p, { ...flow(f, [[280, { expr: "tache", facing: 0.4 }], [326, { expr: "determined", facing: 0.6 }, 6]]), ...(sw.moving ? { mode: "walk", phase: sw.phase, facing: sw.facing } : {}),
-    armR: f < 326 ? [[24, 10], [30, 30]] : [[26, -12 + 14 * (1 - k)], [44 - 6 * (1 - k), -40 + 30 * k]], armRFront: true, propR: f < 326 ? undefined : "hammer", propRAng: -0.6 + 1.2 * k,
+    // the two twenties from shot 2: the raised hand comes down (280-292) and pockets them behind his back (no vanish)
+    armR: f < 326 ? ([[22, -14], [30, -42]] as A2).map((q, i) => q.map((v, j) => v + ([[24, 10], [30, 30]][i][j] - v) * sm(f, 280, 292))) as A2 : [[26, -12 + 14 * (1 - k)], [44 - 6 * (1 - k), -40 + 30 * k]],
+    armRFront: !(f >= 288 && f < 300), propR: f < 294 ? "twenties" : f < 326 ? undefined : "hammer", propK: 1, propRAng: f < 326 ? 0 : -0.6 + 1.2 * k,
     armL: [[26, -2], [44, -10]], armLFront: false, propL: "tail" } as FigOpts, { idx: 2 }));
   const fx = fxs([340, 352, 364].map((a) => clang("h" + a, [2.62, 1.66, -0.06], f - a, 0.3)));
   return { cast, fx, ctl: { tails: f < 340 ? 6 : f < 352 ? 7 : f < 364 ? 8 : 9, seen: 112, paper: 0, ctrTail: 1, ...PARKED }, focus: f < 320 ? hd(QQ[1]) : [2.62, 1.6, 0] };
@@ -129,13 +144,21 @@ SHOT_ACTS[4] = (f, s) => {
 // glide round the shed's west corner (keeping a metre off the wall) to the back wall: the ranger chalks a mark every 14 f
 const c5 = F(() => cam3([-3.6, 1.55, 7.3], [-2.25, 1.32, 4.35], 46), 560, 0.0014);
 const c5pre = F(() => cam3([-5.6, 1.6, -1.2], [-4.4, 1.5, 3.0], 44), 532, 0.0012);
-SHOT_CAMS[5] = () => [K(532, c5pre, 14), K(540, glideTo(c5pre, 540, c5, 574, 0, [-2.6, 0, 0.8]), 1)];
+const RW5: V3[] = [[-4.75, 0, 1.5], [-4.65, 0, 4.75], [-1.95, 0, 4.6]];   // the ranger's walk round to the back (shot 5)
+const c5move = crMove(c4b, 532, c5, 596, [[-2.6, 1.8, -5.2], [-9.0, 1.9, -0.8], [-7.4, 1.85, 6.2]], [[-4.6, 1.35, 2.2], [-4.6, 1.35, 3.8], [-2.6, 1.35, 5.0]]);
+/** the travel keeps the walking ranger in frame from his name on (the look leans onto him 540-596) */
+const c5follow = (f: number): Shot => { const c = c5move(f), w = sm(f, 538, 552) * (1 - sm(f, 584, 596)), r = polyAt(RW5, sm(f, 532, 598)).p; return { ...c, look: lerp3(c.look, [r[0], 1.2, r[2]], w) }; };
+SHOT_CAMS[5] = () => [K(532, c5follow, 1)];
+void c5pre;
 const RANGER_AT: V3 = [-1.95, 0, 4.6];
-const chalkN = (f: number) => Math.round(28 + Math.max(0, Math.min(18, (f - 548) / 14)));
+const chalkN = (f: number) => Math.round(28 + Math.max(0, Math.min(18, (f - 602) / 2.6)));   // he tallies fast (a mark every ~3 f) once he is there
 SHOT_ACTS[5] = (f, s) => {
-  const ph2 = ((f - 548) % 14 + 14) % 14, draw = f >= 548 && f < 600 ? Math.sin((ph2 / 14) * Math.PI) : 0;
-  const cast = [C(RAN, RANGER_AT, { ...flow(f, [[532, { expr: "bored", facing: -0.75, tilt: 4 }], [600, { expr: "calm", facing: -0.7, tilt: -2, headTilt: -3 }, 10]]),
-    armR: f < 600 ? [[-24, -14], [-40 - 4 * draw, -30 + 10 * draw]] : [[-22, 8], [-30, -2]], armRFront: true, propR: "chalk" } as FigOpts, { idx: 3 })];
+  // he walks round the shed's west side to the back wall while the camera comes round (on screen from "ranger"), then chalks
+  const rw = walkPath(5, s, RW5, f, 532, 598);
+  const ph2 = ((f - 602) % 5 + 5) % 5, draw = f >= 602 && f < 649 ? Math.sin((ph2 / 5) * Math.PI) : 0;
+  const cast = [C(RAN, rw.p, { ...flow(f, [[532, { expr: "bored", facing: -0.75, tilt: 4 }], [598, { expr: "bored", facing: -0.75, tilt: 4 }], [640, { expr: "calm", facing: -0.7, tilt: -2, headTilt: -3 }, 8]]),
+    ...(rw.moving ? { mode: "walk", phase: rw.phase, facing: rw.facing } : {}),
+    armR: f < 598 ? [[-22, 8], [-30, -2]] : f < 646 ? [[-24, -14], [-40 - 4 * draw, -30 + 10 * draw]] : [[-22, 8], [-30, -2]], armRFront: true, propR: "chalk" } as FigOpts, { idx: 3 })];
   if (f < 580) cast.push(C(SHED, [1.08, 0, -0.55], { expr: "proud", facing: -0.2, armR: [[24, 14], [10, 26]], armL: [[-24, 14], [-10, 26]] } as FigOpts, { idx: 2 }));
   return { cast, ctl: { chalk: Math.min(chalkN(f), 46), tails: TAIL_N, paper: 1, ctrTail: 1, ...PARKED }, focus: hd(RANGER_AT, 0.95) };
 };
@@ -216,7 +239,7 @@ SHOT_ACTS[9] = (f, s) => {
   cast.push(C("pgBoar", BOAR, { expr: f < 912 ? "neutral" : f < 925 ? "angry" : "dizzy", facing: 1, tilt: f < 912 ? 16 : 0, mouth: f >= 925 ? "O" : undefined } as FigOpts, { scale: 2.1, roll: flop * 1.45 + 0.08 * bump((f - 934) / 8), idx: 5 }));
   if (f >= 925 && f < 945) fx.push(...fxs(dustCard("smk", tPt(925, -0.1, 1.55, 1.6), 0.55 + (f - 925) * 0.04, 1 - (f - 925) / 20, 2)));
   if (f >= 936) fx.push(...dizzy(add3(BOAR, -0.7, 1.0, 0), f, 0.36));
-  if (f >= 966 && f < 980) fx.push(glowBurst("flash", add3(BOAR, 1.15, 1.95, 1.0), 1.8, Math.max(0, 1 - Math.abs(f - 970) / 6), "255,255,255"));
+  if (f >= 966 && f < 980) fx.push(glowBurst("flash", camPt(9, s, f, 3.0, -0.46, 0.13), 0.28, 0.9 * Math.max(0, 1 - Math.abs(f - 970) / 4), "255,255,255"));   // a small pop of light at the phone, no white-out
   if (T.moving) fx.push(...dustTrail("tr9", [T.x, hfPig(T.x, T.z), T.z], [Math.sin(T.yaw), Math.cos(T.yaw)], f, 6, 0.9, 1.0));
   return { cast, fx, ctl: { tails: TAIL_N, paper: 1, ...truckCtl(f, f >= 936 && f < 946 ? 1 : 0), poster: 0 }, focus: f < 900 ? tPt(f, 0.25, 1.15, 0.4) : BOAR };
 };
@@ -353,11 +376,11 @@ SHOT_ACTS[17] = (f, s) => {
 
 // ================================================= SHOT 18 (1713-1792) "And Grandpa's chalk marks? They were a family tree."
 // a fast push round the west corner to the back wall: the ranger taps the top mark (1719), tilt down the branches
-const c18a = F(() => cam3([-1.75, 1.95, 7.1], [-1.85, 1.75, 4.1], 50), 1720, 0.0012);
-const c18b = F(() => cam3([-1.55, 1.65, 9.5], [-1.55, 1.25, 4.1], 54), 1752, 0.0012);
-SHOT_CAMS[18] = () => [K(1713, glideTo(c17, 1713, c18a, 1724, 0.3, [-2.2, 0, 1.0]), 1), K(1740, glideTo(c18a, 1740, c18b, 1772), 1)];
+const c18a = F(() => cam3([-1.75, 1.95, 7.1], [-1.85, 1.75, 4.1], 50), 1752, 0.0012);
+const c18b = F(() => cam3([-1.55, 1.65, 9.5], [-1.55, 1.25, 4.1], 54), 1788, 0.0012);
+SHOT_CAMS[18] = () => [K(1713, crMove(c17, 1713, c18a, 1752, [[-9.0, 2.0, -1.0], [-7.2, 2.0, 6.6]], [[-5.5, 1.6, 6.5], [-2.4, 1.7, 4.6]]), 1), K(1758, glideTo(c18a, 1758, c18b, 1788), 1)];
 SHOT_ACTS[18] = (f, s) => {
-  const tap = bump((f - 1716) / 8);
+  const tap = bump((f - 1748) / 8);
   const cast = [C(RAN, [-2.15, 0, 4.62], { ...flow(f, [[1713, { expr: "smug", facing: 0.6, armR: [[26, -22], [36 + 4 * tap, -52]], armRFront: true, propR: "chalk" }], [1760, { expr: "smug", facing: 0.4, armR: [[22, 8], [30, -4]], propR: "chalk" }, 10]]) }, { idx: 3 }),
     C(SHED, [-4.42, 0, -1.55], { expr: "dismay", facing: -0.6, sweat: 1, armR: [[-24, -10], [-40, -24]], armRFront: true } as FigOpts, { idx: 2 })];
   return { cast, ctl: { tails: TAIL_N, paper: 1, ...PARKED, tVis: 0, chalk: 999, seen: 845, lockD: 1, gate: 1, ...AFTER_MOW }, focus: [-1.55, 1.5, 4.12] };
