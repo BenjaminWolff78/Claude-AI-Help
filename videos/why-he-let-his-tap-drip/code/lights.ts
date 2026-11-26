@@ -595,7 +595,7 @@ const OVER: Record<LightName, Over> = {
     K: { sky: sky5(["#e8582a", "#ee7438", "#d8686a", "#946a9e", "#4a58a0"], [0, 5, 12, 24, 44])   /* r76i (both reviewers): a deeper sunset sky (it read pink-white haze) */   /* r76f: a deeper sunset sky (it read blank off-white) */   /* r73: warmer high sky (a flat lilac with no glow) */   /* r68: orange at the horizon to mauve and blue overhead (reviewers: a flat pale yellow sky) */   /* r66: a glowing orange sky high up (reviewers: the lane read as afternoon) */   /* r47: an orange sunset sky up to 30 deg (it read pale white) */, sat: 1.15, cloud: { lit: "#ff9a5a", mid: "#e07a70", shade: "#6a6a98" } } },   // r12: peach to blue (less pink-purple sky)
 };
 /* r60: day presets - more sun against less sky fill (reviewer: daylight flat and hazy) */
-export const LIGHTS = {} as Record<LightName, LightPreset & { grade: "day" | "golden" | "night" | "dawn" | "grey" | "inn" | "sunset" | "morning" | "office" }>;
+export const LIGHTS = {} as Record<LightName, LightPreset & { grade: "day" | "golden" | "night" | "dawn" | "grey" | "inn" | "sunset" | "morning" | "office" | "drnight" | "drday" }>;
 export const LOOK = {} as Record<LightName, WorldLook>;
 for (const [k, o] of Object.entries(OVER) as [LightName, Over][]) {
   LIGHTS[k] = { ...BASE_LIGHTS[o.base], ...(o.L ?? {}), grade: o.grade ?? o.base };

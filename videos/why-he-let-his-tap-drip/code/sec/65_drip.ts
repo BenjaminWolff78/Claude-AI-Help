@@ -31,6 +31,12 @@ const crMove = (from: (f: number) => Shot, a: number, to: (f: number) => Shot, b
   const s0 = from(a), e = to(f), u = sm(f, a, b);
   return { pos: crPt([s0.pos, ...W, e.pos], u), look: crPt([s0.look, ...Lk, e.look], u), fov: lerp(s0.fov ?? 40, e.fov ?? 40, u), roll: 0 };
 };
+/** crMove with smootherstep timing (11-26: the smoothstep whips started and stopped too hard next to close framings and the kit
+ *  read them as hard cuts) */
+const crMoveG = (from: (f: number) => Shot, a: number, to: (f: number) => Shot, b: number, W: V3[], Lk: V3[]) => (f: number): Shot => {
+  const s0 = from(a), e = to(f), u = glide((f - a) / (b - a));
+  return { pos: crPt([s0.pos, ...W, e.pos], u), look: crPt([s0.look, ...Lk, e.look], u), fov: lerp(s0.fov ?? 40, e.fov ?? 40, u), roll: 0 };
+};
 /** a framing frozen at frame f0 (the start of a dissolve in place: both sides of it hold the same picture) */
 const frozen = (g: (f: number) => Shot, f0: number) => (_f: number): Shot => g(f0);
 /** the night look outside: snowing, frost on the glass */
@@ -42,9 +48,10 @@ const THAW: Ctl = { snow: 0, frost: 0.05, thaw: 0.7 };
 // ================================================= SHOT 1 (0-72) HOOK: close on his tap at night. His hand turns the lever (4-16),
 // the first drop lets go at 21 ("drip"), a second at 46, the frost creeps over the window behind (the neighbor's lit window
 // across the yard shows through it). The push opens wide on the tap + bucket and lands close on the spout.
-const c1o = F(() => cam3([4.6, 1.64, -3.18], [3.32, 1.35, -3.82], 50), 0, 0.001);
-const c1 = F(() => cam3([3.98, 1.52, -3.56], [3.33, 1.36, -3.84], 50), 56, 0.0012);
-SHOT_CAMS[1] = () => [K(0, c1o, 1, true), K(2, glideTo(c1o, 2, c1, 56), 1), K(56, c1, 1)];
+const c1o = F(() => cam3([4.22, 1.8, -4.2], [3.32, 1.32, -3.82], 50), 0, 0.001);   // 11-26: an arc round the tap from frame 0 (the kit read the opening as static: 2.3 px/frame vs Rick 3.7-7.8)
+const c1 = F(() => cam3([3.98, 1.52, -3.56], [3.33, 1.36, -3.84], 50), 70, 0.0012);
+const arc1 = crMoveG(c1o, 0, c1, 70, [[4.34, 1.7, -3.86]], [[3.32, 1.34, -3.83]]);
+SHOT_CAMS[1] = () => [K(0, arc1, 1, true), K(70, c1, 1)];
 SHOT_ACTS[1] = (f) => {
   const tap = 0.35 * sm(f, 4, 16), tip = leverTip(tap), back = sm(f, 44, 62);
   const hand: V3 = lerp3(tip, [3.55, 1.6, -3.3], back);
@@ -56,10 +63,10 @@ lens(0, DOF_INSERT);
 // ================================================= SHOT 2 (72-139) HARD CUT, the flash-forward (the thaw): the neighbor's east wall
 // sprays into the side yard, the houses across the street spray, the old man's yellow wall is dry and he sips from a mug in his
 // yard; the neighbor (red jacket) stares at his wall, back to the lens, then turns. A slow push down the side yard.
-const c2 = F(() => cam3([2.5, 1.8, 4.5], [-6.0, 1.2, 0.6], 50), 72, 0.0045);
+const c2 = FS(() => cam3([2.5, 1.8, 4.5], [-6.0, 1.2, 0.6], 50), 72, 0.0045, 0.004);
 // the whip back to "now" (132-146): round into the neighbor's kitchen window, onto his -20 thermometer
-const c3a = F(() => cam3([-3.62, 2.1, -4.05], [-3.06, 2.15, -4.4], 44), 146, 0.0016);
-const whip23 = crMove(c2, 130, c3a, 146, [[0.6, 1.95, 0.6], [-0.6, 1.92, -3.5], [-2.0, 1.92, -4.0]], [[-3.0, 1.85, -3.6], [-3.0, 1.95, -3.95], [-3.0, 2.08, -4.3]]);
+const c3a = F(() => cam3([-3.62, 2.1, -4.05], [-3.06, 2.15, -4.4], 44), 152, 0.0016);
+const whip23 = crMoveG(c2, 130, c3a, 152, [[0.6, 1.95, 0.6], [-0.6, 1.92, -3.5], [-2.0, 1.92, -4.0]], [[-3.0, 1.85, -3.6], [-3.0, 1.95, -3.95], [-3.0, 2.08, -4.3]]);
 SHOT_CAMS[2] = () => [K(72, c2, 1, true), K(130, whip23, 1)];
 SHOT_ACTS[2] = (f) => {
   const g = f - 72, turn = sm(f, 96, 108);
@@ -77,7 +84,7 @@ lens(72, DOF_WS, 1);
 // "says minus 20"), pull back to him in the red jacket at his sink (176-214); he cranks both taps shut with a pipe wrench, leaning
 // into it (232-262, "shuts every tap tight"), and nods. Then the camera rides out of his window (272).
 const c3b = FS(() => cam3([-6.6, 1.85, -2.3], [-3.55, 1.3, -3.7], 48), 206, 0.0022, 0.0022);
-SHOT_CAMS[3] = () => [K(139, whip23, 1), K(146, c3a, 1), K(176, glideTo(c3a, 176, c3b, 206, 0.15), 1)];
+SHOT_CAMS[3] = () => [K(139, whip23, 1), K(152, c3a, 1), K(176, glideTo(c3a, 176, c3b, 206, 0.15), 1)];
 SHOT_ACTS[3] = (f) => {
   const t1 = sm(f, 232, 246), t2 = sm(f, 250, 262), onW = f >= 226 && f < 266;
   const wz = f < 248 ? -4.1 : -3.7, wa = f < 248 ? -1.2 * t1 : -1.2 * t2;
@@ -119,10 +126,10 @@ lens(284, DOF_MS, 10);
 // leaning on the fence: he laughs (400) and calls over "You're paying to water a bucket!" (437-477), pointing at the window behind
 // the lens; then it swings back to the old man's window (462-478), where he waves (468)
 const c5 = FS(() => cam3([1.5, 1.62, -2.35], [-0.42, 1.55, -2.62], 46), 406, 0.002, 0.0012);
-const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 478, 0.0018);   // his window again (the framing the dissolve holds)
+const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 474, 0.0018);   // his window again (the framing the dissolve holds)
 const swing45 = crMove(c4, 392, c5, 406, [[1.9, 1.75, -2.9]], [[2.6, 1.55, -1.4], [0.8, 1.55, -1.5]]);
-const swing5w = crMove(c5, 462, c5w, 478, [[1.65, 1.7, -2.8]], [[0.8, 1.55, -1.5], [2.6, 1.55, -1.4]]);
-SHOT_CAMS[5] = () => [K(392, swing45, 1), K(406, c5, 1), K(462, swing5w, 1), K(478, c5w, 1)];
+const swing5w = crMoveG(c5, 458, c5w, 474, [[1.65, 1.7, -2.8]], [[0.8, 1.55, -1.5], [2.6, 1.55, -1.4]]);
+SHOT_CAMS[5] = () => [K(392, swing45, 1), K(406, c5, 1), K(458, swing5w, 1), K(474, c5w, 1)];
 SHOT_ACTS[5] = (f) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
   const cast: CastPlace[] = [
@@ -137,7 +144,7 @@ lens(392, DOF_MS, 12);
 
 // ================================================= SHOT 6 (482-546) dissolve in place (the fence framing, night -> morning), push in
 // through his window to the bucket, half full (488-520, "the bucket's half full"); he reads the paper at his table behind
-const c6 = F(() => cam3([3.0, 1.78, -3.72], [3.42, 1.05, -3.92], 50), 512, 0.0016);
+const c6 = F(() => cam3([3.06, 1.82, -3.72], [3.74, 1.0, -3.95], 50), 512, 0.0016);   // 11-26: less top-down, the room beyond the basin in frame (the top-down basin read as mush)
 const c5end = frozen(c5w, 481);
 SHOT_CAMS[6] = () => [K(482, c5end, 1, true), K(492, glideTo(c5end, 492, c6, 512, 0.1), 1)];
 SHOT_ACTS[6] = (f) => ({
@@ -192,10 +199,10 @@ lens(700, DOF_INSERT, 1);
 
 // ================================================= SHOT 10 (786-850) whip out of the window (786-800, a 180 deg swing) to the fence:
 // the neighbor grins (790) and calls "Froze anyway, Drippy!" (815-846), pointing at the window
-const c10 = FS(() => cam3([2.1, 1.7, -3.45], [-0.45, 1.5, -2.65], 44), 800, 0.0022, 0.002);
-const whip910 = crMove(c9, 786, c10, 800, [[2.9, 1.7, -3.7]], [[3.5, 1.58, -3.2], [2.6, 1.55, -2.4], [0.8, 1.5, -2.6]]);
+const c10 = FS(() => cam3([2.1, 1.7, -3.45], [-0.45, 1.5, -2.65], 44), 804, 0.0022, 0.002);
+const whip910 = crMoveG(c9, 786, c10, 804, [[2.9, 1.7, -3.7]], [[3.5, 1.58, -3.2], [2.6, 1.55, -2.4], [0.8, 1.5, -2.6]]);
 SHOT_CAMS[9] = ((g) => (s: SetDef) => [...g(s), K(784, whip910, 1)])(SHOT_CAMS[9]);
-SHOT_CAMS[10] = () => [K(786, whip910, 1), K(800, c10, 1)];
+SHOT_CAMS[10] = () => [K(786, whip910, 1), K(804, c10, 1)];
 SHOT_ACTS[10] = (f, s) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
   const keep9 = f < 798 ? SHOT_ACTS[9](f, s).cast : [];
@@ -215,7 +222,7 @@ SHOT_CAMS[11] = () => [K(850, whip1011, 1), K(866, c11, 1), K(903, glideTo(c11, 
 SHOT_ACTS[11] = (f, s) => ({
   cast: [...(f < 864 ? SHOT_ACTS[10](f, s).cast.filter((c) => c.who === NBR) : []), C(OLD, ROCK_SIT, pose(null, { expr: "sleep", mode: "sit", facing: 0.2, headTilt: 10 + 2 * Math.sin(f / 22), armR: [[16, 20], [10, 34]], armL: [[-16, 20], [-10, 34]] }), { idx: 1 })],
   subj: null, focus: f < 900 ? [3.42, 1.56, -3.9] : [3.42, 1.4, -3.9],
-  ctl: { snow: 0.6, frost: 0.9, glassO: sm(f, 858, 866), dripO: 1, dripFrozen: 1, fatT: sec(f - 944), bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1, clockH: 3.0 + (f - 850) / 30 / 3600, lampO: 0.25 },
+  ctl: { chairE: 1, snow: 0.6, frost: 0.9, glassO: sm(f, 858, 866), dripO: 1, dripFrozen: 1, fatT: sec(f - 944), bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1, clockH: 3.0 + (f - 850) / 30 / 3600, lampO: 0.25 },
 });
 lens(850, DOF_INSERT, 14);
 
@@ -223,8 +230,8 @@ lens(850, DOF_INSERT, 14);
 // sink with a coffee; the wall under the sink cracks (1028) and bursts (1031, "bursts open"), spraying across his floor (1055-1098);
 // he jumps back (1034-1050), the coffee flies
 const c12 = F(() => cam3([-6.8, 1.55, -1.9], [-3.45, 1.0, -3.05], 56), 970, 0.0022);
-const c12b = FS(() => cam3([-6.2, 1.42, -2.15], [-3.35, 0.9, -3.3], 56), 1037, 0.0016, 0.0016);   // the punch on "bursts" (1031-1037)
-SHOT_CAMS[12] = () => [K(970, c12, 1, true), K(1031, glideTo(c12, 1031, c12b, 1037, 0), 1)];
+const c12b = FS(() => cam3([-6.2, 1.42, -2.15], [-3.35, 0.9, -3.3], 56), 1060, 0.0016, 0.0016);   // 11-26: a slow push on "bursts" (1028-1060; the 6-frame punch broke the only calm stretch in the thaw)
+SHOT_CAMS[12] = () => [K(970, c12, 1, true), K(1028, glideTo(c12, 1028, c12b, 1060, 0), 1)];
 SHOT_ACTS[12] = (f) => {
   const jump = sm(f, 1034, 1050), pos: V3 = lerp3([-3.95, FL, -2.6], [-4.5, FL, -2.3], jump);
   const cast: CastPlace[] = [C(NBR, pos, flow(f, [[970, { expr: "calm", facing: 0.8, armR: [[18, 10], [10, -12]], propR: "coffeeCup" }],

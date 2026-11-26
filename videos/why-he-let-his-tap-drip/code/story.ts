@@ -47,7 +47,7 @@ export const PREVIEW = (getInputProps() as { preview?: Preview }).preview;
 const ONLY = (getInputProps() as { only?: number[] }).only;
 export const SHOTS: ShotDef[] = PREVIEW ? [S(1, 0, TOTAL, PREVIEW.set, PREVIEW.light, "preview")] : ONLY ? STORY_SHOTS.filter((s) => ONLY.includes(s.id)) : STORY_SHOTS;
 /** crossfades (frames) where the place or time changes (6-8 f dissolves, measured) */
-export const XFADE: Record<number, number> = { 6: 10, 7: 10, 9: 10, 17: 12 };   // v30 rule j: dissolves only in place (the same framing, a new time): 6 night -> morning at his window; 9 night 2 -> night 3 at the drain; 17 the thaw -> next winter at his window
+export const XFADE: Record<number, number> = { 6: 16, 7: 10, 9: 10, 17: 12 };   // 11-26: 6 at 16 frames (the night -> morning dissolve at 10 read as a hard cut)   // v30 rule j: dissolves only in place (the same framing, a new time): 6 night -> morning at his window; 9 night 2 -> night 3 at the drain; 17 the thaw -> next winter at his window
 export const FLASH_AT = -1000; // no flash in this video
 /** light dips (v10.10 rule 7: no crossfade between places with people in them): the frame floods with the light's
  *  colour for ~4 frames, the cut happens under the flood, then it clears over ~6 frames. [shot id] -> colour */

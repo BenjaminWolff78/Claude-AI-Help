@@ -78,8 +78,26 @@ export const dripset = (): SetDef => {
   const sideW = clap("w", "#ece8de"), sideG = clap("g", "#9fbf94"), sideR = clap("r", "#d9897a"), sideP = clap("p", "#a9a6d4");
   const roofM = mat("grey_roof_tiles", 1.4, "#c8c8cc"), trim = col("#f4f2ec", 0.6);
   const lino = mat("old_linoleum_flooring_01", 1.0, "#e0b890"), linoN = mat("concrete_tiles", 0.6, "#a8b0ba");
-  const wallIn = mat("painted_plaster_wall", 1.4, "#e8c274"), wallInN = mat("painted_plaster_wall", 1.4, "#8fb0c6");   // 11-26: butter-yellow / slate-blue kitchens (the cream and pale grey read washed out: kit saturation 0.1-0.2)
-  const counter = col("#5fa898", 0.5), counterN = col("#e4e6ea", 0.4), cab = mat("brown_planks_05", 0.8, "#c88a5a"), cabN = col("#4f6a84", 0.6);   // 11-26: his mint laminate, the neighbour's white quartz over slate cabinets
+  // 11-26 (kit: 11.5% of frames under Rick's detail floor in his kitchen close-ups): retro striped wallpaper with little
+  // rust flowers in his kitchen, a speckled mint laminate counter, chipboard sheathing in the cutaway. 256 px = 0.6 m.
+  const paperTex = ctex("drPaper", 256, 256, (g, r) => {
+    g.fillStyle = "#e8c274"; g.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 4; i++) { const x = i * 64; g.fillStyle = "#f2d690"; g.fillRect(x + 4, 0, 22, 256); g.fillStyle = "rgba(120,70,20,0.28)"; g.fillRect(x + 2, 0, 2, 256); g.fillRect(x + 26, 0, 2, 256); }
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { const cx = i * 64 + 45, cy = j * 64 + (i % 2) * 32 + 16;
+      g.fillStyle = "#c8643c"; for (let k = 0; k < 4; k++) { const a = (k * Math.PI) / 2; g.beginPath(); g.arc(cx + Math.cos(a) * 4, cy + Math.sin(a) * 4, 3.2, 0, 7); g.fill(); }
+      g.fillStyle = "#7a9a50"; g.beginPath(); g.arc(cx, cy, 1.8, 0, 7); g.fill(); }
+    for (let i = 0; i < 1400; i++) { g.fillStyle = `rgba(0,0,0,${0.02 + r() * 0.03})`; g.fillRect(r() * 256, r() * 256, 1 + r() * 2, 1 + r() * 2); } });
+  paperTex.repeat.set(1 / 0.6, 1 / 0.6);
+  const wallIn = new THREE.MeshStandardMaterial({ map: paperTex, roughness: 0.9, envMapIntensity: 0.5 }), wallInN = mat("painted_plaster_wall", 1.4, "#8fb0c6");   // 11-26: butter-yellow / slate-blue kitchens (the cream and pale grey read washed out: kit saturation 0.1-0.2)
+  const speckTex = ctex("drSpeck", 256, 256, (g, r) => { g.fillStyle = "#5fa898"; g.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 900; i++) { g.fillStyle = r() < 0.5 ? "rgba(255,255,250,0.4)" : "rgba(20,60,50,0.4)"; g.fillRect(r() * 256, r() * 256, 1 + r() * 3, 1 + r() * 2); }
+    g.lineWidth = 1.6; for (let i = 0; i < 60; i++) { g.strokeStyle = "rgba(245,240,220,0.55)"; const x = r() * 256, y = r() * 256, a = r() * 6.28; g.beginPath(); g.arc(x, y, 5 + r() * 4, a, a + 1.6); g.stroke(); } });
+  speckTex.repeat.set(1 / 0.5, 1 / 0.5);
+  const osbTex = ctex("drOsb", 256, 256, (g, r) => { g.fillStyle = "#7a6048"; g.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 520; i++) { const l = 0.6 + r() * 0.6; g.fillStyle = `rgba(${Math.round(150 * l)},${Math.round(112 * l)},${Math.round(74 * l)},0.85)`; g.save(); g.translate(r() * 256, r() * 256); g.rotate(r() * 3.14); g.fillRect(-10, -3, 12 + r() * 16, 4 + r() * 5); g.restore(); } });
+  osbTex.repeat.set(1 / 0.6, 1 / 0.6);
+  const osbM = new THREE.MeshStandardMaterial({ map: osbTex, roughness: 0.9, envMapIntensity: 0.5 });
+  const counter = new THREE.MeshStandardMaterial({ map: speckTex, roughness: 0.45, envMapIntensity: 0.8 }), counterN = col("#e4e6ea", 0.4), cab = mat("brown_planks_05", 0.8, "#c88a5a"), cabN = col("#4f6a84", 0.6);   // 11-26: his mint laminate, the neighbour's white quartz over slate cabinets
   const chrome = col("#d8dde4", 0.18, 1.0, 1.3), steel = col("#b8bec6", 0.32, 0.9, 1.2), porcelain = col("#f4f4f2", 0.25, 0, 1.1);
   const copper = col("#c87a4a", 0.3, 0.8, 1.1), pvc = col("#e8e8e2", 0.5);
   const wood = mat("brown_planks_05", 1.0, "#a87a52");
@@ -121,7 +139,7 @@ export const dripset = (): SetDef => {
     // corner boards
     for (const x of [x0, x1]) for (const z of [z0, z1]) mb.span([x - 0.1, 0, z - 0.1], [x + 0.1, H, z + 0.1], trim);
     // foundation, floor, ceiling
-    mb.span([x0, 0, z0], [x1, FLR, z1], col("#9a948c", 0.9));
+    mb.span([x0, 0, z0], [x1, FLR - 0.02, z1], col("#9a948c", 0.9));   // 11-26: top below the floor slab (both tops sat at FLR and z-fought: the floors flickered)
     mb.span([x0 + 0.07, FLR - 0.02, z0 + 0.07], [x1 - 0.07, FLR, z1 - 0.07], inner);
     mb.span([x0, H - 0.05, z0], [x1, H, z1], col("#f4f0e6", 0.8));
     // the gable roof: ridge along x, overhang ov; the planes meet the wall tops at y H
@@ -176,7 +194,7 @@ export const dripset = (): SetDef => {
     full(-4.6, SEC_Z0, 0, WIN_Y0); full(SEC_Z1, -3.2, 0, WIN_Y0);
     full(SEC_Z0, SEC_Z1, SEC_Y1, WIN_Y0);                 // behind the basin
     // the section under the sink: its inner board (the back of the plaster) and the room-side paint always stay
-    const bd = xw + s * 0.03, board = col("#7a6450", 0.9);   // 11-26: darker sheathing so the pipe, ice and frost read (the greige read washed out)
+    const bd = xw + s * 0.03, board = osbM;   // 11-26: darker sheathing so the pipe, ice and frost read (the greige read washed out)
     sp([bd, 0, SEC_Z0], [i1, SEC_Y1, SEC_Z1], board); sp([i1, FLR, SEC_Z0], [c1, SEC_Y1, SEC_Z1], coatM);
     // window trim inside and out + a sill
     for (const x of [[o0 - s * 0.03, o0], [c1, c1 + s * 0.03]] as [number, number][]) {
@@ -317,7 +335,7 @@ export const dripset = (): SetDef => {
 
   // ===================== FURNITURE AND LIGHTS =====================
   ph("WoodenTable_02", DR0.TABLE, 0, { h: 0.78 });
-  ph("dining_chair_02", [5.4, FLR, -4.2], 0, { h: 0.95 });
+  const chairO = ph("dining_chair_02", [5.4, FLR, -4.2], 0, { h: 0.95 });   // c.chairE 0..1: pulled round to the table's east end (3 a.m.: it hid him in the rocker)
   ph("Rockingchair_01", DR0.ROCKER, -Math.PI / 2, { h: 1.05 });
   ph("vintage_electric_kettle", [3.4, CT, -5.1], Math.PI / 2, { h: 0.24 });
   ph("Shelf_01", [4.4, FLR + 1.6, -5.85], 0, { h: 0.5 });
@@ -492,10 +510,11 @@ export const dripset = (): SetDef => {
     pose: (t, c, light) => {
       const night = light === "drNight" || light === "dr3am", am3 = light === "dr3am";
       // lights: his warm pendant (dim at 3 a.m.), the neighbour's cold tube, porches and street lamps at night
-      setFx(penO, c.lampO ?? (am3 ? 0.35 : night ? 1 : 0)); setFx(tubeN, c.lampN ?? (night && !am3 ? 1 : 0));
+      setFx(penO, c.lampO ?? (am3 ? 0.5 : night ? 1 : 0));   // 11-26: 0.35 -> 0.5 (the 3 a.m. kitchen read as mush) setFx(tubeN, c.lampN ?? (night && !am3 ? 1 : 0));
       porches.forEach((p) => setFx(p, night ? 1 : 0)); streetLights.forEach((p) => setFx(p, night ? 1 : 0));
       const wl0 = c.winLit ?? 1, nOrd = 12;
       winGlow.forEach(({ m, order }) => { (m.material as THREE.MeshBasicMaterial).opacity = !night ? 0 : order < 0 ? (am3 ? 0.15 : 0.55) : 0.55 * cl(wl0 * nOrd - order) * (am3 ? 0.3 : 1); });
+      const ce = cl(c.chairE ?? 0); chairO.position.set(5.4 + 0.66 * ce, FLR, -4.2 + 0.88 * ce); chairO.rotation.y = -Math.PI / 2 * ce;
       const fr = c.frost ?? (night ? 0.5 : 0.2), gO = cl(c.glassO ?? 1), gN = cl(c.glassN ?? 1);
       frostMs[0].opacity = fr * gO; frostMs[1].opacity = fr * gN; kGlass[0].opacity = 0.16 * gO; kGlass[1].opacity = 0.16 * gN; kGlass[0].visible = gO > 0.01; kGlass[1].visible = gN > 0.01;
       // the old man's lever and his drip
