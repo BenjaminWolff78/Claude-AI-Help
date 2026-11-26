@@ -90,7 +90,7 @@ export type LightName = "banner" | "wildDusk" | "fireNight" | "smokeMorning" | "
   // ---- "He Made Dental Visits Longer and Got Cake" ----
   | "dtMorning" | "dtSpring" | "dtLab" | "ptMarket" | "ptBoss" | "ptOffice" | "ptStudy"
   | "jvMorning" | "jvRiver" | "jvDay" | "jvNight" | "jvEarly" | "jvNoon" | "jvDawn"
-  | "mxSmogDawn" | "mxSmogNoon" | "mxMorning" | "mxEvening" | "mxClear" | "mxNight" | "mxDusk" | "mxSunset" | "mxLamp" | "mbOut" | "mbPass" | "mbIn" | "shNight" | "shMorn" | "shGar" | "shIns" | "pgAft" | "pgWoods" | "pgDusk";
+  | "mxSmogDawn" | "mxSmogNoon" | "mxMorning" | "mxEvening" | "mxClear" | "mxNight" | "mxDusk" | "mxSunset" | "mxLamp" | "mbOut" | "mbPass" | "mbIn" | "shNight" | "shMorn" | "shGar" | "shIns" | "pgAft" | "pgWoods" | "pgDeep" | "pgDusk";
 type Over = { base: "day" | "golden"; grade?: "day" | "golden" | "night" | "dawn" | "grey" | "inn" | "sunset" | "morning" | "office"; L?: Partial<LightPreset>; K?: Partial<WorldLook> };
 const sky5 = (c: string[], e = [0, 4, 10, 20, 40]) => ({ c, e });
 const OVER: Record<LightName, Over> = {
@@ -128,6 +128,10 @@ const OVER: Record<LightName, Over> = {
     K: { sky: sky5(["#f2d6ae", "#e2d6c2", "#b4c8de", "#86aada", "#527cc4"], [0, 3, 9, 22, 55]), sat: 0.86, cloud: { lit: "#fff4e4", mid: "#f2dcc4", shade: "#9ca8c4" } } },
   pgWoods: { base: "golden", grade: "dawn", L: { headTint: [1.0, 0.9, 0.76], headWarm: 1.35, headCool: 0.6, actorShadow: true, az: 70, el: 25, sunCol: "#ffcc90", sunI: 4.0, sky: "#b8b498", ground: "#4e4634", hemiI: 0.24, charTint: [1.0, 0.9, 0.78], sideTint: [0.82, 0.86, 1.0], bodyGrad: 0.32, charGrad: 0.26, blob: [0.48, 0.45, 0.42], charGain: 0.86, charShade: 0.85,
     lit: [1.36, 1.08, 0.78], shade: [0.19, 0.19, 0.2], lift: [0.045, 0.045, 0.05], top: "#5a82c0", hor: "#f4cc98", fog: "#c8b490", fogNear: 30, fogFar: 240, sunDisc: "#000000" },
+    K: { sky: sky5(["#f8c88a", "#ecc8a4", "#c0c4cc", "#8aa8d4", "#5a80c0"], [0, 3, 9, 22, 55]), sat: 0.84, cloud: { lit: "#ffe8c8", mid: "#f0d0a8", shade: "#a0a0b8" } } },
+  // the dark woods under the canopy (BI2: "why are the woods getting loud?" cuts to the dark woods)
+  pgDeep: { base: "golden", grade: "dawn", L: { headTint: [1.0, 0.9, 0.76], headWarm: 1.35, headCool: 0.6, actorShadow: true, az: 70, el: 25, sunCol: "#ffcc90", sunI: 1.5, sky: "#6a7060", ground: "#2a2a1e", hemiI: 0.11, charTint: [1.0, 0.9, 0.78], sideTint: [0.82, 0.86, 1.0], bodyGrad: 0.32, charGrad: 0.26, blob: [0.48, 0.45, 0.42], charGain: 0.74, charShade: 0.85,
+    lit: [0.86, 0.8, 0.6], shade: [0.08, 0.095, 0.085], lift: [0.02, 0.025, 0.022], top: "#5a82c0", hor: "#f4cc98", fog: "#2e3626", fogNear: 6, fogFar: 46, sunDisc: "#000000" },
     K: { sky: sky5(["#f8c88a", "#ecc8a4", "#c0c4cc", "#8aa8d4", "#5a80c0"], [0, 3, 9, 22, 55]), sat: 0.84, cloud: { lit: "#ffe8c8", mid: "#f0d0a8", shade: "#a0a0b8" } } },
   pgDusk: { base: "golden", grade: "dawn", L: { headTint: [1.0, 0.86, 0.7], headWarm: 1.35, headCool: 0.55, actorShadow: true, az: 8, el: 7, sunCol: "#ff9a58", sunI: 2.0, sky: "#8a80a0", ground: "#4a4048", hemiI: 0.5, charTint: [1.0, 0.86, 0.74], sideTint: [0.9, 0.84, 0.92], bodyGrad: 0.22, blob: [0.48, 0.44, 0.45], charGain: 0.84,
     lit: [1.38, 1.0, 0.72], shade: [0.18, 0.16, 0.24], lift: [0.05, 0.045, 0.08], top: "#4a5a9c", hor: "#ff9e64", fog: "#c08a78", fogNear: 30, fogFar: 260, sunDisc: "#ffc890" },

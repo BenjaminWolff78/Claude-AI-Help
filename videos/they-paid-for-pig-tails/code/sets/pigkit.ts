@@ -136,11 +136,29 @@ export const tailGeo = (() => { let G: THREE.BufferGeometry | null = null; retur
   const tube = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 10, 0.011, 6, false);
   const p = tube.attributes.position as THREE.BufferAttribute; for (let i = 0; i < p.count; i++) { const y = p.getY(i), k = 1 - 0.55 * cl(-y / 0.24), cx = Math.sin((-y / 0.06) * 0.9) * 0.012; p.setX(i, cx + (p.getX(i) - cx) * k); p.setZ(i, p.getZ(i) * k); }
   tube.computeVertexNormals();
-  const tuft = new THREE.ConeGeometry(0.022, 0.07, 7).rotateX(Math.PI).translate(0.004, -0.27, 0);
+  const tufts = [-0.5, -0.2, 0.15, 0.45, 0.0].map((a, i) => new THREE.ConeGeometry(0.006, 0.075 - i * 0.004, 4).rotateX(Math.PI).translate(0, -0.0375, 0).rotateZ(a * 0.55).rotateX((i % 2 - 0.5) * 0.4).translate(0.004, -0.235, 0));   // a splayed brush of hair, not an arrowhead
   const nail = new THREE.CylinderGeometry(0.008, 0.008, 0.012, 8).rotateX(Math.PI / 2).translate(0, 0.004, 0.012);
   const clean = (x: THREE.BufferGeometry) => { const y = x.index ? x.toNonIndexed() : x; for (const k of Object.keys(y.attributes)) if (!["position", "normal", "uv"].includes(k)) y.deleteAttribute(k); return y; };
-  G = mergeGeometries([clean(tube), clean(tuft), clean(nail)], false)!; return G; }; })();
-export const tailMat = () => { const m = phMat("forest_leaves_02", 4, 4, { tint: "#4a3428", rough: 0.95, env: 0.4, key: "pgTail" }).clone(); m.map = null; m.color.set("#3e2c22"); return m; };
+  G = mergeGeometries([clean(tube), ...tufts.map(clean), clean(nail)], false)!; return G; }; })();
+export const tailMat = () => new THREE.MeshStandardMaterial({ color: "#6a4630", roughness: 0.95, envMapIntensity: 0.5 });
+/** the hero tail for the hook close-up (BI2: "fill the frame with it"): a tapered corkscrew, 2.25 turns, base at the origin
+ *  hanging down -y (same frame as tailGeo); the coil's local z becomes vertical when it lies on the counter. Returns
+ *  [tube, tuft] geometries (two materials). Outer coil radius 0.025 (x the scale). */
+export const curlyTailGeo = (() => { let G: [THREE.BufferGeometry, THREE.BufferGeometry] | null = null; return () => {
+  if (G) return G;
+  const L = 0.2, N = 72, pts: THREE.Vector3[] = [];
+  for (let i = 0; i <= N; i++) { const t = i / N, r = 0.017 * cl((t - 0.1) / 0.22), a = TAU * 3.0 * t; pts.push(new THREE.Vector3(r * Math.cos(a) - r, -L * t, r * Math.sin(a))); }
+  const curve = new THREE.CatmullRomCurve3(pts), TS = 140, RS = 12, tube = new THREE.TubeGeometry(curve, TS, 1, RS, false);
+  const p = tube.attributes.position as THREE.BufferAttribute, c = new THREE.Vector3(), v = new THREE.Vector3();
+  for (let i = 0; i <= TS; i++) { const t = i / TS, rad = 0.0078 * (1 - 0.55 * t) * (t < 0.04 ? 0.8 + 5 * t : 1); curve.getPointAt(t, c);
+    for (let j = 0; j <= RS; j++) { const k = i * (RS + 1) + j; v.fromBufferAttribute(p, k).sub(c).multiplyScalar(rad).add(c); p.setXYZ(k, v.x, v.y, v.z); } }
+  tube.computeVertexNormals();
+  const tip = curve.getPointAt(1), dir = curve.getTangentAt(1);
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
+  const tufts = [-0.7, -0.25, 0.2, 0.65, 0].map((a, i) => { const g = new THREE.ConeGeometry(0.0068, 0.058 - i * 0.004, 5).rotateX(Math.PI).translate(0, -0.02, 0).rotateZ(a * 0.7).rotateX((i % 2 - 0.5) * 0.7);
+    g.applyQuaternion(q); g.translate(tip.x, tip.y, tip.z); const y = g.toNonIndexed(); for (const k of Object.keys(y.attributes)) if (!["position", "normal", "uv"].includes(k)) y.deleteAttribute(k); return y; });
+  const tb = tube.toNonIndexed(); for (const k of Object.keys(tb.attributes)) if (!["position", "normal", "uv"].includes(k)) tb.deleteAttribute(k);
+  G = [tb, mergeGeometries(tufts, false)!]; return G; }; })();
 
 // ---------------- the ranger's reel push mower ----------------
 export type Mower = { g: THREE.Group; set: (spin: number, tilt?: number) => void; HANDLE: V3 };

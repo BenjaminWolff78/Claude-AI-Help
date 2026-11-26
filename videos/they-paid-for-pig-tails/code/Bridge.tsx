@@ -52,7 +52,7 @@ import { InkPass, noInkFallback } from "./ink";
 import { LensBlur, GrainEffect } from "./lensblur";
 import { GradeEffect, GRADES, GRADE_STRENGTH, gradeFor } from "./grade";
 import { Kit } from "./build";
-import { TOTAL, TOTAL_REAL, WARP, FLASH_AT, SHOTS, layersAt, dofAt , STORY_BY_ID, dipAt } from "./story";
+import { TOTAL, TOTAL_REAL, WARP, storyF, FLASH_AT, SHOTS, layersAt, dofAt , STORY_BY_ID, dipAt } from "./story";
 import { LIGHTS } from "./lights";
 import { Captions } from "./Captions";
 import { PREVIEW } from "./story";
@@ -85,14 +85,14 @@ const useKit = () => {
 };
 
 const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
-  const f = useCurrentFrame() / WARP;
+  const of = useCurrentFrame(), f = storyF(of / WARP);   // story frame (fractional) through the re-voice remap
   const { camera, scene, gl } = useThree();
   // render speed (software GL): the sun's shadow map is redrawn every 2nd frame (and on every jump or shot change); the
   // stale frame reuses the previous map with its own matrix, so static casters stay exact and movers lag one frame
   const sh = useMemo(() => ({ f: -9, id: -1 }), []);
   gl.shadowMap.autoUpdate = false;
-  gl.shadowMap.needsUpdate = f % 2 === 0 || f !== sh.f + 1 || id !== sh.id;
-  sh.f = f; sh.id = id;
+  gl.shadowMap.needsUpdate = of % 2 === 0 || of !== sh.f + 1 || id !== sh.id;   // cadence on the OUTPUT frame
+  sh.f = of; sh.id = id;
   const world = useMemo(() => new World(kit), [kit]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const on = useMemo(toggles, []);
@@ -181,10 +181,10 @@ const ShotView: React.FC<{ id: number; kit: Kit; alpha: number }> = ({ id, kit, 
 ); };
 
 export const BridgeShort: React.FC = () => {
-  const f = useCurrentFrame() / WARP;
+  const f = storyF(useCurrentFrame() / WARP);
   const kit = useKit();
   if (!kit) return null;
-  const flash = f >= FLASH_AT && f < FLASH_AT + 4 ? [0.5, 0.36, 0.22, 0.1][f - FLASH_AT] : 0;
+  const flash = f >= FLASH_AT && f < FLASH_AT + 4 ? [0.5, 0.36, 0.22, 0.1][Math.floor(f - FLASH_AT)] : 0;
   return (
     <AbsoluteFill style={{ background: "#cfe3f2" }}>
       {layersAt(f).map((l, i) => <ShotView key={i ? "over" : "base"} id={l.id} kit={kit} alpha={l.alpha} />)}

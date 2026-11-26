@@ -34,7 +34,7 @@ DUCK_DB = -3.0
 QUOTE_DB = -5.0
 FAKE_DB = -3.0
 # quoted lines and the fake-out (s, e, extra dB)
-DIPS = [(679/30, 722/30, QUOTE_DB), (748/30, 768/30, QUOTE_DB)]   # the hunters' jeer, the ranger's line
+DIPS = [(23.30, 24.75, QUOTE_DB), (25.80, 26.75, QUOTE_DB)]   # the hunters' jeer, the ranger's line (v3 output time)
 SFX_REL = -17.0
 STINGER_REL = -11.0
 MUSIC_CUT = None      # = end of the last word (set from words.json)

@@ -16,7 +16,7 @@ import { glow } from "../setkit";
 import { phModel, phMat, boxM, planeM, type PhModel } from "../ph";
 import { MB, TAU, cl, sm, lerp, hsh, col, mat, cylM } from "./mailkit";
 import { pickup } from "./pickup";
-import { priceTex, seenTex, hogSignTex, paperTex, wantedTex, chalkTex, CHALK, tailGeo, tailMat, mower, padlock, fence, farmGate, cornGeo, cornMat, phInst, splatGround, herd, impostor, forest, pineTree, pineLOD, pineImpMat } from "./pigkit";
+import { priceTex, seenTex, hogSignTex, paperTex, wantedTex, chalkTex, CHALK, tailGeo, tailMat, curlyTailGeo, mower, padlock, fence, farmGate, cornGeo, cornMat, phInst, splatGround, herd, impostor, forest, pineTree, pineLOD, pineImpMat } from "./pigkit";
 import type { SetDef, V3, Ctl } from "./types";
 
 const FL = 0.12;
@@ -152,7 +152,19 @@ export const pigset = (): SetDef => {
   const tails = new THREE.InstancedMesh(tailGeo(), tailMat(), TAIL_N); tails.name = "tails"; tails.castShadow = true; tails.receiveShadow = true; root.add(tails);
   { const M = new THREE.Matrix4(), Q = new THREE.Quaternion(), E = new THREE.Euler(); for (let i = 0; i < TAIL_N; i++) { const s = tailSlot(i); M.compose(new THREE.Vector3(...s.p), Q.setFromEuler(E.set(0.12 + (hsh(i, 3) - 0.5) * 0.1, (hsh(i, 5) - 0.5) * 0.5, s.rz)), new THREE.Vector3(1, 0.9 + hsh(i, 6) * 0.25, 1)); tails.setMatrixAt(i, M); } }
   // the tail slapped on the counter (c.ctrTail)
-  const ctrTail = new THREE.Mesh(tailGeo(), tailMat()); ctrTail.position.set(...PG0.CTR_TAIL); ctrTail.rotation.set(Math.PI / 2, 0, 1.2); ctrTail.castShadow = true; root.add(ctrTail);
+  // (the hook close-up's hero tail: a curly corkscrew with a dark tuft, BI2 "fill the frame with it")
+  const ctrTail = new THREE.Group(); ctrTail.position.set(...PG0.CTR_TAIL); ctrTail.rotation.set(Math.PI / 2, 0, 1.2); root.add(ctrTail);
+  { const [tg, fg] = curlyTailGeo(); const a = new THREE.Mesh(tg, new THREE.MeshStandardMaterial({ color: "#7a4a34", roughness: 0.8, envMapIntensity: 0.6 })), b = new THREE.Mesh(fg, new THREE.MeshStandardMaterial({ color: "#2a1c14", roughness: 0.95 }));
+    for (const m of [a, b]) { m.castShadow = true; m.receiveShadow = true; ctrTail.add(m); } }
+  // two twenties slid across the counter to the hunter (c.ctrCash 0 = hidden, 0..1 = sliding from the inside edge out to him)
+  const cashTex = ctex("pgTwenty", 312, 132, (g) => {
+    g.fillStyle = "#b9d8a6"; g.fillRect(0, 0, 312, 132); g.strokeStyle = "#3e6a3a"; g.lineWidth = 6; g.strokeRect(8, 8, 296, 116);
+    g.fillStyle = "#e6f1dc"; g.beginPath(); g.ellipse(156, 66, 34, 44, 0, 0, TAU); g.fill(); g.strokeStyle = "#5e8a56"; g.lineWidth = 3; g.stroke();
+    g.fillStyle = "#2e5a2c"; g.font = "900 40px Arial"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("20", 50, 40); g.fillText("20", 262, 96);
+    g.globalAlpha = 0.35; for (let y = 30; y < 110; y += 10) g.fillRect(96, y, 22, 3); for (let y = 30; y < 110; y += 10) g.fillRect(196, y, 22, 3); g.globalAlpha = 1; });
+  const cash = new THREE.Group(); root.add(cash);
+  for (let i = 0; i < 2; i++) { const m = new THREE.Mesh(new THREE.PlaneGeometry(0.156, 0.066), new THREE.MeshStandardMaterial({ map: cashTex, roughness: 0.9, envMapIntensity: 0.5, side: THREE.DoubleSide }));
+    m.rotation.set(-Math.PI / 2, 0, 0.25 + i * 0.42); m.position.set(i * 0.035, 0.003 + i * 0.002, i * 0.012); m.receiveShadow = true; cash.add(m); }
   // the boars' WANTED poster on the roadside pine (c.poster 0 = not there .. 1 = pinned flat on the trunk)
   const posterM = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.87), new THREE.MeshStandardMaterial({ map: wantedTex(), roughness: 0.95, envMapIntensity: 0.5, side: THREE.DoubleSide })); posterM.receiveShadow = true; root.add(posterM);
   const POST = { x: roadX(PG0.POSTER_Z) - 4.5 + 0.42, y: 1.55, z: PG0.POSTER_Z };
@@ -292,6 +304,13 @@ export const pigset = (): SetDef => {
     // tails on the wall
     tails.count = Math.max(0, Math.min(TAIL_N, Math.round(c.tails ?? TAIL_N)));
     ctrTail.visible = (c.ctrTail ?? 0) > 0.5;
+    { const k = c.ctrCash ?? 0, e = k * k * (3 - 2 * k); cash.visible = k > 0.001;
+      cash.position.set(-1.82 + 0.38 * e, 1.062, 0.02 - 0.14 * e); cash.rotation.y = 0.5 * e; }
+    // v30 8.1: the hook's tail is big enough to read at phone size (x1.8 everywhere, so it never changes size), and it
+    // is slapped down: hanging from the hand above the counter (drop 0) -> lying flat (drop 1)
+    { const k = c.ctrTailK ?? 1.8, d = c.ctrTailDrop ?? 1, e = d * d * (3 - 2 * d);
+      ctrTail.scale.setScalar(k); ctrTail.rotation.set((Math.PI / 2) * e, 0, 1.2 * e);
+      ctrTail.position.set(-1.60 + 0.18 * (1 - e), 1.06 + 0.025 * k + (1 - e) * 0.22 * k, -0.28 - 0.05 * (1 - e)); }   // hangs mid-frame, lands across it
     { const k = sm(cl(c.poster ?? 1)); posterM.visible = k > 0.01; posterM.position.set(POST.x + 0.002, POST.y - (1 - k) * 0.25, POST.z); posterM.rotation.set(0, Math.PI / 2, (1 - k) * 0.5); }
     // the price board: held (c.board 0) .. on the wall (1); paint-over c.price
     { const k = sm(cl(c.board ?? 1)), held: V3 = [c.bx ?? 0.5, c.by ?? 1.35, c.bz ?? -0.55], hung: V3 = [PG0.PRICE[0], PG0.PRICE[1], -0.01];
@@ -321,7 +340,7 @@ export const pigset = (): SetDef => {
     // dusk lights
     const bl = c.bulb ?? dusk; bulbL.intensity = bl * 5.5; (bulbG.material as THREE.SpriteMaterial).opacity = bl; inL.intensity = bl * 2.6 + 3.0; lanL.intensity = bl * 4; (lanG.material as THREE.SpriteMaterial).opacity = bl;
     // far woods tint by the light
-    const fm = root.userData.forestMat as THREE.MeshBasicMaterial; if (fm) fm.color.set(dusk ? "#5a4e54" : light === "pgWoods" ? "#9a9c84" : "#a8a88c");
+    const fm = root.userData.forestMat as THREE.MeshBasicMaterial; if (fm) fm.color.set(dusk ? "#5a4e54" : light === "pgDeep" ? "#4a5040" : light === "pgWoods" ? "#9a9c84" : "#a8a88c");
     // the herd: c.herd 0..1 (share of the herd in view, nearest first), c.treeK 0 scattered .. 1 the branching trails
     // (a pig never pops in: each one stands up out of the grass over the next RS pigs' worth of c.herd)
     { const RS = 110, nf = cl(c.herd ?? 0) * (HERD_N + RS), n = Math.min(HERD_N, Math.ceil(nf)), tk = sm(cl(c.treeK ?? 0)), list: { p: V3; kind: number; ph: number; flip: boolean; s: number; on: boolean }[] = [];
@@ -333,8 +352,8 @@ export const pigset = (): SetDef => {
       herdTint.set(dusk ? "#8a7676" : "#d8d0c0"); hd.set(list, herdTint); }
     void Mt;
   };
-  const sun = { pgAft: [-0.38, 0.56, -0.74] as V3, pgWoods: [-0.3, 0.42, -0.86] as V3, pgDusk: [0.86, 0.13, -0.49] as V3 };
-  const env = { pgAft: { hdri: "farm_field", i: 0.35 }, pgWoods: { hdri: "forest_grove", i: 0.3 }, pgDusk: { hdri: "qwantani_dusk_2", i: 0.32 } };
+  const sun = { pgAft: [-0.38, 0.56, -0.74] as V3, pgWoods: [-0.3, 0.42, -0.86] as V3, pgDeep: [-0.3, 0.34, -0.89] as V3, pgDusk: [0.86, 0.13, -0.49] as V3 };
+  const env = { pgAft: { hdri: "farm_field", i: 0.35 }, pgWoods: { hdri: "forest_grove", i: 0.3 }, pgDeep: { hdri: "forest_grove", i: 0.14 }, pgDusk: { hdri: "qwantani_dusk_2", i: 0.32 } };
   void planeM; void mat;
   return { name: "pigset", root, marks, cams, pose, sunW: sun, env, title: [tails] } as SetDef;
 };

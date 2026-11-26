@@ -3,9 +3,13 @@
 import { getInputProps } from "remotion";
 import type { LightName } from "./lights";
 export const FPS = 30;
-export const TOTAL = 1916; // 63.87 s: ends 6 f after the last word ("tail", 63.68 s)
-/** no time warp in this video (the voice was timed on the final file) */
-export const WARP = 1, TOTAL_REAL = 1916;
+export const TOTAL = 1916; // story frames (the animation as built for the first voice)
+/** re-voiced Nov 25 (v30 3.22: no word endings cut): output frame -> story frame through remap.json (a smooth least-squares
+ *  map through the shared word starts; the dropped phrase is skipped at the hard cut that already sat there) */
+import REMAP from "./remap.json";
+const RM = REMAP as { total: number; cut: number; story: number[] };
+export const WARP = 1, TOTAL_REAL = RM.total;
+export const storyF = (n: number) => { const i = Math.max(0, Math.min(RM.story.length - 1, Math.floor(n))); return RM.story[i]; };
 export const D0 = 0; // build.ts legacy import
 export type V3 = [number, number, number];
 export const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
@@ -17,15 +21,18 @@ export const T = (f: number) => f / FPS;
 export type ShotDef = { id: number; a: number; b: number; set: string; light: LightName; name: string };
 const S = (id: number, a: number, b: number, set: string, light: LightName, name: string): ShotDef => ({ id, a, b, set, light, name });
 export const STORY_SHOTS: ShotDef[] = [
-  S(1, 0, 139, "pigset", "pgAft", "1 HOOK: the tail slapped on the counter, two twenties peeled off; pull back past the queue, piglets out of the woods"),
-  S(2, 139, 280, "pigset", "pgAft", "2 YOU SEE: hogs rooting up the corn (crane), down to the shed: the 1 TAIL = $40 board slapped on"),
+  S(1, 0, 68, "pigset", "pgAft", "1 HOOK: close on the counter: the tail slapped down, two twenties slid back"),
+  S(20, 68, 126, "pigset", "pgDusk", "20 HARD CUT, the hook's outcome: the hillside full of pigs (flash-forward, the 43 s set-up)"),
+  S(21, 126, 158, "pigset", "pgAft", "21 whip pan back to the shed (120-132): the hunter walks off with his twenties, the herd trots out ('You see,')"),
+  S(2, 158, 280, "pigset", "pgAft", "2 YOU SEE: hogs rooting up the corn (crane), down to the shed: the 1 TAIL = $40 board slapped on"),
   S(3, 280, 386, "pigset", "pgAft", "3 the queue out the door, the hammer nails a tail to the wall"),
   S(4, 386, 532, "pigset", "pgAft", "4 the wall fills with a thousand tails, the newspaper taped up"),
   S(5, 532, 649, "pigset", "pgAft", "5 round the corner: the old ranger counts something in chalk"),
   S(6, 649, 724, "pigset", "pgAft", "6 the hunters lean round the corner and laugh: Grandpa's counting piglets!"),
   S(7, 724, 766, "pigset", "pgAft", "7 HARD CUT: the ranger's close-up: Count the little ones."),
-  S(8, 766, 866, "pigset", "pgAft", "8 the woods behind the tail wall get louder; the hunter runs for his pickup"),
-  S(9, 866, 986, "pigset", "pgAft", "9 ride into the pines: the giant boar shot, the selfie flash"),
+  S(8, 766, 830, "pigset", "pgAft", "8 the yard: But wait, if a thousand pigs are gone, the two turn to the woods"),
+  S(22, 830, 872, "pigset", "pgDeep", "22 HARD CUT (BI2): the dark woods: shrubs thrash, hogs push up out of the ferns, squeals"),
+  S(9, 872, 986, "pigset", "pgAft", "9 ride into the pines: the giant boar shot, the selfie flash"),
   S(10, 986, 1078, "pigset", "pgAft", "10 HARD CUT: the boars' WANTED poster of him"),
   S(11, 1078, 1141, "pigset", "pgAft", "11 whip pan: he drives right past the sow and her piglets"),
   S(12, 1141, 1233, "pigset", "pgDusk", "12 HARD CUT, DUSK: the brass key unlocks the back gate (the unlock sting)"),
@@ -45,14 +52,14 @@ export const PREVIEW = (getInputProps() as { preview?: Preview }).preview;
 const ONLY = (getInputProps() as { only?: number[] }).only;
 export const SHOTS: ShotDef[] = PREVIEW ? [S(1, 0, TOTAL, PREVIEW.set, PREVIEW.light, "preview")] : ONLY ? STORY_SHOTS.filter((s) => ONLY.includes(s.id)) : STORY_SHOTS;
 /** crossfades (frames) where the place or time changes (6-8 f dissolves, measured) */
-export const XFADE: Record<number, number> = {};   // 2: torch light -> the lit clock face (time jump); 7, 9, 10: shape matches (shoe -> shoe, glove -> shoe)   // 3: the 5 tile -> the plate (object match); 6: inside the mayor's smoke puff; 7, 8: time jumps in the same place
+export const XFADE: Record<number, number> = { 18: 10, 19: 10 };   // v30 rule j: dissolves only within one place: 18 the PIGS SEEN board -> the chalk wall round the back of the same shed (the callback); 19 the chalk wall -> the price board   // 21: a trotting sow on the hill -> a trotting sow at the woods edge (subject-position match)   // 2: torch light -> the lit clock face (time jump); 7, 9, 10: shape matches (shoe -> shoe, glove -> shoe)   // 3: the 5 tile -> the plate (object match); 6: inside the mayor's smoke puff; 7, 8: time jumps in the same place
 export const FLASH_AT = -1000; // no flash in this video
 /** light dips (v10.10 rule 7: no crossfade between places with people in them): the frame floods with the light's
  *  colour for ~4 frames, the cut happens under the flood, then it clears over ~6 frames. [shot id] -> colour */
 export const DIPS: Record<number, string> = {};
 const DIP_K = [0.25, 0.55, 0.8, 0.92, 0.92, 0.78, 0.55, 0.32, 0.15, 0.05]; // from s.a-4 .. s.a+5
 export const dipAt = (f: number): { col: string; k: number } | null => {
-  for (const s of SHOTS) { const c = DIPS[s.id]; if (c && f >= s.a - 4 && f < s.a + 6) return { col: c, k: DIP_K[f - (s.a - 4)] }; }
+  for (const s of SHOTS) { const c = DIPS[s.id]; if (c && f >= s.a - 4 && f < s.a + 6) return { col: c, k: DIP_K[Math.round(f - (s.a - 4))] ?? 0 }; }
   return null;
 };
 export const STORY_BY_ID = (id: number) => SHOTS.find((s) => s.id === id) ?? SHOTS[0];
@@ -60,7 +67,8 @@ export const shotAt = (f: number) => SHOTS.find((s) => f >= s.a && f < s.b) ?? S
 export const layersAt = (f: number): { id: number; alpha: number }[] => {
   for (const s of SHOTS) {
     const x = XFADE[s.id];
-    if (x && f >= s.a - x / 2 && f < s.a + x / 2) return [{ id: s.id - 1, alpha: 1 }, { id: s.id, alpha: (f - (s.a - x / 2) + 1) / (x + 1) }];
+    const prev = SHOTS[SHOTS.indexOf(s) - 1];
+    if (x && prev && f >= s.a - x / 2 && f < s.a + x / 2) return [{ id: prev.id, alpha: 1 }, { id: s.id, alpha: (f - (s.a - x / 2) + 1) / (x + 1) }];
   }
   return [{ id: shotAt(f).id, alpha: 1 }];
 };
