@@ -27,7 +27,11 @@ const queue = (f: number, n = 4, step = 0, walkIn = -1): CastPlace[] => QW.slice
 const TP: V3[] = [[7.8, 0, 3.0], [7.8, 0, -4], [6.8, 0, -9.5], [4.0, 0, -13.2], [roadX(-17), 0, -17], [roadX(-21.5), 0, -21.5]];
 const TL = polyLen(TP);
 const truckAt = (f: number) => {
-  if (f < 1000) { const u = sm(f, 852, 902), w = polyAt(TP, u); return { x: w.p[0], z: w.p[2], yaw: Math.atan2(w.d[0], w.d[1]), dist: u * TL, moving: f > 852 && f < 902, brake: bump((f - 897) / 12) }; }
+  // final kit (Nov 26): the polyline's per-segment direction made the yaw jump at each corner, and the camera that leads the
+  // pickup (c9lead, in its frame) swung with it: a one-frame jump the kit read as a hard cut (31.2 s). The yaw now follows
+  // a chord 5% of the path either side, so it turns smoothly through the corners (unchanged on the first and last legs).
+  if (f < 1000) { const u = sm(f, 852, 902), w = polyAt(TP, u), pa = polyAt(TP, Math.max(0, u - 0.05)).p, pb = polyAt(TP, Math.min(1, u + 0.05)).p;
+    return { x: w.p[0], z: w.p[2], yaw: Math.atan2(pb[0] - pa[0], pb[2] - pa[2]), dist: u * TL, moving: f > 852 && f < 902, brake: bump((f - 897) / 12) }; }
   const t = Math.max(0, f - 1010), s = 0.42 * (t < 20 ? (t * t) / 40 : t - 10), z = -21.5 - s, x = roadX(z), x2 = roadX(z - 0.5);
   return { x, z, yaw: Math.atan2(x2 - x, -0.5), dist: TL + s, moving: t > 0, brake: 0 };
 };
@@ -158,7 +162,7 @@ SHOT_ACTS[3] = (f, s) => {
 // the wall fills (390-430 time-lapse), "1000" on the flip board, the newspaper unfolded (452) and taped up (490)
 const c4a = F(() => cam3([2.9, 1.55, -4.6], [2.55, 1.5, 0], 46), 386, 0.0012);
 const c4b = F(() => cam3([0.85, 1.35, -2.8], [0.78, 1.1, 0], 44), 470, 0.0012);
-SHOT_CAMS[4] = () => [K(386, c4a, 64), K(440, glideTo(c4a, 440, c4b, 530, 0.05), 1)];   // BI2 kit: both glides under 15 px/frame (a calm stretch 11.6-18.4 s)
+SHOT_CAMS[4] = () => [K(386, c4a, 64), K(446, glideTo(c4a, 446, c4b, 462, 0.05), 1)];   // final kit (Nov 26): the 90-frame glide ran ~24 px/frame and counted as 3 shot changes; now a calm hold on the tails, then one 16-frame move onto the paper ("The paper", 468)   // BI2 kit: both glides under 15 px/frame (a calm stretch 11.6-18.4 s)
 SHOT_ACTS[4] = (f, s) => {
   const cast: CastPlace[] = [];
   const n = Math.round(9 + (TAIL_N - 9) * sm(f, 392, 440) ** 0.9);
@@ -176,16 +180,20 @@ SHOT_ACTS[4] = (f, s) => {
 const c5 = F(() => cam3([-3.6, 1.55, 7.3], [-2.6, 1.2, 4.3], 46), 560, 0.0014);
 const c5pre = F(() => cam3([-5.6, 1.6, -1.2], [-4.4, 1.5, 3.0], 44), 532, 0.0012);
 const RW5: V3[] = [[-4.75, 0, 1.5], [-4.65, 0, 4.75], [-2.6, 0, 4.35]];   // the ranger's walk round to the back (shot 5)
-const c5move = crMove(c4b, 544, c5, 590, [[-2.6, 1.8, -5.2], [-9.0, 1.9, -0.8], [-7.4, 1.85, 6.2]], [[-4.6, 1.35, 2.2], [-4.6, 1.35, 3.8], [-2.6, 1.35, 5.0]]);   // kit: a 0.5 s-class move, not 2 s of fast travel
+const c5moveL = crMove(c4b, 548, c5, 563, [[-2.6, 1.8, -5.2], [-9.0, 1.9, -0.8], [-7.4, 1.85, 6.2]], [[-4.6, 1.35, 2.2], [-4.6, 1.35, 3.8], [-2.6, 1.35, 5.0]]);   // final kit (Nov 26): the 46-frame move counted as 4 shot changes; a 15-frame whip round the shed on "ranger" counts once
 /** the travel keeps the walking ranger in frame from his name on (the look leans onto him 540-596) */
-const c5follow = (f: number): Shot => { const c = c5move(f), w = sm(f, 538, 552) * (1 - sm(f, 584, 596)), r = polyAt(RW5, sm(f, 532, 598)).p; return { ...c, look: lerp3(c.look, [r[0], 1.2, r[2]], w) }; };
+// final kit (Nov 26): the whip eases in on smootherstep (a smoothstep start jumped 0.7 m in one frame and the kit read it as a
+// hard cut), the camera holds the paper with its creep until the whip (no jump at 532), and there is no look-follow after it
+// (the pan after the whip was two more shot changes): the ranger, walking 516-582, comes into the c5 framing at ~566
+const c5move = (f: number): Shot => c5moveL(548 + 15 * glide((f - 548) / 15));
+const c5follow = (f: number): Shot => (f < 548 ? c4b(f) : f >= 563 ? c5(f) : c5move(f));
 SHOT_CAMS[5] = () => [K(532, c5follow, 1)];
 void c5pre;
 const RANGER_AT: V3 = [-2.6, 0, 4.35];   // BI2: right beside the low tally group (x -2.75..-2.9, y 0.82) so the chalk hand is ON the marks
 const chalkN = (f: number) => 28 + Math.max(0, Math.min(18, Math.floor((f - 600) / 5)));   // a mark at the end of every 5 f hand stroke
 SHOT_ACTS[5] = (f, s) => {
   // he walks round the shed's west side to the back wall while the camera comes round (on screen from "ranger"), then chalks
-  const rw = walkPath(5, s, RW5, f, 532, 598);
+  const rw = walkPath(5, s, RW5, f, 516, 582);
   const ph2 = ((f - 600) % 5 + 5) % 5, draw = f >= 600 && f < 649 ? (ph2 < 4 ? ph2 / 4 : 1 - (ph2 - 4)) : 0;   // BI2: the chalk hand strokes down onto the wall, one mark per stroke
   const cast = [C(RAN, rw.p, { ...flow(f, [[532, { expr: "bored", facing: -0.75, tilt: 4 }], [598, { expr: "bored", facing: -0.75, tilt: 4 }], [640, { expr: "calm", facing: -0.7, tilt: -2, headTilt: -3 }, 8]]),
     ...(rw.moving ? { mode: "walk", phase: rw.phase, facing: rw.facing } : {}),
@@ -211,8 +219,8 @@ SHOT_ACTS[6] = (f, s) => {
 };
 
 // ================================================= SHOT 7 (724-766) HARD CUT: the ranger's close-up "He just says, 'Count the little ones.'"
-const c7 = F(() => cam3([-1.73, 1.66, 5.27], [-2.63, 1.56, 4.37], 44), 724, 0.0022);
-SHOT_CAMS[7] = () => [K(724, c7, 8)];   // a whip (8 f) onto him: the old 14-frame push showed empty field; a hard cut here was the 6th (kit: Rick <= ~5)
+const c7 = F(() => cam3([-1.4, 1.7, 5.6], [-2.63, 1.56, 4.37], 44), 736, 0.0022);   // final kit: wider (the face filling the frame left no tiles to track: a talking mouth read as a cut)
+SHOT_CAMS[7] = () => [K(724, c7, 12)];   // final kit: the 8-frame whip read as a hard cut; 12 frames   // a whip (8 f) onto him: the old 14-frame push showed empty field; a hard cut here was the 6th (kit: Rick <= ~5)
 SHOT_ACTS[7] = (f, s) => {
   const tap = bump((f - 726) / 8);
   const cast = [C(RAN, RANGER_AT, speak(f, 748, 768, { ...flow(f, [[724, { expr: "calm", facing: -0.6, headTilt: -2 }], [755, { expr: "calm", facing: -0.6, brow: [-3, -1] }, 6]]),
@@ -378,7 +386,7 @@ const fam14 = (f: number): CastPlace[] => {
 // over his shoulder at the open gate: one pig lifts its head, another, then the whole hill of backs (crane up 2 m)
 const c13a = F(() => cam3([5.6, 2.0, -2.2], [15.5, 1.4, -4.6], 44), 1233, 0.0012);
 const c13b = F(() => cam3([6.2, 3.9, -2.2], [24, 4.4, -4.4], 50), 1290, 0.0012);
-SHOT_CAMS[13] = () => [K(1233, c13a, 12), K(1262, glideTo(c13a, 1262, c13b, 1322, 0.2), 1)];
+SHOT_CAMS[13] = () => [K(1233, c13a, 12), K(1254, glideTo(c13a, 1254, c13b, 1322, 0.2), 1)];   // final kit (Nov 26): 68 frames so the reveal stays under 15 px/frame (no shot-change event: a calm stretch 40.8-45.7 s)
 SHOT_ACTS[13] = (f, s) => {
   const cast: CastPlace[] = [
     C(SHED, GATE_IN, flow(f, [[1233, { expr: "tache", facing: 0.9, back: true, armR: [[30, -2], [54, -6]], armL: [[26, -2], [50, -6]], armRFront: true }], [1240, { expr: "tache", facing: 0.9, back: true }, 10], [1290, { expr: "shock", facing: 0.6, look: 0.4, armR: [[24, 14], [10, 26]] }, 6]]), { idx: 2 }),
