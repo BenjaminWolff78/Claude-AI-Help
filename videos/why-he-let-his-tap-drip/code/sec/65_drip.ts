@@ -112,26 +112,30 @@ SHOT_ACTS[4] = (f) => {
 };
 lens(284, DOF_MS, 10);
 
-// ================================================= SHOT 5 (392-482) pull back from his window to the fence (392-420): the neighbor
-// leans on the fence, laughs (400) and calls over "You're paying to water a bucket!" (437-477), pointing; the old man waves (462).
-const c5 = FS(() => cam3([-1.75, 1.62, -1.55], [1.6, 1.38, -3.75], 46), 410, 0.0016, 0.0012);
-SHOT_CAMS[5] = () => [K(392, glideTo(c4, 392, c5, 410, 0.1), 1)];
+// ================================================= SHOT 5 (392-482) the camera swings round in the side yard (392-406) onto the neighbor
+// leaning on the fence: he laughs (400) and calls over "You're paying to water a bucket!" (437-477), pointing at the window behind
+// the lens; then it swings back to the old man's window (462-478), where he waves (468)
+const c5 = FS(() => cam3([1.5, 1.62, -2.35], [-0.42, 1.55, -2.62], 46), 406, 0.002, 0.0012);
+const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 478, 0.0018);   // his window again (the framing the dissolve holds)
+const swing45 = crMove(c4, 392, c5, 406, [[1.9, 1.75, -2.9]], [[2.6, 1.55, -1.4], [0.8, 1.55, -1.5]]);
+const swing5w = crMove(c5, 462, c5w, 478, [[1.65, 1.7, -2.8]], [[0.8, 1.55, -1.5], [2.6, 1.55, -1.4]]);
+SHOT_CAMS[5] = () => [K(392, swing45, 1), K(406, c5, 1), K(462, swing5w, 1), K(478, c5w, 1)];
 SHOT_ACTS[5] = (f) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
   const cast: CastPlace[] = [
-    C(NBR, NBR_FN, speak(f, 437, 478, flow(f, [[392, { expr: "mock", facing: 0.8, ...lean }], [400, { ...laughP(f, 400, 0), facing: 0.8, ...lean }, 6],
-      [432, { expr: "mock", facing: 0.8, tilt: 8, armR: [[20, 20], [34, 26]], armL: [[-10, 22], [6, 28]], armRFront: true, armLFront: true }, 6],
-      [452, { expr: "mock", facing: 0.8, tilt: 6, armR: [[28, -4], [56, -12]], armRFront: true, armL: [[-10, 22], [6, 28]], armLFront: true }, 6]])), { idx: 1 }),
-    C(OLD, OLD_AT, flow(f, [[392, { expr: "smile_closed", facing: -0.5 }], [460, { expr: "smile", facing: -0.5, armR: [[22, -14], [34, -44]] }, 8], [476, { expr: "smile_closed", facing: -0.5, armR: [[20, -10], [30, -40]] }, 6]]), { idx: 2 }),
+    C(NBR, NBR_FN, speak(f, 437, 478, flow(f, [[392, { expr: "mock", facing: -0.3, ...lean }], [400, { ...laughP(f, 400, 0), facing: -0.3, ...lean }, 6],
+      [432, { expr: "mock", facing: -0.3, tilt: 8, armR: [[20, 20], [34, 26]], armL: [[-10, 22], [6, 28]], armRFront: true, armLFront: true }, 6],
+      [452, { expr: "mock", facing: -0.2, tilt: 6, armR: [[24, -10], [44, -30]], armRFront: true, armL: [[-10, 22], [6, 28]], armLFront: true }, 6]])), { idx: 1 }),
+    C(OLD, OLD_AT, flow(f, [[392, { expr: "smile_closed", facing: -0.3 }], [466, { expr: "smile", facing: -0.3, armR: [[22, -14], [34, -44]] }, 8], [480, { expr: "smile_closed", facing: -0.3, armR: [[20, -10], [30, -40]] }, 6]]), { idx: 2 }),
   ];
-  return { cast, subj: NBR, focus: [NBR_FN[0], 1.75, NBR_FN[2]], ctl: { ...NIGHT, dripO: 1, dripT0: sec(342), dripRate: 1 / 0.85, bucketK: 0.06, tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
+  return { cast, subj: f < 466 ? NBR : OLD, focus: f < 466 ? [NBR_FN[0], 1.75, NBR_FN[2]] : [3.9, 1.7, -3.7], ctl: { ...NIGHT, dripO: 1, dripT0: sec(342), dripRate: 1 / 0.85, bucketK: 0.06, tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
 };
 lens(392, DOF_MS, 12);
 
 // ================================================= SHOT 6 (482-546) dissolve in place (the fence framing, night -> morning), push in
 // through his window to the bucket, half full (488-520, "the bucket's half full"); he reads the paper at his table behind
 const c6 = F(() => cam3([3.0, 1.78, -3.72], [3.42, 1.05, -3.92], 50), 512, 0.0016);
-const c5end = frozen(c5, 481);
+const c5end = frozen(c5w, 481);
 SHOT_CAMS[6] = () => [K(482, c5end, 1, true), K(492, glideTo(c5end, 492, c6, 512, 0.1), 1)];
 SHOT_ACTS[6] = (f) => ({
   cast: [C(OLD, TBL_SIT, pose(null, { expr: "calm", mode: "sit", facing: 0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }), { idx: 1 })],

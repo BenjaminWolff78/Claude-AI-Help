@@ -264,6 +264,17 @@ export const dripset = (): SetDef => {
   const leverO = new THREE.Group(); leverO.position.set(T0x, CT + 0.2, -3.9); root.add(leverO);
   { const m = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.022, 0.15).translate(0, 0, 0.075), chrome); m.castShadow = true; leverO.add(m);
     const k = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.04, 12), chrome); k.rotation.x = Math.PI / 2; k.position.z = 0.0; leverO.add(k); }
+  // THE LOOPHOLE KEY (the channel's signature): a small brass key on a loop of red string, hung on his tap lever; it swings as
+  // the lever turns and is in frame at the trick reveal (his open tap, 48.8 s)
+  const keyG = new THREE.Group(); keyG.position.set(0, 0, 0.125); leverO.add(keyG);
+  const keyPiv = new THREE.Group(); keyG.add(keyPiv);
+  { const brass = new THREE.MeshStandardMaterial({ color: "#d2a642", roughness: 0.28, metalness: 0.9, envMapIntensity: 1.4 }), red = new THREE.MeshStandardMaterial({ color: "#c81e1e", roughness: 0.7 });
+    const loop = new THREE.Mesh(new THREE.TorusGeometry(0.014, 0.0022, 6, 18), red); loop.rotation.y = Math.PI / 2; keyG.add(loop);
+    const str = new THREE.Mesh(new THREE.CylinderGeometry(0.0018, 0.0018, 0.05, 5).translate(0, -0.025, 0), red); str.position.y = -0.012; keyPiv.add(str);
+    const bow = new THREE.Mesh(new THREE.TorusGeometry(0.011, 0.0035, 8, 18), brass); bow.position.y = -0.073; keyPiv.add(bow);
+    const shaft = new THREE.Mesh(new THREE.BoxGeometry(0.005, 0.042, 0.004), brass); shaft.position.y = -0.105; keyPiv.add(shaft);
+    for (const [y, w] of [[-0.118, 0.012], [-0.126, 0.008]] as [number, number][]) { const b = new THREE.Mesh(new THREE.BoxGeometry(w, 0.005, 0.004), brass); b.position.set(w / 2, y, 0); keyPiv.add(b); }
+    keyPiv.position.y = -0.012; keyPiv.traverse((o) => { (o as THREE.Mesh).castShadow = true; }); }
   // THE NEIGHBOUR'S TAPS: a short spout and two cross handles (c.tapN cranks them shut)
   mb.add(cylM(0.04, 0.045, 0.06, 14), chrome, [-3.12, CT + 0.03, -3.9]);
   mb.add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(-3.12, CT + 0.06, -3.9), new THREE.Vector3(-3.13, CT + 0.24, -3.9), new THREE.Vector3(-3.22, CT + 0.32, -3.9), new THREE.Vector3(DR0.TAP_N[0], DR0.TAP_N[1] + 0.025, -3.9)]), 16, 0.02, 10, false), chrome);
@@ -475,6 +486,9 @@ export const dripset = (): SetDef => {
       frostMs[0].opacity = fr * gO; frostMs[1].opacity = fr * gN; kGlass[0].opacity = 0.16 * gO; kGlass[1].opacity = 0.16 * gN; kGlass[0].visible = gO > 0.01; kGlass[1].visible = gN > 0.01;
       // the old man's lever and his drip
       leverO.rotation.y = (c.tapO ?? 0) * 0.9;
+      // the key hangs straight down from the lever (undo the lever's turn) and swings a little: more right after the lever moves
+      keyG.rotation.y = -(c.tapO ?? 0) * 0.9; keyPiv.rotation.set(0.18 * Math.sin(t * 2.1) * (0.3 + (c.keySwing ?? 0.4)), 0, 0.12 * Math.sin(t * 1.7 + 1) * (0.3 + (c.keySwing ?? 0.4)));
+      keyG.visible = (c.keyOff ?? 0) < 0.5;
       const rate = c.dripRate ?? 1, frozen = cl(c.dripFrozen ?? 0), dOn = (c.dripO ?? 0) > 0.5 && frozen < 0.5;
       // the bucket can be slid along the basin (c.bucketDz, m): off the spout line the drops land on the basin floor by the drain
       const bz = BK[2] + (c.bucketDz ?? 0), under = Math.abs(bz - DR0.TAP_O[2]) < 0.06; bucketG.position.set(BK[0], BK[1], bz);

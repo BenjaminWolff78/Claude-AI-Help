@@ -1,0 +1,342 @@
+[
+{
+"t": 0.14,
+"sfx": "gate_squeak",
+"gain_db": -10
+},
+{
+"t": 1.03,
+"sfx": "plink",
+"gain_db": -2
+},
+{
+"t": 1.88,
+"sfx": "plink",
+"gain_db": -6
+},
+{
+"t": 2.4,
+"sfx": "pipe_burst",
+"gain_db": -4
+},
+{
+"t": 2.42,
+"sfx": "spray",
+"gain_db": -2
+},
+{
+"t": 2.95,
+"sfx": "spray",
+"gain_db": -5
+},
+{
+"t": 3.6,
+"sfx": "spray",
+"gain_db": -6
+},
+{
+"t": 4.33,
+"sfx": "whoosh_soft",
+"gain_db": -6
+},
+{
+"t": 5.0,
+"sfx": "ticks",
+"gain_db": -12
+},
+{
+"t": 7.72,
+"sfx": "ratchet",
+"gain_db": -4
+},
+{
+"t": 8.0,
+"sfx": "tap_squeak",
+"gain_db": -8
+},
+{
+"t": 8.32,
+"sfx": "ratchet",
+"gain_db": -5
+},
+{
+"t": 8.62,
+"sfx": "tap_squeak",
+"gain_db": -9
+},
+{
+"t": 9.1,
+"sfx": "whoosh_soft",
+"gain_db": -7
+},
+{
+"t": 10.02,
+"sfx": "gate_squeak",
+"gain_db": -10
+},
+{
+"t": 11.73,
+"sfx": "plink",
+"gain_db": -3
+},
+{
+"t": 12.15,
+"sfx": "bucket_slide",
+"gain_db": -5
+},
+{
+"t": 12.58,
+"sfx": "plink",
+"gain_db": -8
+},
+{
+"t": 13.3,
+"sfx": "laugh_small",
+"gain_db": -4
+},
+{
+"t": 14.0,
+"sfx": "snow_step",
+"gain_db": -10
+},
+{
+"t": 16.1,
+"sfx": "page",
+"gain_db": -10
+},
+{
+"t": 17.2,
+"sfx": "plink",
+"gain_db": -8
+},
+{
+"t": 18.4,
+"sfx": "whoosh_soft",
+"gain_db": -8
+},
+{
+"t": 19.25,
+"sfx": "snow_step",
+"gain_db": -6
+},
+{
+"t": 19.55,
+"sfx": "thud",
+"gain_db": -6
+},
+{
+"t": 19.6,
+"sfx": "crowd_laugh",
+"gain_db": -6
+},
+{
+"t": 21.0,
+"sfx": "whoosh_soft",
+"gain_db": -8
+},
+{
+"t": 21.5,
+"sfx": "plink",
+"gain_db": -6
+},
+{
+"t": 22.0,
+"sfx": "slurp",
+"gain_db": -6
+},
+{
+"t": 22.4,
+"sfx": "plink",
+"gain_db": -9
+},
+{
+"t": 23.3,
+"sfx": "night_long",
+"gain_db": -8
+},
+{
+"t": 24.75,
+"sfx": "ice_creak",
+"gain_db": -4
+},
+{
+"t": 26.2,
+"sfx": "whoosh_soft",
+"gain_db": -7
+},
+{
+"t": 26.4,
+"sfx": "laugh_small",
+"gain_db": -8
+},
+{
+"t": 28.3,
+"sfx": "whoosh_soft",
+"gain_db": -7
+},
+{
+"t": 28.5,
+"sfx": "ticks",
+"gain_db": -6
+},
+{
+"t": 29.55,
+"sfx": "ticks",
+"gain_db": -7
+},
+{
+"t": 30.3,
+"sfx": "rattle",
+"gain_db": -6
+},
+{
+"t": 30.6,
+"sfx": "ticks",
+"gain_db": -8
+},
+{
+"t": 31.82,
+"sfx": "plunk",
+"gain_db": -1
+},
+{
+"t": 32.4,
+"sfx": "taps",
+"gain_db": -10
+},
+{
+"t": 34.3,
+"sfx": "pipe_burst",
+"gain_db": 0
+},
+{
+"t": 34.4,
+"sfx": "spray",
+"gain_db": -2
+},
+{
+"t": 35.0,
+"sfx": "spray",
+"gain_db": -3
+},
+{
+"t": 35.6,
+"sfx": "splash",
+"gain_db": -5
+},
+{
+"t": 36.0,
+"sfx": "spray",
+"gain_db": -5
+},
+{
+"t": 36.95,
+"sfx": "whoosh_soft",
+"gain_db": -6
+},
+{
+"t": 37.65,
+"sfx": "wood_crack",
+"gain_db": -10
+},
+{
+"t": 38.0,
+"sfx": "ice_creak",
+"gain_db": -4
+},
+{
+"t": 39.4,
+"sfx": "ice_creak",
+"gain_db": -6
+},
+{
+"t": 41.0,
+"sfx": "ice_creak",
+"gain_db": -6
+},
+{
+"t": 43.9,
+"sfx": "pipe_burst",
+"gain_db": -4
+},
+{
+"t": 44.1,
+"sfx": "spray",
+"gain_db": -6
+},
+{
+"t": 46.3,
+"sfx": "squelch",
+"gain_db": -3
+},
+{
+"t": 47.95,
+"sfx": "splat",
+"gain_db": -3
+},
+{
+"t": 48.8,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 49.6,
+"sfx": "plink",
+"gain_db": -6
+},
+{
+"t": 50.0,
+"sfx": "plink",
+"gain_db": -7
+},
+{
+"t": 50.4,
+"sfx": "plink",
+"gain_db": -7
+},
+{
+"t": 50.0,
+"sfx": "ice_creak",
+"gain_db": -7
+},
+{
+"t": 52.1,
+"sfx": "plunk",
+"gain_db": -2
+},
+{
+"t": 53.6,
+"sfx": "whoosh_soft",
+"gain_db": -9
+},
+{
+"t": 54.6,
+"sfx": "plink",
+"gain_db": -9
+},
+{
+"t": 55.5,
+"sfx": "plink",
+"gain_db": -9
+},
+{
+"t": 57.2,
+"sfx": "night_long",
+"gain_db": -9
+},
+{
+"t": 57.8,
+"sfx": "whoosh_soft",
+"gain_db": -6
+},
+{
+"t": 60.9,
+"sfx": "tap_squeak",
+"gain_db": -6
+},
+{
+"t": 62.06,
+"sfx": "plink",
+"gain_db": -1
+}
+]
