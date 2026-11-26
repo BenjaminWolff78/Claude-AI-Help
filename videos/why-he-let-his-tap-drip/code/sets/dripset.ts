@@ -74,12 +74,12 @@ export const dripset = (): SetDef => {
     return new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, envMapIntensity: 0.6 });
   };
   const sideY = clap("y", "#f2c65a");        // the old man's yellow
-  const sideB = clap("b", "#7f9ab4");        // the neighbour's grey-blue
+  const sideB = clap("b", "#6488b8");        // the neighbour's grey-blue
   const sideW = clap("w", "#ece8de"), sideG = clap("g", "#9fbf94"), sideR = clap("r", "#d9897a"), sideP = clap("p", "#a9a6d4");
   const roofM = mat("grey_roof_tiles", 1.4, "#c8c8cc"), trim = col("#f4f2ec", 0.6);
-  const lino = mat("old_linoleum_flooring_01", 1.0, "#f2e8d8"), linoN = mat("concrete_tiles", 0.6, "#d8dce2");
-  const wallIn = mat("painted_plaster_wall", 1.4, "#f4e6c8"), wallInN = mat("painted_plaster_wall", 1.4, "#cdd6dc");
-  const counter = col("#e8e2d6", 0.5), cab = mat("brown_planks_05", 0.8, "#c88a5a"), cabN = col("#8a96a2", 0.6);
+  const lino = mat("old_linoleum_flooring_01", 1.0, "#e0b890"), linoN = mat("concrete_tiles", 0.6, "#a8b0ba");
+  const wallIn = mat("painted_plaster_wall", 1.4, "#e8c274"), wallInN = mat("painted_plaster_wall", 1.4, "#8fb0c6");   // 11-26: butter-yellow / slate-blue kitchens (the cream and pale grey read washed out: kit saturation 0.1-0.2)
+  const counter = col("#5fa898", 0.5), counterN = col("#e4e6ea", 0.4), cab = mat("brown_planks_05", 0.8, "#c88a5a"), cabN = col("#4f6a84", 0.6);   // 11-26: his mint laminate, the neighbour's white quartz over slate cabinets
   const chrome = col("#d8dde4", 0.18, 1.0, 1.3), steel = col("#b8bec6", 0.32, 0.9, 1.2), porcelain = col("#f4f4f2", 0.25, 0, 1.1);
   const copper = col("#c87a4a", 0.3, 0.8, 1.1), pvc = col("#e8e8e2", 0.5);
   const wood = mat("brown_planks_05", 1.0, "#a87a52");
@@ -176,7 +176,7 @@ export const dripset = (): SetDef => {
     full(-4.6, SEC_Z0, 0, WIN_Y0); full(SEC_Z1, -3.2, 0, WIN_Y0);
     full(SEC_Z0, SEC_Z1, SEC_Y1, WIN_Y0);                 // behind the basin
     // the section under the sink: its inner board (the back of the plaster) and the room-side paint always stay
-    const bd = xw + s * 0.03, board = col("#9c8f7c", 0.9);
+    const bd = xw + s * 0.03, board = col("#7a6450", 0.9);   // 11-26: darker sheathing so the pipe, ice and frost read (the greige read washed out)
     sp([bd, 0, SEC_Z0], [i1, SEC_Y1, SEC_Z1], board); sp([i1, FLR, SEC_Z0], [c1, SEC_Y1, SEC_Z1], coatM);
     // window trim inside and out + a sill
     for (const x of [[o0 - s * 0.03, o0], [c1, c1 + s * 0.03]] as [number, number][]) {
@@ -190,7 +190,7 @@ export const dripset = (): SetDef => {
     sp([o0, 0, SEC_Z0], [bd, SEC_Y1, SEC_Z1], side, sb);
     sb.flush(secG);
     const openG = new THREE.Group(); openG.visible = false; root.add(openG);
-    const ob = new MB(), face = col("#efe6d2", 0.9), stud = mat("brown_planks_05", 0.6, "#d8b080"), ins = col("#f2c48a", 0.95);
+    const ob = new MB(), face = col("#efe6d2", 0.9), stud = mat("brown_planks_05", 0.6, "#d8b080"), ins = col("#ee9aa6", 0.95);   // pink insulation
     sp([o0, 0, SEC_Z0 - 0.01], [bd, SEC_Y1, SEC_Z0 + 0.012], face, ob); sp([o0, 0, SEC_Z1 - 0.012], [bd, SEC_Y1, SEC_Z1 + 0.01], face, ob);   // the cut ends of the skin
     sp([o0, SEC_Y1 - 0.012, SEC_Z0], [bd, SEC_Y1 + 0.01, SEC_Z1], face, ob);
     for (const z of [SEC_Z0 + 0.03, SEC_Z1 - 0.03]) sp([o0 + s * 0.01, 0, z - 0.025], [bd, SEC_Y1 - 0.012, z + 0.025], stud, ob);        // two studs
@@ -215,6 +215,7 @@ export const dripset = (): SetDef => {
       m.position.set(p[0] - Math.sin(yaw) * 0.03, p[1], p[2] - Math.cos(yaw) * 0.03); m.rotation.y = yaw; m.layers.set(NOINK); root.add(m); winGlow.push({ m, order }); }
   };
   const kGlass = [glassM.clone(), glassM.clone()];
+  for (const g of kGlass) g.color.set("#24303e");   // 11-26: dark glass (the pale glass, lit by the kitchen lamps, laid a milky veil over the night outside)
   for (const [i, p, yaw] of [[0, DR0.OLD_WIN, Math.PI / 2], [1, DR0.NBR_WIN, -Math.PI / 2]] as [number, V3, number][]) { const g = new THREE.Mesh(new THREE.PlaneGeometry(1.4, WIN_Y1 - WIN_Y0), kGlass[i]); g.position.set(...p); g.rotation.y = yaw; root.add(g); }
   // order: -1 = always lit at night (the two leads' fronts); 0.. = the ending's sequence, near to far
   for (const [x, z, yaw, o] of [[4.5, 0.03, 0, -1], [8.9, 0.03, 0, -1], [-4.5, 0.03, 0, -1], [-8.9, 0.03, 0, -1],
@@ -238,7 +239,7 @@ export const dripset = (): SetDef => {
   mb.span([3.08, FLR, -5.92], [7.45, FLR + 0.1, -5.9], trim); mb.span([-7.45, FLR, -5.92], [-3.08, FLR + 0.1, -5.9], trim);
 
   // counters along the outside walls with the open farmhouse sink in the middle
-  const sinkRun = (s: 1 | -1, cm: THREE.Material) => {
+  const sinkRun = (s: 1 | -1, cm: THREE.Material, counter: THREE.Material) => {
     const xa = s * 3.08, xb = s * 3.72, lo = Math.min(xa, xb), hi = Math.max(xa, xb), fr = s > 0 ? hi : lo;
     sp([lo, FLR, -5.7], [hi, CT - 0.04, SEC_Z0 - 0.03], cm); sp([lo, FLR, SEC_Z1 + 0.03], [hi, CT - 0.04, -2.0], cm);       // the cabinets either side
     sp([lo, CT - 0.04, -5.72], [hi + 0.02, CT, SEC_Z0 - 0.01], counter); sp([lo, CT - 0.04, SEC_Z1 + 0.01], [hi + 0.02, CT, -1.98], counter);
@@ -263,7 +264,7 @@ export const dripset = (): SetDef => {
     mb.add(new THREE.SphereGeometry(0.024, 10, 8), chrome, [px, yOut + 0.05, -3.98]);
     mb.add(new THREE.BoxGeometry(0.05, 0.012, 0.03), col("#c82a2a", 0.5), [px + s * 0.03, yOut + 0.05, -3.98]);
   };
-  sinkRun(1, cab); sinkRun(-1, cabN);
+  sinkRun(1, cab, counter); sinkRun(-1, cabN, counterN);
 
   // THE OLD MAN'S TAP: a chrome gooseneck on the deck strip, one lever (c.tapO turns it)
   const T0x = 3.12;
