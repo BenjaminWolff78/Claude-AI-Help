@@ -5,7 +5,7 @@ a/e/i/y -> tWide (tE on e/i every other syllable), l/th/n/d/t -> tTongue for 1 f
 tSmall if the gap is under 4 frames else tClosed."""
 import json, re, sys
 words = json.load(open(sys.argv[1])); out = sys.argv[2]
-QUOTES = [(437, 478), (815, 847)]   # drip: the neighbor "You're paying to water a bucket!" + "Froze anyway, Drippy!"
+QUOTES = [(437, 478), (807, 852)]   # drip: the neighbor "You're paying to water a bucket!" + "Froze anyway, Drippy!"
 talk, stress = {}, []
 for a, b in QUOTES:
     ws = [w for w in words if a <= round(w['s'] * 30) < b]

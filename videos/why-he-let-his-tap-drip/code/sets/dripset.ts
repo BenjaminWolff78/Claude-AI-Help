@@ -63,10 +63,19 @@ export const dripset = (): SetDef => {
   // ===================== MATERIALS =====================
   const snowM = mat("snow_02", 2.4, "#f4f8ff", { rough: 0.85, env: 0.9 }), snowRoof = mat("snow_03", 1.8, "#f6f9ff", { rough: 0.8, env: 0.9 });
   const road = mat("asphalt_snow", 3.0, "#e8ecf4", { rough: 0.8 }), walk = mat("concrete_tiles", 1.2, "#d8dce4");
-  const sideY = mat("weathered_plank_siding", 1.4, "#ffe6a0", { rough: 1, env: 0.7 });       // the old man's yellow
-  const sideB = mat("blue_painted_planks", 1.4, "#a8b8c8", { rough: 1, env: 0.7 });          // the neighbour's grey-blue
-  const sideW = mat("weathered_plank_siding", 1.4, "#f2efe8"), sideG = mat("blue_painted_planks", 1.4, "#c8d8b8");
-  const sideR = mat("weathered_plank_siding", 1.4, "#e8b8a8"), sideP = mat("blue_painted_planks", 1.4, "#c0c8e0");
+  // painted clapboard (canvas): flat paint, a shadow lip under every 12 cm board, faint grain; 512 px = 1.92 m (16 boards)
+  const clap = (key: string, base: string) => {
+    const tex = ctex("drClap_" + key, 512, 512, (g, r) => {
+      g.fillStyle = base; g.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 16; i++) { const y = i * 32; const gr = g.createLinearGradient(0, y, 0, y + 32); gr.addColorStop(0, "rgba(255,255,255,0.10)"); gr.addColorStop(0.75, "rgba(0,0,0,0)"); gr.addColorStop(0.9, "rgba(0,0,0,0.10)"); gr.addColorStop(1, "rgba(0,0,0,0.32)");
+        g.fillStyle = gr; g.fillRect(0, y, 512, 32); }
+      for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(0,0,0,${0.015 + r() * 0.03})`; g.fillRect(r() * 512, r() * 512, 6 + r() * 40, 1); } });
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(1 / 1.92, 1 / 1.92); tex.colorSpace = THREE.SRGBColorSpace;
+    return new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, envMapIntensity: 0.6 });
+  };
+  const sideY = clap("y", "#f2c65a");        // the old man's yellow
+  const sideB = clap("b", "#7f9ab4");        // the neighbour's grey-blue
+  const sideW = clap("w", "#ece8de"), sideG = clap("g", "#9fbf94"), sideR = clap("r", "#d9897a"), sideP = clap("p", "#a9a6d4");
   const roofM = mat("grey_roof_tiles", 1.4, "#c8c8cc"), trim = col("#f4f2ec", 0.6);
   const lino = mat("old_linoleum_flooring_01", 1.0, "#f2e8d8"), linoN = mat("concrete_tiles", 0.6, "#d8dce2");
   const wallIn = mat("painted_plaster_wall", 1.4, "#f4e6c8"), wallInN = mat("painted_plaster_wall", 1.4, "#cdd6dc");
@@ -167,7 +176,7 @@ export const dripset = (): SetDef => {
     full(-4.6, SEC_Z0, 0, WIN_Y0); full(SEC_Z1, -3.2, 0, WIN_Y0);
     full(SEC_Z0, SEC_Z1, SEC_Y1, WIN_Y0);                 // behind the basin
     // the section under the sink: its inner board (the back of the plaster) and the room-side paint always stay
-    const bd = xw + s * 0.03, board = col("#d8d0c0", 0.9);
+    const bd = xw + s * 0.03, board = col("#9c8f7c", 0.9);
     sp([bd, 0, SEC_Z0], [i1, SEC_Y1, SEC_Z1], board); sp([i1, FLR, SEC_Z0], [c1, SEC_Y1, SEC_Z1], coatM);
     // window trim inside and out + a sill
     for (const x of [[o0 - s * 0.03, o0], [c1, c1 + s * 0.03]] as [number, number][]) {
@@ -188,14 +197,14 @@ export const dripset = (): SetDef => {
     sp([o0 + s * 0.01, 0, SEC_Z0 + 0.055], [bd, 0.05, SEC_Z1 - 0.055], stud, ob);                                                         // the sole plate
     for (const z of [SEC_Z0 + 0.075, SEC_Z1 - 0.075]) sp([bd - s * 0.012, 0.05, z - 0.02], [bd, SEC_Y1 - 0.012, z + 0.02], ins, ob);     // insulation edges
     ob.flush(openG);
-    const frostSkin = new THREE.Mesh(new THREE.PlaneGeometry(SEC_Z1 - SEC_Z0 - 0.16, SEC_Y1 - 0.1), new THREE.MeshBasicMaterial({ map: frostTex, transparent: true, opacity: 0.75, depthWrite: false }));
+    const frostSkin = new THREE.Mesh(new THREE.PlaneGeometry(SEC_Z1 - SEC_Z0 - 0.16, SEC_Y1 - 0.1), new THREE.MeshBasicMaterial({ map: frostTex, transparent: true, opacity: 0.35, depthWrite: false }));
     frostSkin.position.set(bd - s * 0.002, SEC_Y1 / 2, (SEC_Z0 + SEC_Z1) / 2); frostSkin.rotation.y = -s * Math.PI / 2; frostSkin.layers.set(NOINK); openG.add(frostSkin);
     return { secG, openG };
   };
   // window frost (decal) texture, shared
-  const frostTex = ctex("drFrost", 256, 256, (g, r) => { g.clearRect(0, 0, 256, 256);
-    for (let i = 0; i < 1100; i++) { const x = r() * 256, y = r() * 256, d = Math.min(x, y, 256 - x, 256 - y); if (r() > 1.4 - d / 80) continue;
-      g.strokeStyle = `rgba(240,248,255,${0.25 + r() * 0.5})`; g.lineWidth = 1 + r() * 1.5; g.beginPath(); g.moveTo(x, y); const a = r() * TAU; g.lineTo(x + Math.cos(a) * (6 + r() * 16), y + Math.sin(a) * (6 + r() * 16)); g.stroke(); } });
+  const frostTex = ctex("drFrost2", 256, 256, (g, r) => { g.clearRect(0, 0, 256, 256);
+    for (let i = 0; i < 1400; i++) { const x = r() * 256, y = r() * 256, d = Math.min(x, y, 256 - x, 256 - y); if (d > 10 + 34 * r() * r()) continue;
+      g.strokeStyle = `rgba(240,248,255,${0.12 + r() * 0.3})`; g.lineWidth = 0.6 + r() * 0.8; g.beginPath(); g.moveTo(x, y); const a = r() * TAU, L = 3 + r() * 7; g.lineTo(x + Math.cos(a) * L, y + Math.sin(a) * L); g.stroke(); } });
   const kwO = kitWall(3, 1, sideY, wallIn), kwN = kitWall(-3, -1, sideB, wallInN);
 
   // glass in every window; front windows glow warm from inside at night (c.winLit lights the far ones in order)
@@ -213,7 +222,7 @@ export const dripset = (): SetDef => {
     [14.4, 0.03, 0, 4], [-14.4, 0.03, 0, 5], [13.4, 17.97, Math.PI, 6], [-13.4, 17.97, Math.PI, 7],
     [17.6, 0.03, 0, 8], [-17.6, 0.03, 0, 9], [16.6, 17.97, Math.PI, 10], [-16.6, 17.97, Math.PI, 11]] as [number, number, number, number][])
     pane([x, FLR + 1.5, z], 1.4, 1.2, yaw, o);
-  const frostMs = [0, 1].map(() => new THREE.MeshBasicMaterial({ map: frostTex, transparent: true, opacity: 0, depthWrite: false }));
+  const frostMs = [0, 1].map(() => new THREE.MeshStandardMaterial({ color: "#e6eef8", map: frostTex, transparent: true, opacity: 0, depthWrite: false, roughness: 0.6 }));
   for (const s of [1, -1]) { const f = new THREE.Mesh(new THREE.PlaneGeometry(1.38, WIN_Y1 - WIN_Y0 - 0.02), frostMs[s > 0 ? 0 : 1]); f.position.set(s * 3.0 + s * 0.035, (WIN_Y0 + WIN_Y1) / 2, -3.9); f.rotation.y = s * Math.PI / 2; f.layers.set(NOINK); root.add(f); }
 
   // ===================== THE TWO KITCHENS =====================
@@ -302,7 +311,7 @@ export const dripset = (): SetDef => {
   const drop = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8).scale(1, 1.35, 1), dropM); root.add(drop);
   const beadM = dropM.clone();
   const bead = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8).scale(1, 1.25, 1).translate(0, -0.011, 0), beadM); bead.position.set(...DR0.TAP_O); root.add(bead);
-  const frostCap = new THREE.Mesh(new THREE.SphereGeometry(0.026, 10, 6), new THREE.MeshStandardMaterial({ color: "#f2f8ff", roughness: 0.9, transparent: true, opacity: 0 })); frostCap.position.set(DR0.TAP_O[0], DR0.TAP_O[1] + 0.012, DR0.TAP_O[2]); root.add(frostCap);
+  const frostCap = new THREE.Mesh(new THREE.SphereGeometry(0.017, 10, 6), new THREE.MeshStandardMaterial({ color: "#f2f8ff", roughness: 0.9, transparent: true, opacity: 0 })); frostCap.position.set(DR0.TAP_O[0], DR0.TAP_O[1] + 0.012, DR0.TAP_O[2]); root.add(frostCap);
   const dropN = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 8).scale(1, 1.35, 1), dropM); root.add(dropN);
 
   // ===================== FURNITURE AND LIGHTS =====================
@@ -312,8 +321,8 @@ export const dripset = (): SetDef => {
   ph("vintage_electric_kettle", [3.4, CT, -5.1], Math.PI / 2, { h: 0.24 });
   ph("Shelf_01", [4.4, FLR + 1.6, -5.85], 0, { h: 0.5 });
   ph("painted_wooden_cabinet_02", [-6.4, FLR, -5.55], 0, { h: 1.9 });
-  ph("WoodenTable_02", [-5.6, FLR, -3.7], 0, { h: 0.78 });
-  ph("dining_chair_02", [-5.6, FLR, -2.85], Math.PI, { h: 0.95 });
+  ph("WoodenTable_02", [-6.2, FLR, -4.9], 0, { h: 0.78 });
+  ph("dining_chair_02", [-6.95, FLR, -4.9], Math.PI / 2, { h: 0.95 });
   ph("alarm_clock_01", [-3.4, CT, -5.2], -Math.PI / 2, { h: 0.12 });
   ph("metal_toolbox", [-6.9, FLR, -4.9], 0.3, { h: 0.3 });
   type Fx = { g: THREE.Group; L: THREE.PointLight; gl: THREE.Sprite; base: number; bm: THREE.MeshBasicMaterial; on: THREE.Color; off: THREE.Color };
@@ -339,9 +348,10 @@ export const dripset = (): SetDef => {
     const gl = glow(g, [0, kind === "tube" ? -0.02 : -0.05, 0], color, kind === "street" ? 0.9 : kind === "tube" ? 0.6 : 0.32);
     return { g, L, gl, base: I, bm, on, off };
   };
-  const setFx = (f: Fx, k: number) => { f.L.intensity = f.base * k; f.L.visible = k > 0.01; (f.gl.material as THREE.SpriteMaterial).opacity = 0.85 * k; f.gl.visible = k > 0.01; f.bm.color.copy(f.off).lerp(f.on, cl(k)); };
-  const penO = fixture([5.4, 2.35, -3.7], "#ffc070", 5, 7, "pendant");
-  const tubeN = fixture([-5.4, H - 0.08, -3.7], "#e8f2ff", 4.5, 8, "tube");
+  // lights are never hidden (a change in the number of lights recompiles every shader: an out-of-memory crash in the sampler)
+  const setFx = (f: Fx, k: number) => { f.L.intensity = f.base * k; (f.gl.material as THREE.SpriteMaterial).opacity = 0.85 * k; f.gl.visible = k > 0.01; f.bm.color.copy(f.off).lerp(f.on, cl(k)); };
+  const penO = fixture([5.4, 2.35, -3.4], "#ffc070", 7, 7, "pendant");
+  const tubeN = fixture([-5.4, H - 0.08, -3.7], "#e8f2ff", 5.5, 8, "tube");
   const porches = [fixture([5.55, 2.2, 0.12], "#ffb860", 2.2, 5, "porch"), fixture([-7.65, 2.2, 0.12], "#ffb860", 2.2, 5, "porch")];
   for (const x of [-13, 13]) ph("street_lamp_01", [x, 0, 8.2], 0, { h: 4.2 });
   const streetLights = [-13, 13].map((x) => fixture([x, 4.0, 8.6], "#ffd8a0", 6, 14, "street"));
@@ -379,7 +389,10 @@ export const dripset = (): SetDef => {
     (J.pts.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
   };
   // the street jets (the hook's flash-forward): the neighbour's side wall and the houses across the street
-  const streetJets = [jet([-2.92, 0.7, -2.2], [1.6, 1.4, 0.2], 90, "#e8f4ff", 0.07), jet([-2.92, 1.4, -5.2], [1.4, 1.0, -0.1], 80, "#e8f4ff", 0.07), jet([-2.0, 0.9, 20.5], [1.5, 1.2, 0.1], 80, "#e8f4ff", 0.08), jet([2.0, 1.2, 21.5], [-1.5, 1.1, -0.2], 80, "#e8f4ff", 0.08), jet([-11.08, 0.8, -3.0], [-1.4, 1.2, 0.1], 70, "#e8f4ff", 0.07)];
+  // the hook's flash-forward, seen from his front yard looking down the row: the neighbour's front wall and east side, and the
+  // next house's front wall spray into the snow (big drops: they read at 8-18 m)
+  const streetJets = [jet([-4.6, 0.9, 0.1], [0.3, 1.3, 1.7], 120, "#e8f4ff", 0.16), jet([-8.6, 1.5, 0.1], [-0.2, 1.1, 1.5], 110, "#e8f4ff", 0.16), jet([-2.92, 0.8, -0.9], [1.6, 1.3, 0.4], 110, "#e8f4ff", 0.15),
+    jet([-14.4, 1.0, 0.1], [0.2, 1.2, 1.6], 110, "#e8f4ff", 0.2), jet([-17.6, 1.6, 0.1], [-0.2, 1.0, 1.4], 100, "#e8f4ff", 0.2)];
   // the neighbour's kitchen: the wall under his sink bursts and sprays across his floor (-x)
   const BURST: V3 = [-3.1, FLR + 0.38, -3.95];
   const kitJets = [jet(BURST, [-1.9, 0.9, 0.15], 110), jet([BURST[0], BURST[1] - 0.08, BURST[2] + 0.12], [-1.6, 0.5, -0.25], 80)];
@@ -396,11 +409,11 @@ export const dripset = (): SetDef => {
   const YB = 0.06, YW = SEC_Y1 - 0.22;   // the pipe rises in the wall from YB to YW, then leaves the wall into the room
   const cut = (s: 1 | -1, kw: ReturnType<typeof kitWall>) => {
     const g = new THREE.Group(); g.visible = false; root.add(g);
-    const xw = s * 3.0 - s * 0.01, R = 0.036;
+    const xw = s * 3.0 - s * 0.012, R = 0.048;
     const path = new THREE.CatmullRomCurve3([new THREE.Vector3(xw, YB, -3.98), new THREE.Vector3(xw, YW - 0.05, -3.98), new THREE.Vector3(xw + s * 0.04, YW, -3.98), new THREE.Vector3(s * 3.1, YW, -3.98)]);
-    g.add(new THREE.Mesh(new THREE.TubeGeometry(path, 40, R, 16, false), new THREE.MeshStandardMaterial({ color: "#e89a6a", roughness: 0.2, metalness: 0.4, transparent: true, opacity: 0.34, depthWrite: false, side: THREE.DoubleSide })));
-    const waterC = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 1, 14).translate(0, 0.5, 0), new THREE.MeshStandardMaterial({ color: "#2f86e0", roughness: 0.1, emissive: "#0a3a7a", emissiveIntensity: 0.35 }));
-    const iceC = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.82, R * 0.82, 1, 14).translate(0, 0.5, 0), new THREE.MeshStandardMaterial({ color: "#f2faff", roughness: 0.5, emissive: "#a8d4f8", emissiveIntensity: 0.4 }));
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(path, 40, R, 16, false), new THREE.MeshStandardMaterial({ color: "#e89a6a", roughness: 0.2, metalness: 0.4, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide })));
+    const waterC = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 1, 14).translate(0, 0.5, 0), new THREE.MeshStandardMaterial({ color: "#1f7fe8", roughness: 0.1, emissive: "#0d4ab0", emissiveIntensity: 0.6 }));
+    const iceC = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.82, R * 0.82, 1, 14).translate(0, 0.5, 0), new THREE.MeshStandardMaterial({ color: "#f4fbff", roughness: 0.45, emissive: "#bfe2ff", emissiveIntensity: 0.55 }));
     waterC.position.set(xw, YB, -3.98); iceC.position.set(xw, YB, -3.98); g.add(waterC, iceC);
     // the water in the room part (to the tap): always full
     const swell = new THREE.Mesh(new THREE.SphereGeometry(R * 1.05, 16, 10).scale(1, 2.4, 1), new THREE.MeshStandardMaterial({ color: "#d88a5a", roughness: 0.25, metalness: 0.6 }));
@@ -474,7 +487,7 @@ export const dripset = (): SetDef => {
   const cams: SetDef["cams"] = { main: { pos: [0.5, 1.7, 12], look: [0, 1.4, -2], fov: 48 }, oldTap: { pos: [4.2, CT + 0.45, -3.4], look: [3.35, CT + 0.2, -3.9], fov: 44 }, nbrKitchen: { pos: [-6.6, 1.65, -2.2], look: [-3.3, 1.4, -3.9], fov: 46 }, oldCut: { pos: [5.6, 1.3, -3.4], look: [3.0, 0.75, -3.9], fov: 46 } };
 
   return { name: "dripset", root, marks, cams, sunW: { drNight: [0.4, 0.55, 0.73], dr3am: [0.3, 0.6, 0.74], drMorn: [0.85, 0.16, 0.5], drThaw: [0.35, 0.7, 0.62] },
-    env: { drNight: { hdri: "rogland_moonlit_night", i: 0.32 }, dr3am: { hdri: "rogland_moonlit_night", i: 0.22 }, drMorn: { hdri: "winter_evening", i: 0.4 }, drThaw: { hdri: "snowy_field", i: 0.45 } },
+    env: { drNight: { hdri: "rogland_moonlit_night", i: 0.2 }, dr3am: { hdri: "rogland_moonlit_night", i: 0.22 }, drMorn: { hdri: "winter_evening", i: 0.4 }, drThaw: { hdri: "snowy_field", i: 0.45 } },
     pose: (t, c, light) => {
       const night = light === "drNight" || light === "dr3am", am3 = light === "dr3am";
       // lights: his warm pendant (dim at 3 a.m.), the neighbour's cold tube, porches and street lamps at night
@@ -482,7 +495,7 @@ export const dripset = (): SetDef => {
       porches.forEach((p) => setFx(p, night ? 1 : 0)); streetLights.forEach((p) => setFx(p, night ? 1 : 0));
       const wl0 = c.winLit ?? 1, nOrd = 12;
       winGlow.forEach(({ m, order }) => { (m.material as THREE.MeshBasicMaterial).opacity = !night ? 0 : order < 0 ? (am3 ? 0.15 : 0.55) : 0.55 * cl(wl0 * nOrd - order) * (am3 ? 0.3 : 1); });
-      const fr = c.frost ?? (night ? 0.6 : 0.2), gO = cl(c.glassO ?? 1), gN = cl(c.glassN ?? 1);
+      const fr = c.frost ?? (night ? 0.5 : 0.2), gO = cl(c.glassO ?? 1), gN = cl(c.glassN ?? 1);
       frostMs[0].opacity = fr * gO; frostMs[1].opacity = fr * gN; kGlass[0].opacity = 0.16 * gO; kGlass[1].opacity = 0.16 * gN; kGlass[0].visible = gO > 0.01; kGlass[1].visible = gN > 0.01;
       // the old man's lever and his drip
       leverO.rotation.y = (c.tapO ?? 0) * 0.9;
@@ -511,7 +524,7 @@ export const dripset = (): SetDef => {
       bead.visible = bs > 0.01; bead.scale.setScalar(Math.max(0.01, bs));
       const fz = ft !== undefined && ft > -1.4 ? frozen * 0.5 : frozen;
       beadM.roughness = 0.02 + 0.55 * fz; beadM.color.set(fz > 0.5 ? "#f0f6ff" : "#dceeff");
-      (frostCap.material as THREE.MeshStandardMaterial).opacity = 0.9 * fz; frostCap.visible = fz > 0.01;
+      (frostCap.material as THREE.MeshStandardMaterial).opacity = 0.7 * fz; frostCap.visible = fz > 0.01;
       // the neighbour's handles + wrench + his own drip at the ending
       handlesN.forEach((g, i) => (g.rotation.y = (i === 0 ? c.tapN1 ?? c.tapN ?? 0 : c.tapN2 ?? c.tapN ?? 0) * 2.6)); wrench.visible = (c.wrenchN ?? 0) > 0.5;
       wrench.position.set(-3.2, CT + 0.13, c.wrenchZ ?? -4.12); wrench.rotation.set(0, Math.PI / 2 + (c.wrenchA ?? 0), -0.4);
@@ -547,7 +560,7 @@ export const dripset = (): SetDef => {
       const sg = cl(c.sign ?? 0); signG.visible = sg > 0.01;
       if (sg < 0.5) signG.position.set(c.signX ?? DR0.SIGN[0], 0.35, c.signZ ?? DR0.SIGN[2]);
       else { const u = (sg - 0.5) / 0.5; signG.position.set(c.signX ?? DR0.SIGN[0], 0.35 * (1 - sm(u * 2)), c.signZ ?? DR0.SIGN[2]); }
-      signG.rotation.set(0, -0.35, 0.1 * Math.max(0, 1 - sg) * Math.sin(t * 9));
+      signG.rotation.set(0, Math.PI + 0.3, 0.1 * Math.max(0, 1 - sg) * Math.sin(t * 9));
       // snowfall
       const sn = cl(c.snow ?? (night ? 1 : 0)); snowPts.visible = sn > 0.02;
       if (snowPts.visible) { const n = Math.floor(sd.length * sn); for (let i = 0; i < sd.length; i++) { const f = sd[i]; const y = i < n ? 7 - ((t * f.v + f.ph * 7) % 7) : -5;
@@ -557,7 +570,7 @@ export const dripset = (): SetDef => {
       arms.forEach((A, i) => { const on = (c[`arm${i}`] ?? 0) > 0.5; A.g.visible = on; if (!on) return;
         const S = new THREE.Vector3(c[`arm${i}sx`] ?? 0, c[`arm${i}sy`] ?? 0, c[`arm${i}sz`] ?? 0), Hh = new THREE.Vector3(c[`arm${i}hx`] ?? 0, c[`arm${i}hy`] ?? 0, c[`arm${i}hz`] ?? 0);
         const mid = S.clone().lerp(Hh, 0.5); mid.y -= c[`arm${i}bend`] ?? 0.06;
-        seg(A.up, S, mid); seg(A.lo, mid, Hh); A.el.position.copy(mid); A.hd.position.copy(Hh); });
+        seg(A.up, S, mid); seg(A.lo, mid, Hh); A.el.position.copy(mid); A.hd.position.copy(Hh); A.hd.scale.setScalar(c.armHand ?? 1); });
       // breath steam
       const br = c.breath ?? 0; breath.visible = br > 0.01; if (br > 0.01) { breath.position.set(c.breathX ?? 0, (c.breathY ?? 0) + 0.15 * br, c.breathZ ?? 0); (breath.material as THREE.SpriteMaterial).opacity = 0.5 * Math.sin(Math.PI * br); breath.scale.set(0.15 + 0.3 * br, 0.1 + 0.2 * br, 1); }
     } } as SetDef;

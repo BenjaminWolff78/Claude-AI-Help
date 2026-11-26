@@ -34,7 +34,7 @@ DUCK_DB = -3.0
 QUOTE_DB = -5.0
 FAKE_DB = -3.0
 # quoted lines and the fake-out (s, e, extra dB)
-DIPS = [(14.50, 15.95, QUOTE_DB), (27.10, 28.20, QUOTE_DB)]   # the neighbor's two lines: "You're paying to water a bucket!", "Froze anyway, Drippy!"
+DIPS = [(14.50, 15.95, QUOTE_DB), (26.85, 28.45, QUOTE_DB)]   # the neighbor's two lines: "You're paying to water a bucket!", "Froze anyway, Drippy!"
 SFX_REL = -17.0
 STINGER_REL = -11.0
 MUSIC_CUT = None      # = end of the last word (set from words.json)
