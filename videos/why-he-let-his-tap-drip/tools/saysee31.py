@@ -15,7 +15,9 @@ ROWS = []
 for k, nth, lab in KEYS:
     hits = [w for w in W_ if norm(w['word']) == k]
     t = hits[nth - 1]['start'] + 0.12; ROWS.append((t, lab))
-W, H = 216, 384; cols = 9; rows = (len(ROWS) + cols - 1) // cols
+half = (len(ROWS) + 1) // 2; part = int(sys.argv[4]) if len(sys.argv) > 4 else 0
+if part: ROWS = ROWS[:half] if part == 1 else ROWS[half:]
+W, H = 180, 320; cols = 9; rows = (len(ROWS) + cols - 1) // cols
 S = Image.new('RGB', (W * cols, (H + 22) * rows), 'white'); d = ImageDraw.Draw(S)
 for i, (t, lab) in enumerate(ROWS):
     p = '/tmp/ss_%02d.png' % i

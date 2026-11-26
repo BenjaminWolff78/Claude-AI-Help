@@ -64,9 +64,26 @@ lens(0, DOF_INSERT);
 // yard; the neighbor (red jacket) stares at his wall, back to the lens, then turns. A slow push down the side yard.
 const c2 = FS(() => cam3([2.0, 1.45, 4.4], [-3.2, 0.95, -0.6], 50), 72, 0.0002, -0.0045);   // v31 8.1 (a sideways truck, almost no push: a push throws the near old man off the left edge): the corner of his house with the jets arcing across, the old man big at left   // v31: a slow dolly (he is 2.5 m from the lens) with a sideways glide   // v31: a gentler push (0.45%/frame cut his face off the right edge)
 // the whip back to "now" (132-146): round into the neighbor's kitchen window, onto his -20 thermometer
-const c3a = F(() => cam3([-3.62, 2.1, -4.05], [-3.06, 2.15, -4.4], 44), 152, 0.0016);
-const whip23 = crMoveG(c2, 130, c3a, 152, [[0.6, 1.95, 0.6], [-0.6, 1.92, -3.5], [-2.0, 1.92, -4.0]], [[-3.0, 1.85, -3.6], [-3.0, 1.95, -3.95], [-3.0, 2.08, -4.3]]);
-SHOT_CAMS[2] = () => [K(72, c2, 1, true), K(130, whip23, 1)];
+const c3a = F(() => cam3([-3.62, 2.1, -4.05], [-3.06, 2.15, -4.4], 44), 164, 0.0016);
+// fix round: the look used to sit on the window plane, so it flipped 180 deg in one frame as the camera passed through the glass
+// (a 5th hard cut at 4.7 s); now it runs ahead into the kitchen and turns round past the neighbor at his sink onto the thermometer
+const WIN_N: V3 = [-3.0, 1.95, -3.92];   // the centre of the neighbor's kitchen window (outside face)
+const whip23 = (f: number): Shot => {
+  // the camera keeps the window centre ahead (it arrives there early), flies straight in through the open window (in by 152),
+  // then turns round inside (west -> south past the neighbor at his sink -> east) onto the thermometer over 17 frames: no frame
+  // of bare siding, and no 180 deg flip in one frame
+  const a = 124, fIn = 152, t0 = 147, b = 164, s0 = c2(a), e = c3a(f), path: V3[] = [s0.pos, [0.6, 1.95, 0.6], [-0.6, 1.95, -3.3], [-1.6, 1.98, -3.95], [-2.6, 2.02, -3.97], e.pos];
+  const u = glide((f - a) / (fIn - a)), pos = crPt(path, u), fov = lerp(s0.fov ?? 40, e.fov ?? 40, glide((f - a) / (b - a)));
+  let uA = 0; for (let k = 0; k <= 200; k++) { const q = crPt(path, k / 200); if (q[0] < WIN_N[0] + 0.55) { uA = k / 200; break; } }
+  const toward = (p: V3, t: V3) => { const d = [t[0] - p[0], t[1] - p[1], t[2] - p[2]], n = Math.hypot(d[0], d[1], d[2]) || 1; return [d[0] / n, d[1] / n, d[2] / n]; };
+  if (u < uA && f < t0) { const k = Math.min(1, u / (0.7 * uA)); return { pos, look: lerp3(s0.look, WIN_N, k * k * (3 - 2 * k)), fov, roll: 0 }; }
+  const pA = crPt(path, uA), dA = toward(pA, WIN_N), dE = toward(e.pos, e.look), dist = Math.hypot(e.look[0] - e.pos[0], e.look[1] - e.pos[1], e.look[2] - e.pos[2]);
+  const yA = Math.atan2(dA[2], dA[0]), pAa = Math.asin(dA[1]); let yE = Math.atan2(dE[2], dE[0]); const pE = Math.asin(dE[1]);
+  while (yE > yA) yE -= 2 * Math.PI;   // turn the way that passes the south (the neighbor at his sink)
+  const r = glide((f - t0) / (b - t0)), yaw = lerp(yA, yE, r), pit = lerp(pAa, pE, r), L = lerp(3, dist, r);
+  return { pos, look: [pos[0] + Math.cos(pit) * Math.cos(yaw) * L, pos[1] + Math.sin(pit) * L, pos[2] + Math.cos(pit) * Math.sin(yaw) * L], fov, roll: 0 };
+};
+SHOT_CAMS[2] = () => [K(72, c2, 1, true), K(124, whip23, 1)];
 SHOT_ACTS[2] = (f) => {
   const g = f - 72, turn = sm(f, 96, 108);
   const cast: CastPlace[] = [
@@ -83,7 +100,7 @@ lens(72, DOF_WS, 1);
 // "says minus 20"), pull back to him in the red jacket at his sink (176-214); he cranks both taps shut with a pipe wrench, leaning
 // into it (232-262, "shuts every tap tight"), and nods. Then the camera rides out of his window (272).
 const c3b = FS(() => cam3([-6.6, 1.85, -2.3], [-3.55, 1.3, -3.7], 48), 206, 0.0022, 0.0022);
-SHOT_CAMS[3] = () => [K(139, whip23, 1), K(152, c3a, 1), K(176, glideTo(c3a, 176, c3b, 206, 0.15), 1)];
+SHOT_CAMS[3] = () => [K(139, whip23, 1), K(164, c3a, 1), K(176, glideTo(c3a, 176, c3b, 206, 0.15), 1)];
 SHOT_ACTS[3] = (f) => {
   const t1 = sm(f, 232, 246), t2 = sm(f, 250, 262), onW = f >= 226 && f < 266;
   const wz = f < 248 ? -4.1 : -3.7, wa = f < 248 ? -1.2 * t1 : -1.2 * t2;
@@ -94,7 +111,7 @@ SHOT_ACTS[3] = (f) => {
     [264, { expr: "proud", facing: -0.4, tilt: -2, armR: [[22, 12], [28, 30]], headTilt: 5 }, 8]]), { idx: 1 })];
   if (f >= 266) cast.push(C(OLD, OLD_AT, pose(null, { expr: "calm", facing: -0.5, armR: [[20, 16], [24, 36]] }), { idx: 2 }));
   return { cast, focus: f < 176 ? [-3.06, 2.15, -4.4] : [-3.5, 1.45, -3.85],
-    ctl: { ...NIGHT, glassN: f < 200 ? sm(f, 139, 144) : gN34(f), bucketK: 0.02, bucketDz: 0.36, tapN1: t1, tapN2: t2, wrenchN: onW ? 1 : 0, wrenchZ: wz, wrenchA: wa, lampN: 1 } };
+    ctl: { ...NIGHT, glassN: f < 200 ? sm(f, 152, 158) : gN34(f), bucketK: 0.02, bucketDz: 0.36, tapN1: t1, tapN2: t2, wrenchN: onW ? 1 : 0, wrenchZ: wz, wrenchA: wa, lampN: 1 } };
 };
 lens(139, DOF_CU, 6); lens(176, DOF_MS, 30);
 
@@ -125,35 +142,35 @@ lens(284, DOF_MS, 10);
 // leaning on the fence: he laughs (400) and calls over "You're paying to water a bucket!" (437-477), pointing at the window behind
 // the lens; then it swings back to the old man's window (462-478), where he waves (468)
 const c5 = FS(() => cam3([1.5, 1.62, -2.35], [-0.42, 1.55, -2.62], 46), 410, 0.002, 0.0012);
-const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 476, 0.0018);   // his window again (the framing the dissolve holds)
+const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 496, 0.0018);   // his window again (the framing the dissolve holds)
 const swing45 = crMoveG(c4, 392, c5, 410, [[1.9, 1.75, -2.9]], [[2.6, 1.6, -8.0], [-0.6, 1.6, -7.0]]);   // fix round: round through the back yards (north), not across his siding
-const swing5w = crMoveG(c5, 452, c5w, 476, [[1.65, 1.7, -2.8]], [[-0.6, 1.6, -7.0], [2.6, 1.6, -8.0]]);   // fix round: round through the open back yards (north); through the street side it skimmed the plain siding (a false cut at 15.5 s)
-SHOT_CAMS[5] = () => [K(392, swing45, 1), K(410, c5, 1), K(452, swing5w, 1), K(476, c5w, 1)];
+const swing5w = crMoveG(c5, 480, c5w, 496, [[1.65, 1.7, -2.8]], [[-0.6, 1.6, -7.0], [2.6, 1.6, -8.0]]);   // fix round: round through the open back yards (north); through the street side it skimmed the plain siding (a false cut at 15.5 s)
+SHOT_CAMS[5] = () => [K(392, swing45, 1), K(410, c5, 1), K(480, swing5w, 1), K(496, c5w, 1)];   // say-see: the speaker stays in frame to the end of "bucket!"
 SHOT_ACTS[5] = (f) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
   const cast: CastPlace[] = [
     C(NBR, NBR_FN, speak(f, 437, 478, flow(f, [[392, { expr: "mock", facing: -0.3, ...lean }], [400, { ...laughP(f, 400, 0), facing: -0.3, ...lean }, 6],
       [432, { expr: "mock", facing: -0.3, tilt: 8, armR: [[20, 20], [34, 26]], armL: [[-10, 22], [6, 28]], armRFront: true, armLFront: true }, 6],
       [452, { expr: "mock", facing: -0.2, tilt: 6, armR: [[24, -10], [44, -30]], armRFront: true, armL: [[-10, 22], [6, 28]], armLFront: true }, 6]])), { idx: 1 }),
-    C(OLD, OLD_AT, flow(f, [[392, { expr: "smile_closed", facing: -0.3 }], [466, { expr: "smile", facing: -0.3, armR: [[22, -14], [34, -44]] }, 8], [480, { expr: "smile_closed", facing: -0.3, armR: [[20, -10], [30, -40]] }, 6]]), { idx: 2 }),
+    C(OLD, OLD_AT, flow(f, [[392, { expr: "smile_closed", facing: -0.3 }], [488, { expr: "smile", facing: -0.3, armR: [[22, -14], [34, -44]] }, 8], [498, { expr: "smile_closed", facing: -0.3, armR: [[20, -10], [30, -40]] }, 6]]), { idx: 2 }),
   ];
-  return { cast, subj: f < 466 ? NBR : OLD, focus: f < 466 ? [NBR_FN[0], 1.75, NBR_FN[2]] : [3.9, 1.7, -3.7], ctl: { ...NIGHT, dripO: 1, dripT0: sec(342), dripRate: 1 / 0.85, bucketK: 0.02 + 0.04 * sm(f, 392, 480), tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
+  return { cast, subj: f < 486 ? NBR : OLD, focus: f < 486 ? [NBR_FN[0], 1.75, NBR_FN[2]] : [3.9, 1.7, -3.7], ctl: { ...NIGHT, dripO: 1, dripT0: sec(342), dripRate: 1 / 0.85, bucketK: 0.02 + 0.04 * sm(f, 392, 498), tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
 };
 lens(392, DOF_MS, 12);
 
 // ================================================= SHOT 6 (482-546) dissolve in place (the fence framing, night -> morning), push in
 // through his window to the bucket, half full (488-520, "the bucket's half full"); he reads the paper at his table behind
-const c6 = F(() => cam3([3.06, 1.82, -3.72], [3.74, 1.0, -3.95], 50), 512, 0.0016);   // 11-26: less top-down, the room beyond the basin in frame (the top-down basin read as mush)
-const c5end = frozen(c5w, 481);
-SHOT_CAMS[6] = () => [K(482, c5end, 1, true), K(492, glideTo(c5end, 492, c6, 512, 0.1), 1)];
+const c6 = F(() => cam3([3.06, 1.82, -3.72], [3.74, 1.0, -3.95], 50), 522, 0.0016);   // 11-26: less top-down, the room beyond the basin in frame (the top-down basin read as mush)
+const c5end = frozen(c5w, 499);
+SHOT_CAMS[6] = () => [K(500, c5end, 1, true), K(504, glideTo(c5end, 504, c6, 522, 0.1), 1)];
 const OLD_DESK: V3 = [5.6, FL, -2.9];   // fix round: he walks off with his paper, out of the push's frame before the next dissolve (no ghost either side)
 SHOT_ACTS[6] = (f) => ({
-  cast: [C(OLD, lerp3(OLD_AT, OLD_DESK, sm(f, 490, 510)), flow(f, [[482, { expr: "calm", facing: -0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }],
-    [490, { expr: "calm", mode: "walk", back: true, facing: 0.2, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 4],
-    [510, { expr: "calm", facing: 0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 8]]), { idx: 1 })],
-  subj: null, focus: [3.42, 1.1, -3.92], ctl: { snow: 0, frost: 0.3, glassO: 1 - sm(f, 508, 516), dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.5, tapO: 0.35, tapN1: 1, tapN2: 1 },
+  cast: [C(OLD, lerp3(OLD_AT, OLD_DESK, sm(f, 505, 522)), flow(f, [[500, { expr: "calm", facing: -0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }],
+    [505, { expr: "calm", mode: "walk", back: true, facing: 0.2, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 4],
+    [522, { expr: "calm", facing: 0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 8]]), { idx: 1 })],
+  subj: null, focus: [3.42, 1.1, -3.92], ctl: { snow: 0, frost: 0.3, glassO: 1 - sm(f, 514, 520), dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.5, tapO: 0.35, tapN1: 1, tapN2: 1 },
 });
-lens(482, DOF_MS, 1); lens(500, DOF_INSERT, 20);
+lens(500, DOF_MS, 1); lens(512, DOF_INSERT, 14);
 
 // ================================================= SHOT 7 (546-628) dissolve in place (the bucket, morning -> night 2), then the camera
 // cranes out of the window and up over the side yard, turning to the street: the shovel guy plants a DRIPPY sign at the front of
@@ -178,7 +195,7 @@ lens(546, DOF_INSERT, 1); lens(560, DOF_WS, 20);
 
 // ================================================= SHOT 8 (628-700) back down through his window into the basin: the full bucket is slid
 // aside, the drip runs down the drain ("pour water down the drain all night?"); he sips tea at his table (660)
-const c8 = F(() => cam3([3.02, 1.74, -3.62], [4.2, 1.05, -3.98], 50), 660, 0.0024);   // the drain below, him at the table with his tea above
+const c8 = F(() => cam3([3.08, 1.92, -3.6], [3.75, 0.95, -3.97], 50), 660, 0.0024);   // say-see: the spout, the falling drip and the drain (the drain was under the frame)   // the drain below, him at the table with his tea above
 const crane78 = crMoveG(c7, 632, c8, 660, [[1.3, 2.5, -4.2], [1.85, 1.92, -3.72]], [[1.6, 1.2, -0.6], [3.4, 1.3, -3.85]], 0.78);   // 11-26: square on to the window before it goes through (it skimmed the siding and cut through the sill)
 SHOT_CAMS[7] = ((g) => (s: SetDef) => [...g(s), K(622, crane78, 1)])(SHOT_CAMS[7]);
 SHOT_CAMS[8] = () => [K(628, crane78, 1), K(660, c8, 1)];
@@ -202,15 +219,15 @@ lens(700, DOF_INSERT, 1);
 // ================================================= SHOT 10 (786-850) whip out of the window (786-800, a 180 deg swing) to the fence:
 // the neighbor grins (790) and calls "Froze anyway, Drippy!" (815-846), pointing at the window
 const c10 = FS(() => cam3([2.1, 1.7, -3.45], [-0.45, 1.5, -2.65], 44), 779, 0.0022, 0.002);
-const whip910 = crMoveG(c9, 760, c10, 779, [[2.9, 1.7, -3.7]], [[3.5, 1.58, -3.2], [2.6, 1.55, -2.4], [0.8, 1.5, -2.6]]);
-SHOT_CAMS[9] = ((g) => (s: SetDef) => [...g(s), K(758, whip910, 1)])(SHOT_CAMS[9]);   // v31: the whip lands on "neighbor" (story 779)
-SHOT_CAMS[10] = () => [K(760, whip910, 1), K(779, c10, 1)];
+const whip910 = crMoveG(c9, 767, c10, 779, [[2.9, 1.7, -3.7]], [[3.5, 1.58, -3.2], [2.6, 1.55, -2.4], [0.8, 1.5, -2.6]]);
+SHOT_CAMS[9] = ((g) => (s: SetDef) => [...g(s), K(765, whip910, 1)])(SHOT_CAMS[9]);   // v31: the whip lands on "neighbor" (story 779)
+SHOT_CAMS[10] = () => [K(767, whip910, 1), K(779, c10, 1)];
 SHOT_ACTS[10] = (f, s) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
-  const keep9 = f < 772 ? SHOT_ACTS[9](f, s).cast : [];
+  const keep9 = f < 776 ? SHOT_ACTS[9](f, s).cast : [];
   return { cast: [...keep9, C(NBR, NBR_FN, speak(f, 792, 851, flow(f, [[770, { expr: "grin", facing: 0.8, ...lean }], [812, { expr: "mock", facing: 0.8, tilt: 6, armR: [[28, -4], [56, -12]], armRFront: true, armL: [[-10, 22], [6, 28]], armLFront: true }, 6],
     [840, { ...laughP(f, 840, 0), facing: 0.8, ...lean }, 6]])), { idx: 1 })],
-    subj: NBR, focus: [NBR_FN[0], 1.75, NBR_FN[2]], ctl: { ...NIGHT, frost: 0.85, sign: 1, signX: SIGN_AT[0], signZ: SIGN_AT[2], glassO: sm(f, 768, 774), dripO: 1, dripFrozen: 1, bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
+    subj: NBR, focus: [NBR_FN[0], 1.75, NBR_FN[2]], ctl: { ...NIGHT, frost: 0.85, sign: 1, signX: SIGN_AT[0], signZ: SIGN_AT[2], glassO: sm(f, 773, 779), dripO: 1, dripFrozen: 1, bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1, lampN: 1 } };
 };
 lens(770, DOF_MS, 12);
 
@@ -284,8 +301,13 @@ const c15 = FS(() => cam3([0.55, 1.2, -3.9], [3.0, 1.12, -3.9], 52), 1461, 0.001
 const c15b = F(() => cam3([1.62, 1.66, -3.82], [3.42, 1.48, -3.9], 40), 1534, 0.0022);   // "that last fat drop": the spout through the glass
 const c15c = FS(() => cam3([0.7, 1.15, -3.9], [3.0, 1.0, -3.92], 50), 1600, 0.0016, 0.0016);   // back down to the sliced wall ("the ice pushing through")
 SHOT_CAMS[15] = () => [K(1461, c15, 1, true), K(1506, glideTo(c15, 1506, c15b, 1546, 0), 1), K(1562, glideTo(c15b, 1562, c15c, 1600, 0), 1)];
+const PLB_IN = (f: number): CastPlace[] => {   // say-see: the plumber walks in behind the old man (1568-1594) and is there on "Plumbers"
+  if (f < 1568) return [];
+  const pw = walkPath(15, null as unknown as SetDef, [[4.9, FL, -5.4], [4.3, FL, -4.9], [3.92, FL, -4.3]], f, 1568, 1594);
+  return [C(PLB, pw.p, (f < 1594 ? { expr: "stern", mode: "walk", phase: pw.phase, facing: pw.facing } : { expr: "stern", facing: 0.4, armR: [[24, 18], [20, 40]] }) as FigOpts, { idx: 2 })];
+};
 SHOT_ACTS[15] = (f) => ({
-  cast: [C(OLD, OLD_AT, flow(f, [[1461, { expr: "calm", facing: 0.2, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1556, { expr: "smile_closed", facing: 0.2, armR: [[18, 4], [12, -22]], propR: "teaMug", headTilt: -4 }, 8]]), { idx: 1 })],
+  cast: [C(OLD, OLD_AT, flow(f, [[1461, { expr: "calm", facing: 0.2, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1556, { expr: "smile_closed", facing: 0.2, armR: [[18, 4], [12, -22]], propR: "teaMug", headTilt: -4 }, 8]]), { idx: 1 }), ...PLB_IN(f)],
   subj: null, focus: f >= 1522 && f < 1570 ? [3.42, 1.5, -3.9] : [3.0, 0.75, -3.95],
   ctl: { ...THAW, cutO: sm(f, 1461, 1476), iceO: 0.08 + 0.75 * sm(f, 1477, 1545), dripO: 1, dripT0: 0, dripRate: f > 1487 && f < 1515 ? 2.6 : 1.2, dripFrozen: f >= 1511 ? 1 : 0, fatT: sec(f - 1553), bucketK: 0.4, tapO: 0.35 },
 });
@@ -299,11 +321,10 @@ SHOT_CAMS[16] = () => [K(1606, glideTo(c15c, 1605, c16, 1640, 0.05), 1)];
 const act16 = (f: number, night = 0): Act => {
   const outO = !night && f >= 1690 ? walkPath(16, null as unknown as SetDef, [[3.95, FL, -3.42], [4.2, FL, -2.9], [4.45, FL, -2.25]], f, 1690, 1712) : null;   // fix round: both walk out before the dissolve
   const cast: CastPlace[] = [outO ? C(OLD, outO.p, { expr: "smile_closed", mode: "walk", phase: outO.phase, facing: outO.facing, armR: [[18, 10], [12, -10]], propR: "teaMug" } as FigOpts, { idx: 1 }) : C(OLD, [3.95, FL, -3.42], flow(f, [[1606, { expr: "calm", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1646, { expr: "smile", facing: 0.3, armR: [[22, -14], [26, -46]], propR: "teaMug" }, 8], [1684, { expr: "smile", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }, 8]]), { idx: 1 })];
-  const pw = walkPath(16, null as unknown as SetDef, [[4.9, FL, -5.4], [4.3, FL, -4.9], [3.92, FL, -4.3]], f, 1606, 1632);
-  if (!night && f < 1632) cast.push(C(PLB, pw.p, { expr: "stern", mode: "walk", phase: pw.phase, facing: pw.facing } as FigOpts, { idx: 2 }));
+  // (the plumber walked in during shot 15: PLB_IN)
   const outP = !night && f >= 1694 ? walkPath(16, null as unknown as SetDef, [[3.92, FL, -4.3], [4.3, FL, -4.9], [5.0, FL, -5.75]], f, 1694, 1714) : null;
   if (outP) cast.push(C(PLB, outP.p, { expr: "smile_closed", mode: "walk", phase: outP.phase, facing: outP.facing } as FigOpts, { idx: 2 }));
-  else if (!night && f >= 1632) cast.push(C(PLB, [3.92, FL, -4.3], flow(f, [[1606, { expr: "stern", facing: 0.4, armR: [[24, 18], [20, 40]] }], [1614, { expr: "stern", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8], [1690, { expr: "smile_closed", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8]]), { idx: 2 }));
+  else if (!night) cast.push(C(PLB, [3.92, FL, -4.3], flow(f, [[1606, { expr: "stern", facing: 0.4, armR: [[24, 18], [20, 40]] }], [1614, { expr: "stern", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8], [1690, { expr: "smile_closed", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8]]), { idx: 2 }));
   return { cast, subj: null, focus: [3.42, 1.55, -3.9], ctl: night ? { ...NIGHT, dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.2, tapO: 0.35 } : { ...THAW, cutO: 1, iceO: 0.83, dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.45, tapO: 0.35 } };
 };
 SHOT_ACTS[16] = (f) => act16(f);
@@ -342,13 +363,13 @@ const OLD_END = (f: number): CastPlace => {
 // reaches for his taps (1802-1822) and opens them to a drip (1832-1850); the camera pushes in to his spout (1832-1876) and his first
 // drop falls (1862, "dripping") - the hook's tap shape: the loop
 const c16end = frozen(c16, 1715);
-const c17m = F(() => cam3([-1.4, 1.92, -3.7], [-3.0, 1.95, -4.25], 46), 1756, 0.0035);   // fix round: closer, so the glide to c17a is slow (it read as two shot changes)
+const c17m = F(() => cam3([-0.6, 1.92, -3.9], [-3.6, 1.82, -4.06], 46), 1756, 0.0003);   // say-see: the -20 dial on his glass (right) and him at his sink (left) together through "minus twenty" and "the guy in the red jacket"
 const c17a = F(() => cam3([-2.12, 1.86, -3.72], [-3.95, 1.5, -3.62], 46), 1800, 0.0024);
 const c17b = F(() => cam3([-1.75, 1.62, -3.8], [-3.3, 1.42, -3.9], 46), 1858, 0.0012);   // v31: 1.4 m off the glass (the ending pulls straight back from here)
 const pull18 = crMoveG(c17b, 1858, c18, 1884, [[-1.0, 1.61, -3.66]], [[-3.1, 1.34, -3.92]]);
 const ride17 = crMove(c16end, 1734, c17m, 1756, [[0.6, 1.85, -3.4], [0.2, 1.95, -3.3]], [[1.6, 1.6, -1.6], [-1.2, 1.7, -2.4]]);
 const ride17b = glideTo(c17m, 1756, c17a, 1800, 0);
-SHOT_CAMS[17] = () => [K(1716, c16end, 1, true), K(1734, ride17, 1), K(1756, ride17b, 1), K(1800, c17a, 1), K(1820, glideTo(c17a, 1820, c17b, 1858, 0), 1), K(1858, pull18, 1)];
+SHOT_CAMS[17] = () => [K(1716, c16end, 1, true), K(1734, ride17, 1), K(1756, c17m, 1), K(1820, glideTo(c17m, 1820, c17b, 1858, 0), 1), K(1858, pull18, 1)];
 SHOT_ACTS[17] = (f) => {
   const op = sm(f, 1832, 1850);
   const cast: CastPlace[] = [...(f >= 1860 ? [OLD_END(f)] : []), C(NBR, NBR_AT, flow(f, [[1716, { expr: "determined", facing: -0.2, armR: [[22, 12], [28, 30]] }],

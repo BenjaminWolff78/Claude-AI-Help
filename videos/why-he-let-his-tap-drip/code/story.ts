@@ -25,8 +25,8 @@ export const STORY_SHOTS: ShotDef[] = [
   S(2, 72, 139, "dripset", "drThaw", "2 HARD CUT, the flash-forward: the neighbor's walls spray water into the side yard and across the street; his house dry, him with a mug"),
   S(3, 139, 284, "dripset", "drNight", "3 whip into the neighbor's kitchen: the -20 thermometer, pull back: red jacket, he cranks both taps shut with a wrench"),
   S(4, 284, 392, "dripset", "drNight", "4 the ride out of his window, over the fence, to the old man's window: he opens his tap to a drip, slides the bucket under"),
-  S(5, 392, 482, "dripset", "drNight", "5 pull back to the fence: the neighbor leans on it and laughs 'You're paying to water a bucket!'"),
-  S(6, 482, 546, "dripset", "drMorn", "6 dissolve in place to morning: push in through his window to the bucket, half full"),
+  S(5, 392, 500, "dripset", "drNight", "5 pull back to the fence: the neighbor leans on it and laughs 'You're paying to water a bucket!'"),
+  S(6, 500, 546, "dripset", "drMorn", "6 dissolve in place to morning: push in through his window to the bucket, half full"),
   S(7, 546, 628, "dripset", "drNight", "7 night 2: out of the window, crane over the side yard: the street laughs, the DRIPPY sign goes in"),
   S(8, 628, 700, "dripset", "drNight", "8 back in through the window down to the basin: the drip runs down the drain, he sips tea"),
   S(9, 700, 770, "dripset", "drNight", "9 dissolve in place to night 3: push to the spout, the last bead hangs, frosts over, stops"),
@@ -48,7 +48,7 @@ export const PREVIEW = (getInputProps() as { preview?: Preview }).preview;
 const ONLY = (getInputProps() as { only?: number[] }).only;
 export const SHOTS: ShotDef[] = PREVIEW ? [S(1, 0, TOTAL, PREVIEW.set, PREVIEW.light, "preview")] : ONLY ? STORY_SHOTS.filter((s) => ONLY.includes(s.id)) : STORY_SHOTS;
 /** crossfades (frames) where the place or time changes (6-8 f dissolves, measured) */
-export const XFADE: Record<number, number> = { 6: 8, 7: 8, 9: 8, 17: 8 };   // v31 5.16: in-place dissolves, 8 frames max (fix round)   // 11-26: 6 at 16 frames (the night -> morning dissolve at 10 read as a hard cut)   // v30 rule j: dissolves only in place (the same framing, a new time): 6 night -> morning at his window; 9 night 2 -> night 3 at the drain; 17 the thaw -> next winter at his window
+export const XFADE: Record<number, number> = { 3: 8, 6: 8, 7: 8, 9: 8, 17: 8 };   // 3: the light goes from the thaw back to night over 8 frames inside the whip (both layers share whip23); the instant switch read as a 5th hard cut   // v31 5.16: in-place dissolves, 8 frames max (fix round)   // 11-26: 6 at 16 frames (the night -> morning dissolve at 10 read as a hard cut)   // v30 rule j: dissolves only in place (the same framing, a new time): 6 night -> morning at his window; 9 night 2 -> night 3 at the drain; 17 the thaw -> next winter at his window
 export const FLASH_AT = -1000; // no flash in this video
 /** light dips (v10.10 rule 7: no crossfade between places with people in them): the frame floods with the light's
  *  colour for ~4 frames, the cut happens under the flood, then it clears over ~6 frames. [shot id] -> colour */
