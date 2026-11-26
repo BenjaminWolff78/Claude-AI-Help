@@ -67,9 +67,13 @@ export const dripset = (): SetDef => {
   const clap = (key: string, base: string) => {
     const tex = ctex("drClap_" + key, 512, 512, (g, r) => {
       g.fillStyle = base; g.fillRect(0, 0, 512, 512);
-      for (let i = 0; i < 16; i++) { const y = i * 32; const gr = g.createLinearGradient(0, y, 0, y + 32); gr.addColorStop(0, "rgba(255,255,255,0.10)"); gr.addColorStop(0.75, "rgba(0,0,0,0)"); gr.addColorStop(0.9, "rgba(0,0,0,0.10)"); gr.addColorStop(1, "rgba(0,0,0,0.32)");
+      for (let i = 0; i < 16; i++) { const y = i * 32; const gr = g.createLinearGradient(0, y, 0, y + 32); gr.addColorStop(0, "rgba(255,255,255,0.10)"); gr.addColorStop(0.75, "rgba(0,0,0,0)"); gr.addColorStop(0.9, "rgba(0,0,0,0.14)"); gr.addColorStop(1, "rgba(0,0,0,0.46)");
         g.fillStyle = gr; g.fillRect(0, y, 512, 32); }
-      for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(0,0,0,${0.015 + r() * 0.03})`; g.fillRect(r() * 512, r() * 512, 6 + r() * 40, 1); } });
+      // v31 (kit: background detail 11.9, Rick 14.2-19.8): wood grain that reads, butt joints, knots and nail heads under the paint
+      for (let i = 0; i < 1600; i++) { g.fillStyle = r() < 0.75 ? `rgba(0,0,0,${0.03 + r() * 0.06})` : `rgba(255,255,255,${0.04 + r() * 0.06})`; g.fillRect(r() * 512, r() * 512, 8 + r() * 46, 1); }
+      for (let i = 0; i < 16; i++) { const y = i * 32, x = (i * 197) % 512; g.fillStyle = "rgba(0,0,0,0.3)"; g.fillRect(x, y + 2, 2, 28);
+        for (let k = 0; k < 2; k++) { g.fillStyle = "rgba(40,30,20,0.35)"; g.beginPath(); g.ellipse(r() * 512, y + 10 + r() * 12, 4 + r() * 5, 2 + r() * 2, 0, 0, 7); g.fill(); }
+        for (let k = 0; k < 6; k++) { g.fillStyle = "rgba(30,30,30,0.45)"; g.fillRect(((k * 86 + i * 31) % 512), y + 25, 2, 2); } } });
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(1 / 1.92, 1 / 1.92); tex.colorSpace = THREE.SRGBColorSpace;
     return new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, envMapIntensity: 0.6 });
   };
@@ -82,13 +86,21 @@ export const dripset = (): SetDef => {
   // rust flowers in his kitchen, a speckled mint laminate counter, chipboard sheathing in the cutaway. 256 px = 0.6 m.
   const paperTex = ctex("drPaper", 256, 256, (g, r) => {
     g.fillStyle = "#e8c274"; g.fillRect(0, 0, 256, 256);
-    for (let i = 0; i < 4; i++) { const x = i * 64; g.fillStyle = "#f2d690"; g.fillRect(x + 4, 0, 22, 256); g.fillStyle = "rgba(120,70,20,0.28)"; g.fillRect(x + 2, 0, 2, 256); g.fillRect(x + 26, 0, 2, 256); }
+    for (let i = 0; i < 4; i++) { const x = i * 64; g.fillStyle = "#f2d690"; g.fillRect(x + 4, 0, 22, 256); g.fillStyle = "rgba(120,70,20,0.42)"; g.fillRect(x + 2, 0, 2, 256); g.fillRect(x + 26, 0, 2, 256); }
     for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { const cx = i * 64 + 45, cy = j * 64 + (i % 2) * 32 + 16;
       g.fillStyle = "#c8643c"; for (let k = 0; k < 4; k++) { const a = (k * Math.PI) / 2; g.beginPath(); g.arc(cx + Math.cos(a) * 4, cy + Math.sin(a) * 4, 3.2, 0, 7); g.fill(); }
       g.fillStyle = "#7a9a50"; g.beginPath(); g.arc(cx, cy, 1.8, 0, 7); g.fill(); }
     for (let i = 0; i < 1400; i++) { g.fillStyle = `rgba(0,0,0,${0.02 + r() * 0.03})`; g.fillRect(r() * 256, r() * 256, 1 + r() * 2, 1 + r() * 2); } });
   paperTex.repeat.set(1 / 0.6, 1 / 0.6);
-  const wallIn = new THREE.MeshStandardMaterial({ map: paperTex, roughness: 0.9, envMapIntensity: 0.5 }), wallInN = mat("painted_plaster_wall", 1.4, "#8fb0c6");   // 11-26: butter-yellow / slate-blue kitchens (the cream and pale grey read washed out: kit saturation 0.1-0.2)
+  // v31: his neighbour's kitchen gets a slate-blue trellis paper with small white diamonds (the flat plaster read as an empty wall)
+  const paperN = ctex("drPaperN", 256, 256, (g, r) => {
+    g.fillStyle = "#86a8c2"; g.fillRect(0, 0, 256, 256); g.strokeStyle = "rgba(40,62,92,0.55)"; g.lineWidth = 3;
+    for (let i = -4; i < 8; i++) { g.beginPath(); g.moveTo(i * 64, 0); g.lineTo(i * 64 + 256, 256); g.stroke(); g.beginPath(); g.moveTo(i * 64 + 256, 0); g.lineTo(i * 64, 256); g.stroke(); }
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { const cx = i * 64 + 32, cy = j * 64; g.fillStyle = "#f2f4f6"; g.beginPath(); g.moveTo(cx, cy - 7); g.lineTo(cx + 6, cy); g.lineTo(cx, cy + 7); g.lineTo(cx - 6, cy); g.fill();
+      g.fillStyle = "#c86a4a"; g.beginPath(); g.arc(i * 64, j * 64 + 32, 3, 0, 7); g.fill(); }
+    for (let i = 0; i < 1600; i++) { g.fillStyle = `rgba(0,0,0,${0.02 + r() * 0.04})`; g.fillRect(r() * 256, r() * 256, 1 + r() * 2, 1 + r() * 2); } });
+  paperN.repeat.set(1 / 0.55, 1 / 0.55);
+  const wallIn = new THREE.MeshStandardMaterial({ map: paperTex, roughness: 0.9, envMapIntensity: 0.5 }), wallInN = new THREE.MeshStandardMaterial({ map: paperN, roughness: 0.9, envMapIntensity: 0.5 });   // 11-26: butter-yellow / slate-blue kitchens (the cream and pale grey read washed out: kit saturation 0.1-0.2)
   const speckTex = ctex("drSpeck", 256, 256, (g, r) => { g.fillStyle = "#5fa898"; g.fillRect(0, 0, 256, 256);
     for (let i = 0; i < 900; i++) { g.fillStyle = r() < 0.5 ? "rgba(255,255,250,0.4)" : "rgba(20,60,50,0.4)"; g.fillRect(r() * 256, r() * 256, 1 + r() * 3, 1 + r() * 2); }
     g.lineWidth = 1.6; for (let i = 0; i < 60; i++) { g.strokeStyle = "rgba(245,240,220,0.55)"; const x = r() * 256, y = r() * 256, a = r() * 6.28; g.beginPath(); g.arc(x, y, 5 + r() * 4, a, a + 1.6); g.stroke(); } });
@@ -97,7 +109,13 @@ export const dripset = (): SetDef => {
     for (let i = 0; i < 520; i++) { const l = 0.6 + r() * 0.6; g.fillStyle = `rgba(${Math.round(150 * l)},${Math.round(112 * l)},${Math.round(74 * l)},0.85)`; g.save(); g.translate(r() * 256, r() * 256); g.rotate(r() * 3.14); g.fillRect(-10, -3, 12 + r() * 16, 4 + r() * 5); g.restore(); } });
   osbTex.repeat.set(1 / 0.6, 1 / 0.6);
   const osbM = new THREE.MeshStandardMaterial({ map: osbTex, roughness: 0.9, envMapIntensity: 0.5 });
-  const counter = new THREE.MeshStandardMaterial({ map: speckTex, roughness: 0.45, envMapIntensity: 0.8 }), counterN = col("#e4e6ea", 0.4), cab = mat("brown_planks_05", 0.8, "#c88a5a"), cabN = col("#4f6a84", 0.6);   // 11-26: his mint laminate, the neighbour's white quartz over slate cabinets
+  const counter = new THREE.MeshStandardMaterial({ map: speckTex, roughness: 0.45, envMapIntensity: 0.8 }), counterN = new THREE.MeshStandardMaterial({ map: ctex("drQuartz", 256, 256, (g, r) => { g.fillStyle = "#e2e4e8"; g.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 1400; i++) { const k = r(); g.fillStyle = k < 0.6 ? "rgba(90,96,108,0.55)" : k < 0.85 ? "rgba(150,140,128,0.5)" : "rgba(255,255,255,0.8)"; g.fillRect(r() * 256, r() * 256, 1 + r() * 3, 1 + r() * 2); } }), roughness: 0.35, envMapIntensity: 0.8 }),
+    cab = mat("brown_planks_05", 0.8, "#c88a5a"),
+    cabN = new THREE.MeshStandardMaterial({ map: ctex("drCabN", 256, 256, (g, r) => { g.fillStyle = "#4f6a84"; g.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 2; i++) { const x = i * 128; g.strokeStyle = "rgba(20,32,48,0.6)"; g.lineWidth = 4; g.strokeRect(x + 14, 14, 100, 228); g.strokeStyle = "rgba(160,184,206,0.45)"; g.lineWidth = 2; g.strokeRect(x + 24, 24, 80, 208);
+        g.fillStyle = "#c8ccd2"; g.fillRect(x + (i ? 22 : 96), 110, 6, 36); }
+      for (let i = 0; i < 700; i++) { g.fillStyle = `rgba(0,0,0,${0.03 + r() * 0.05})`; g.fillRect(r() * 256, r() * 256, 1, 4 + r() * 14); } }), roughness: 0.6, envMapIntensity: 0.6 });   // 11-26: his mint laminate, the neighbour's white quartz over slate cabinets
   const chrome = col("#d8dde4", 0.18, 1.0, 1.3), steel = col("#b8bec6", 0.32, 0.9, 1.2), porcelain = col("#f4f4f2", 0.25, 0, 1.1);
   const copper = col("#c87a4a", 0.3, 0.8, 1.1), pvc = col("#e8e8e2", 0.5);
   const wood = mat("brown_planks_05", 1.0, "#a87a52");
@@ -385,6 +403,30 @@ export const dripset = (): SetDef => {
   for (const y of [0.25, 0.75]) mb.span([-0.04, y, -6], [0.04, y + 0.07, 2], trim);
   mb.span([-0.06, 0.95, -6], [0.06, 1.0, 2], snowRoof);                    // a line of snow on the pickets' tops
   mb.span([-0.05, 0, -6], [0.05, 1.05, -5.9], trim); mb.span([-0.05, 0, 1.95], [0.05, 1.05, 2.05], trim);
+
+  // ===================== THE BACK YARDS (fix round: the swings between the fence and his window look north across them; they read
+  // as an empty snow field) - the back lot-line fence, his garden shed with a sled against it, a snowman, a woodpile =====================
+  for (let x = -10; x <= 10.01; x += 0.16) mb.add(new THREE.BoxGeometry(0.09, 1.1, 0.03), trim, [x, 0.55, -11]);
+  for (const y of [0.3, 0.85]) mb.span([-10, y, -11.05], [10, y + 0.07, -10.97], trim);
+  mb.span([-10, 1.1, -11.06], [10, 1.15, -10.94], snowRoof);
+  { const sx = 1.7, sz = -9.3, hw = 1.05, hd = 0.8, sh = 2.0;
+    mb.span([sx - hw, 0, sz - hd], [sx + hw, sh, sz + hd], sideG);
+    sp([sx - 0.4, 0.05, sz + hd], [sx + 0.4, 1.8, sz + hd + 0.03], col("#6a3a2a", 0.6)); sp([sx - 0.48, 1.8, sz + hd], [sx + 0.48, 1.88, sz + hd + 0.04], trim);
+    sp([sx + 0.55, 0.9, sz + hd], [sx + 0.9, 1.4, sz + hd + 0.02], col("#c8dcec", 0.1)); sp([sx + 0.52, 0.86, sz + hd + 0.01], [sx + 0.93, 1.44, sz + hd + 0.03], trim);
+    for (const sg of [-1, 1]) { mb.add(new THREE.BoxGeometry(2 * hw + 0.3, 0.07, 1.05), roofM, [sx, sh + 0.32, sz + sg * 0.46], [sg * 0.62, 0, 0]);
+      mb.add(new THREE.BoxGeometry(2 * hw + 0.24, 0.09, 0.98), snowRoof, [sx, sh + 0.39, sz + sg * 0.48], [sg * 0.62, 0, 0]); }
+    for (const x of [sx - hw, sx + hw]) { const tri = new THREE.Shape([new THREE.Vector2(-hd, 0), new THREE.Vector2(hd, 0), new THREE.Vector2(0, 0.6)]);
+      const eg = new THREE.ExtrudeGeometry(tri, { depth: 0.06, bevelEnabled: false }); eg.rotateY(Math.PI / 2); mb.add(eg, sideG, [x - 0.03, sh, sz]); }
+    // a red sled leaning on the shed, a woodpile with snow on it
+    mb.add(new THREE.BoxGeometry(0.42, 1.0, 0.04), col("#b8322a", 0.5), [sx - 0.7, 0.5, sz + hd + 0.12], [-0.25, 0, 0]);
+    for (let i = 0; i < 12; i++) mb.add(cylM(0.07, 0.07, 0.6, 8, true).rotateZ(Math.PI / 2), wood, [sx + hw + 0.4, 0.08 + Math.floor(i / 4) * 0.14, sz - 0.4 + (i % 4) * 0.16]);
+    mb.span([sx + hw + 0.08, 0.48, sz - 0.5], [sx + hw + 0.72, 0.55, sz + 0.2], snowRoof); }
+  { const x = 2.5, z = -7.1;   // a snowman in his back yard: coal eyes, a carrot, stick arms, a striped scarf
+    for (const [y, r] of [[0.34, 0.36], [0.86, 0.26], [1.25, 0.19]] as [number, number][]) mb.add(new THREE.SphereGeometry(r, 18, 12), snowM, [x, y, z]);
+    for (const dz of [-0.07, 0.07]) mb.add(new THREE.SphereGeometry(0.025, 8, 6), col("#1a1a1a", 0.6), [x + 0.17, 1.3, z + dz]);
+    mb.add(new THREE.ConeGeometry(0.035, 0.2, 8).rotateZ(-Math.PI / 2), col("#e8782a", 0.6), [x + 0.27, 1.24, z]);
+    mb.add(new THREE.TorusGeometry(0.19, 0.045, 8, 18).rotateX(Math.PI / 2), col("#3a6ab8", 0.7), [x, 1.08, z]);
+    for (const sg of [-1, 1]) mb.add(cylM(0.012, 0.012, 0.55, 6, true).rotateX(sg * 1.1), col("#4a3020", 0.8), [x, 0.95, z + sg * 0.42]); }
 
   // ===================== ICICLES (c.thaw shrinks them) =====================
   const iceM = new THREE.MeshStandardMaterial({ color: "#dff0ff", roughness: 0.05, transparent: true, opacity: 0.8, envMapIntensity: 1.8 });

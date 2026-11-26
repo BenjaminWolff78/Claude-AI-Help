@@ -126,8 +126,8 @@ lens(284, DOF_MS, 10);
 // the lens; then it swings back to the old man's window (462-478), where he waves (468)
 const c5 = FS(() => cam3([1.5, 1.62, -2.35], [-0.42, 1.55, -2.62], 46), 410, 0.002, 0.0012);
 const c5w = F(() => cam3([1.75, 1.8, -3.2], [3.95, 1.5, -3.75], 46), 476, 0.0018);   // his window again (the framing the dissolve holds)
-const swing45 = crMoveG(c4, 392, c5, 410, [[1.9, 1.75, -2.9]], [[2.6, 1.55, -1.4], [0.8, 1.55, -1.5]]);
-const swing5w = crMoveG(c5, 452, c5w, 476, [[1.65, 1.7, -2.8]], [[0.8, 1.55, -1.5], [2.6, 1.55, -1.4]]);
+const swing45 = crMoveG(c4, 392, c5, 410, [[1.9, 1.75, -2.9]], [[2.6, 1.6, -8.0], [-0.6, 1.6, -7.0]]);   // fix round: round through the back yards (north), not across his siding
+const swing5w = crMoveG(c5, 452, c5w, 476, [[1.65, 1.7, -2.8]], [[-0.6, 1.6, -7.0], [2.6, 1.6, -8.0]]);   // fix round: round through the open back yards (north); through the street side it skimmed the plain siding (a false cut at 15.5 s)
 SHOT_CAMS[5] = () => [K(392, swing45, 1), K(410, c5, 1), K(452, swing5w, 1), K(476, c5w, 1)];
 SHOT_ACTS[5] = (f) => {
   const lean = { tilt: 12, armR: [[20, 20], [34, 26]] as A2, armL: [[-10, 22], [6, 28]] as A2, armRFront: true, armLFront: true };
@@ -146,8 +146,11 @@ lens(392, DOF_MS, 12);
 const c6 = F(() => cam3([3.06, 1.82, -3.72], [3.74, 1.0, -3.95], 50), 512, 0.0016);   // 11-26: less top-down, the room beyond the basin in frame (the top-down basin read as mush)
 const c5end = frozen(c5w, 481);
 SHOT_CAMS[6] = () => [K(482, c5end, 1, true), K(492, glideTo(c5end, 492, c6, 512, 0.1), 1)];
+const OLD_DESK: V3 = [5.6, FL, -2.9];   // fix round: he walks off with his paper, out of the push's frame before the next dissolve (no ghost either side)
 SHOT_ACTS[6] = (f) => ({
-  cast: [C(OLD, TBL_SIT, pose(null, { expr: "calm", mode: "sit", facing: 0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }), { idx: 1 })],
+  cast: [C(OLD, lerp3(OLD_AT, OLD_DESK, sm(f, 490, 510)), flow(f, [[482, { expr: "calm", facing: -0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }],
+    [490, { expr: "calm", mode: "walk", back: true, facing: 0.2, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 4],
+    [510, { expr: "calm", facing: 0.3, armR: [[18, 8], [20, -14]], armL: [[-18, 8], [-20, -14]], propR: "newspaper", armRFront: true }, 8]]), { idx: 1 })],
   subj: null, focus: [3.42, 1.1, -3.92], ctl: { snow: 0, frost: 0.3, glassO: 1 - sm(f, 508, 516), dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.5, tapO: 0.35, tapN1: 1, tapN2: 1 },
 });
 lens(482, DOF_MS, 1); lens(500, DOF_INSERT, 20);
@@ -189,9 +192,9 @@ lens(628, DOF_WS, 1); lens(650, DOF_INSERT, 14);
 // spout: the last bead hangs (702), frosts over (740-768), stops ("his drip stops"); he leans in to look, behind the tap
 const c9 = F(() => cam3([3.05, 1.66, -3.78], [3.42, 1.55, -3.9], 46), 740, 0.0024);
 const c8end = frozen(c8, 699);
-SHOT_CAMS[9] = () => [K(700, c8end, 1, true), K(706, glideTo(c8end, 706, c9, 740, 0.05), 1)];
+SHOT_CAMS[9] = () => [K(700, c8end, 1, true), K(704, glideTo(c8end, 704, c9, 752, 0.05), 1)];   // fix round: 48 frames (34 read as a shot change)
 SHOT_ACTS[9] = (f) => ({
-  cast: [C(OLD, [4.5, FL, -4.0], flow(f, [[700, { expr: "calm", facing: -0.3 }], [750, { expr: "nervous", facing: -0.2, tilt: 12, headTilt: 6 }, 10]]), { idx: 1 })],
+  cast: [C(OLD, TBL_SIT, flow(f, [[700, { expr: "calm", mode: "sit", facing: 0.3, armR: [[18, 10], [16, -4]], propR: "teaMug" }], [750, { expr: "nervous", mode: "sit", facing: 0.1, tilt: 12, headTilt: 6, armR: [[18, 10], [16, -4]], propR: "teaMug" }, 10]]), { idx: 1 })],   // fix round: seated where shot 8 left him (no ghost in the dissolve)
   subj: null, focus: [3.42, 1.56, -3.9], ctl: { ...NIGHT, frost: 0.85, glassO: 0, dripO: 1, dripT0: 0, dripRate: 1 / 1.2, dripFrozen: sm(f, 742, 768), bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1 },
 });
 lens(700, DOF_INSERT, 1);
@@ -217,7 +220,7 @@ const c11 = F(() => cam3([3.0, 1.84, -3.6], [4.6, 1.45, -3.98], 48), 866, 0.0024
 const c11b = F(() => cam3([3.02, 1.64, -3.5], [3.42, 1.38, -3.9], 54), 915, 0.002);   // the snap (904-914, "coughs out"): spout and bucket
 const whip1011 = crMove(c10, 850, c11, 866, [[2.9, 1.68, -3.7]], [[0.8, 1.5, -2.6], [2.6, 1.55, -2.4], [3.6, 1.55, -3.3]]);
 SHOT_CAMS[10] = ((g) => (s: SetDef) => [...g(s), K(848, whip1011, 1)])(SHOT_CAMS[10]);
-SHOT_CAMS[11] = () => [K(850, whip1011, 1), K(866, c11, 1), K(903, glideTo(c11, 903, c11b, 915, 0), 1)];
+SHOT_CAMS[11] = () => [K(850, whip1011, 1), K(866, c11, 1), K(888, glideTo(c11, 888, c11b, 928, 0), 1)];   // fix round: a 40-frame push (the 12-frame snap broke the calm stretch)
 SHOT_ACTS[11] = (f, s) => ({
   cast: [...(f < 864 ? SHOT_ACTS[10](f, s).cast.filter((c) => c.who === NBR) : []), C(OLD, ROCK_SIT, pose(null, { expr: "sleep", mode: "sit", facing: 0.2, headTilt: 10 + 2 * Math.sin(f / 22), armR: [[16, 20], [10, 34]], armL: [[-16, 20], [-10, 34]] }), { idx: 1 })],
   subj: null, focus: f < 900 ? [3.42, 1.56, -3.9] : [3.42, 1.4, -3.9],
@@ -280,7 +283,7 @@ lens(1371, DOF_INSERT, 1);
 const c15 = FS(() => cam3([0.55, 1.2, -3.9], [3.0, 1.12, -3.9], 52), 1461, 0.0016, -0.0016);
 const c15b = F(() => cam3([1.62, 1.66, -3.82], [3.42, 1.48, -3.9], 40), 1534, 0.0022);   // "that last fat drop": the spout through the glass
 const c15c = FS(() => cam3([0.7, 1.15, -3.9], [3.0, 1.0, -3.92], 50), 1600, 0.0016, 0.0016);   // back down to the sliced wall ("the ice pushing through")
-SHOT_CAMS[15] = () => [K(1461, c15, 1, true), K(1522, glideTo(c15, 1522, c15b, 1534, 0), 1), K(1562, glideTo(c15b, 1562, c15c, 1600, 0), 1)];
+SHOT_CAMS[15] = () => [K(1461, c15, 1, true), K(1506, glideTo(c15, 1506, c15b, 1546, 0), 1), K(1562, glideTo(c15b, 1562, c15c, 1600, 0), 1)];
 SHOT_ACTS[15] = (f) => ({
   cast: [C(OLD, OLD_AT, flow(f, [[1461, { expr: "calm", facing: 0.2, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1556, { expr: "smile_closed", facing: 0.2, armR: [[18, 4], [12, -22]], propR: "teaMug", headTilt: -4 }, 8]]), { idx: 1 })],
   subj: null, focus: f >= 1522 && f < 1570 ? [3.42, 1.5, -3.9] : [3.0, 0.75, -3.95],
@@ -294,10 +297,13 @@ lens(1461, DOF_FS, 1); lens(1522, DOF_MS, 12); lens(1562, DOF_FS, 30);
 const c16 = FS(() => cam3([0.75, 1.72, -3.78], [3.0, 1.62, -3.9], 48), 1640, 0.0022, 0.0012);
 SHOT_CAMS[16] = () => [K(1606, glideTo(c15c, 1605, c16, 1640, 0.05), 1)];
 const act16 = (f: number, night = 0): Act => {
-  const cast: CastPlace[] = [C(OLD, [3.95, FL, -3.42], flow(f, [[1606, { expr: "calm", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1646, { expr: "smile", facing: 0.3, armR: [[22, -14], [26, -46]], propR: "teaMug" }, 8], [1684, { expr: "smile", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }, 8]]), { idx: 1 })];
+  const outO = !night && f >= 1690 ? walkPath(16, null as unknown as SetDef, [[3.95, FL, -3.42], [4.2, FL, -2.9], [4.45, FL, -2.25]], f, 1690, 1712) : null;   // fix round: both walk out before the dissolve
+  const cast: CastPlace[] = [outO ? C(OLD, outO.p, { expr: "smile_closed", mode: "walk", phase: outO.phase, facing: outO.facing, armR: [[18, 10], [12, -10]], propR: "teaMug" } as FigOpts, { idx: 1 }) : C(OLD, [3.95, FL, -3.42], flow(f, [[1606, { expr: "calm", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1646, { expr: "smile", facing: 0.3, armR: [[22, -14], [26, -46]], propR: "teaMug" }, 8], [1684, { expr: "smile", facing: 0.3, armR: [[18, 10], [12, -10]], propR: "teaMug" }, 8]]), { idx: 1 })];
   const pw = walkPath(16, null as unknown as SetDef, [[4.9, FL, -5.4], [4.3, FL, -4.9], [3.92, FL, -4.3]], f, 1606, 1632);
   if (!night && f < 1632) cast.push(C(PLB, pw.p, { expr: "stern", mode: "walk", phase: pw.phase, facing: pw.facing } as FigOpts, { idx: 2 }));
-  if (!night && f >= 1632) cast.push(C(PLB, [3.92, FL, -4.3], flow(f, [[1606, { expr: "stern", facing: 0.4, armR: [[24, 18], [20, 40]] }], [1614, { expr: "stern", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8], [1690, { expr: "smile_closed", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8]]), { idx: 2 }));
+  const outP = !night && f >= 1694 ? walkPath(16, null as unknown as SetDef, [[3.92, FL, -4.3], [4.3, FL, -4.9], [5.0, FL, -5.75]], f, 1694, 1714) : null;
+  if (outP) cast.push(C(PLB, outP.p, { expr: "smile_closed", mode: "walk", phase: outP.phase, facing: outP.facing } as FigOpts, { idx: 2 }));
+  else if (!night && f >= 1632) cast.push(C(PLB, [3.92, FL, -4.3], flow(f, [[1606, { expr: "stern", facing: 0.4, armR: [[24, 18], [20, 40]] }], [1614, { expr: "stern", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8], [1690, { expr: "smile_closed", facing: 0.5, armR: [[26, 4], [50, 16]], armRFront: true }, 8]]), { idx: 2 }));
   return { cast, subj: null, focus: [3.42, 1.55, -3.9], ctl: night ? { ...NIGHT, dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.2, tapO: 0.35 } : { ...THAW, cutO: 1, iceO: 0.83, dripO: 1, dripT0: 0, dripRate: 1 / 0.85, bucketK: 0.45, tapO: 0.35 } };
 };
 SHOT_ACTS[16] = (f) => act16(f);
@@ -336,13 +342,13 @@ const OLD_END = (f: number): CastPlace => {
 // reaches for his taps (1802-1822) and opens them to a drip (1832-1850); the camera pushes in to his spout (1832-1876) and his first
 // drop falls (1862, "dripping") - the hook's tap shape: the loop
 const c16end = frozen(c16, 1715);
-const c17m = F(() => cam3([-0.7, 1.95, -3.7], [-3.0, 1.95, -4.25], 46), 1756, 0.0035);
+const c17m = F(() => cam3([-1.4, 1.92, -3.7], [-3.0, 1.95, -4.25], 46), 1756, 0.0035);   // fix round: closer, so the glide to c17a is slow (it read as two shot changes)
 const c17a = F(() => cam3([-2.12, 1.86, -3.72], [-3.95, 1.5, -3.62], 46), 1800, 0.0024);
 const c17b = F(() => cam3([-1.75, 1.62, -3.8], [-3.3, 1.42, -3.9], 46), 1858, 0.0012);   // v31: 1.4 m off the glass (the ending pulls straight back from here)
 const pull18 = crMoveG(c17b, 1858, c18, 1884, [[-1.0, 1.61, -3.66]], [[-3.1, 1.34, -3.92]]);
 const ride17 = crMove(c16end, 1734, c17m, 1756, [[0.6, 1.85, -3.4], [0.2, 1.95, -3.3]], [[1.6, 1.6, -1.6], [-1.2, 1.7, -2.4]]);
 const ride17b = glideTo(c17m, 1756, c17a, 1800, 0);
-SHOT_CAMS[17] = () => [K(1716, c16end, 1, true), K(1734, ride17, 1), K(1756, ride17b, 1), K(1800, c17a, 1), K(1832, glideTo(c17a, 1832, c17b, 1858, 0), 1), K(1858, pull18, 1)];
+SHOT_CAMS[17] = () => [K(1716, c16end, 1, true), K(1734, ride17, 1), K(1756, ride17b, 1), K(1800, c17a, 1), K(1820, glideTo(c17a, 1820, c17b, 1858, 0), 1), K(1858, pull18, 1)];
 SHOT_ACTS[17] = (f) => {
   const op = sm(f, 1832, 1850);
   const cast: CastPlace[] = [...(f >= 1860 ? [OLD_END(f)] : []), C(NBR, NBR_AT, flow(f, [[1716, { expr: "determined", facing: -0.2, armR: [[22, 12], [28, 30]] }],
