@@ -592,6 +592,11 @@ export const drawProp = (p: Pen, name: string, h: P2, u: number, ang = 0, k = 0)
     case "hammerS": p.band(R([[0, 6], [0, -26]]), "#a87a44", 2.6 * u, 1 * u, "round"); p.poly(R([[-8, -32], [8, -32], [8, -25], [-8, -25]]), "#6a6e76", ow * u); break;
     case "ladleRice": p.band(R([[0, 6], [0, -30]]), "#8a5a34", 2.6 * u, 1 * u, "round"); E(0, -36, 10, 6, "#f4f0e6", 1.4); break;
     case "hammer": p.band(R([[0, 8], [0, -40]]), "#9a6a3a", 3.4 * u, 1.1 * u, "round"); p.poly(R([[-12, -48], [12, -48], [12, -38], [-12, -38]]), "#5a5e66", ow * u); break;
+    case "mallet": { // 2026-11-26 drip ending: a big wooden post mallet (long ash handle, a round-ended maple head with two iron bands)
+      p.band(R([[0, 12], [0, -58]]), "#a8783e", 4.2 * u, 1.2 * u, "round"); p.stroke(R([[1.2, 6], [1.2, -52]]), 1.1 * u, "rgba(255,230,180,0.45)");
+      p.poly(R([[-19, -72], [19, -72], [21, -66], [21, -56], [19, -50], [-19, -50], [-21, -56], [-21, -66]]), "#b9864a", ow * u);
+      p.poly(R([[-13, -72], [-9, -72], [-9, -50], [-13, -50]]), "#4a4e56", 0); p.poly(R([[9, -72], [13, -72], [13, -50], [9, -50]]), "#4a4e56", 0);
+      p.stroke(R([[-17, -69], [17, -69]]), 1.4 * u, "rgba(255,235,190,0.6)"); break; }
     case "notice": { // the Act, rolled flat in the hand: GR + three lines
       /* r76d (AX row 5): pinched at the middle of its near edge (it balanced on the dot at its bottom edge) */
       p.poly(R([[-3, -34], [41, -34], [41, 30], [-3, 30]]), "#f2e6c8", ow * u);

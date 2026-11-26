@@ -1,6 +1,6 @@
 """Read the final-render log + chunk files, update /home/claude/.render-progress.json, and print the bars."""
 import json, re, os, glob, datetime, subprocess, sys
-T = 1890; N = 80
+T = 1980; N = 80
 done = sorted(glob.glob('/home/claude/p13/app/out/chunks/c_*.mp4'))
 full = [d for d in done if not d.endswith('.part.mp4')]
 fd = len(full) * N

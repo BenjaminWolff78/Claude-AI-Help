@@ -3,7 +3,7 @@
 import { getInputProps } from "remotion";
 import type { LightName } from "./lights";
 export const FPS = 30;
-export const TOTAL = 1890; // story frames (63.0 s; the voice ends at 62.3 s)
+export const TOTAL = 1980; // story frames (v31 voice: 66.0 s output; the story runs to 1976)
 /** re-voiced Nov 25 (v30 3.22: no word endings cut): output frame -> story frame through remap.json (a smooth least-squares
  *  map through the shared word starts; the dropped phrase is skipped at the hard cut that already sat there) */
 import REMAP from "./remap.json";
@@ -29,15 +29,16 @@ export const STORY_SHOTS: ShotDef[] = [
   S(6, 482, 546, "dripset", "drMorn", "6 dissolve in place to morning: push in through his window to the bucket, half full"),
   S(7, 546, 628, "dripset", "drNight", "7 night 2: out of the window, crane over the side yard: the street laughs, the DRIPPY sign goes in"),
   S(8, 628, 700, "dripset", "drNight", "8 back in through the window down to the basin: the drip runs down the drain, he sips tea"),
-  S(9, 700, 786, "dripset", "drNight", "9 dissolve in place to night 3: push to the spout, the last bead hangs, frosts over, stops"),
-  S(10, 786, 850, "dripset", "drNight", "10 whip out of the window to the fence: 'Froze anyway, Drippy!'"),
+  S(9, 700, 770, "dripset", "drNight", "9 dissolve in place to night 3: push to the spout, the last bead hangs, frosts over, stops"),
+  S(10, 770, 850, "dripset", "drNight", "10 whip out of the window to the fence: 'Froze anyway, Drippy!'"),
   S(11, 850, 970, "dripset", "dr3am", "11 whip back in, 3 a.m.: the frozen tap shudders and coughs one fat drop, him asleep, the clock at 3"),
   S(12, 970, 1112, "dripset", "drThaw", "12 HARD CUT, the thaw: the neighbor's kitchen wall bursts under the sink, sprays across his floor"),
   S(13, 1112, 1371, "dripset", "drThaw", "13 YOU SEE: the wall under his sink slices open: the ice plug grows, shoves the water to the shut tap, the pipe splits"),
   S(14, 1371, 1461, "dripset", "drThaw", "14 HARD CUT: a capped ketchup bottle squeezed until the side seam splits"),
   S(15, 1461, 1606, "dripset", "drThaw", "15 HARD CUT: the old man's wall sliced the same way: the squeeze goes out of his open tap, the fat drop"),
   S(16, 1606, 1716, "dripset", "drThaw", "16 up to his window: the plumber outside points at the dripping tap, the neighbor with a mop, the old man raises his mug"),
-  S(17, 1716, 1890, "dripset", "drNight", "17 dissolve in place to next winter: across the yard into the neighbor's window, red jacket, he opens his tap to a drip"),
+  S(17, 1716, 1872, "dripset", "drNight", "17 dissolve in place to next winter: across the yard into the neighbor's window, red jacket, he opens his tap to a drip"),
+  S(18, 1872, 1980, "dripset", "drNight", "18 THE END (v31 8.11): pull back from his window onto the old man below it, mallet up over the DRIPPY sign: he slams it into the neighbor's yard on \"yard\" - snow bursts, the window icicles shatter down, the neighbor jumps; nothing after"),
 ];
 /** preview mode (style lock / set building): inputProps { preview: { set, light, cam?, pos?, look?, fov?, t?, ctl?, cast? } } */
 export type PreviewCast = { who: string; mark?: string; pos?: V3; o?: Record<string, unknown>; scale?: number };

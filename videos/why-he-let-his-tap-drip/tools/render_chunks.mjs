@@ -1,7 +1,7 @@
 // final render in chunks (resumable): out/chunks/c_<from>.mp4, then concat. angle-egl (Mesa llvmpipe) is ~4x faster than swangle here.
 import fs from "node:fs"; process.env.TEMP = process.env.TMP = "/home/claude/rtmp";
 import { bundle } from "@remotion/bundler"; import { renderMedia, selectComposition } from "@remotion/renderer"; import path from "node:path";
-const TOTAL = 1890, N = 80, dir = "out/chunks"; fs.mkdirSync(dir, { recursive: true });
+const TOTAL = 1980, N = 80, dir = "out/chunks"; fs.mkdirSync(dir, { recursive: true });
 const inputProps = { post: { dpr: 1.0, cardK: 1.0, lens: false, shadow: 2048 } };   // 2026-11-25 (v28 6.16): full-resolution buffer, NO lens pass (it cost 0.17 sharpness on the shoes video)
 const browserExecutable = "/usr/bin/google-chrome", chromiumOptions = { gl: "angle-egl" };
 const serveUrl = await bundle({ entryPoint: path.resolve("src/index.ts"), publicDir: path.resolve("public") });

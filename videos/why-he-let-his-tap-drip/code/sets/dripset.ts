@@ -410,7 +410,8 @@ export const dripset = (): SetDef => {
   // the street jets (the hook's flash-forward): the neighbour's side wall and the houses across the street
   // the hook's flash-forward, seen from his front yard looking down the row: the neighbour's front wall and east side, and the
   // next house's front wall spray into the snow (big drops: they read at 8-18 m)
-  const streetJets = [jet([-4.6, 0.9, 0.1], [0.3, 1.3, 1.7], 120, "#e8f4ff", 0.16), jet([-8.6, 1.5, 0.1], [-0.2, 1.1, 1.5], 110, "#e8f4ff", 0.16), jet([-2.92, 0.8, -0.9], [1.6, 1.3, 0.4], 110, "#e8f4ff", 0.15),
+  const streetJets = [jet([-4.6, 0.9, 0.1], [0.3, 1.3, 1.7], 200, "#e8f4ff", 0.24), jet([-8.6, 1.5, 0.1], [-0.2, 1.1, 1.5], 150, "#e8f4ff", 0.2), jet([-2.92, 0.8, -0.9], [1.6, 1.3, 0.4], 110, "#e8f4ff", 0.15),
+    jet([-2.86, 1.25, -0.35], [3.0, 2.1, 0.5], 360, "#eef8ff", 0.2), jet([-2.86, 0.7, -1.25], [2.5, 1.4, 0.2], 260, "#eef8ff", 0.18), jet([-2.86, 2.05, -2.1], [2.7, 1.9, 0.6], 300, "#eef8ff", 0.19),   // v31 8.1: the hook's outcome big and close: two fat jets out of his east wall, across the side yard toward the lens
     jet([-14.4, 1.0, 0.1], [0.2, 1.2, 1.6], 110, "#e8f4ff", 0.2), jet([-17.6, 1.6, 0.1], [-0.2, 1.0, 1.4], 100, "#e8f4ff", 0.2)];
   // the neighbour's kitchen: the wall under his sink bursts and sprays across his floor (-x)
   const BURST: V3 = [-3.1, FLR + 0.38, -3.95];
@@ -476,6 +477,14 @@ export const dripset = (): SetDef => {
 
   // ===================== THE DRIPPY SIGN (c.sign: held at signX/signZ, planted at 1) =====================
   const signG = new THREE.Group(); root.add(signG);
+  // v31 ending: icicles along the outside head of the neighbour's kitchen window (they shake loose and fall on the hit) and a burst
+  // of snow out of the ground round the sign's stake
+  const wIce: { p: V3; l: number; v: number }[] = [];
+  for (let z = -4.52; z <= -3.27; z += 0.115) wIce.push({ p: [-2.84 + (hsh(z, 3) - 0.5) * 0.02, WIN_Y1 + 0.075, z], l: 0.12 + 0.34 * hsh(z * 9, 2) ** 1.5, v: hsh(z, 11) });
+  const wIceM = new THREE.InstancedMesh(new THREE.ConeGeometry(0.03, 1, 7).rotateX(Math.PI).translate(0, -0.5, 0), iceM, wIce.length); wIceM.visible = false; root.add(wIceM);
+  const snowB = (() => { const n = 140, a = new Float32Array(n * 3), geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(a, 3));
+    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ map: dotTex(), size: 0.07, color: "#f4f8ff", transparent: true, opacity: 0.95, depthWrite: false }));
+    pts.layers.set(NOINK); pts.frustumCulled = false; pts.renderOrder = 3; pts.visible = false; root.add(pts); return { n, a, pts }; })();
   { const tex = ctex("drDrippy", 512, 256, (g) => { g.fillStyle = "#f4ead2"; g.fillRect(0, 0, 512, 256); g.strokeStyle = "#2a4a8a"; g.lineWidth = 10; g.strokeRect(10, 10, 492, 236);
       g.fillStyle = "#2a4a8a"; g.font = "900 104px DejaVu Sans, Arial"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("DRIPPY", 230, 132);
       g.fillStyle = "#3a8ad8"; g.beginPath(); g.moveTo(448, 70); g.bezierCurveTo(420, 120, 418, 150, 448, 170); g.bezierCurveTo(478, 150, 476, 120, 448, 70); g.fill(); });
@@ -581,6 +590,20 @@ export const dripset = (): SetDef => {
       if (sg < 0.5) signG.position.set(c.signX ?? DR0.SIGN[0], 0.35, c.signZ ?? DR0.SIGN[2]);
       else { const u = (sg - 0.5) / 0.5; signG.position.set(c.signX ?? DR0.SIGN[0], 0.35 * (1 - sm(u * 2)), c.signZ ?? DR0.SIGN[2]); }
       signG.rotation.set(0, Math.PI + 0.3, 0.1 * Math.max(0, 1 - sg) * Math.sin(t * 9));
+      // v31 ending: the sign stands loose under the neighbour's window (signY up, leaning by signLean), then the mallet drives it
+      // home: signY -> 0 and the lean dies in a damped wobble (signWob = seconds since the hit)
+      signG.scale.setScalar(1);
+      if (c.signY !== undefined) { signG.position.y = c.signY; signG.scale.setScalar(c.signScale ?? 1); const wb = c.signWob ?? -1, wob = wb >= 0 ? 0.09 * Math.exp(-wb * 5) * Math.sin(wb * 38) : 0;
+        signG.rotation.set(0, c.signYaw ?? Math.PI / 2, (c.signLean ?? 0) + wob); }
+      { const it = c.iceT ?? -1; wIceM.visible = it > -0.5 && it < 1.2;   // seconds since the hit (-1 = hanging, not shown before shot 18)
+        if (wIceM.visible) { wIce.forEach((q, k) => { const tt = Math.max(0, it - 0.03 * k * (0.5 + q.v)), y = q.p[1] - 4.9 * tt * tt, gone = y - q.l < 0.04;
+            IP.set(q.p[0] + 0.25 * tt * (q.v - 0.3), y, q.p[2]); IQ.setFromEuler(new THREE.Euler(0, 0, tt * (q.v - 0.5) * 3)); IS.set(gone ? 0.001 : 1, gone ? 0.001 : q.l, gone ? 0.001 : 1); IM.compose(IP, IQ, IS); wIceM.setMatrixAt(k, IM); });
+          wIceM.instanceMatrix.needsUpdate = true; } }
+      { const st = c.snowT ?? -1; snowB.pts.visible = st >= 0 && st < 1.1;
+        if (snowB.pts.visible) { const bx = c.signX ?? 0, bz = c.signZ ?? 0;
+          for (let i = 0; i < snowB.n; i++) { const a0 = hsh(i, 1) * TAU, sp = 0.6 + 1.6 * hsh(i, 2), up = 1.4 + 2.2 * hsh(i, 3); let y = 0.04 + up * st - 4.9 * st * st; if (y < 0.0) y = -5;
+            snowB.a.set([bx + Math.cos(a0) * sp * st * 0.7, y, bz + Math.sin(a0) * sp * st], i * 3); }
+          (snowB.pts.material as THREE.PointsMaterial).opacity = 0.95 * Math.max(0, 1 - st / 1.1); (snowB.pts.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true; } }
       // snowfall
       const sn = cl(c.snow ?? (night ? 1 : 0)); snowPts.visible = sn > 0.02;
       if (snowPts.visible) { const n = Math.floor(sd.length * sn); for (let i = 0; i < sd.length; i++) { const f = sd[i]; const y = i < n ? 7 - ((t * f.v + f.ph * 7) % 7) : -5;

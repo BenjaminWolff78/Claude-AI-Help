@@ -8,7 +8,7 @@
 - He Left His Tap Dripping Before the Big Freeze (89)
 
 ## Description
-In a deep freeze he left his kitchen tap dripping into a bucket all night, and the whole street laughed at him for watering a bucket. At the thaw, every shut-tight pipe on the block split open and his was the only one that held. Smart old trick or a waste of water?
+In a deep freeze he left his kitchen tap dripping into a bucket all night, and the whole street laughed at him for watering a bucket. At the thaw, every shut-tight pipe on the block split open and his was the only one that held, so next winter the DRIPPY sign moves next door. Smart old trick or a waste of water?
 
 #shorts #frozenpipes #lifehacks
 
@@ -25,4 +25,4 @@ frozen pipes, dripping faucet, burst pipe, winter freeze, plumbing tips, why pip
 - An open, dripping tap relieves that pressure: the water can still freeze, but the pipe does not burst (HowStuffWorks; EDT Engineers; WebMD).
 - Plumbers advise leaving the tap farthest from where the water comes into the house dripping (This Old House; HowStuffWorks).
 - The damage often shows at the thaw, when the ice stops plugging the split (HowStuffWorks).
-- Dramatised: the street, the people, the DRIPPY sign and the "last fat drop" at 3 a.m. (probably what happens: the ice pushing the trapped water out of the open tap; no source describes that exact moment).
+- Dramatised: the street, the people, the DRIPPY sign (and the old man hammering it into the neighbor's yard at the end) and the "last fat drop" at 3 a.m. (probably what happens: the ice pushing the trapped water out of the open tap; no source describes that exact moment).
