@@ -1,0 +1,1216 @@
+{
+ "title": "They Banned Beer, So He Sold It as Bread Syrup",
+ "fps": 30,
+ "length_s": 66.2,
+ "hero": "brewer",
+ "home_base": [
+  "grocery",
+  "mainstreet"
+ ],
+ "key_numbers": [
+  "3",
+  "30",
+  "45"
+ ],
+ "places": {
+  "brewery": {
+   "desc": "a red-brick 1920s brewhouse: a big copper kettle with a spout over a canning line, stacked barrels, hop sacks, pipes and gauges, tall arched windows, a big BEER wall sign crossed out and relettered BAKING SYRUP, a floor drain, the big street door with a federal CLOSED notice",
+   "light": "warm amber from the kettle lamps plus low morning sun shafts through the windows",
+   "time": "day"
+  },
+  "grocery": {
+   "desc": "a small-town 1920s grocery: wooden counter with a brass register, shelves of tins and jars, a whole wall of syrup cans, flour sacks, a bread shelf, a chalk count board, hanging lamps, a big front window onto Main Street",
+   "light": "warm daylight through the front window plus hanging pendant lamps",
+   "time": "day"
+  },
+  "mainstreet": {
+   "desc": "a small-town main street: brick shops with awnings, the Prohibition agents' office window, row houses with porches, steps and cellar windows at the sidewalk, street lamps, a white church with a steeple at the end",
+   "light": "day: sunny late morning; night: blue moonlight with warm windows and street lamps",
+   "time": "day; night from 32.7 s"
+  },
+  "cellar": {
+   "desc": "a stone cellar under a house: shelves of brown bottles, crocks with cloth covers, a hand capper, a bucket, a bare bulb, steps up to slanted doors; seen as a cutaway slice under the street at 43 s",
+   "light": "one bare bulb, warm, with cool spill from the steps",
+   "time": "night"
+  }
+ },
+ "cast": {
+  "brewer": {
+   "role": "the brewer (hero)",
+   "body": "#2f6b45",
+   "look": "flat cap, thick moustache, green rubber apron over a mustard shirt, sleeve garters, bow tie",
+   "lead": true,
+   "distinct": "stout, flat cap, green apron"
+  },
+  "agent": {
+   "role": "the Prohibition agent (doubter)",
+   "body": "#2b3550",
+   "look": "navy three-piece suit, grey fedora with a black band, badge on the lapel, pencil moustache, notepad",
+   "lead": true,
+   "distinct": "tall and thin, fedora, navy suit"
+  },
+  "agents": {
+   "role": "the other agents",
+   "body": "#3d3f46",
+   "look": "grey suits, a bowler and a cap",
+   "lead": false
+  },
+  "grocer": {
+   "role": "the grocer",
+   "body": "#8a2d2d",
+   "look": "maroon vest over a red-striped shirt, centre-parted hair, handlebar moustache, sleeve garters",
+   "lead": false
+  },
+  "granny": {
+   "role": "a granny",
+   "body": "#8f7ab8",
+   "look": "lilac dress, white-trimmed apron dusted with flour, grey hair bun, round glasses, brass key on a red string",
+   "lead": false
+  },
+  "wife": {
+   "role": "the agent's wife",
+   "body": "#1f8a8a",
+   "look": "teal dress, red bob, apron",
+   "lead": false
+  },
+  "townsfolk": {
+   "role": "townsfolk",
+   "body": "#7a6a55",
+   "look": "1920s coats and hats",
+   "lead": false
+  }
+ },
+ "lines": [
+  {
+   "t0": 0.0,
+   "t1": 4.96,
+   "kind": "hook",
+   "text": "They banned beer, so a brewer sold syrup for baking bread, and the whole town started brewing.",
+   "say": {
+    "who": "brewer",
+    "verb": "labels",
+    "object": "syrup can"
+   }
+  },
+  {
+   "t0": 5.36,
+   "t1": 8.94,
+   "kind": "you_see",
+   "text": "You see, the law says nobody can sell beer, but it says nothing about syrup.",
+   "say": {
+    "who": "agent",
+    "verb": "dumps",
+    "object": "beer barrel"
+   }
+  },
+  {
+   "t0": 9.1,
+   "t1": 12.1,
+   "kind": "setup",
+   "text": "When the agent comes to padlock the brewery, the brewer is canning it.",
+   "say": {
+    "who": "agent",
+    "verb": "brings",
+    "object": "padlock"
+   }
+  },
+  {
+   "t0": 12.32,
+   "t1": 14.5,
+   "kind": "quote",
+   "text": "\"Syrup? With hops in it? Who bakes with hops?\"",
+   "say": {
+    "who": "agent",
+    "verb": "sniffs",
+    "object": "syrup can"
+   },
+   "speaker": "agent"
+  },
+  {
+   "t0": 14.78,
+   "t1": 15.46,
+   "kind": "quote",
+   "text": "\"It's for baking.\"",
+   "say": {
+    "who": "brewer",
+    "verb": "shrugs",
+    "object": "syrup can"
+   },
+   "speaker": "brewer"
+  },
+  {
+   "t0": 15.6,
+   "t1": 19.26,
+   "kind": "mock",
+   "text": "The whole station laughs, and soon the whole town calls him the baker.",
+   "say": {
+    "who": "agents",
+    "verb": "laugh",
+    "object": "syrup can"
+   }
+  },
+  {
+   "t0": 19.4,
+   "t1": 22.96,
+   "kind": "count",
+   "text": "But the first week, the grocery sells 3 cans. The next week, 30.",
+   "say": {
+    "who": "grocer",
+    "verb": "sells",
+    "object": "syrup can"
+   }
+  },
+  {
+   "t0": 23.38,
+   "t1": 27.32,
+   "kind": "escalation",
+   "text": "By month's end, it's a whole wall, and the flour next to it hasn't sold a bag.",
+   "say": {
+    "who": "grocer",
+    "verb": "stacks",
+    "object": "syrup wall"
+   }
+  },
+  {
+   "t0": 27.46,
+   "t1": 28.5,
+   "kind": "question",
+   "text": "So where's all the bread?",
+   "say": {
+    "who": "agent",
+    "verb": "squints",
+    "object": "bread shelf"
+   }
+  },
+  {
+   "t0": 28.5,
+   "t1": 32.38,
+   "kind": "escalation",
+   "text": "Then the brewery sells yeast too, enough to raise a loaf the size of the church.",
+   "say": {
+    "who": "brewer",
+    "verb": "wheels in",
+    "object": "yeast boxes"
+   }
+  },
+  {
+   "t0": 32.66,
+   "t1": 36.06,
+   "kind": "setup",
+   "text": "So the agent knocks on doors, and a granny answers with flour on her hands.",
+   "say": {
+    "who": "agent",
+    "verb": "knocks",
+    "object": "door"
+   }
+  },
+  {
+   "t0": 36.28,
+   "t1": 37.32,
+   "kind": "fake_out",
+   "text": "She really is baking.",
+   "say": {
+    "who": "granny",
+    "verb": "shows",
+    "object": "pie"
+   }
+  },
+  {
+   "t0": 37.64,
+   "t1": 40.8,
+   "kind": "turn",
+   "text": "He says sorry, backs down the steps, and her cellar goes pop.",
+   "say": {
+    "who": "agent",
+    "verb": "jumps",
+    "object": "cellar window"
+   }
+  },
+  {
+   "t0": 41.02,
+   "t1": 42.92,
+   "kind": "escalation",
+   "text": "Then the next house pops. Then the whole street.",
+   "say": {
+    "who": "agent",
+    "verb": "spins",
+    "object": "cellar window"
+   }
+  },
+  {
+   "t0": 43.32,
+   "t1": 46.56,
+   "kind": "mechanism",
+   "text": "That syrup is malt extract, the barley sugar, already cooked.",
+   "say": {
+    "who": "granny",
+    "verb": "pours",
+    "object": "syrup can"
+   }
+  },
+  {
+   "t0": 47.0,
+   "t1": 50.72,
+   "kind": "mechanism",
+   "text": "Add water and yeast, and the yeast eats it and burps out alcohol and bubbles.",
+   "say": {
+    "who": "granny",
+    "verb": "drops",
+    "object": "yeast cake"
+   }
+  },
+  {
+   "t0": 50.96,
+   "t1": 53.28,
+   "kind": "comparison",
+   "text": "It's like pancake mix, except it only makes beer.",
+   "say": {
+    "who": "grocer",
+    "verb": "pours",
+    "object": "pancake mix"
+   }
+  },
+  {
+   "t0": 53.52,
+   "t1": 58.04,
+   "kind": "count",
+   "text": "One can makes 45 bottles, and cap them too soon, the bubbles blow the caps off.",
+   "say": {
+    "who": "granny",
+    "verb": "caps",
+    "object": "bottles"
+   }
+  },
+  {
+   "t0": 58.04,
+   "t1": 61.02,
+   "kind": "real_tag",
+   "text": "Breweries really did this, and grocers sold it with a wink.",
+   "say": {
+    "who": "grocer",
+    "verb": "winks",
+    "object": "syrup can"
+   }
+  },
+  {
+   "t0": 61.28,
+   "t1": 65.18,
+   "kind": "payoff",
+   "text": "So the agent heads home, opens his cellar, and finds his wife down there, baking.",
+   "say": {
+    "who": "wife",
+    "verb": "bakes",
+    "object": "bottles"
+   }
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "t0": 0.0,
+   "t1": 2.6,
+   "place": "brewery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "brewer",
+   "cast": [
+    "brewer"
+   ],
+   "objects": [
+    "syrup can",
+    "kettle",
+    "label"
+   ],
+   "face": true,
+   "in": {
+    "type": "open"
+   },
+   "action": [
+    "0.0 brewer already slapping a red FOR BAKING label on a can as thick brown syrup pours from the kettle spout into the next can",
+    "1.2 he slides the labelled can down the line and grabs the next",
+    "2.0 steam rolls past"
+   ],
+   "text": [
+    "FOR BAKING on the can"
+   ],
+   "cam": "push in from MS to MCU, eased, already moving at frame 1"
+  },
+  {
+   "id": "S2",
+   "t0": 2.6,
+   "t1": 5.36,
+   "place": "brewery",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "brewer",
+   "cast": [
+    "brewer"
+   ],
+   "objects": [
+    "syrup can",
+    "wall sign"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "2.6 glide right and up past the brewer to the big wall sign: BEER crossed out in red paint, BAKING SYRUP lettered under it",
+    "3.6 the brewer, below, stacks three cans into a pyramid",
+    "4.6 he taps the top can, deadpan"
+   ],
+   "text": [
+    "BAKING SYRUP wall sign",
+    "HOLLOW CREEK BREWING CO."
+   ],
+   "cam": "glide right 0.5 m and tilt up, then settle back on the brewer"
+  },
+  {
+   "id": "S3",
+   "t0": 5.36,
+   "t1": 7.52,
+   "place": "brewery",
+   "size": "WS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent",
+    "agents",
+    "brewer"
+   ],
+   "objects": [
+    "beer barrel",
+    "floor drain",
+    "padlock"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "5.4 two agents tip a beer barrel over the floor drain, foam gushing",
+    "6.4 the lead agent stands over them, padlock and chain on his shoulder",
+    "7.0 the brewer at the back keeps filling cans"
+   ],
+   "text": [
+    "CLOSED BY ORDER notice on the big door"
+   ],
+   "cam": "pull back from the brewer into the wide, eased, high angle",
+   "angle": [
+    "high"
+   ]
+  },
+  {
+   "id": "S4",
+   "t0": 7.52,
+   "t1": 9.1,
+   "place": "brewery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "brewer",
+   "cast": [
+    "brewer",
+    "agent"
+   ],
+   "objects": [
+    "syrup can",
+    "kettle"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "7.5 glide past the barrels onto the brewer filling cans at the kettle, calm",
+    "8.6 he caps a can on 'syrup'"
+   ],
+   "text": [
+    "FOR BAKING on the can"
+   ],
+   "cam": "glide left 0.6 m from the barrel to the brewer"
+  },
+  {
+   "id": "S5",
+   "t0": 9.1,
+   "t1": 12.32,
+   "place": "brewery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent",
+    "brewer"
+   ],
+   "objects": [
+    "padlock",
+    "syrup can",
+    "hop sacks"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "9.1 the agent strides in with the padlock and chain",
+    "10.3 he stops beside the brewer, who doesn't look up",
+    "11.6 the brewer keeps canning; the agent picks up a can"
+   ],
+   "text": [
+    "HOPS on the sacks behind"
+   ],
+   "cam": "truck with the agent's walk, then settle on the two-shot, profile",
+   "angle": [
+    "profile"
+   ]
+  },
+  {
+   "id": "S6",
+   "t0": 12.32,
+   "t1": 14.6,
+   "place": "brewery",
+   "size": "CU",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent",
+    "brewer"
+   ],
+   "objects": [
+    "syrup can",
+    "hop sacks"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "12.3 over the brewer's shoulder: the agent sniffs the open can, brows up",
+    "12.9 he plucks a hop cone off the lid on 'hops'",
+    "13.6 'Who bakes with hops?' arms out, mocking grin"
+   ],
+   "text": [
+    "FOR BAKING on the can"
+   ],
+   "cam": "quick push 0.4 s from the two-shot into the over-shoulder close-up, then creep",
+   "angle": [
+    "ots"
+   ]
+  },
+  {
+   "id": "S7",
+   "t0": 14.6,
+   "t1": 15.62,
+   "place": "brewery",
+   "size": "CU",
+   "kind": "reaction",
+   "subject": "brewer",
+   "cast": [
+    "brewer"
+   ],
+   "objects": [
+    "syrup can"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "14.7 the brewer, half-lid deadpan, shrugs one shoulder: 'It's for baking.'"
+   ],
+   "text": [],
+   "punch": true
+  },
+  {
+   "id": "S8",
+   "t0": 15.62,
+   "t1": 17.16,
+   "place": "mainstreet",
+   "size": "MS",
+   "kind": "story",
+   "subject": "agents",
+   "cast": [
+    "agent",
+    "agents"
+   ],
+   "objects": [
+    "syrup can",
+    "office window"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "15.6 through the office window: three agents laughing, one slaps the desk, the lead agent holds up the can"
+   ],
+   "text": [
+    "PROHIBITION AGENTS painted on the window"
+   ]
+  },
+  {
+   "id": "S9",
+   "t0": 17.16,
+   "t1": 19.4,
+   "place": "mainstreet",
+   "size": "FS",
+   "kind": "story",
+   "subject": "brewer",
+   "cast": [
+    "brewer",
+    "townsfolk"
+   ],
+   "objects": [
+    "syrup crate",
+    "truck"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "17.2 glide along the sidewalk with the brewer carrying a crate of cans",
+    "18.0 a kid chalks BAKER on his truck door; townsfolk point and laugh",
+    "18.8 the brewer tips his cap, deadpan"
+   ],
+   "text": [
+    "BAKER chalked on the truck"
+   ],
+   "cam": "glide along the sidewalk with the brewer, eased"
+  },
+  {
+   "id": "S10",
+   "t0": 19.4,
+   "t1": 21.94,
+   "place": "grocery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "grocer",
+   "cast": [
+    "grocer",
+    "townsfolk"
+   ],
+   "objects": [
+    "syrup can",
+    "count board"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "19.4 the grocer puts 3 cans on the shelf",
+    "20.6 a woman buys one; the board on the wall reads SYRUP SOLD 3"
+   ],
+   "text": [
+    "SYRUP SOLD 3 on the board"
+   ]
+  },
+  {
+   "id": "S11",
+   "t0": 21.94,
+   "t1": 23.38,
+   "place": "grocery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "grocer",
+   "cast": [
+    "grocer",
+    "townsfolk"
+   ],
+   "objects": [
+    "syrup can",
+    "count board"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "21.9 same framing, a week later: the board flips to 30, three customers with cans"
+   ],
+   "text": [
+    "SYRUP SOLD 30 on the board"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S12",
+   "t0": 23.38,
+   "t1": 25.58,
+   "place": "grocery",
+   "size": "WS",
+   "kind": "story",
+   "subject": "grocer",
+   "cast": [
+    "grocer",
+    "townsfolk",
+    "wife"
+   ],
+   "objects": [
+    "syrup wall"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "23.4 a whole wall of syrup cans to the ceiling, the grocer up a ladder stacking",
+    "24.4 a queue of customers with baskets; a woman in a teal dress (the agent's wife) loads her basket"
+   ],
+   "text": [
+    "MALT SYRUP FOR BAKING sign over the wall"
+   ],
+   "angle": [
+    "low"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S13",
+   "t0": 25.58,
+   "t1": 27.46,
+   "place": "grocery",
+   "size": "CU",
+   "kind": "insert",
+   "subject": "flour sacks",
+   "cast": [],
+   "objects": [
+    "flour sacks",
+    "spider"
+   ],
+   "face": false,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "25.6 glide right to the flour sacks next to the wall: dusty, a cobweb, a spider walks across FLOUR"
+   ],
+   "text": [
+    "FLOUR on the sacks"
+   ]
+  },
+  {
+   "id": "S14",
+   "t0": 27.46,
+   "t1": 28.5,
+   "place": "grocery",
+   "size": "CU",
+   "kind": "reaction",
+   "subject": "agent",
+   "cast": [
+    "agent"
+   ],
+   "objects": [
+    "bread shelf"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "27.5 the agent in the doorway, squinting at the empty bread shelf, notepad up"
+   ],
+   "text": []
+  },
+  {
+   "id": "S15",
+   "t0": 28.5,
+   "t1": 30.44,
+   "place": "grocery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "brewer",
+   "cast": [
+    "brewer",
+    "grocer"
+   ],
+   "objects": [
+    "yeast boxes"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "28.5 the brewer himself wheels in a tower of YEAST boxes on a hand truck",
+    "29.5 the grocer catches the wobbling top box"
+   ],
+   "text": [
+    "YEAST FOR BREAD on the boxes",
+    "HOLLOW CREEK BREWING on the hand truck"
+   ]
+  },
+  {
+   "id": "S16",
+   "t0": 30.44,
+   "t1": 32.66,
+   "place": "mainstreet",
+   "size": "EWS",
+   "kind": "aerial",
+   "subject": "giant loaf",
+   "cast": [
+    "townsfolk"
+   ],
+   "objects": [
+    "giant loaf",
+    "church"
+   ],
+   "face": false,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "30.4 high over the town: a loaf of bread as big as the church rises beside the steeple",
+    "31.5 tiny townsfolk stare up"
+   ],
+   "text": [],
+   "angle": [
+    "high"
+   ]
+  },
+  {
+   "id": "S17",
+   "t0": 32.66,
+   "t1": 34.42,
+   "place": "mainstreet",
+   "size": "MS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent"
+   ],
+   "objects": [
+    "door"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "32.7 night: the agent on a porch knocks hard three times, street lamp behind"
+   ],
+   "text": [],
+   "angle": [
+    "profile"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S18",
+   "t0": 34.42,
+   "t1": 37.64,
+   "place": "mainstreet",
+   "size": "MS",
+   "kind": "story",
+   "subject": "granny",
+   "cast": [
+    "granny",
+    "agent"
+   ],
+   "objects": [
+    "door",
+    "pie",
+    "flour"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "34.4 the door opens: a granny with flour on her hands and a rolling pin",
+    "35.6 over the agent's shoulder, she holds up a fresh pie, proud",
+    "36.8 push past her: a kitchen with loaves cooling"
+   ],
+   "text": [],
+   "cam": "over-shoulder, then a slow push past the granny into the kitchen",
+   "angle": [
+    "ots"
+   ]
+  },
+  {
+   "id": "S19",
+   "t0": 37.64,
+   "t1": 40.3,
+   "place": "mainstreet",
+   "size": "FS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent",
+    "granny"
+   ],
+   "objects": [
+    "steps",
+    "cellar window"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "37.6 the agent backs down the steps tipping his hat, sweat drop",
+    "38.8 the granny waves, the brass key on a red string at her neck",
+    "39.6 the cellar window by the steps glows and rattles"
+   ],
+   "text": [],
+   "cam": "pull back as he backs down, low angle",
+   "angle": [
+    "low"
+   ]
+  },
+  {
+   "id": "S20",
+   "t0": 40.3,
+   "t1": 41.02,
+   "place": "mainstreet",
+   "size": "MS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent"
+   ],
+   "objects": [
+    "cellar window",
+    "foam"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "40.4 the cellar window bursts: a cap pings off, foam sprays the glass; the agent jumps, hat up"
+   ],
+   "text": [],
+   "punch": true,
+   "chain": true
+  },
+  {
+   "id": "S21",
+   "t0": 41.02,
+   "t1": 42.08,
+   "place": "mainstreet",
+   "size": "FS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent"
+   ],
+   "objects": [
+    "cellar window",
+    "foam"
+   ],
+   "face": true,
+   "in": {
+    "type": "whip"
+   },
+   "action": [
+    "41.0 whip right: the next house's cellar window pops, foam; the agent spins"
+   ],
+   "text": [],
+   "chain": true
+  },
+  {
+   "id": "S22",
+   "t0": 42.08,
+   "t1": 43.32,
+   "place": "mainstreet",
+   "size": "WS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent",
+    "townsfolk"
+   ],
+   "objects": [
+    "cellar window",
+    "foam"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "42.1 crane up: down the whole street cellar windows pop one after another, foam fountains, lights coming on",
+    "42.8 the agent turning in the middle"
+   ],
+   "text": [],
+   "angle": [
+    "high"
+   ],
+   "chain": true
+  },
+  {
+   "id": "S23",
+   "t0": 43.32,
+   "t1": 46.56,
+   "place": "cellar",
+   "size": "MS",
+   "kind": "cutaway",
+   "subject": "granny",
+   "cast": [
+    "granny"
+   ],
+   "objects": [
+    "syrup can",
+    "crock"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "43.3 dissolve down into the sliced-open cellar under the street: the granny pours a can into a crock",
+    "44.2 the can turns to the lens: PURE MALT EXTRACT",
+    "45.5 the syrup ribbons thick and slow"
+   ],
+   "text": [
+    "PURE MALT EXTRACT on the can"
+   ],
+   "cam": "settle down into the cellar cutaway, then creep"
+  },
+  {
+   "id": "S24",
+   "t0": 46.56,
+   "t1": 48.36,
+   "place": "cellar",
+   "size": "CU",
+   "kind": "insert",
+   "subject": "crock",
+   "cast": [
+    "granny"
+   ],
+   "objects": [
+    "crock",
+    "yeast cake",
+    "water"
+   ],
+   "face": false,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "46.6 top-down: water sloshes in from a bucket",
+    "47.7 a yeast cake drops in with her hand"
+   ],
+   "text": [
+    "YEAST on the cake wrapper"
+   ],
+   "angle": [
+    "top"
+   ]
+  },
+  {
+   "id": "S25",
+   "t0": 48.36,
+   "t1": 50.96,
+   "place": "cellar",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "granny",
+   "cast": [
+    "granny"
+   ],
+   "objects": [
+    "crock",
+    "bubbles"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "48.4 the crock starts to fizz, bubbles rising, a burp of foam on 'burps'",
+    "49.8 foam crowns the rim; the granny leans in, sniffs, delighted"
+   ],
+   "text": []
+  },
+  {
+   "id": "S26",
+   "t0": 50.96,
+   "t1": 53.52,
+   "place": "grocery",
+   "size": "MS",
+   "kind": "story",
+   "subject": "grocer",
+   "cast": [
+    "grocer"
+   ],
+   "objects": [
+    "pancake mix",
+    "syrup can",
+    "water jug"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "51.0 at the counter the grocer pours water into a PANCAKE MIX box bowl: batter",
+    "52.2 he holds the syrup can up beside it and taps it: beer foam froths out of his jug"
+   ],
+   "text": [
+    "PANCAKE MIX JUST ADD WATER on the box"
+   ]
+  },
+  {
+   "id": "S27",
+   "t0": 53.52,
+   "t1": 55.5,
+   "place": "cellar",
+   "size": "MS",
+   "kind": "story",
+   "subject": "granny",
+   "cast": [
+    "granny"
+   ],
+   "objects": [
+    "bottles",
+    "capper"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "53.5 shelves of brown bottles, a chalk 45 on the beam",
+    "54.4 the granny caps a bottle with a hand capper: clack"
+   ],
+   "text": [
+    "45 chalked on the beam"
+   ]
+  },
+  {
+   "id": "S28",
+   "t0": 55.5,
+   "t1": 58.04,
+   "place": "cellar",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "granny",
+   "cast": [
+    "granny"
+   ],
+   "objects": [
+    "bottles",
+    "caps"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "55.5 she caps another; the bottles behind her start to hiss",
+    "56.6 caps blow off one after another and ping off the ceiling, foam",
+    "57.4 she ducks under her rolling pin"
+   ],
+   "text": [],
+   "cam": "push in slowly as the caps start popping"
+  },
+  {
+   "id": "S29",
+   "t0": 58.04,
+   "t1": 61.28,
+   "place": "grocery",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "grocer",
+   "cast": [
+    "grocer",
+    "townsfolk"
+   ],
+   "objects": [
+    "syrup can",
+    "wink poster"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "58.0 the grocer hands a can across the counter",
+    "59.6 he leans in and winks on 'wink'; behind him a poster of a winking grocer"
+   ],
+   "text": [
+    "poster: MALT SYRUP FOR BAKING with a winking grocer"
+   ],
+   "cam": "slow push in"
+  },
+  {
+   "id": "S30",
+   "t0": 61.28,
+   "t1": 63.44,
+   "place": "mainstreet",
+   "size": "MS",
+   "kind": "story",
+   "subject": "agent",
+   "cast": [
+    "agent"
+   ],
+   "objects": [
+    "cellar door",
+    "key"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "61.3 night: the agent trudges up to his own house",
+    "62.5 he hauls open the slanted cellar doors; the brass key on its red string swings in the lock; light spills up"
+   ],
+   "text": [],
+   "cam": "follow him in, then tilt down to the cellar doors"
+  },
+  {
+   "id": "S31",
+   "t0": 63.44,
+   "t1": 66.2,
+   "place": "cellar",
+   "size": "MS",
+   "kind": "payoff",
+   "subject": "wife",
+   "cast": [
+    "wife",
+    "agent"
+   ],
+   "objects": [
+    "bottles",
+    "crocks",
+    "foam"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "63.4 dissolve to the foot of the cellar steps, over the agent's shoulder: his wife among crocks and bottles, flour on her cheek, rolling pin up, beaming",
+    "64.9 on 'baking' the whole shelf blows its caps in a chain, foam fountains over her; the agent's hat flies off"
+   ],
+   "text": [],
+   "cam": "dissolve to the bottom of the steps behind the agent, settle on the over-shoulder, creep",
+   "angle": [
+    "ots"
+   ]
+  }
+ ],
+ "ending": {
+  "event": "the wife's cellar shelf blows its caps in a chain and foam fountains over her, the agent's hat flies off",
+  "t": 64.9,
+  "objects": [
+   "bottles",
+   "foam"
+  ]
+ }
+}

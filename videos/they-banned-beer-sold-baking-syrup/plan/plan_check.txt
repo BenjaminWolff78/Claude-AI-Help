@@ -1,0 +1,6 @@
+| P11 | Shot variety | 17 sizes/kinds/angles; special: ['aerial', 'cutaway']; repeated framings: none | never two shots in a row with the same place, size and subject; 7+ sizes/kinds/angles incl. at least one POV, cutaway or aerial (most Nov Shorts have two) | PASS |  |
+| P12 | Calm stretches | 4 shots of 3 s or more | Rick 3-9 (median 5) stretches of 3 s+ where the camera only drifts and people act inside the shot | PASS |  |
+| P13 | Story beats | hook@0%, you_see@8%, setup@14%, quote@19%, mock@24%, count@29%, escalation@35%, question@41%, fake_out@55%, turn@57%, mechanism@65%, comparison@77%, real_tag@88%, payoff@93% | hook first; "You see," or a bridge question; a fake-out or turn at 35-75% (Samurai 41%, Instinct 45%, Mine Salting 50%, Pink 66%, Prisoner 67%, Railroads 70%); a quoted doubter; ends on payoff/twist/callback | PASS |  |
+| P14 | Comparisons acted by our cast | 1 comparisons; object-only: none | at most 2; each acted by the story's own characters (the cook blows on his soup), the object alone only as a follow-up insert | PASS |  |
+
+0 FAIL, 0 WARN

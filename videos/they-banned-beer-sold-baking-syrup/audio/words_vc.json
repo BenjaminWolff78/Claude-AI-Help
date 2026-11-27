@@ -1,0 +1,1187 @@
+[
+{
+"word": "They",
+"start": 0.0,
+"end": 0.26
+},
+{
+"word": "banned",
+"start": 0.26,
+"end": 0.58
+},
+{
+"word": "beer,",
+"start": 0.58,
+"end": 0.96
+},
+{
+"word": "so",
+"start": 1.14,
+"end": 1.34
+},
+{
+"word": "a",
+"start": 1.34,
+"end": 1.56
+},
+{
+"word": "brewer",
+"start": 1.56,
+"end": 1.74
+},
+{
+"word": "sold",
+"start": 1.74,
+"end": 2.08
+},
+{
+"word": "syrup",
+"start": 2.08,
+"end": 2.4
+},
+{
+"word": "for",
+"start": 2.4,
+"end": 2.62
+},
+{
+"word": "baking",
+"start": 2.62,
+"end": 2.88
+},
+{
+"word": "bread,",
+"start": 2.88,
+"end": 3.2
+},
+{
+"word": "and",
+"start": 3.38,
+"end": 3.54
+},
+{
+"word": "the",
+"start": 3.54,
+"end": 3.7
+},
+{
+"word": "whole",
+"start": 3.7,
+"end": 3.92
+},
+{
+"word": "town",
+"start": 3.92,
+"end": 4.28
+},
+{
+"word": "started",
+"start": 4.28,
+"end": 4.64
+},
+{
+"word": "brewing.",
+"start": 4.64,
+"end": 4.96
+},
+{
+"word": "You",
+"start": 5.36,
+"end": 5.4
+},
+{
+"word": "see,",
+"start": 5.4,
+"end": 5.54
+},
+{
+"word": "the",
+"start": 5.76,
+"end": 5.88
+},
+{
+"word": "law",
+"start": 5.88,
+"end": 6.0
+},
+{
+"word": "says",
+"start": 6.0,
+"end": 6.28
+},
+{
+"word": "nobody",
+"start": 6.28,
+"end": 6.66
+},
+{
+"word": "can",
+"start": 6.66,
+"end": 6.94
+},
+{
+"word": "sell",
+"start": 6.94,
+"end": 7.12
+},
+{
+"word": "beer,",
+"start": 7.12,
+"end": 7.42
+},
+{
+"word": "but",
+"start": 7.52,
+"end": 7.76
+},
+{
+"word": "it",
+"start": 7.76,
+"end": 7.86
+},
+{
+"word": "says",
+"start": 7.86,
+"end": 8.0
+},
+{
+"word": "nothing",
+"start": 8.0,
+"end": 8.34
+},
+{
+"word": "about",
+"start": 8.34,
+"end": 8.64
+},
+{
+"word": "syrup.",
+"start": 8.64,
+"end": 8.94
+},
+{
+"word": "When",
+"start": 9.1,
+"end": 9.2
+},
+{
+"word": "the",
+"start": 9.2,
+"end": 9.36
+},
+{
+"word": "agent",
+"start": 9.36,
+"end": 9.54
+},
+{
+"word": "comes",
+"start": 9.54,
+"end": 9.8
+},
+{
+"word": "to",
+"start": 9.8,
+"end": 10.04
+},
+{
+"word": "padlock",
+"start": 10.04,
+"end": 10.26
+},
+{
+"word": "the",
+"start": 10.26,
+"end": 10.44
+},
+{
+"word": "brewery,",
+"start": 10.44,
+"end": 10.74
+},
+{
+"word": "the",
+"start": 10.96,
+"end": 11.06
+},
+{
+"word": "brewer",
+"start": 11.06,
+"end": 11.3
+},
+{
+"word": "is",
+"start": 11.3,
+"end": 11.58
+},
+{
+"word": "canning",
+"start": 11.58,
+"end": 11.96
+},
+{
+"word": "it.",
+"start": 11.96,
+"end": 12.1
+},
+{
+"word": "\"Syrup?",
+"start": 12.32,
+"end": 12.6
+},
+{
+"word": "With",
+"start": 12.68,
+"end": 12.9
+},
+{
+"word": "hops",
+"start": 12.9,
+"end": 13.12
+},
+{
+"word": "in",
+"start": 13.12,
+"end": 13.3
+},
+{
+"word": "it?",
+"start": 13.3,
+"end": 13.46
+},
+{
+"word": "Who",
+"start": 13.54,
+"end": 13.72
+},
+{
+"word": "bakes",
+"start": 13.72,
+"end": 13.96
+},
+{
+"word": "with",
+"start": 13.96,
+"end": 14.18
+},
+{
+"word": "hops?\"",
+"start": 14.18,
+"end": 14.5
+},
+{
+"word": "\"It's",
+"start": 14.78,
+"end": 15.02
+},
+{
+"word": "for",
+"start": 15.02,
+"end": 15.16
+},
+{
+"word": "baking.\"",
+"start": 15.16,
+"end": 15.46
+},
+{
+"word": "The",
+"start": 15.6,
+"end": 15.76
+},
+{
+"word": "whole",
+"start": 15.76,
+"end": 16.06
+},
+{
+"word": "station",
+"start": 16.06,
+"end": 16.46
+},
+{
+"word": "laughs,",
+"start": 16.46,
+"end": 16.9
+},
+{
+"word": "and",
+"start": 17.16,
+"end": 17.32
+},
+{
+"word": "soon",
+"start": 17.32,
+"end": 17.54
+},
+{
+"word": "the",
+"start": 17.54,
+"end": 17.78
+},
+{
+"word": "whole",
+"start": 17.78,
+"end": 17.98
+},
+{
+"word": "town",
+"start": 17.98,
+"end": 18.3
+},
+{
+"word": "calls",
+"start": 18.3,
+"end": 18.6
+},
+{
+"word": "him",
+"start": 18.6,
+"end": 18.78
+},
+{
+"word": "the",
+"start": 18.78,
+"end": 19.0
+},
+{
+"word": "baker.",
+"start": 19.0,
+"end": 19.26
+},
+{
+"word": "But",
+"start": 19.4,
+"end": 19.5
+},
+{
+"word": "the",
+"start": 19.5,
+"end": 19.62
+},
+{
+"word": "first",
+"start": 19.62,
+"end": 19.82
+},
+{
+"word": "week,",
+"start": 19.82,
+"end": 20.06
+},
+{
+"word": "the",
+"start": 20.32,
+"end": 20.38
+},
+{
+"word": "grocery",
+"start": 20.38,
+"end": 20.64
+},
+{
+"word": "sells",
+"start": 20.64,
+"end": 21.0
+},
+{
+"word": "3",
+"start": 21.0,
+"end": 21.34
+},
+{
+"word": "cans.",
+"start": 21.34,
+"end": 21.72
+},
+{
+"word": "The",
+"start": 21.94,
+"end": 22.1
+},
+{
+"word": "next",
+"start": 22.1,
+"end": 22.3
+},
+{
+"word": "week,",
+"start": 22.3,
+"end": 22.52
+},
+{
+"word": "30.",
+"start": 22.78,
+"end": 22.96
+},
+{
+"word": "By",
+"start": 23.38,
+"end": 23.64
+},
+{
+"word": "month's",
+"start": 23.64,
+"end": 24.02
+},
+{
+"word": "end,",
+"start": 24.02,
+"end": 24.14
+},
+{
+"word": "it's",
+"start": 24.24,
+"end": 24.38
+},
+{
+"word": "a",
+"start": 24.38,
+"end": 24.6
+},
+{
+"word": "whole",
+"start": 24.6,
+"end": 24.8
+},
+{
+"word": "wall,",
+"start": 24.8,
+"end": 25.22
+},
+{
+"word": "and",
+"start": 25.24,
+"end": 25.58
+},
+{
+"word": "the",
+"start": 25.58,
+"end": 25.7
+},
+{
+"word": "flour",
+"start": 25.7,
+"end": 25.96
+},
+{
+"word": "next",
+"start": 25.96,
+"end": 26.16
+},
+{
+"word": "to",
+"start": 26.16,
+"end": 26.3
+},
+{
+"word": "it",
+"start": 26.3,
+"end": 26.4
+},
+{
+"word": "hasn't",
+"start": 26.4,
+"end": 26.64
+},
+{
+"word": "sold",
+"start": 26.64,
+"end": 26.86
+},
+{
+"word": "a",
+"start": 26.86,
+"end": 27.06
+},
+{
+"word": "bag.",
+"start": 27.06,
+"end": 27.32
+},
+{
+"word": "So",
+"start": 27.46,
+"end": 27.68
+},
+{
+"word": "where's",
+"start": 27.68,
+"end": 28.04
+},
+{
+"word": "all",
+"start": 28.04,
+"end": 28.16
+},
+{
+"word": "the",
+"start": 28.16,
+"end": 28.28
+},
+{
+"word": "bread?",
+"start": 28.28,
+"end": 28.5
+},
+{
+"word": "Then",
+"start": 28.5,
+"end": 28.84
+},
+{
+"word": "the",
+"start": 28.84,
+"end": 29.02
+},
+{
+"word": "brewery",
+"start": 29.02,
+"end": 29.22
+},
+{
+"word": "sells",
+"start": 29.22,
+"end": 29.58
+},
+{
+"word": "yeast",
+"start": 29.58,
+"end": 29.86
+},
+{
+"word": "too,",
+"start": 30.12,
+"end": 30.3
+},
+{
+"word": "enough",
+"start": 30.44,
+"end": 30.6
+},
+{
+"word": "to",
+"start": 30.6,
+"end": 30.82
+},
+{
+"word": "raise",
+"start": 30.82,
+"end": 30.94
+},
+{
+"word": "a",
+"start": 30.94,
+"end": 31.14
+},
+{
+"word": "loaf",
+"start": 31.14,
+"end": 31.3
+},
+{
+"word": "the",
+"start": 31.3,
+"end": 31.56
+},
+{
+"word": "size",
+"start": 31.56,
+"end": 31.78
+},
+{
+"word": "of",
+"start": 31.78,
+"end": 31.94
+},
+{
+"word": "the",
+"start": 31.94,
+"end": 32.14
+},
+{
+"word": "church.",
+"start": 32.14,
+"end": 32.38
+},
+{
+"word": "So",
+"start": 32.66,
+"end": 32.76
+},
+{
+"word": "the",
+"start": 32.76,
+"end": 32.94
+},
+{
+"word": "agent",
+"start": 32.94,
+"end": 33.14
+},
+{
+"word": "knocks",
+"start": 33.14,
+"end": 33.42
+},
+{
+"word": "on",
+"start": 33.42,
+"end": 33.64
+},
+{
+"word": "doors,",
+"start": 33.64,
+"end": 33.94
+},
+{
+"word": "and",
+"start": 34.06,
+"end": 34.24
+},
+{
+"word": "a",
+"start": 34.24,
+"end": 34.42
+},
+{
+"word": "granny",
+"start": 34.42,
+"end": 34.64
+},
+{
+"word": "answers",
+"start": 34.64,
+"end": 34.94
+},
+{
+"word": "with",
+"start": 34.94,
+"end": 35.18
+},
+{
+"word": "flour",
+"start": 35.18,
+"end": 35.46
+},
+{
+"word": "on",
+"start": 35.46,
+"end": 35.66
+},
+{
+"word": "her",
+"start": 35.66,
+"end": 35.82
+},
+{
+"word": "hands.",
+"start": 35.82,
+"end": 36.06
+},
+{
+"word": "She",
+"start": 36.28,
+"end": 36.46
+},
+{
+"word": "really",
+"start": 36.46,
+"end": 36.76
+},
+{
+"word": "is",
+"start": 36.76,
+"end": 37.0
+},
+{
+"word": "baking.",
+"start": 37.0,
+"end": 37.32
+},
+{
+"word": "He",
+"start": 37.64,
+"end": 37.78
+},
+{
+"word": "says",
+"start": 37.78,
+"end": 37.94
+},
+{
+"word": "sorry,",
+"start": 37.94,
+"end": 38.28
+},
+{
+"word": "backs",
+"start": 38.58,
+"end": 38.72
+},
+{
+"word": "down",
+"start": 38.72,
+"end": 38.94
+},
+{
+"word": "the",
+"start": 38.94,
+"end": 39.06
+},
+{
+"word": "steps,",
+"start": 39.06,
+"end": 39.3
+},
+{
+"word": "and",
+"start": 39.54,
+"end": 39.64
+},
+{
+"word": "her",
+"start": 39.64,
+"end": 39.8
+},
+{
+"word": "cellar",
+"start": 39.8,
+"end": 40.08
+},
+{
+"word": "goes",
+"start": 40.08,
+"end": 40.46
+},
+{
+"word": "pop.",
+"start": 40.46,
+"end": 40.8
+},
+{
+"word": "Then",
+"start": 41.02,
+"end": 41.12
+},
+{
+"word": "the",
+"start": 41.12,
+"end": 41.26
+},
+{
+"word": "next",
+"start": 41.26,
+"end": 41.46
+},
+{
+"word": "house",
+"start": 41.46,
+"end": 41.68
+},
+{
+"word": "pops.",
+"start": 41.68,
+"end": 41.94
+},
+{
+"word": "Then",
+"start": 42.08,
+"end": 42.2
+},
+{
+"word": "the",
+"start": 42.2,
+"end": 42.34
+},
+{
+"word": "whole",
+"start": 42.34,
+"end": 42.54
+},
+{
+"word": "street.",
+"start": 42.54,
+"end": 42.92
+},
+{
+"word": "That",
+"start": 43.32,
+"end": 43.5
+},
+{
+"word": "syrup",
+"start": 43.5,
+"end": 43.8
+},
+{
+"word": "is",
+"start": 43.8,
+"end": 44.18
+},
+{
+"word": "malt",
+"start": 44.18,
+"end": 44.38
+},
+{
+"word": "extract,",
+"start": 44.38,
+"end": 44.86
+},
+{
+"word": "the",
+"start": 45.06,
+"end": 45.18
+},
+{
+"word": "barley",
+"start": 45.18,
+"end": 45.44
+},
+{
+"word": "sugar,",
+"start": 45.44,
+"end": 45.74
+},
+{
+"word": "already",
+"start": 45.92,
+"end": 46.22
+},
+{
+"word": "cooked.",
+"start": 46.22,
+"end": 46.56
+},
+{
+"word": "Add",
+"start": 47.0,
+"end": 47.18
+},
+{
+"word": "water",
+"start": 47.18,
+"end": 47.46
+},
+{
+"word": "and",
+"start": 47.46,
+"end": 47.7
+},
+{
+"word": "yeast,",
+"start": 47.7,
+"end": 47.92
+},
+{
+"word": "and",
+"start": 48.1,
+"end": 48.24
+},
+{
+"word": "the",
+"start": 48.24,
+"end": 48.36
+},
+{
+"word": "yeast",
+"start": 48.36,
+"end": 48.58
+},
+{
+"word": "eats",
+"start": 48.58,
+"end": 48.84
+},
+{
+"word": "it",
+"start": 48.84,
+"end": 49.04
+},
+{
+"word": "and",
+"start": 49.04,
+"end": 49.3
+},
+{
+"word": "burps",
+"start": 49.3,
+"end": 49.5
+},
+{
+"word": "out",
+"start": 49.5,
+"end": 49.72
+},
+{
+"word": "alcohol",
+"start": 49.72,
+"end": 50.1
+},
+{
+"word": "and",
+"start": 50.1,
+"end": 50.42
+},
+{
+"word": "bubbles.",
+"start": 50.42,
+"end": 50.72
+},
+{
+"word": "It's",
+"start": 50.96,
+"end": 51.12
+},
+{
+"word": "like",
+"start": 51.12,
+"end": 51.24
+},
+{
+"word": "pancake",
+"start": 51.24,
+"end": 51.7
+},
+{
+"word": "mix,",
+"start": 51.7,
+"end": 51.94
+},
+{
+"word": "except",
+"start": 52.08,
+"end": 52.34
+},
+{
+"word": "it",
+"start": 52.34,
+"end": 52.5
+},
+{
+"word": "only",
+"start": 52.5,
+"end": 52.72
+},
+{
+"word": "makes",
+"start": 52.72,
+"end": 53.0
+},
+{
+"word": "beer.",
+"start": 53.0,
+"end": 53.28
+},
+{
+"word": "One",
+"start": 53.52,
+"end": 53.8
+},
+{
+"word": "can",
+"start": 53.8,
+"end": 54.06
+},
+{
+"word": "makes",
+"start": 54.06,
+"end": 54.3
+},
+{
+"word": "45",
+"start": 54.3,
+"end": 54.82
+},
+{
+"word": "bottles,",
+"start": 54.82,
+"end": 55.32
+},
+{
+"word": "and",
+"start": 55.5,
+"end": 55.7
+},
+{
+"word": "cap",
+"start": 55.7,
+"end": 55.86
+},
+{
+"word": "them",
+"start": 55.86,
+"end": 56.0
+},
+{
+"word": "too",
+"start": 56.0,
+"end": 56.14
+},
+{
+"word": "soon,",
+"start": 56.14,
+"end": 56.48
+},
+{
+"word": "the",
+"start": 56.64,
+"end": 56.82
+},
+{
+"word": "bubbles",
+"start": 56.82,
+"end": 57.08
+},
+{
+"word": "blow",
+"start": 57.08,
+"end": 57.38
+},
+{
+"word": "the",
+"start": 57.38,
+"end": 57.6
+},
+{
+"word": "caps",
+"start": 57.6,
+"end": 57.72
+},
+{
+"word": "off.",
+"start": 57.72,
+"end": 58.04
+},
+{
+"word": "Breweries",
+"start": 58.04,
+"end": 58.66
+},
+{
+"word": "really",
+"start": 58.66,
+"end": 58.98
+},
+{
+"word": "did",
+"start": 58.98,
+"end": 59.2
+},
+{
+"word": "this,",
+"start": 59.2,
+"end": 59.5
+},
+{
+"word": "and",
+"start": 59.76,
+"end": 59.76
+},
+{
+"word": "grocers",
+"start": 59.76,
+"end": 60.16
+},
+{
+"word": "sold",
+"start": 60.16,
+"end": 60.42
+},
+{
+"word": "it",
+"start": 60.42,
+"end": 60.54
+},
+{
+"word": "with",
+"start": 60.54,
+"end": 60.66
+},
+{
+"word": "a",
+"start": 60.66,
+"end": 60.74
+},
+{
+"word": "wink.",
+"start": 60.74,
+"end": 61.02
+},
+{
+"word": "So",
+"start": 61.28,
+"end": 61.32
+},
+{
+"word": "the",
+"start": 61.32,
+"end": 61.48
+},
+{
+"word": "agent",
+"start": 61.48,
+"end": 61.72
+},
+{
+"word": "heads",
+"start": 61.72,
+"end": 61.94
+},
+{
+"word": "home,",
+"start": 61.94,
+"end": 62.22
+},
+{
+"word": "opens",
+"start": 62.46,
+"end": 62.7
+},
+{
+"word": "his",
+"start": 62.7,
+"end": 62.84
+},
+{
+"word": "cellar,",
+"start": 62.84,
+"end": 63.14
+},
+{
+"word": "and",
+"start": 63.44,
+"end": 63.5
+},
+{
+"word": "finds",
+"start": 63.5,
+"end": 63.76
+},
+{
+"word": "his",
+"start": 63.76,
+"end": 63.94
+},
+{
+"word": "wife",
+"start": 63.94,
+"end": 64.16
+},
+{
+"word": "down",
+"start": 64.16,
+"end": 64.38
+},
+{
+"word": "there,",
+"start": 64.38,
+"end": 64.68
+},
+{
+"word": "baking.",
+"start": 64.9,
+"end": 65.18
+}
+]
