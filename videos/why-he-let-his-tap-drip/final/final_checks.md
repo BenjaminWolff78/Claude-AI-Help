@@ -37,7 +37,7 @@ Final render: 1980 frames, 1080x1920, 30 fps, 66.0 s. The mp4 and the mp3 share 
 
 Loudness -14.30 LUFS integrated, true peak -1.25 dBTP. The one stinger is the unlock sting on "His open tap" (49.1 s), with the Loophole Key hooked on his tap.
 
-## The one open hard fail: the animation row (3.0, needs 3.5)
+## The one open hard fail: the animation row (3.0, needs 3.5) - delivered as is at the user's call (Nov 26, 19:55 ET)
 
 - Where: the kit measures 9 fixed tiles. The night exteriors read 4-6 (falling snow), but the thaw kitchens and the cutaways (30-57 s) read 1-2: bright, clean interiors where only the camera drifts.
 - What I tried: stronger surface detail on every wall, counter and cabinet (background detail 11.9 -> 14.2, now inside Rick's range) and a dressed back yard. That moved the row from 2.0 to 3.0. A YouTube-bitrate copy measures the same, so it is not a compression effect.
