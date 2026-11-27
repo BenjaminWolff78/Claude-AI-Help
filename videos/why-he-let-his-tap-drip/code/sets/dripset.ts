@@ -573,6 +573,7 @@ export const dripset = (): SetDef => {
       // the key hangs straight down from the lever (undo the lever's turn) and swings a little: more right after the lever moves
       keyG.rotation.y = -(c.tapO ?? 0) * 0.9; keyPiv.rotation.set(0.18 * Math.sin(t * 2.1) * (0.3 + (c.keySwing ?? 0.4)), 0, 0.12 * Math.sin(t * 1.7 + 1) * (0.3 + (c.keySwing ?? 0.4)));
       keyG.visible = (c.keyOff ?? 0) < 0.5;
+      keyG.position.y = c.keyY ?? 0; keyG.position.z = c.keyZ ?? 0.125; keyG.scale.setScalar(c.keyK ?? 1);   // the reveal: lifted above the sill and a little bigger, so it reads through his window
       const rate = c.dripRate ?? 1, frozen = cl(c.dripFrozen ?? 0), dOn = (c.dripO ?? 0) > 0.5 && frozen < 0.5;
       // the bucket can be slid along the basin (c.bucketDz, m): off the spout line the drops land on the basin floor by the drain
       const bz = BK[2] + (c.bucketDz ?? 0), under = Math.abs(bz - DR0.TAP_O[2]) < 0.06; bucketG.position.set(BK[0], BK[1], bz);

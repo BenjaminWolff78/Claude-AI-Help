@@ -207,9 +207,9 @@ lens(628, DOF_WS, 1); lens(650, DOF_INSERT, 14);
 
 // ================================================= SHOT 9 (700-786) dissolve in place (night 2 -> night 3 at the basin), push to the
 // spout: the last bead hangs (702), frosts over (740-768), stops ("his drip stops"); he leans in to look, behind the tap
-const c9 = F(() => cam3([3.05, 1.66, -3.78], [3.42, 1.55, -3.9], 46), 740, 0.0024);
+const c9 = F(() => cam3([3.05, 1.66, -3.78], [3.42, 1.55, -3.9], 46), 762, 0.0024);
 const c8end = frozen(c8, 699);
-SHOT_CAMS[9] = () => [K(700, c8end, 1, true), K(704, glideTo(c8end, 704, c9, 752, 0.05), 1)];   // fix round: 48 frames (34 read as a shot change)
+SHOT_CAMS[9] = () => [K(700, c8end, 1, true), K(704, glideTo(c8end, 704, c9, 762, 0.05), 1)];   // 58 frames: the tilt up from the drain to the spout read as a shot change at 48
 SHOT_ACTS[9] = (f) => ({
   cast: [C(OLD, TBL_SIT, flow(f, [[700, { expr: "calm", mode: "sit", facing: 0.3, armR: [[18, 10], [16, -4]], propR: "teaMug" }], [750, { expr: "nervous", mode: "sit", facing: 0.1, tilt: 12, headTilt: 6, armR: [[18, 10], [16, -4]], propR: "teaMug" }, 10]]), { idx: 1 })],   // fix round: seated where shot 8 left him (no ghost in the dissolve)
   subj: null, focus: [3.42, 1.56, -3.9], ctl: { ...NIGHT, frost: 0.85, glassO: 0, dripO: 1, dripT0: 0, dripRate: 1 / 1.2, dripFrozen: sm(f, 742, 768), bucketK: 0.3, tapO: 0.35, tapN1: 1, tapN2: 1 },
@@ -309,7 +309,7 @@ const PLB_IN = (f: number): CastPlace[] => {   // say-see: the plumber walks in 
 SHOT_ACTS[15] = (f) => ({
   cast: [C(OLD, OLD_AT, flow(f, [[1461, { expr: "calm", facing: 0.2, armR: [[18, 10], [12, -10]], propR: "teaMug" }], [1556, { expr: "smile_closed", facing: 0.2, armR: [[18, 4], [12, -22]], propR: "teaMug", headTilt: -4 }, 8]]), { idx: 1 }), ...PLB_IN(f)],
   subj: null, focus: f >= 1522 && f < 1570 ? [3.42, 1.5, -3.9] : [3.0, 0.75, -3.95],
-  ctl: { ...THAW, cutO: sm(f, 1461, 1476), iceO: 0.08 + 0.75 * sm(f, 1477, 1545), dripO: 1, dripT0: 0, dripRate: f > 1487 && f < 1515 ? 2.6 : 1.2, dripFrozen: f >= 1511 ? 1 : 0, fatT: sec(f - 1553), bucketK: 0.4, tapO: 0.35 },
+  ctl: { ...THAW, cutO: sm(f, 1461, 1476), iceO: 0.08 + 0.75 * sm(f, 1477, 1545), dripO: 1, dripT0: 0, dripRate: f > 1487 && f < 1515 ? 2.6 : 1.2, dripFrozen: f >= 1511 ? 1 : 0, fatT: sec(f - 1553), bucketK: 0.4, tapO: 0.35, keyY: 0.12, keyZ: -0.024, keyK: 1.8, keySwing: 1 },   // the Loophole Key hooked round the neck of his tap (clear of his face) at the reveal
 });
 lens(1461, DOF_FS, 1); lens(1522, DOF_MS, 12); lens(1562, DOF_FS, 30);
 
