@@ -74,7 +74,7 @@ export type Face = Expr | "smug" | "dismay" | "sheepish" | "strain" | "eureka" |
   | "guffaw" | "beam" | "glow" | "stare" | "yikes" | "calm" | "aghast" | "pitch" | "bored" | "proud"
   // ---- v10.15 board AN (the eight faces): moustache mouth, gloating curl, fake polite grin, fury, purple rage + steam,
   // breakdown, schemer's toothy grin, mocking laugh (closed arcs + open mouth + blush), worry ----
-  | "tache" | "tacheUp" | "fakegrin" | "fury" | "rage" | "breakdown" | "scheme" | "mock" | "worry";
+  | "tache" | "tacheUp" | "fakegrin" | "fury" | "rage" | "breakdown" | "scheme" | "mock" | "worry" | "wink";
 type XEye = EyeK | "x" | "huge" | "closed" | "stare";
 type XMouth = MouthK | "queasy" | "puff" | "teethWide" | "tongue" | "beam" | "guffaw" | "content" | "flat" | "tache" | "tacheUp" | "grit" | TalkK;
 /** v10.10 lip-sync shapes (board AG): big talking mouths, 40-50 % of the face width, dark inside, teeth + tongue.
@@ -142,7 +142,8 @@ const XFACE: Record<string, { eye: [XEye, XEye]; brow: [number, number]; mouth: 
   fury: { eye: ["slit", "slit"], brow: [8, -4], mouth: "grit" },         // 6 anger: sharp V brows, line eyes, gritted grid teeth
   rage: { eye: ["slit", "slit"], brow: [9, -5], mouth: "grit" },         // 6 escalated: + purple face + steam (drawn below)
   breakdown: { eye: ["shock", "shock"], brow: [-7, -6], mouth: "grit" }, // 1 variant: circle eyes + gritted teeth + sweat
-  scheme: { eye: ["lid", "lid"], brow: [5, -4], mouth: "grin" },         // 4 schemer: half-lid squint, raised brow, wide toothy grin
+  scheme: { eye: ["lid", "lid"], brow: [5, -4], mouth: "grin" },
+  wink: { eye: ["lid", "closed"], brow: [4, -3], mouth: "smirk" },          // p14: the grocer's wink (back eye half-lid, front eye shut, one-sided smirk)         // 4 schemer: half-lid squint, raised brow, wide toothy grin
   mock: { eye: ["happy", "happy"], brow: [-6, -5], mouth: "laugh" },     // 3 mocking laugh: closed arcs, mouth wide open with teeth, blush
   worry: { eye: ["dot", "dot"], brow: [-5, 3], mouth: "wave" },          // 7 worry: brows up in the middle, wavy mouth, sweat
 };
@@ -357,6 +358,10 @@ export const drawProp = (p: Pen, name: string, h: P2, u: number, ang = 0, k = 0)
       p.band(R([[0, -40], [0, 10]]), "#6a6e76", 4 * u, 1.1 * u, "round");
       p.band(R([[0, -40], [30, -50]]), "#2a2a2e", 3.4 * u, 1 * u, "round");
       p.poly(R([[-7, -6], [7, -6], [9, 6], [-9, 6]]), "#8a8e96", ow * u);
+      break;
+    case "hop": // p14: a hop cone (pale green overlapping scales, a stalk) held between finger and thumb
+      u *= 1.5; p.stroke(R([[0, -2], [2, -8]]), 1.4 * u, "#4a6a2a");
+      for (const [y, w] of [[-4, 7], [2, 8.5], [8, 7.5], [13, 5]] as [number, number][]) p.poly(R([[-w, y], [0, y - 6], [w, y], [0, y + 6]]), "#9cc45a", 1.2 * u);
       break;
     case "scepter":
       p.band(R([[0, 18], [0, -58]]), "#d9a520", 3.4 * u, 1.1 * u, "round");

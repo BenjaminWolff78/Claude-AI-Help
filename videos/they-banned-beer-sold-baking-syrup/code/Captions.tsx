@@ -10,7 +10,7 @@ const chunks = (() => {
   for (let i = 0; i < ws.length; i++) {
     const w = ws[i], c = { s: w.s, e: w.e, words: [w.w] };
     const clean = w.w.toLowerCase().replace(/[".,!?:…]/g, "");
-    if (!/[.,!?:…"]$/.test(w.w) && SMALL.has(clean) && i + 1 < ws.length && ws[i + 1].s - w.e < 0.25) { c.words.push(ws[i + 1].w); c.e = ws[i + 1].e; i++; }
+    if (!/[.,!?:…"]$/.test(w.w) && SMALL.has(clean) && w.e - w.s < 0.22 && i + 1 < ws.length && ws[i + 1].s - w.e < 0.25)   /* p14 kit: 2.48 changes/s (Rick 2.55-2.79): a small word that is said slowly gets its own caption */ { c.words.push(ws[i + 1].w); c.e = ws[i + 1].e; i++; }
     out.push(c);
   }
   for (let k = 0; k < out.length; k++) out[k].e = k + 1 < out.length ? Math.min(out[k + 1].s, out[k].e + 0.6) : out[k].e + 0.5;

@@ -32,6 +32,16 @@ for txt, (kind, (who, verb, obj), spk) in zip(lines_txt, LINEMETA):
     L = {"t0": ws[0]["s"], "t1": ws[-1]["e"], "kind": kind, "text": txt, "say": {"who": who, "verb": verb, "object": obj}}
     if spk: L["speaker"] = spk
     lines.append(L)
+# p14 previz round 2: three sentences span two shots that show different things; each half gets its own say-see line
+# (line index, words in the first half, kind/say of the second half)
+SPLITS = [(19, 8, "payoff", ("wife", "bakes", "bottles")), (12, 7, "turn", ("agent", "jumps", "cellar window")), (9, 6, "escalation", ("narrator", "shows", "giant loaf")), (5, 4, "escalation", ("brewer", "is called", "truck")), (1, 9, "setup", ("brewer", "caps", "syrup can"))]   # last line first (each split shifts the later indexes)
+for li, na, kind2, (w2, v2, o2) in SPLITS:
+    L = lines[li]; i0 = sum(len(t.split()) for t in lines_txt[:li]); ws = W[i0:i0 + len(L["text"].split())]
+    A = dict(L, t1=ws[na - 1]["e"], text=" ".join(L["text"].split()[:na]))
+    B = {"t0": ws[na]["s"], "t1": ws[-1]["e"], "kind": kind2, "text": " ".join(L["text"].split()[na:]), "say": {"who": w2, "verb": v2, "object": o2}}
+    if li == 19: A["kind"] = "setup"; A["say"] = {"who": "agent", "verb": "opens", "object": "cellar door"}
+    if li == 12: A["say"] = {"who": "agent", "verb": "says sorry to", "object": "granny"}   # "He says sorry, backs down the steps," / "and her cellar goes pop."
+    lines[li:li + 1] = [A, B]
 # the comparison line is split so the pancake mix shot carries it; the hook's split etc. handled by shots
 def S(id, t0, t1, place, size, kind, subject, cast, objects, face, intype, action, text=(), cam=None, angle=None, frames=None, **kw):
     d = {"id": id, "t0": t0, "t1": t1, "place": place, "size": size, "kind": kind, "subject": subject, "cast": cast,
@@ -61,15 +71,15 @@ shots = [
    ["HOPS on the sacks behind"], cam="truck with the agent's walk, then settle on the two-shot, profile", angle=["profile"]),
  S("S6", 12.32, 14.60, "brewery", "CU", "story", "agent", ["agent", "brewer"], ["syrup can", "hop sacks"], True, "move",
    ["12.3 over the brewer's shoulder: the agent sniffs the open can, brows up", "12.9 he plucks a hop cone off the lid on 'hops'", "13.6 'Who bakes with hops?' arms out, mocking grin"],
-   ["FOR BAKING on the can"], cam="quick push 0.4 s from the two-shot into the over-shoulder close-up, then creep", angle=["ots"]),
+   ["FOR BAKING on the can"], cam="slow push from the profile two-shot round to his face, the brewer canning behind him, then creep"),
  S("S7", 14.60, 15.62, "brewery", "CU", "reaction", "brewer", ["brewer"], ["syrup can"], True, "cut",
    ["14.7 the brewer, half-lid deadpan, shrugs one shoulder: 'It's for baking.'"], [], punch=True),
  S("S8", 15.62, 17.16, "mainstreet", "MS", "story", "agents", ["agent", "agents"], ["syrup can", "office window"], True, "dissolve",
    ["15.6 through the office window: three agents laughing, one slaps the desk, the lead agent holds up the can"],
    ["PROHIBITION AGENTS painted on the window"], frames=6),
- S("S9", 17.16, 19.40, "mainstreet", "FS", "story", "brewer", ["brewer", "townsfolk"], ["syrup crate", "truck"], True, "move",
-   ["17.2 glide along the sidewalk with the brewer carrying a crate of cans", "18.0 a kid chalks BAKER on his truck door; townsfolk point and laugh", "18.8 the brewer tips his cap, deadpan"],
-   ["BAKER chalked on the truck"], cam="glide along the sidewalk with the brewer, eased"),
+ S("S9", 17.16, 19.40, "mainstreet", "FS", "story", "brewer", ["brewer", "townsfolk"], ["syrup crate", "truck"], True, "dissolve",
+   ["17.2 dissolve to the street, days later: the brewer walks the sidewalk carrying a crate of cans", "18.0 a kid chalks BAKER on his truck door; townsfolk point and laugh", "18.8 the brewer tips his cap, deadpan"],
+   ["BAKER chalked on the truck"], cam="a slow truck along the sidewalk with the brewer, eased", frames=6, time_jump=True),
  S("S10", 19.40, 21.94, "grocery", "MS", "story", "grocer", ["grocer", "townsfolk"], ["syrup can", "count board"], True, "dissolve",
    ["19.4 the grocer puts 3 cans on the shelf", "20.6 a woman buys one; the board on the wall reads SYRUP SOLD 3"],
    ["SYRUP SOLD 3 on the board"], frames=6),
@@ -78,26 +88,26 @@ shots = [
  S("S12", 23.38, 25.58, "grocery", "WS", "story", "grocer", ["grocer", "townsfolk", "wife"], ["syrup wall"], True, "dissolve",
    ["23.4 a whole wall of syrup cans to the ceiling, the grocer up a ladder stacking", "24.4 a queue of customers with baskets; a woman in a teal dress (the agent's wife) loads her basket"],
    ["MALT SYRUP FOR BAKING sign over the wall"], frames=6, time_jump=True, angle=["low"]),
- S("S13", 25.58, 27.46, "grocery", "CU", "insert", "flour sacks", [], ["flour sacks", "spider"], False, "move",
+ S("S13", 25.58, 27.46, "grocery", "CU", "insert", None, [], ["flour sacks", "spider"], False, "move",
    ["25.6 glide right to the flour sacks next to the wall: dusty, a cobweb, a spider walks across FLOUR"], ["FLOUR on the sacks"]),
- S("S14", 27.46, 28.50, "grocery", "CU", "reaction", "agent", ["agent"], ["bread shelf"], True, "move",
+ S("S14", 27.46, 28.50, "grocery", "CU", "reaction", "agent", ["agent"], ["bread shelf"], True, "cut",
    ["27.5 the agent in the doorway, squinting at the empty bread shelf, notepad up"], []),
  S("S15", 28.50, 30.44, "grocery", "MS", "story", "brewer", ["brewer", "grocer"], ["yeast boxes"], True, "move",
    ["28.5 the brewer himself wheels in a tower of YEAST boxes on a hand truck", "29.5 the grocer catches the wobbling top box"],
    ["YEAST FOR BREAD on the boxes", "HOLLOW CREEK BREWING on the hand truck"]),
- S("S16", 30.44, 32.66, "mainstreet", "EWS", "aerial", "giant loaf", ["townsfolk"], ["giant loaf", "church"], False, "dissolve",
+ S("S16", 30.44, 32.66, "mainstreet", "EWS", "aerial", "townsfolk", ["townsfolk"], ["giant loaf", "church"], False, "dissolve",
    ["30.4 high over the town: a loaf of bread as big as the church rises beside the steeple", "31.5 tiny townsfolk stare up"], [], frames=6, angle=["high"]),
  S("S17", 32.66, 34.42, "mainstreet", "MS", "story", "agent", ["agent"], ["door"], True, "dissolve",
-   ["32.7 night: the agent on a porch knocks hard three times, street lamp behind"], [], frames=6, time_jump=True, angle=["profile"]),
+   ["32.7 night: from the street behind him, the agent on granny's porch knocks hard three times"], [], frames=6, time_jump=True),
  S("S18", 34.42, 37.64, "mainstreet", "MS", "story", "granny", ["granny", "agent"], ["door", "pie", "flour"], True, "move",
    ["34.4 the door opens: a granny with flour on her hands and a rolling pin", "35.6 over the agent's shoulder, she holds up a fresh pie, proud", "36.8 push past her: a kitchen with loaves cooling"],
    [], cam="over-shoulder, then a slow push past the granny into the kitchen", angle=["ots"]),
  S("S19", 37.64, 40.30, "mainstreet", "FS", "story", "agent", ["agent", "granny"], ["steps", "cellar window"], True, "move",
    ["37.6 the agent backs down the steps tipping his hat, sweat drop", "38.8 the granny waves, the brass key on a red string at her neck", "39.6 the cellar window by the steps glows and rattles"],
-   [], cam="pull back as he backs down, low angle", angle=["low"]),
+   [], cam="pull back and down to a low street angle as he backs down", angle=["low"]),
  S("S20", 40.30, 41.02, "mainstreet", "MS", "story", "agent", ["agent"], ["cellar window", "foam"], True, "cut",
    ["40.4 the cellar window bursts: a cap pings off, foam sprays the glass; the agent jumps, hat up"], [], punch=True, chain=True),
- S("S21", 41.02, 42.08, "mainstreet", "FS", "story", "agent", ["agent"], ["cellar window", "foam"], True, "whip",
+ S("S21", 41.02, 42.08, "mainstreet", "FS", "story", "agent", ["agent"], ["cellar window", "foam"], True, "cut",
    ["41.0 whip right: the next house's cellar window pops, foam; the agent spins"], [], chain=True),
  S("S22", 42.08, 43.32, "mainstreet", "WS", "story", "agent", ["agent", "townsfolk"], ["cellar window", "foam"], True, "move",
    ["42.1 crane up: down the whole street cellar windows pop one after another, foam fountains, lights coming on", "42.8 the agent turning in the middle"],
@@ -105,8 +115,8 @@ shots = [
  S("S23", 43.32, 46.56, "cellar", "MS", "cutaway", "granny", ["granny"], ["syrup can", "crock"], True, "dissolve",
    ["43.3 dissolve down into the sliced-open cellar under the street: the granny pours a can into a crock", "44.2 the can turns to the lens: PURE MALT EXTRACT", "45.5 the syrup ribbons thick and slow"],
    ["PURE MALT EXTRACT on the can"], cam="settle down into the cellar cutaway, then creep", frames=6),
- S("S24", 46.56, 48.36, "cellar", "CU", "insert", "crock", ["granny"], ["crock", "yeast cake", "water"], False, "move",
-   ["46.6 top-down: water sloshes in from a bucket", "47.7 a yeast cake drops in with her hand"], ["YEAST on the cake wrapper"], angle=["top"]),
+ S("S24", 46.56, 48.36, "cellar", "CU", "insert", "granny", ["granny"], ["crock", "yeast cake", "water"], True, "move",
+   ["46.6 looking down into the crock over the rim, the granny above it: water sloshes in from her bucket", "47.7 a yeast cake drops in from her hand"], ["YEAST on the cake wrapper"], angle=["high"]),
  S("S25", 48.36, 50.96, "cellar", "MCU", "story", "granny", ["granny"], ["crock", "bubbles"], True, "move",
    ["48.4 the crock starts to fizz, bubbles rising, a burp of foam on 'burps'", "49.8 foam crowns the rim; the granny leans in, sniffs, delighted"], []),
  S("S26", 50.96, 53.52, "grocery", "MS", "story", "grocer", ["grocer"], ["pancake mix", "syrup can", "water jug"], True, "dissolve",

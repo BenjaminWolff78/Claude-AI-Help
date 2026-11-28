@@ -16,7 +16,8 @@
 //  (yeast tower on the hand truck 0/1), pancake (the counter demo 0..1), night (0/1), chalk (BAKER on the truck 0..1),
 //  loaf (giant loaf 0..1), pop1..pop5 (s since that house's cellar popped, -1 off), cut1 (granny's cellar cutaway 0/1),
 //  crockFoam (0..1), crockFill (0..1), crockOpen (0/1), capAge (s since the granny's shelf started blowing caps, -1 off),
-//  wifeAge (s since the agent's cellar shelf blew, -1 off), bulk (the agent's cellar doors 0..1).
+//  wifeAge (s since the agent's cellar shelf blew, -1 off), bulk (the agent's cellar doors 0..1), wallN (absolute can count on
+//  the syrup wall, overrides wall), yeastX/yeastZ/yeastR (the yeast tower's floor position and yaw while it is wheeled in).
 import * as THREE from "three";
 import { phModel, phMat, boxM, planeM, type PhModel } from "../ph";
 import { TAU, cl, sm, hsh, std, canvasTex } from "./harborkit";
@@ -31,7 +32,7 @@ export const BR = {
   KETTLE: [-3.6, 0, 8.7] as V3, LINE_Z: 9.0, TABLE_TOP: 0.92, BREWER: [0.15, 0, 9.36] as V3, BARREL: [2.7, 0, 4.4] as V3, DRAIN: [2.7, 0.006, 3.35] as V3,
   DOOR: [0, 0, 0.6] as V3, AGENT_STOP: [0.9, 0, 8.25] as V3, AG1: [3.45, 0, 4.7] as V3, AG2: [1.95, 0, 4.75] as V3, AGENT_W: [3.4, 0, 3.6] as V3,
   GX: 100, COUNTER_Z: 3.4, COUNTER_TOP: 0.95, GROCER: [99.4, 0, 4.15] as V3, CUSTOMER: [99.2, 0, 2.55] as V3, WALL_X0: 99.6, WALL_X1: 103.6,
-  FLOUR: [103.55, 0, 5.6] as V3, BREAD: [96.25, 0, 5.2] as V3, BOARD: [98.1, 2.05, 6.96] as V3, YEAST: [102.4, 0, 2.3] as V3, GDOOR: [102.1, 0, 0.4] as V3,
+  FLOUR: [103.55, 0, 5.6] as V3, BREAD: [101.25, 0, 0.3] as V3, BOARD: [99.05, 2.25, 3.42] as V3, YEAST: [102.4, 0, 2.3] as V3, GDOOR: [102.1, 0, 0.4] as V3,
   MX: 200, H1: 197, H5: 221, PORCH_Y: 0.6, HOUSE_Z: 8.5, GRANNY_DOOR: [197, 0.6, 8.35] as V3, AGENT_KNOCK: [197.25, 0.6, 7.55] as V3,
   OFFICE: [188, 0, 10] as V3, BULK: [219.7, 0.15, 7.9] as V3, CELLAR_Y: -2.5,
 };
@@ -111,7 +112,7 @@ export const beer = (): SetDef => {
     box(4.4, 0.06, 0.04, iron, [0, BR.TABLE_TOP + 0.04, 0.28], 0, tbl); box(4.4, 0.06, 0.04, iron, [0, BR.TABLE_TOP + 0.04, -0.22], 0, tbl);
     const NC = 16, cans: THREE.Group[] = [];
     for (let i = 0; i < NC; i++) { const plain = syrupCan(false), lab = syrupCan(true); const g = new THREE.Group(); g.add(plain, lab); g.userData = { plain, lab }; root.add(g); cans.push(g); }
-    const pyr = [syrupCan(), syrupCan(), syrupCan()]; pyr.forEach((p, i) => add(p, i < 2 ? [2.52 + i * 0.15, BR.TABLE_TOP + 0.01, BR.LINE_Z] : [2.595, BR.TABLE_TOP + 0.172, BR.LINE_Z]));
+    const pyr = [syrupCan(), syrupCan(), syrupCan()]; pyr.forEach((p, i) => add(p, i < 2 ? [0.82 + i * 0.15, BR.TABLE_TOP + 0.01, 9.15] : [0.895, BR.TABLE_TOP + 0.172, 9.15]));   // under the wall sign, at the table's back edge (the brewer's side)
     // crates of finished cans (labelled) + stacks of cans beside the line
     const crateLab = (key: string) => canvasTex(key, 512, 256, (g) => { g.fillStyle = "#c8a878"; g.fillRect(0, 0, 512, 256); for (let i = 0; i < 6; i++) { g.fillStyle = "rgba(80,50,20,0.25)"; g.fillRect(0, i * 44 + 20, 512, 3); } g.fillStyle = "#3a1e10"; g.font = `900 64px ${SERIF}`; g.textAlign = "center"; g.fillText("BAKING", 256, 110); g.fillText("SYRUP", 256, 180); });
     const crM = new THREE.MeshStandardMaterial({ map: crateLab("crateBS"), roughness: 0.85 });
@@ -121,8 +122,8 @@ export const beer = (): SetDef => {
     for (let i = 0; i < 18; i++) field.set(k++, [-0.6 + (i % 6) * 0.15, 0.0, 10.0 + Math.floor(i / 6) * 0.15], i);
     field.count(k);
     // the big wall sign on the back wall
-    label("wallSign", 5.2, 2.6, "#d6bf8c", "#3a1e10", [["HOLLOW CREEK BREWING CO.", 0.15], ["BEER", 0.34], ["BAKING SYRUP", 0.2]], [0.9, 3.05, 11.94], Math.PI, root, { strike: 0.5 });
-    box(5.4, 2.8, 0.06, darkWood, [0.9, 3.05, 12.0]);
+    label("wallSign", 3.6, 2.0, "#d6bf8c", "#3a1e10", [["HOLLOW CREEK BREWING CO.", 0.15], ["BEER", 0.34], ["BAKING SYRUP", 0.2]], [0.9, 3.0, 11.94], Math.PI, root, { strike: 0.5 });   // 3.6 m: the 9:16 frame holds it above the brewer
+    box(3.8, 2.2, 0.06, darkWood, [0.9, 3.0, 12.0]);
     // the beer barrel the agents tip (pivot at its front-bottom edge) + the drain + the foam gush
     const piv = new THREE.Group(); add(piv, [BR.BARREL[0], 0, BR.BARREL[2] - 0.42]);
     const bb = phModel("wine_barrel_01", { center: true, h: 0.95 }); bb.position.set(0, 0, 0.42); piv.add(bb);
@@ -135,8 +136,10 @@ export const beer = (): SetDef => {
     // barrels along the east wall, hop sacks by the kettle, pipes, gauges, lamps, tools
     for (const [x, z, y] of [[5.4, 1.4, 0], [5.4, 2.4, 0], [4.5, 1.4, 0], [5.4, 1.9, 0.95], [5.4, 6.6, 0], [5.4, 7.6, 0], [4.6, 6.9, 0]] as V3[]) ph("wine_barrel_01", [x, y, z], hsh(x + z) * 3, { h: 0.95 });
     ph("wooden_barrels_01", [-1.4, 0, 1.2], 0.4, { h: 1.6 });
-    const hops = (p: V3) => { sack(root, p, 0.34, "#a08850"); const l = label("hops" + p[0], 0.36, 0.2, "#a08850", "#3a2a14", [["HOPS", 0.7]], [p[0], p[1] + 0.36, p[2] - 0.28], 0.15); l.renderOrder = 2; };
-    hops([-5.3, 0, 5.2]); hops([-4.7, 0, 5.4]); hops([-5.1, 0, 6.0]); hops([-5.2, 0.62, 5.6]);
+    // hop sacks (HOPS facing the shots that need them): behind the agent in S6 (south-east of the line) and in S5's background (west wall)
+    const hops = (p: V3, yaw = 0.15) => { sack(root, p, 0.34, "#a08850"); const l = label("hops" + p[0] + "_" + p[2], 0.36, 0.2, "#a08850", "#3a2a14", [["HOPS", 0.7]], [p[0] + Math.sin(yaw) * 0.31, p[1] + 0.3, p[2] + Math.cos(yaw) * 0.31], yaw); l.renderOrder = 2; };
+    hops([2.6, 0, 6.7], -0.69); hops([3.08, 0, 6.95], -0.69); hops([2.82, 0.62, 6.82], -0.69);
+    hops([-5.2, 0, 10.7], 1.915); hops([-4.6, 0, 11.1], 1.915); hops([-5.0, 0.62, 10.9], 1.915);
     pipeRun(root, [-6, 4.6, 11.8], [6, 4.6, 11.8], 0.07, "#b06a40"); pipeRun(root, [-6, 4.25, 11.8], [6, 4.25, 11.8], 0.045, "#7a7e86");
     pipeRun(root, [5.9, 4.4, 1], [5.9, 4.4, 11.8], 0.05, "#b06a40");
     for (const x of [-2.4, 4.1]) { const d = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.05, 24), new THREE.MeshStandardMaterial({ color: "#f4efe2", roughness: 0.5 })); d.rotation.x = Math.PI / 2; add(d, [x, 2.4, 11.95]); const rim = new THREE.Mesh(new THREE.TorusGeometry(0.145, 0.018, 6, 24), brassM()); add(rim, [x, 2.4, 11.95]); }
@@ -156,7 +159,7 @@ export const beer = (): SetDef => {
         g.userData.plain.visible = x < -0.05; g.userData.lab.visible = x >= -0.05;
       });
       const pour = cl(c.pour ?? 0); K.stream.visible = pour > 0.02; K.stream.scale.set(1, Math.max(0.02, 1.26 - BR.TABLE_TOP - 0.17) * pour, 1);
-      pyr.forEach((p) => (p.visible = (c.pyr ?? 0) > 0.5));
+      pyr.forEach((p, i) => (p.visible = c.pyrN !== undefined ? i < c.pyrN : (c.pyr ?? 0) > 0.5));
       const tip = sm(c.tip ?? 0); piv.rotation.x = -tip * 1.25;
       const gs = cl(c.gush ?? 0); gush.visible = gs > 0.02; gush.position.set(BR.BARREL[0], 0.62, BR.DRAIN[2] + 0.12); gush.scale.set(gs, 0.62 * gs + 0.01, gs);
       puddle.scale.setScalar(0.1 + 0.8 * gs); puddle.visible = gs > 0.02; gfoam.set(gs > 0.05 ? (t * 0.7) % 1.4 : -1);
@@ -203,6 +206,7 @@ export const beer = (): SetDef => {
     // fill order: the shelves at eye height first, then up and down (3 cans, then a shelf, then the wall)
     const order = [...wallPts.keys()].sort((a, b) => { const la = Math.floor(a / 26), lb = Math.floor(b / 26); const ra = Math.abs(la - 2.5), rb = Math.abs(lb - 2.5); return ra - rb || a - b; });
     order.forEach((pi, k) => wf.set(k, wallPts[pi], pi * 0.9));
+    ph("wooden_stool_01", [102.7, 0, 6.2], 0.3, { h: 0.45 });   // the grocer stands on it to stock the top shelves (S12)
     label("syrupSign", 3.8, 0.42, "#3a1e10", "#f2d38a", [["MALT SYRUP ~ FOR BAKING", 0.62]], [(BR.WALL_X0 + BR.WALL_X1) / 2, 2.95, 6.95], Math.PI);
     // flour sacks next to it (dusty, a cobweb, a spider) + the empty bread rack + the count board + the wink poster
     const flourTex = canvasTex("flourSack", 512, 512, (g) => { g.fillStyle = "#e8e0cc"; g.fillRect(0, 0, 512, 512); for (let y = 0; y < 512; y += 5) { g.fillStyle = "rgba(120,100,70,0.12)"; g.fillRect(0, y, 512, 1); } g.fillStyle = "#3a5aa8"; g.font = `900 110px ${SERIF}`; g.textAlign = "center"; g.fillText("FLOUR", 256, 250); g.font = `700 50px ${SERIF}`; g.fillText("25 LB", 256, 330); });
@@ -213,18 +217,20 @@ export const beer = (): SetDef => {
     const spider = new THREE.Group(); const sb = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 6), std("#1a1a1a", 0.6)); spider.add(sb);
     for (let i = 0; i < 8; i++) { const l = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.06, 3), std("#1a1a1a", 0.6)); l.position.set((i < 4 ? -1 : 1) * 0.03, 0, (i % 4 - 1.5) * 0.015); l.rotation.z = (i < 4 ? 1 : -1) * 1.0; spider.add(l); }
     root.add(spider);
-    const rack = new THREE.Group(); add(rack, [BR.BREAD[0], 0, BR.BREAD[2]], Math.PI / 2);
-    for (let i = 0; i < 4; i++) box(1.4, 0.03, 0.4, darkWood, [0, 0.4 + i * 0.42, 0], 0, rack); for (const x of [-0.7, 0.7]) box(0.04, 1.8, 0.4, darkWood, [x, 0.9, 0], 0, rack);
-    label("breadSign", 0.9, 0.3, "#f2ecd8", "#3a1e10", [["BREAD", 0.7]], [BR.BREAD[0] + 0.22, 1.95, BR.BREAD[2]], Math.PI / 2);
-    ph("croissant", [BR.BREAD[0] + 0.05, 0.43, BR.BREAD[2] + 0.4], 1, { h: 0.04 });
-    const board = counter(0.8, 0.8, "SYRUP SOLD", "THIS WEEK"); board.place(root, BR.BOARD, Math.PI);
+    // the empty bread rack on the front wall between the window and the door (S14: the agent squints at it from the doorway)
+    const rack = new THREE.Group(); add(rack, [BR.BREAD[0], 0, BR.BREAD[2]], 0);
+    for (let i = 0; i < 4; i++) box(0.92, 0.03, 0.4, darkWood, [0, 0.4 + i * 0.42, 0], 0, rack); for (const x of [-0.46, 0.46]) box(0.04, 1.8, 0.4, darkWood, [x, 0.9, 0], 0, rack);
+    label("breadSign", 0.8, 0.26, "#f2ecd8", "#3a1e10", [["BREAD", 0.7]], [BR.BREAD[0], 1.98, BR.BREAD[2] + 0.21], 0);
+    ph("croissant", [BR.BREAD[0] + 0.25, 0.43, BR.BREAD[2] + 0.05], 1, { h: 0.04 });
+    const board = counter(0.8, 0.8, "SYRUP SOLD", "THIS WEEK"); board.place(root, BR.BOARD, Math.PI);   // hung from the ceiling over the counter, facing the customers (it hid behind the shelf on the back wall)
+    for (const dx of [-0.32, 0.32]) { const ch = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 3.4 - BR.BOARD[1] - 0.4, 4), iron); ch.position.set(BR.BOARD[0] + dx, (3.4 + BR.BOARD[1] + 0.4) / 2, BR.BOARD[2]); root.add(ch); }
     poster(root, [X - 2.0, 2.05, 6.93], Math.PI, 0.8, 1.05, "#f2e2b0", [["MALT SYRUP", 0.13, "#b3261e"], ["for BAKING", 0.1, "#3a1e10"], [";)", 0.24, "#3a1e10"], ["ask your grocer", 0.07, "#3a1e10"]], { key: "winkPoster" });
     // the yeast tower on the hand truck, the pancake demo on the counter
     const yeastG = new THREE.Group(); add(yeastG, BR.YEAST, 0.5);
     yeastG.add(phModel("hand_truck", { center: true, h: 1.35 }));
     const ytex = canvasTex("yeastBox", 512, 256, (g) => { g.fillStyle = "#f2d860"; g.fillRect(0, 0, 512, 256); g.fillStyle = "#b3261e"; g.fillRect(0, 0, 512, 50); g.fillStyle = "#3a1e10"; g.font = `900 92px ${SERIF}`; g.textAlign = "center"; g.fillText("YEAST", 256, 150); g.font = `700 40px ${SERIF}`; g.fillText("FOR BREAD", 256, 215); });
     for (let i = 0; i < 9; i++) { const bx = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.24, 0.3), new THREE.MeshStandardMaterial({ map: ytex, roughness: 0.8 })); bx.position.set((hsh(i) - 0.5) * 0.04, 0.2 + i * 0.245, 0.12); bx.rotation.y = (hsh(i + 3) - 0.5) * 0.15; bx.castShadow = true; yeastG.add(bx); }
-    const pan = new THREE.Group(); add(pan, [X - 2.0, BR.COUNTER_TOP, BR.COUNTER_Z + 0.05]);
+    const pan = new THREE.Group(); add(pan, [X - 2.0, BR.COUNTER_TOP, BR.COUNTER_Z + 0.2]);   // the back half of the counter: the grocer's hands reach it on his card plane
     const pbox = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.26, 0.07), new THREE.MeshStandardMaterial({ map: canvasTex("pancakeBox", 256, 368, (g) => { g.fillStyle = "#e86a2a"; g.fillRect(0, 0, 256, 368); g.fillStyle = "#fff2d8"; g.font = `900 52px ${SERIF}`; g.textAlign = "center"; g.fillText("PANCAKE", 128, 90); g.fillText("MIX", 128, 150); g.font = `700 30px ${SERIF}`; g.fillText("JUST ADD", 128, 250); g.fillText("WATER", 128, 290); }), roughness: 0.7 }));
     pbox.position.set(-0.25, 0.13, 0); pan.add(pbox);
     const bowl = phModel("wooden_bowl_01", { center: true, h: 0.09 }); bowl.position.set(0.05, 0, 0); pan.add(bowl);
@@ -234,9 +240,9 @@ export const beer = (): SetDef => {
     const demoCan = syrupCan(); demoCan.position.set(0.55, 0, 0.0); pan.add(demoCan);
     anim.push((t, c, light) => {
       if (light !== "groc") return;
-      const n = Math.round(cl(c.wall ?? 0) * wf.n); wf.count(n);
+      const n = c.wallN !== undefined ? Math.min(wf.n, Math.round(c.wallN)) : Math.round(cl(c.wall ?? 0) * wf.n); wf.count(n);
       board.set(String(Math.round(c.board ?? 0)));
-      yeastG.visible = (c.yeast ?? 0) > 0.5;
+      yeastG.visible = (c.yeast ?? 0) > 0.5; if (c.yeastX !== undefined) { yeastG.position.set(c.yeastX, 0, c.yeastZ ?? BR.YEAST[2]); yeastG.rotation.y = c.yeastR ?? 0.5; } else { yeastG.position.set(...BR.YEAST); yeastG.rotation.y = 0.5; }
       const pk = cl(c.pancake ?? 0); pan.visible = (c.pancakeOn ?? 0) > 0.5; batter.scale.setScalar(0.2 + 0.8 * sm(pk, 0, 0.4)); froth.scale.setScalar(0.01 + sm(pk, 0.5, 0.9) * (1 + 0.08 * Math.sin(t * 9)));
       const sa = (t * 0.06) % 1; spider.position.set(103.25, 1.18 - 0.05 * Math.sin(t * 1.3), 4.95 + 0.35 * sa); spider.rotation.y = 0.2;
     });
@@ -279,6 +285,7 @@ export const beer = (): SetDef => {
       // NOTE the front wall box above is solid: punch the window by hiding a slice (the window area is drawn by the hole plane)
     }
     // houses H1..H5
+    let grannyDoor: THREE.Group | null = null;
     const house = (i: number, x: number) => {
       const z0 = BR.HOUSE_Z, mat = siding[i % siding.length], g = new THREE.Group(); root.add(g);
       box(6, 5.2, 6, mat, [x, 2.6 + 0.4, z0 + 3], 0, g);
@@ -292,8 +299,21 @@ export const beer = (): SetDef => {
       box(3.6, 0.1, 1.7, shingle, [x, BR.PORCH_Y + 2.65, z0 - 0.7], 0, g);
       for (const dx of [-1.05, 1.05]) { box(1.0, 0.06, 0.06, trimWhite, [x + dx, BR.PORCH_Y + 0.85, z0 - 1.44], 0, g); for (let k = 0; k < 6; k++) box(0.04, 0.85, 0.04, trimWhite, [x + dx - 0.45 + k * 0.18, BR.PORCH_Y + 0.42, z0 - 1.44], 0, g); }
       // door + windows (day panes / lit at night)
-      box(1.0, 2.1, 0.08, std(["#6a2a2a", "#2a4a6a", "#3a5a3a", "#5a4a2a", "#2a3a5a"][i], 0.5), [x, BR.PORCH_Y + 1.05, z0 - 0.02], 0, g);
-      ph("gate_latch_01", [x + 0.38, BR.PORCH_Y + 1.0, z0 - 0.07], 0, { h: 0.08 }, g);
+      // the front door: hinged at its left edge (seen from the street); granny's (H1) swings in onto her lit kitchen (ctl door1)
+      const hinge = new THREE.Group(); hinge.position.set(x - 0.5, BR.PORCH_Y, z0 - 0.06); g.add(hinge);
+      { const d = box(1.0, 2.1, 0.08, std(["#6a2a2a", "#2a4a6a", "#3a5a3a", "#5a4a2a", "#2a3a5a"][i], 0.5), [0.5, 1.05, 0.04], 0, hinge); void d; }
+      if (i === 0) {
+        const kit = canvasTex("grannyKitchen", 256, 540, (k) => {
+          const gr = k.createLinearGradient(0, 0, 0, 540); gr.addColorStop(0, "#f2c27a"); gr.addColorStop(1, "#b8743a"); k.fillStyle = gr; k.fillRect(0, 0, 256, 540);
+          k.fillStyle = "#7a4a2a"; for (const y of [210, 300]) k.fillRect(10, y, 236, 12);
+          for (const [y, n] of [[210, 3], [300, 4]] as [number, number][]) for (let j = 0; j < n; j++) { const cx = 40 + j * (176 / Math.max(1, n - 1)); k.fillStyle = "#c8803a"; k.beginPath(); k.ellipse(cx, y - 18, 30, 18, 0, 0, 6.3); k.fill(); k.strokeStyle = "#5a3018"; k.lineWidth = 4; k.stroke(); k.strokeStyle = "#f0d8a8"; k.lineWidth = 3; for (const dx of [-12, 0, 12]) { k.beginPath(); k.moveTo(cx + dx - 5, y - 26); k.lineTo(cx + dx + 5, y - 14); k.stroke(); } }
+          k.fillStyle = "#e8e0cc"; k.fillRect(60, 380, 140, 160); k.fillStyle = "#2a1a10"; k.fillRect(0, 0, 256, 8); k.fillRect(0, 0, 8, 540); k.fillRect(248, 0, 8, 540);
+          k.fillStyle = "rgba(255,240,200,0.5)"; k.beginPath(); k.arc(128, 70, 40, 0, 6.3); k.fill();
+        });
+        const card = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 2.1), new THREE.MeshStandardMaterial({ map: kit, emissive: "#ffb070", emissiveIntensity: 0.55, emissiveMap: kit, roughness: 0.9 }));
+        add(card, [x, BR.PORCH_Y + 1.05, z0 - 0.012], Math.PI, g); grannyDoor = hinge;
+      }
+      if (i !== 0) ph("gate_latch_01", [x + 0.38, BR.PORCH_Y + 1.0, z0 - 0.07], 0, { h: 0.08 }, g);   // (granny's door opens: no latch left floating)
       const panes: THREE.Mesh[] = [];
       for (const [dx, y] of [[-1.9, 1.9], [1.9, 1.9], [-1.5, 4.1], [1.5, 4.1], [0, 4.1]] as [number, number][]) {
         const p = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.3), paneDay.clone()); add(p, [x + dx, y, z0 - 0.015], Math.PI, g); panes.push(p);
@@ -333,7 +353,7 @@ export const beer = (): SetDef => {
       box(1.0, 2.2, 0.1, std("#4a3020", 0.6), [x + 2.3, 1.1, -8.46]);
     });
     // street lamps (lit at night), a couple of trees, the brewery truck
-    for (let x = 182; x <= 236; x += 9) for (const z of [4.4, -4.4]) { ph("street_lamp_01", [x + (z > 0 ? 0 : 4.5), 0.15, z], z > 0 ? Math.PI : 0, { h: 4.2 }); const L = new THREE.PointLight("#ffc080", 0, 14, 1.6); L.position.set(x + (z > 0 ? 0 : 4.5), 3.9, z); root.add(L); nightLamps.push(L); nightGlows.push(glow(root, [x + (z > 0 ? 0 : 4.5), 3.95, z], "#ffc080", 0.9)); }
+    for (let x = 182; x <= 236; x += 9) for (const z of [4.4, -4.4]) { if (z > 0 && x === 191) continue; /* no lamp between the S9 camera and the truck door */ ph("street_lamp_01", [x + (z > 0 ? 0 : 4.5), 0.15, z], z > 0 ? Math.PI : 0, { h: 4.2 }); const L = new THREE.PointLight("#ffc080", 0, 14, 1.6); L.position.set(x + (z > 0 ? 0 : 4.5), 3.9, z); root.add(L); nightLamps.push(L); nightGlows.push(glow(root, [x + (z > 0 ? 0 : 4.5), 3.95, z], "#ffc080", 0.9)); }
     for (const [x, z] of [[183, 7.6], [233, 7.4], [212.6, 15]] as [number, number][]) ph("oak_lite", [x, 0, z], hsh(x) * 3, { h: 9 });
 const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
     // the CELLARS (granny under H1, the agent under H5): stone rooms, shelves of bottles, crocks, a bulb
@@ -350,8 +370,8 @@ const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
       for (const x of [sx0, sx1]) box(0.05, 2.2, 0.36, darkWood, [x, y0 + 1.1, z0 + 3.88], 0, g);
       const rack = new BottleRack(g, pts);
       const crocks = [crock(g, [cx + 1.6, y0, z0 + 3.6]), crock(g, [cx + 2.1, y0, z0 + 3.0]), crock(g, [cx + 1.9, y0, z0 + 2.3])];
-      const hero = crock(g, [cx - 0.2, y0 + 0.62, z0 + 2.2], true);
-      box(1.1, 0.06, 0.7, darkWood, [cx - 0.2, y0 + 0.6, z0 + 2.2], 0, g); for (const [dx, dz] of [[-0.5, -0.3], [0.5, -0.3], [-0.5, 0.3], [0.5, 0.3]]) box(0.06, 0.6, 0.06, darkWood, [cx - 0.2 + dx, y0 + 0.3, z0 + 2.2 + dz], 0, g);
+      const hero = crock(g, [cx - 0.2, y0 + 0.62, z0 + 2.35], true);   // table + crock 15 cm nearer the back: the granny's hands reach them on her card plane
+      box(1.1, 0.06, 0.7, darkWood, [cx - 0.2, y0 + 0.6, z0 + 2.35], 0, g); for (const [dx, dz] of [[-0.5, -0.3], [0.5, -0.3], [-0.5, 0.3], [0.5, 0.3]]) box(0.06, 0.6, 0.06, darkWood, [cx - 0.2 + dx, y0 + 0.3, z0 + 2.35 + dz], 0, g);
       ph("wooden_bucket_01", [cx + 0.9, y0, z0 + 1.6], 0.4, { h: 0.34 }, g);
       const bulbG = phModel("lightbulb_01", { center: true, h: 0.12 }); bulbG.position.set(cx - 0.3, -0.62, z0 + 2.0); g.add(bulbG);
       const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.4, 4), iron); cord.position.set(cx - 0.3, -0.38, z0 + 2.0); g.add(cord);
@@ -361,7 +381,7 @@ const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
       box(0.06, 2.6, 2.7, darkWood, [cx + 1.52, y0 + 1.2, z0 + 2.6], 0, g);
       if (kind === "granny") { const soil = phMat("farm_soil", 1 / 1.5, 1 / 1.5, { tint: "#8a6a4a", key: "soilCut" }); box(3.4, 3.2, 4.6, soil, [cx - 4.4, y0 + 1.3, z0 + 2.15], 0, g); box(3.4, 3.2, 4.6, soil, [cx + 4.4, y0 + 1.3, z0 + 2.15], 0, g); box(12, 1.6, 4.6, soil, [cx, y0 - 0.85, z0 + 2.15], 0, g); }
       if (kind === "granny") label("chalk45", 0.5, 0.3, "#000000", "#f0f0e6", [["45", 0.8]], [cx - 1.6, y0 + 2.35, z0 + 4.08], Math.PI, g, { alpha: true });
-      const capper = new THREE.Group(); capper.position.set(cx - 0.75, y0 + 0.63, z0 + 2.3); g.add(capper);
+      const capper = new THREE.Group(); capper.position.set(cx - 0.75, y0 + 0.63, z0 + 2.45); g.add(capper);
       { const b = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.03, 0.12), iron); capper.add(b); const p = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.42, 6), iron); p.position.set(0.05, 0.21, 0); capper.add(p); const h = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.03, 0.03), std("#b3261e", 0.5)); h.position.set(0.0, 0.4, 0); capper.add(h); }
       const fb = new FoamBurst(g, [cx - 0.6, y0 + 1.6, z0 + 3.6], [0, 0.6, -0.6], 18, 0.42);
       return { g, rack, crocks, hero, front, fb, bulbL };
@@ -376,6 +396,8 @@ const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
       const ck = cl(c.chalk ?? 0);
       truckG.traverse((o) => { if (o.name === "chalk") ((o as THREE.Mesh).material as THREE.MeshStandardMaterial).opacity = ck; });
       const b = sm(c.bulk ?? 0); lL.rotation.z = b * 1.75; lR.rotation.z = -b * 1.75;
+      if (grannyDoor) grannyDoor.rotation.y = -1.6 * sm(c.door1 ?? 0);   // swings in (into the house): the leaf hides inside the wall
+      houses.forEach((h, i) => { const gk = c[`glow${i + 1}`] ?? 0; if (gk > 0) (h.cw.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.9 + 2.2 * gk; });
       key.rotation.x = Math.sin(t * 5) * 0.25 * (0.3 + b);
       cG.front.visible = (c.cut1 ?? 0) < 0.5; cA.front.visible = true;
       cG.hero.set(cl(c.crockFoam ?? 0), true, cl(c.crockFill ?? 0));

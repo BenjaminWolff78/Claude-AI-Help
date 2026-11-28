@@ -15,6 +15,7 @@ import { getInputProps } from "remotion";
 const THUMB = !!(getInputProps() as { thumb?: boolean }).thumb;
 import type { MouthK } from "./toon";
 import { BS } from "./sets/bistro";
+import { BR } from "./sets/beer";
 
 // ---------------- helpers ----------------
 type P = Partial<FigOpts>;
@@ -720,428 +721,606 @@ const faceAt = (id: number, s: SetDef, f: number, P: V3, T: V3) => screenSide(id
 const plus3 = (a: V3, b: V3): V3 => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 const sc3 = (a: V3, k: number): V3 => [a[0] * k, a[1] * k, a[2] * k];
 
-// ================================================= THE STORY STATE (one function of the frame) =================================================
-const PY = 1.03;                                   // the peel blade on the oven floor
-const BENCH_B: V3 = [1.55, 0.925, 7.92], MOUTH_B: V3 = [0.05, PY, 9.2], IN_B: V3 = [0.05, PY, 8.15], OUT_B: V3 = [0.05, PY, 9.4];
-const UP_B: V3 = [0.05, 2.05, 10.0];               // the peel held upright like a staff (blade high), 592-860
-const HK0: V3 = [0.05, PY, 9.25], HK1: V3 = [0.05, PY, 8.8], HOOK_D = 0.9;   // the hook: the handle swung 52 deg toward +x (the kid clear of the oven mouth)
-/** the peel: blade centre, tilt (rz: -pi/2 = upright, blade high) and the handle's swing off +z (d) */
-const peelAt = (f: number): { b: V3; rz: number; d: number } => {
-  if (f < 60) return { b: lerp3(HK0, HK1, sm(f, 6, 54)), rz: 0, d: HOOK_D };
-  if (f < 508) return { b: BENCH_B, rz: 0, d: 0 };
-  if (f < 521) return { b: lerp3(BENCH_B, MOUTH_B, sm(f, 508, 521)), rz: 0, d: 0 };
-  if (f < 552) return { b: lerp3(MOUTH_B, IN_B, sm(f, 521, 550)), rz: 0, d: 0 };
-  if (f < 570) return { b: lerp3(IN_B, MOUTH_B, sm(f, 552, 570)), rz: 0, d: 0 };
-  if (f < 592) return { b: lerp3(MOUTH_B, UP_B, sm(f, 570, 592)), rz: -Math.PI / 2 * sm(f, 570, 592), d: 0 };
-  if (f < 860) return { b: UP_B, rz: -Math.PI / 2, d: 0 };
-  if (f < 875) return { b: lerp3(UP_B, MOUTH_B, sm(f, 860, 875)), rz: -Math.PI / 2 * (1 - sm(f, 860, 875)), d: 0 };
-  if (f < 884) return { b: lerp3(MOUTH_B, IN_B, sm(f, 875, 884)), rz: 0, d: 0 };
-  if (f < 898) return { b: lerp3(IN_B, OUT_B, sm(f, 884, 898)), rz: 0, d: 0 };
-  return { b: OUT_B, rz: 0, d: 0 };
+// ================================================= p14: "They Banned Beer, So He Sold It as Bread Syrup" (2026-11-27, v34) =================================================
+// One set (beer) with four places: the brewery (S1-S7), Main Street by day (S8-S9, S16) and by night (S17-S22, S30), the
+// grocery (S10-S15, S26, S29) and the cellars under the houses (granny: S23-S25, S27-S28; the agent's: S31).
+// Hard cuts: 438 (S7, "It's for baking."), 824 (S14, the agent's squint), 1209 (S20, the first cellar pops). Dissolves
+// (6 f) at every new place or time (story.ts XFADE). Everything else is one camera move out of the shot before.
+// The story state (cans, barrel, wall, board, yeast tower, loaf, pops, crock, caps, doors) is ONE function of the frame
+// (CTLB), so nothing jumps at a shot change.
+const BRW = "brewer", AGT = "agent", AGS = "agents", AGB = "agentB", GRO = "grocer", GRA = "granny", WIF = "wife", TFK = "townsfolk", TMN = "townsman", KDC = "kid";
+const HYC: Record<string, number> = {};
+const HY = (who: string) => (HYC[who] ??= headOf(CASTS_T[who] as Look, {}).y);
+const HD = (who: string, p: V3): V3 => [p[0], p[1] + HY(who), p[2]];
+const LZ = 9.0, TT = 0.92;                                  // the canning line (z) and its table top
+const B0: V3 = [0.05, 0, 9.25], B2: V3 = [1.2, 0, 9.25];    // the brewer at the spout / under the wall sign at the pyramid (card plane 0.25 m behind the cans)
+const AST: V3 = [0.3, 0, 8.55];                            // the agent's mark across the line from the brewer (5 cm in front of the table edge)
+/** metres per stride phase unit (planted feet: previz_guard G3d) */
+const SMC: Record<string, number> = {};
+const SM = (who: string) => (SMC[who] ??= strideM(CASTS_T[who] as Look, { mode: "stride" } as FigOpts));
+/** a planted-feet walk along waypoints between frames a and b (eased); back = walking backwards */
+const walkS = (id: number, s: SetDef, who: string, pts: V3[], f: number, a: number, b: number, back = false) => {
+  const u = sm(f, a, b), w = polyAt(pts, u), dist = u * polyLen(pts), moving = f > a && f <= b;   // the end frame still strides (its last step lands there)
+  const fc = (Math.sign(screenSide(id, s, f, w.d[0], w.d[1])) || 1) * (back ? -1 : 1);
+  return { p: w.p, facing: fc, moving, o: (moving ? { mode: "stride", phase: (back ? -1 : 1) * dist / SM(who) } : {}) as P };
 };
-/** the two grips on the handle (front, rear) */
-const grips = (f: number): [V3, V3] => {
-  const { b, rz, d } = peelAt(f), up = -rz / (Math.PI / 2), dx = Math.sin(d), dz = Math.cos(d);
-  const at = (q: number): V3 => [b[0] + (1 - up) * dx * q, b[1] + 0.012 - up * q, b[2] + (1 - up) * dz * q];
-  return [at(1.0), at(1.45)];
-};
-/** where the kid stands while he works the peel: beside its rear grip, on the east side */
-const kidAtPeel = (f: number): V3 => {
-  const { d } = peelAt(f), [, r] = grips(f);
-  if (d > 0) return [r[0] + 0.12 * Math.sin(d), 0, r[2] + 0.12 * Math.cos(d)];
-  return [r[0] + 0.38, 0, r[2] + 0.05];
-};
-// the kid in shot 9: walks round the handle to the blade (898-912), lifts the plate (912-918), holds it up (918-946), heads for the door
-const K9: V3[] = [[0.43, 0, 10.9], [0.95, 0, 10.2], [0.62, 0, 9.55]];
-const K9_OUT: V3[] = [[0.62, 0, 9.55], [-0.4, 0, 9.0], [-1.25, 0, 8.4], [-2.1, 0, 7.5]];
-const kid9 = (f: number): V3 => (f < 898 ? kidAtPeel(f) : f < 912 ? pathAt(K9, f, 898, 912) : f < 946 ? K9[2] : pathAt(K9_OUT, f, 946, 972));
-const plate9 = (f: number): V3 => {
-  const onPeel: V3 = [OUT_B[0], OUT_B[1] + 0.024, OUT_B[2]];
-  const K = kid9(f), held: V3 = [K[0] - 0.42, 1.12, K[2] - 0.08], up: V3 = [K[0] - 0.4, 1.3, K[2] - 0.08];
-  if (f < 912) return onPeel;
-  if (f < 918) return lerp3(onPeel, held, sm(f, 912, 918));
-  if (f < 946) return lerp3(held, up, sm(f, 918, 926) * (1 - 0.3 * sm(f, 938, 946)));
-  const dir = pathDir(K9_OUT, f, 946, 972); return [K[0] + dir[0] * 0.38, 1.18, K[2] + dir[2] * 0.38];
-};
-// the dining room
-const KID_T = BS.KID_T, ALT = BS.ALT, ALK_ASIDE: V3 = [-3.5, 0.765, 5.6];
-const KT_HAND: V3 = [KID_T[0] - 0.4, 1.0, KID_T[2] - 0.05];
-const KID_BACK: V3 = [-2.75, 0, 5.8];
-/** the kid at the table: serves from KID_T (960-990), steps back to watch (990-1010) */
-const kidT = (f: number): V3 => (f < 990 ? KID_T : lerp3(KID_T, KID_BACK, sm(f, 990, 1010)));
-const MENU_P: V3 = [BS.MENU[0], BS.MENU[1], BS.MENU[2]];
-// the waiter takes the order at the table and goes to lean in the kitchen doorway (312-340), then back (386-420)
-const WALK_ORDER: V3[] = [[-3.05, 0, 5.55], [-2.9, 0, 6.2], [-2.55, 0, 6.7]];
-const waiterAt = (f: number): V3 => (f < 312 ? WALK_ORDER[0] : f < 340 ? pathAt(WALK_ORDER, f, 312, 340) : f < 386 ? WALK_ORDER[2] : pathAt([[-2.55, 0, 6.7], [-1.6, 0, 6.2], [-0.6, 0, 5.4]], f, 386, 420));
-// the dishwasher: from the dish pit, carrying the bucket along the oven front (630-672), sets it down (672-688), steps back
-const DISH0: V3 = [3.45, 0, 8.92], DISH1: V3 = [0.45, 0, 9.02];
-const dishAt = (f: number): V3 => (f < 630 ? DISH0 : f < 688 ? lerp3(DISH0, DISH1, 0.92 * sm(f, 630, 672) + 0.08 * sm(f, 672, 688)) : f < 730 ? pathAt([DISH1, [1.4, 0, 9.5], BS.DISH_SPOT], f, 694, 730) : BS.DISH_SPOT);
-// the chef: inside the swing door (365-455), walks over to watch the kid (455-490)
-const chefAt = (f: number): V3 => (f < 455 ? BS.CHEF_READ : f < 490 ? pathAt([BS.CHEF_READ, [-2.1, 0, 9.35], BS.CH_W], f, 455, 490) : BS.CH_W);
-// the second dessert (the finale): the kid brings it out of the kitchen door (1640) to the critic (1712)
-const WALK_K16: V3[] = [[-2.15, 0, 6.6], [-2.35, 0, 6.05], [-2.75, 0, 5.6], KID_T];
-const kid16 = (f: number): V3 => (f < 1640 ? WALK_K16[0] : f > 1712 ? KID_T : pathAt(WALK_K16, f, 1640, 1712));
-const PAN_POUR: V3 = [-3.5, 1.36, 5.1];
+const POUR_PH = (f: number) => ((f % 28) + 28) % 28;        // the brewer's canning loop (28 f): slap 0-6, slide 8-20
+/** a fitted camera: the boxes (body(p, y0, y1, half width)) inside the frame from compass az (0 = from +z, 90 = from +x), el deg looking down */
+const FIT = (boxes: Box[], az: number, el: number, fov: number, pad = 0.85, side = 0, lift = 0, room?: Room): Cam => { let c = fit(boxes, az, el, fov, pad, side, lift); if (room) c = inRoom(c, room); return cam3(c.pos, c.look, c.fov); };
+/** rooms the fitted cameras stay inside (they backed out through the shop front: the front wall and the bread rack in front of the lens) */
+const ROOM_BREW: Room = { x0: -5.5, x1: 5.5, z0: 0.45, z1: 11.6, y1: 5.2 }, ROOM_GROC: Room = { x0: 96.3, x1: 103.7, z0: 0.6, z1: 6.4, y1: 3.2 };
+const SPOUT: V3 = [-1.05, 0, 9.0];
 
-const CTL = (f: number): Ctl => {
-  const c: Ctl = { oven: 1, dial: 500, snowK: 1, melt: sm(f, 431, 900) };
-  c.bucket = f < 630 ? 0 : f > 688 ? 1 : 0.92 * sm(f, 630, 672) + 0.08 * sm(f, 672, 688);
-  c.bucketY = f > 630 && f < 686 ? 0.16 * sm(f, 630, 640) * (1 - sm(f, 672, 686)) : 0;
-  // the swing door (<0 into the kitchen, >0 into the dining room): the waiter leans in (334-394), the kid goes out (962-994), the kid again (1632-1666)
-  c.door = -sm(f, 334, 344) * (1 - sm(f, 440, 470)) + sm(f, 962, 970) * (1 - sm(f, 980, 994)) + sm(f, 1632, 1640) * (1 - sm(f, 1652, 1666));
-  // the first dessert: heaped on the peel at the bench, into the oven, out, carried, served, cracked, eaten
-  const p = peelAt(f);
-  c.peelOn = f < 60 || f >= 431 ? 1 : 0; c.peelX = p.b[0]; c.peelY = p.b[1]; c.peelZ = p.b[2]; c.peelRy = -Math.PI / 2 + p.d; c.peelRz = p.rz;
-  const onPeel: V3 = [p.b[0], p.b[1] + 0.024, p.b[2]];
-  if (f < 60) { c.alKon = 1; [c.alKx, c.alKy, c.alKz] = onPeel; c.alKbake = 0; c.alKheap = 1; }
-  else if (f >= 431 && f < 960) {
-    c.alKon = 1; c.alKheap = sm(f, 448, 503); c.alKbake = 0.92 * sm(f, 600, 880); c.alKchar = sm(f, 840, 880);
-    const P: V3 = f < 552 || (f >= 884 && f < 912) ? onPeel : f < 884 ? [IN_B[0], IN_B[1] + 0.024, IN_B[2]] : plate9(f);
-    [c.alKx, c.alKy, c.alKz] = P;
-  } else if (f >= 960) {
-    c.alKon = 1; c.alKbake = 0.92; c.alKchar = 1; c.alKheap = f >= 1300 ? -1 : 1; c.alKry = 1.1;   // the spooned-out side faces the crack camera (south)
-    const P = f < 968 ? lerp3(KT_HAND, ALT, sm(f, 960, 968)) : f < 1696 ? ALT : lerp3(ALT, ALK_ASIDE, sm(f, 1696, 1710));
-    [c.alKx, c.alKy, c.alKz] = P;
-    if (f >= 1078 && f < 1300) { c.alKcrack = 1; c.alKfrost = 1 - 0.5 * sm(f, 1160, 1270); }
-  }
-  // the finale dessert: the flash-forward (60-139) and the real thing (1640-1845)
-  if (f >= 60 && f < 139) {
-    c.alFon = 1; [c.alFx, c.alFy, c.alFz] = ALT; c.alFbake = 0.95; c.alFry = 1.1;
-    c.flame = sm(f, 58, 63) * (1 - sm(f, 80, 92)); c.boomK = 0.6 * sm(f, 60, 66) * (1 - sm(f, 72, 86)); c.boomAge = (f - 60) / 30;
-    if (f >= 100) { c.alFcrack = 1; c.alFfrost = 1; }
-    c.panOn = 1; [c.panX, c.panY, c.panZ] = lerp3(PAN_POUR, [-3.3, 1.12, 5.34], sm(f, 60, 74)); c.panTilt = 0.5 * (1 - sm(f, 60, 72)); c.panRy = 2.9;
-  }
-  if (f >= 1640) {
-    c.alFon = 1; c.alFbake = 0.9;
-    const K = kid16(f), dir: V3 = f < 1712 ? pathDir(WALK_K16, f, 1640, 1712) : [-1, 0, 0], side: V3 = [-dir[2], 0, dir[0]];
-    const inHand = plus3(plus3(K, sc3(dir, 0.36)), plus3(sc3(side, 0.16), [0, 1.08, 0]));
-    const P = f < 1712 ? inHand : f < 1722 ? lerp3(inHand, ALT, sm(f, 1712, 1722)) : ALT;
-    [c.alFx, c.alFy, c.alFz] = P;
-    c.panOn = 1;
-    const panHand = plus3(plus3(K, sc3(dir, 0.3)), plus3(sc3(side, -0.24), [0, 1.04, 0]));
-    const panP = f < 1742 ? panHand : f < 1750 ? lerp3(panHand, PAN_POUR, sm(f, 1742, 1750)) : f < 1798 ? PAN_POUR : lerp3(PAN_POUR, [KID_T[0] + 0.05, 1.02, KID_T[2] + 0.28], sm(f, 1798, 1808));
-    [c.panX, c.panY, c.panZ] = panP; c.panRy = 2.9;
-    const pour = sm(f, 1750, 1760) * (1 - sm(f, 1792, 1800)); c.panTilt = 0.9 * pour; c.rum = pour;
-    c.flame = sm(f, 1803, 1810); c.boomAge = f >= 1822 ? (f - 1822) / 30 : -1; c.boomK = sm(f, 1822, 1836);
-  }
-  if (f >= 830 && f < 945) c.smokeAge = (f - 830) / 30;
-  if (f >= 1612 && f < 1845) { c.trayOn = 1; c.trayX = 0.9; c.trayY = 0.78; c.trayZ = 4.6; }
-  c.chalk = sm(f, 1636, 1688);
-  if (f >= 392 && f < 430) { c.sweat = (f - 392) / 30; c.sweatX = BS.CHEF_READ[0]; c.sweatY = 2.05; c.sweatZ = BS.CHEF_READ[2]; }
-  if (f >= 593 && f < 650) c.flare = (f - 593) / 30;
-  if (f >= 1271 && f < 1517) { c.heat = sm(f, 1346, 1372); c.crust = 0.25 + 0.75 * sm(f, 1426, 1462); c.frostCut = 1; c.boing = f >= 1290 ? (f - 1290) / 30 : 0; }
-  return c;
+const CTLB = (f: number): Ctl => {
+  const c: Record<string, number> = {};
+  c.line = 1; c.pour = 1;
+  c.pyrN = f < 128 ? 2 : 3;
+  c.tip = sm(f, 166, 188); c.gush = sm(f, 178, 190) * (1 - 0.45 * sm(f, 300, 370));
+  c.wallN = f < 588 ? 0 : f < 596 ? 1 : f < 604 ? 2 : f < 664 ? 3 : f < 701 ? 30 : 999;
+  c.board = f < 626 ? 0 : f < 670 ? 3 : 30;
+  c.yeast = f >= 824 ? 1 : 0;
+  if (f >= 824) { const u = sm(f, 866, 896); c.yeastX = lerp(102.25, 101.7, u); c.yeastZ = lerp(-1.4, 1.95, u); c.yeastR = 0.35 + 0.15 * u; }
+  c.pancakeOn = f >= 1529 && f < 1606 ? 1 : 0; c.pancake = f < 1560 ? 0.4 * sm(f, 1538, 1556) : 0.4 + 0.6 * sm(f, 1584, 1600);
+  c.chalk = sm(f, 534, 562);
+  c.loaf = f >= 913 ? Math.max(0.02, sm(f, 918, 968)) : 0;
+  const pop = (t0: number) => (f >= t0 ? (f - t0) / 30 : -1);
+  c.pop1 = pop(1213); c.pop2 = pop(1246); c.pop3 = pop(1268); c.pop4 = pop(1278); c.pop5 = pop(1288);
+  c.glow1 = f >= 1180 && f < 1215 ? sm(f, 1180, 1196) : 0;
+  c.door1 = f < 1033 ? 0 : sm(f, 1033, 1047);
+  c.cut1 = 1;
+  c.crockFill = f < 1328 ? 0.08 : f < 1400 ? lerp(0.08, 0.5, sm(f, 1328, 1392)) : f < 1460 ? lerp(0.5, 0.82, sm(f, 1404, 1436)) : 0.85;
+  c.crockFoam = f < 1460 ? 0 : 0.35 * sm(f, 1462, 1478) + 0.25 * bump((f - 1476) / 12) + 0.65 * sm(f, 1484, 1504);
+  c.capAge = f >= 1700 && f < 1800 ? (f - 1700) / 30 : -1;
+  c.wifeAge = f >= 1946 ? (f - 1946) / 30 : -1;
+  c.bulk = sm(f, 1878, 1898);
+  return c as Ctl;
 };
-const kidPeelArms = (id: number, s: SetDef, f: number, P: V3, fc: number) => { const [g1, g2] = grips(f); return { armR: armTo(id, s, f, P, g2, 1, fc), armL: armTo(id, s, f, P, g1, -1, fc), armRFront: true, armLFront: true }; };
+/** a thick syrup ribbon (dark amber, slow wobble) from a can mouth (top) to the crock (bottom) */
+const syrupStream = (key: string, top: V3, bot: V3, f: number, w = 0.06): FxSpec => ({
+  kind: "card", key: "syr" + key + (Math.floor(f / 4) % 3), pos: [(top[0] + bot[0]) / 2, (top[1] + bot[1]) / 2, (top[2] + bot[2]) / 2], w, h: Math.abs(top[1] - bot[1]), cw: 48, ch: 160,
+  draw: (p) => { const g = p.g, ph2 = (Math.floor(f / 4) % 3) * 2.1; const path = () => { g.beginPath(); for (let y = 0; y <= 160; y += 8) g.lineTo(24 + 3 * Math.sin(y * 0.04 + ph2), y); };
+    g.lineCap = "round"; g.strokeStyle = INKC; g.lineWidth = 19; path(); g.stroke(); g.strokeStyle = "#7a3e12"; g.lineWidth = 13; path(); g.stroke(); g.strokeStyle = "#c27a2e"; g.lineWidth = 3; g.beginPath(); for (let y = 8; y <= 150; y += 8) g.lineTo(21 + 2 * Math.sin(y * 0.05 + ph2), y); g.stroke(); },
+});
+/** a water stream (pale blue) */
+const waterStream = (key: string, top: V3, bot: V3, f: number): FxSpec => ({
+  kind: "card", key: "wat" + key + (f % 3), pos: [(top[0] + bot[0]) / 2, (top[1] + bot[1]) / 2, (top[2] + bot[2]) / 2], w: 0.07, h: Math.max(0.05, Math.abs(top[1] - bot[1])), cw: 48, ch: 160,
+  draw: (p) => { const g = p.g, ph2 = (f % 3) * 2.1; const path = () => { g.beginPath(); for (let y = 0; y <= 160; y += 8) g.lineTo(24 + 5 * Math.sin(y * 0.08 + ph2), y); };
+    g.lineCap = "round"; g.strokeStyle = INKC; g.lineWidth = 15; path(); g.stroke(); g.strokeStyle = "#9fd4f2"; g.lineWidth = 9; path(); g.stroke(); g.strokeStyle = "#ffffff"; g.lineWidth = 2.5; g.beginPath(); for (let y = 8; y <= 150; y += 10) g.lineTo(21 + 3 * Math.sin(y * 0.08 + ph2), y); g.stroke(); },
+});
+/** rising bubbles over a crock mouth (k 0..1 how many) */
+const bubbles = (key: string, at: V3, f: number, k: number, r = 0.13): FxSpec[] => {
+  const out: FxSpec[] = []; const n = Math.round(7 * k);
+  for (let i = 0; i < n; i++) {
+    const per = 22 + (i % 3) * 5, age = ((f + i * 7) % per) / per, a = i * 2.4;
+    out.push({ kind: "card", key: "bub" + key + (i % 3), pos: [at[0] + Math.cos(a) * r * (0.3 + 0.5 * rnd1(i)), at[1] + 0.02 + 0.22 * age, at[2] + Math.sin(a) * r * 0.4], w: 0.035 + 0.02 * (i % 2), h: 0.035 + 0.02 * (i % 2), cw: 48, ch: 48,
+      draw: (p) => { const g = p.g; g.strokeStyle = INKC; g.lineWidth = 5; g.fillStyle = "rgba(255,236,190,0.85)"; g.beginPath(); g.arc(24, 24, 18, 0, 6.3); g.fill(); g.stroke(); g.fillStyle = "#ffffff"; g.beginPath(); g.arc(17, 17, 5, 0, 6.3); g.fill(); } });
+  }
+  return out;
+};
+/** the label of the syrup can, big: an illustration card beside the can (the drawn prop is too small to read) */
+const labelCard = (pos: V3, f: number, a: number, b: number, w = 0.42) => popCard("canLabel", pos, w, w * 1.25, f, a, b, (g) => {
+  g.fillStyle = INKC; g.fillRect(0, 0, 512, 640); g.fillStyle = "#efe0b8"; g.fillRect(14, 14, 484, 612);
+  g.fillStyle = "#b3261e"; g.fillRect(14, 70, 484, 46); g.fillRect(14, 524, 484, 46);
+  g.fillStyle = "#3a1e10"; g.textAlign = "center"; g.font = "900 54px Georgia"; g.fillText("HOLLOW CREEK", 256, 200);
+  g.font = "900 78px Georgia"; g.fillStyle = "#7a3e12"; g.fillText("PURE MALT", 256, 320); g.fillText("EXTRACT", 256, 400);
+  g.font = "800 44px Georgia"; g.fillStyle = "#3a1e10"; g.fillText("~ for baking ~", 256, 478);
+}, 512, 640);
+/** a bottle cap pinging off (grey disc with crimp ticks), age in frames */
+const capFly = (key: string, from: V3, dir: [number, number], age: number, s = 0.07): FxSpec | null => {
+  if (age < 0 || age > 22) return null;
+  const t = age / 30;
+  return { kind: "card", key: "cap" + key + (age % 2), pos: [from[0] + dir[0] * 1.6 * t, from[1] + 2.4 * t - 4.9 * t * t, from[2] + dir[1] * 1.6 * t], w: s, h: s, rot: age * 0.7, cw: 48, ch: 48,
+    draw: (p) => { const g = p.g; g.fillStyle = "#c8ccd2"; g.strokeStyle = INKC; g.lineWidth = 5; g.beginPath(); for (let i = 0; i < 16; i++) { const an = (i / 16) * 6.283, r = i % 2 ? 19 : 22; g.lineTo(24 + Math.cos(an) * r, 24 + Math.sin(an) * r); } g.closePath(); g.fill(); g.stroke(); g.fillStyle = "#b3261e"; g.beginPath(); g.arc(24, 24, 9, 0, 6.3); g.fill(); } };
+};
 
-// ================================================= SHOT 1 (0-60) HOOK: "He baked ice cream at five hundred degrees," =========
-// From behind the kid's right shoulder (north-east of the oven): the white dome on the long peel slides into the oven's
-// roaring mouth (the dial on 500 above it); the kid's face big at the right, the fire in the middle.
-const c1 = (f: number): Shot => { const u = clamp01(f / 60); return { pos: lerp3([1.62, 1.36, 12.6], [1.52, 1.26, 11.95], u), look: lerp3([0.74, 1.27, 9.25], [0.78, 1.23, 9.1], u), fov: 52, roll: 0 }; };
+// ================================================= S1 (0-78) HOOK: "They banned beer, so a brewer sold syrup for baking bread,"
+// The brewer at the canning line, the kettle's syrup ribbon pouring into the next can at screen right; he slaps a FOR BAKING
+// label on each can (the label appears as the can passes his hand) and slides it on down the line, deadpan. A slow push in.
+const c1 = glideTo(() => FIT([body(B0, 0.45, 1.8, 0.3), body(SPOUT, 0.95, 1.35, 0.08)], 222, 8, 48, 0.9, 0, 0, ROOM_BREW), -30, F(() => FIT([body(B0, 0.45, 1.8, 0.3), body(SPOUT, 0.95, 1.35, 0.08)], 192, 4, 48, 0.82, 0, 0, ROOM_BREW), 0, 0.0018), 78);   // v34 kit: the camera already moving on frame 1 (Rick ~6 px/f in the first 3 s)
 SHOT_CAMS[1] = () => [K(0, c1, 1, true)];
-SHOT_ACTS[1] = (f, s) => {
-  const P = kidAtPeel(f), fc = faceAt(1, s, f, P, [0.05, 1.2, 8.0]);
-  const o = flow(f, [[0, { expr: "determined", facing: fc, tilt: -6 }], [34, { expr: "smug", facing: fc, tilt: -3 }, 8]]);
-  return { cast: [C(KID, P, { ...o, ...kidPeelArms(1, s, f, P, fc) }, { idx: 1 })], subj: KID, focus: [0.05, 1.2, 8.9], ctl: CTL(f) };
+const brewerCanning = (id: number, s: SetDef, f: number, P: V3, expr: Face = "bored", extra: P = {}): FigOpts => {
+  const fc = faceAt(id, s, f, P, [P[0], 1.2, 6.0]), q = POUR_PH(f);
+  const slap = q < 6 ? bump(q / 6) : 0, slide = q >= 8 && q < 20 ? sm(q, 8, 20) : q >= 20 ? 1 : 0;
+  const T: V3 = [P[0] - 0.12 + 0.16 * slide, TT + 0.22 - 0.06 * slap, LZ];
+  return { expr, facing: fc, tilt: 2 + 2 * slap, armR: armTo(id, s, f, P, T, 1, fc), armRFront: true, armL: AR.hipL, ...extra } as FigOpts;
 };
-lens(0, DOF_MS);
+SHOT_ACTS[1] = (f, s) => ({ cast: [C(BRW, B0, brewerCanning(1, s, f, B0, "bored"))], subj: BRW, focus: HD(BRW, B0), ctl: CTLB(f) });
+lens(0, 2);
 
-// ================================================= SHOT 2 (60-139) CUT, flash-forward: "set it on fire, and it still came out frozen."
-// The finale's framing at the critic's table: the rum flames roll over the dome, then his spoon cracks it: frozen white inside.
-const C16: Cam = cam3([-3.2, 1.22, 2.0], [-3.6, 1.15, 5.1], 48);
-const c2 = F(() => cam3([-3.22, 1.24, 2.2], [-3.67, 1.12, 5.1], 48), 60, 0.0015, [[96, 0.008, 14]]);
-SHOT_CAMS[2] = () => [K(60, c2, 1, true)];
+// ================================================= S2 (78-161) "...and the whole town started brewing. You see,": glide up to the wall
+// sign (BEER struck out, BAKING SYRUP), then down onto the brewer who has walked to the line's end: he stacks a third can on
+// the pyramid and taps it, deadpan.
+const c2a = cam3([0.95, 1.6, 5.95], [0.95, 1.25, 11.9], 54), c3 = FIT([body([3.2, 0, 4.95], 0.4, 1.8, 0.3), body([2.25, 0, 4.95], 0.4, 1.8, 0.3), body([1.9, 0, 4.2], 0.4, 1.85, 0.3), body([2.7, 0, 3.35], 0, 0.9, 0.5), body(B0, 0.4, 1.75, 0.3)], 156, 18, 58, 0.88, 0, 0, ROOM_BREW), c4 = FIT([body(B0, 0.45, 1.8, 0.3), body(SPOUT, 0.95, 1.35, 0.08)], 140, 10, 46, 0.85, 0, 0, ROOM_BREW);
+const c2F = F(() => c2a, 78, 0.0014), c3F = F(() => c3, 186, 0.0008), c4F = F(() => c4, 262, 0.0016);
+const g23 = glideTo(c2F, 142, c3F, 204), g34 = glideTo(c3F, 208, c4F, 272);
+SHOT_CAMS[2] = () => [K(78, c2F, 64), K(142, g23, 1)];
+
 SHOT_ACTS[2] = (f, s) => {
-  const fk = faceAt(2, s, f, KID_T, BS.CRITIC);
-  const spoon: V3 = f < 88 ? [-3.8, 1.05, 5.0] : lerp3([-3.72, 1.05, 5.0], [-3.66, 0.98, 4.98], sm(f, 92, 100));
-  const c = CTL(f);
-  return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[60, { expr: "yikes", mode: "sit", tilt: -10, headBack: 0.4 }], [96, { expr: "stare", mode: "sit", tilt: 4 }, 6], [118, { expr: "shock", mode: "sit", tilt: 2 }, 5]]),
-      armR: armTo(2, s, f, BS.CRITIC, spoon, 1, 0, 1, "sit"), armRFront: true, propR: "spoon" }, { idx: 1 }),
-    C(KID, KID_T, { expr: f < 96 ? "proud" : "smug", facing: fk, armR: armTo(2, s, f, KID_T, [c.panX + 0.12, c.panY + 0.02, c.panZ], 1, fk), armRFront: true, armL: AR.hipL }, { idx: 2 }),
-  ], subj: CRIT, focus: [ALT[0], 1.0, ALT[2]], ctl: c };
+  if (f < 84) return { cast: [C(BRW, B0, brewerCanning(2, s, f, B0, "bored")), ...agentsAt(2, s, f)], subj: BRW, focus: [0.9, 2.4, 11.9], ctl: CTLB(f) };
+  const w = walkS(2, s, BRW, [B0, B2], f, 84, 110), P = w.p, fc = faceAt(2, s, f, P, [P[0], 1.2, 6.0]);
+  const top: V3 = [0.895, TT + 0.25, 9.15], held = f < 128;
+  const tap = f >= 138 ? bump((f - 138) / 6) + bump((f - 146) / 6) : 0;
+  const armR = f < 112 ? AR.carryR : f < 128 ? armTo(2, s, f, P, lerp3([1.0, 1.25, 9.12], top, sm(f, 112, 126)), 1, fc) : armTo(2, s, f, P, [0.93, TT + 0.3 + 0.04 * (1 - tap), 9.13], 1, fc);
+  const o = flow(f, [[84, { expr: "bored", facing: fc }], [130, { expr: "smug", facing: fc, tilt: 2 }, 8]]);
+  return { cast: [C(BRW, P, { ...o, ...(w.moving ? { ...w.o, facing: w.facing } : {}), armR, armRFront: true, propR: held ? "syrupCan" : undefined, armL: AR.hipL } as FigOpts), ...agentsAt(2, s, f)], subj: BRW, focus: [0.9, 2.4, 11.9], ctl: CTLB(f) };
 };
-lens(60, DOF_CU, 1);
+lens(78, 0);
 
-// ================================================= SHOT 3 (139-268) CUT, "You see, one bad review can close a restaurant for good,
-// and tonight, the meanest critic in town...": the snowy street at night. A passer-by in a red beret reads the one-star review
-// taped to the boarded-up restaurant next door and shakes her head; the camera glides west along the shopfronts to our window
-// and pushes at it: inside, the critic in his giant mustard puffy coat at his table, the waiter beside him.
-const c3a = F(() => cam3([3.3, 1.55, -3.05], [4.2, 1.6, -0.24], 48), 139, 0.002);
-const c3b: Cam = cam3([-3.8, 1.6, -1.9], [-4.1, 1.15, 4.0], 48);
-const W0: Cam = cam3([-3.8, 1.5, 0.0], [-3.95, 1.12, 4.6], 50);
-SHOT_CAMS[3] = () => [K(139, c3a, 1, true), K(192, crMoveG(c3a, 192, still(c3b), 236, [[1.4, 1.62, -2.95], [-1.3, 1.58, -2.55]], [[2.6, 1.5, 0.2], [-2.0, 1.3, 2.0]]), 1), K(236, moveIn(still(c3b), 236, W0, 268), 1)];
-const PASSER = (f: number): V3 => (f < 188 ? [3.75, BS.SW, -0.78] : [lerp(3.75, 0.2, clamp01((f - 188) / 80)), BS.SW, -0.78]);
+// ================================================= S3 (161-226) "...the law says nobody can sell beer,": high and wide from the
+// street door: two agents tip a beer barrel over the floor drain (foam gushes), the lead agent stands over them with his
+// padlock and chain on his shoulder; at the back the brewer has gone back to filling cans.
+SHOT_CAMS[3] = () => [K(161, g23, 1, true), K(208, g34, 1)];   // "cut" key = no re-glide: the crane is already running across the seam
+/** the three agents at the barrel (S2 keeps them in the world behind the camera, S3 shows them tipping it) */
+const agentsAt = (id: number, s: SetDef, f: number): CastPlace[] => {
+  const push = sm(f, 164, 182), heave = Math.sin(f * 0.5) * (1 - push) * 1.5;
+  const A1: V3 = [3.2, 0, 4.95], A2: V3 = [2.25, 0, 4.95], L: V3 = [1.9, 0, 4.2];
+  const f1 = faceAt(id, s, f, A1, BR.BARREL), f2 = faceAt(id, s, f, A2, BR.BARREL), fl = faceAt(id, s, f, L, BR.BARREL);
+  const pushArm = (P: V3, side: 1 | -1, fc: number) => { const dx = BR.BARREL[0] - P[0], dz = BR.BARREL[2] - P[2], n = Math.hypot(dx, dz) || 1; return armTo(id, s, f, P, [P[0] + (dx / n) * 0.28, 1.0 - 0.12 * push, P[2] + (dz / n) * 0.28], side, fc); };
+  return [
+    C(AGS, A1, { expr: f < 182 ? "strain" : "guffaw", facing: f1, tilt: -6 * (1 - push) + heave, armR: pushArm(A1, 1, f1), armL: pushArm(A1, -1, f1), armRFront: true, armLFront: true }),
+    C(AGB, A2, { expr: f < 182 ? "strain" : "laugh", facing: f2, tilt: -6 * (1 - push) - heave, armR: pushArm(A2, 1, f2), armL: pushArm(A2, -1, f2), armRFront: true, armLFront: true }),
+    C(AGT, L, { ...flow(f, [[78, { expr: "smug", facing: fl, tilt: -2 }], [190, { expr: "tacheUp", facing: fl, tilt: -3 }, 8]]), armR: [[22, -10], [8, -30]] as A2, propR: "padlock", armL: AR.hipL }),
+  ];
+};
+const AGENT_PATH: V3[] = [[1.9, 0, 4.2], [1.25, 0, 6.5], AST];
+const agentWalk = (id: number, s: SetDef, f: number) => {
+  if (f < 262) return { p: AGENT_PATH[0], o: {} as P };
+  const w = walkS(id, s, AGT, AGENT_PATH, f, 262, 330);
+  return { p: w.p, o: (w.moving ? { ...w.o, facing: w.facing } : {}) as P };
+};
 SHOT_ACTS[3] = (f, s) => {
-  const P = PASSER(f), reading = f < 188, fc = reading ? faceAt(3, s, f, P, [4.3, 1.7, 0]) : faceAt(3, s, f, P, [P[0] - 1, 0, P[2]]);
+  const bw = walkS(3, s, BRW, [B2, B0], f, 200, 226), PB = bw.p;
   return { cast: [
-    C(PASS1, P, { expr: reading ? (f > 166 ? "dismay" : "stare") : "neutral", ...(reading ? {} : { mode: "walk", phase: (f - 188) / 16 }), facing: fc, armR: AR.carryR, armRFront: true, propR: "purse", headTilt: reading && f > 168 ? 7 * Math.sin((f - 168) * 0.55) : 0 }, { idx: 1 }),
-    C(CRIT, BS.CRITIC, { expr: "bored", mode: "sit", tilt: 3, facing: faceAt(3, s, f, BS.CRITIC, MENU_P) }, { idx: 2 }),
-    C(WAIT, WALK_ORDER[0], { expr: "nervous", facing: faceAt(3, s, f, WALK_ORDER[0], BS.CRITIC), propL: "journal", propR: "pen" }, { idx: 3 }),
-    C(DIN1, [-0.4, 0, 2.95], { expr: "smile", mode: "sit", facing: -0.5 }, { idx: 4 }), C(DIN2, [-0.4, 0, 1.85], { expr: "grin", mode: "sit", facing: 0.5 }, { idx: 5 }),
-  ], subj: f < 200 ? PASS1 : CRIT, focus: f < 205 ? [4.3, 1.6, -0.24] : [-4.18, 1.0, 5.2], ctl: CTL(f) };
+    ...agentsAt(3, s, f),
+    C(BRW, PB, bw.moving ? ({ expr: "bored", ...bw.o, facing: bw.facing, armR: AR.carryR, armRFront: true } as FigOpts) : brewerCanning(3, s, f, PB, "bored")),
+  ], subj: AGT, focus: [2.5, 1.0, 4.6], ctl: CTLB(f) };
 };
-lens(139, DOF_MS, 1); lens(226, DOF_FS, 20);
+lens(161, 0);
+KICKS.push([186 / 30, 0.05]);
 
-// ================================================= SHOT 4 (268-365) through the glass: "...just ordered dessert. This guy once
-// called a soup too wet," The push carries on into the room: the critic jabs a finger at DESSERT on the menu card, the waiter
-// scribbles and hurries to the kitchen's swing door; the camera follows him past the framed TOO WET review on the wall (the
-// critic's own, one star) and on through the doorway over his shoulder as he leans in to call the order.
-const c4a = F(() => cam3([-3.58, 1.32, 2.4], [-3.75, 1.1, 5.3], 50), 309, 0.002);
-const c4b: Cam = cam3([-2.35, 1.32, 4.1], [-2.85, 1.3, 7.1], 56);
-const DOOR_W: Cam = cam3([-1.95, 1.62, 7.0], [-2.1, 1.5, 9.0], 50);
-SHOT_CAMS[4] = () => [K(268, moveOut(W0, 268, c4a, 309), 1), K(309, c4a, 1), K(314, crMoveG(c4a, 314, still(c4b), 342, [[-2.95, 1.35, 3.2]], [[-3.2, 1.25, 6.3]]), 1), K(342, moveIn(still(c4b), 342, DOOR_W, 365), 1)];
+// ================================================= S4 (226-273) "...but it says nothing about syrup.": glide past the barrels onto
+// the brewer at the spout, calm; on "syrup" he presses a lid onto a can (a clack). The agent starts toward him behind.
+SHOT_CAMS[4] = () => [K(226, g34, 1, true)];
 SHOT_ACTS[4] = (f, s) => {
-  const W = waiterAt(f), walking = f >= 312 && f < 340, fcW = walking ? faceAt(4, s, f, W, WALK_ORDER[2]) : faceAt(4, s, f, W, BS.CRITIC);
-  const point = sm(f, 282, 290) * (1 - sm(f, 310, 320));
-  const armR = lerpA2([[24, 14], [14, 30]], armTo(4, s, f, BS.CRITIC, MENU_P, 1, 0, 1, "sit"), point);
-  return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[268, { expr: "bored", mode: "sit", tilt: 3 }], [280, { expr: "stern", mode: "sit", tilt: -4 }, 6], [312, { expr: "smug", mode: "sit", tilt: 2 }, 8]]), facing: faceAt(4, s, f, BS.CRITIC, MENU_P), armR, armRFront: true }, { idx: 2 }),
-    C(WAIT, W, walking ? { expr: "nervous", mode: "walk", phase: (f - 312) / 12, facing: fcW, propL: "journal" }
-      : f < 312 ? { expr: "nervous", facing: fcW, propL: "journal", propR: "pen", armR: [[20, 10], [14, -4 + 4 * Math.sin(f * 1.3)]], armRFront: true }
-      : { expr: "yikes", facing: fcW, tilt: 14, armR: [[26, -10], [20, -40]], armRFront: true, propL: "journal" }, { idx: 3 }),
-    C(DIN1, [-0.4, 0, 2.95], { expr: "smile", mode: "sit", facing: -0.5 }, { idx: 4 }), C(DIN2, [-0.4, 0, 1.85], { expr: "grin", mode: "sit", facing: 0.5 }, { idx: 5 }),
-  ], subj: f < 314 ? CRIT : WAIT, focus: f < 314 ? [-4.18, 1.0, 5.2] : f < 350 ? BS.CLIP : [-2.3, 1.5, 9.0], ctl: CTL(f) };
+  const fc = faceAt(4, s, f, B0, [0.5, 1.2, 6.5]), cap = f >= 254 && f < 268 ? bump((f - 254) / 12) : 0;
+  const o = f >= 250 && f < 270 ? { expr: "smug" as Face, facing: fc, armR: armTo(4, s, f, B0, [B0[0] - 0.05, TT + 0.26 - 0.1 * cap, LZ], 1, fc), armRFront: true, armL: armTo(4, s, f, B0, [B0[0] + 0.12, TT + 0.2, LZ], -1, fc), armLFront: true } : brewerCanning(4, s, f, B0, "bored");
+  const ag = agentWalk(4, s, f);
+  return { cast: [C(BRW, B0, o as FigOpts), ...agentsAt(4, s, f).filter((c) => c.who !== AGT), C(AGT, ag.p, { expr: "smug", facing: faceAt(4, s, f, ag.p, B0), ...ag.o, armR: [[22, -10], [8, -30]] as A2, propR: "padlock" })],
+    subj: BRW, focus: HD(BRW, B0), ctl: CTLB(f), fx: fxs(clang("cap4", [B0[0] - 0.05, TT + 0.3, LZ - 0.05], f - 259, 0.22)) };
 };
-lens(268, DOF_MS, 18);
+lens(226, 2, 20);
 
-// ================================================= SHOT 5 (365-431) "...so the head chef is sweating through his hat." Just inside
-// the door: the head chef, hearing the order, sweats so hard the drops fly off his toque; the line cook behind him freezes.
-const c5 = F(() => cam3([-2.06, 1.6, 7.55], [-2.3, 1.55, 9.0], 46), 392, 0.0022, [[410, 0.008, 10]]);
-SHOT_CAMS[5] = () => [K(365, moveOut(DOOR_W, 365, c5, 392), 1), K(392, c5, 1)];
+// ================================================= S5 (273-370) "When the agent comes to padlock the brewery, the brewer is canning it.":
+// profile from the east along the line: the agent strides in with his padlock and chain and stops beside the brewer, who
+// never looks up; he picks a can off the line and squints at it.
+const c5 = FIT([body(B0, 0.45, 1.8, 0.3), body(AST, 0.45, 1.85, 0.3)], 116, 6, 50, 0.85, 0, 0, ROOM_BREW);
+SHOT_CAMS[5] = () => [K(273, F(() => c5, 341, 0.0016), 68)];
 SHOT_ACTS[5] = (f, s) => {
-  const P = chefAt(f), fc = faceAt(5, s, f, P, [-2.1, 1.6, 7.2]);
+  const ag = agentWalk(5, s, f), fa = faceAt(5, s, f, ag.p, B0);
+  const HAND: V3 = [0.18, TT + 0.16, 8.9];                                       // the hand-off point over the line
+  const offer = f >= 336 && f < 352, took = f >= 350;
+  const armR = f < 330 ? ([[22, -10], [8, -30]] as A2) : f < 342 ? AR.hipR : f < 356 ? armTo(5, s, f, ag.p, HAND, 1, fa, 1, "stand", 10, 80) : ([[22, 6], [26, -16]] as A2);
+  const o = flow(f, [[273, { expr: "smug", facing: fa }], [332, { expr: "tacheUp", facing: fa, tilt: -3 }, 8], [356, { expr: "stare", facing: fa, tilt: 2, headTilt: 4 }, 8]]);
+  const fb = faceAt(5, s, f, B0, [B0[0], 1.2, 6.0]);
+  const brewer = offer ? { ...brewerCanning(5, s, f, B0, "bored"), armL: armTo(5, s, f, B0, HAND, -1, fb, 1, "stand", 10, 80), armLFront: true, propL: f < 350 ? "syrupCan" : undefined } : brewerCanning(5, s, f, B0, "bored");
   return { cast: [
-    C(CHEF, P, { ...flow(f, [[365, { expr: "worry", facing: fc, tilt: 4 }], [374, { expr: "dismay", facing: fc, tilt: 9 }, 6], [400, { expr: "yikes", facing: fc, tilt: 7 }, 6]]),
-      armL: f > 396 && f < 424 ? [[-24, -12], [-8, -44]] as A2 : AR.hipL, armR: [[22, 10], [12, 26]], armRFront: true }, { idx: 1 }),
-    C(COOK1, BS.COOK1, { expr: f < 390 ? "neutral" : "stare", facing: 0.5, armR: [[22, 20], [36, 30 + 6 * Math.sin(f * 0.4)]], armRFront: true, propR: "ladle" }, { idx: 3 }),
-  ], subj: CHEF, focus: [P[0], 1.55, P[2]], ctl: CTL(f) };
+    C(BRW, B0, brewer as FigOpts),
+    C(AGT, ag.p, { ...o, ...ag.o, armR, armRFront: f >= 330, propR: f < 330 ? "padlock" : took ? "syrupCan" : undefined, armL: f >= 330 ? ([[-22, -10], [-8, -30]] as A2) : AR.hipL, propL: f >= 330 ? "padlock" : undefined } as FigOpts),
+  ], subj: AGT, focus: HD(AGT, AST), ctl: CTLB(f) };
 };
-lens(365, DOF_CU, 18);
+lens(273, 2);
 
-// ================================================= SHOT 6 (431-554) "Then the new kid buries a block of ice cream in whipped egg
-// whites and slides it into the oven." High over the pastry bench: three big spatula heaps over the block on the peel; then
-// the kid swings the peel to the oven and slides it into the fire, the camera dropping to the fire's level from the north-west.
-const c6a = FS(() => cam3([-1.6, 2.3, 10.6], [2.0, 1.0, 7.8], 50), 462, 0.0015, 0.004);
-const c6b = F(() => cam3([-2.6, 1.5, 12.4], [0.0, 1.1, 8.8], 56), 534, 0.002);
-SHOT_CAMS[6] = () => [K(431, crMoveG(c5, 431, c6a, 462, [[-1.0, 1.95, 8.95]], [[0.6, 1.3, 8.4]]), 1), K(462, c6a, 1), K(504, glideTo(c6a, 504, c6b, 534), 1), K(534, c6b, 1)];
+// ================================================= S6 (370-438) "\"Syrup? With hops in it? Who bakes with hops?\"": over the brewer's
+// shoulder (his back at the left edge): the agent sniffs the open can, plucks a hop cone off the lid on "hops", then throws
+// both arms out with a mocking grin. Lip-sync on the quote (talk.json).
+const c6 = FIT([body(AST, 0.9, 1.75, 0.3), body(B0, 0.9, 1.7, 0.28)], 122, 5, 46, 0.9, 0, -0.12, ROOM_BREW);
+SHOT_CAMS[6] = () => [K(370, F(() => c6, 418, 0.0016, [[425, 0.005, 8]]), 48)];
 SHOT_ACTS[6] = (f, s) => {
-  const atBench = f < 506, P: V3 = atBench ? BS.KID_BENCH : f < 521 ? lerp3(BS.KID_BENCH, kidAtPeel(521), sm(f, 506, 521)) : kidAtPeel(f);
-  const fc = faceAt(6, s, f, P, atBench ? [1.55, 1, 7.9] : [0.05, 1, 8.0]);
-  const heapPh = Math.max(0, Math.sin(clamp01((f - 446) / 58) * Math.PI * 3));
-  const [g1, g2] = grips(f);
-  const armR = atBench ? armTo(6, s, f, P, [1.6, 1.08 + 0.22 * heapPh, 8.05 - 0.05 * heapPh], 1, fc) : armTo(6, s, f, P, g2, 1, fc);
-  const armL = atBench ? armTo(6, s, f, P, [2.05, 0.98, 8.0], -1, fc) : armTo(6, s, f, P, g1, -1, fc);
-  // the chef keeps facing the door (as at the end of shot 5) until the camera has left his close-up, then turns to the kid
-  const PC = chefAt(f), fcC = f < 452 ? faceAt(6, s, f, PC, [-2.1, 1.6, 7.2]) : faceAt(6, s, f, PC, P), chefWalk = f >= 455 && f < 490;
+  const fa = faceAt(6, s, f, AST, [2.3, 1.6, 7.3]);
+  const o = flow(f, [
+    [370, { expr: "stare", facing: fa, armR: [[18, -4], [6, -26]] as A2, armRFront: true, armL: [[-22, -10], [-8, -30]] as A2, tilt: 3, headTilt: 4 }],
+    [386, { expr: "aghast", facing: fa, armR: [[22, -14], [30, -46]] as A2, armL: [[-22, -10], [-8, -30]] as A2, tilt: 1 }, 6],
+    [404, { expr: "mock", facing: fa, armR: ARMS.wideR, armL: ARMS.wideL, tilt: -2, headBack: 0.3 }, 7],
+    [426, { expr: "mock", facing: fa, armR: ARMS.wideR, armL: ARMS.wideL, tilt: -4, headBack: 0.5, shake: 1, phase: 0.4 }, 6],
+  ]);
   return { cast: [
-    C(KID, P, { ...flow(f, [[431, { expr: "determined", facing: fc, tilt: -5 }], [508, { expr: "calm", facing: fc, tilt: -3 }, 8], [540, { expr: "smug", facing: fc }, 8]]), ...(f >= 506 && f < 521 ? { mode: "walk", phase: (f - 506) / 10 } : {}), armR, armL, armRFront: true, armLFront: true, propR: atBench ? "trowel" : undefined }, { idx: 2 }),
-    C(CHEF, PC, { ...flow(f, [[431, { expr: "yikes", facing: fcC, tilt: 7 }], [470, { expr: "stare", facing: fcC, tilt: 4 }, 8], [520, { expr: "aghast", facing: fcC }, 6]]), ...(f < 452 ? { armL: AR.hipL, armR: [[22, 10], [12, 26]] as A2, armRFront: true } : {}), ...(chefWalk ? { mode: "walk", phase: (f - 455) / 15 } : {}) }, { idx: 1 }),
-    C(DISH, DISH0, { expr: "neutral", facing: -0.5, armR: [[22, 18], [30, 30 + 5 * Math.sin(f * 0.5)]], armRFront: true }, { idx: 3 }),
-  ], subj: KID, focus: atBench ? [1.55, 1.0, 8.0] : [0.1, 1.2, 9.0], ctl: CTL(f) };
+    C(AGT, AST, { ...speak(f, 370, 435, o), propR: "syrupCan", propL: "padlock" } as FigOpts),
+    C(BRW, B0, brewerCanning(6, s, f, B0, "bored")),
+  ], subj: AGT, focus: HD(AGT, AST), ctl: CTLB(f) };
 };
-lens(431, DOF_MS, 18);
+lens(370, 2.5, 12);
 
-// ================================================= SHOT 7 (554-700) "The chef laughs, the cooks laugh, and the dishwasher quietly
-// sets a mop bucket under the oven." From the west: the head chef doubles over laughing (the kid calm behind him, the peel up
-// like a staff); the camera pans to the two line cooks at the stove laughing (a pan flares); then cranes round to the oven,
-// where the dishwasher carries the yellow mop bucket along the oven front and parks it under the mouth.
-const C2S: Cam = cam3([-3.8, 1.38, 9.75], [-0.6, 1.2, 9.5], 46);       // the two-shot (shots 7 and 8)
-const c7b: Cam = cam3([-3.75, 1.45, 9.6], [-0.1, 1.36, 12.05], 46);
-const c7c = F(() => cam3([-2.6, 1.55, 12.05], [0.45, 1.1, 9.25], 56), 640, 0.0015);
-SHOT_CAMS[7] = () => [K(554, glideTo(c6b, 554, still(C2S), 578), 1), K(578, F(() => C2S, 578, 0.001), 1), K(586, glideTo(still(C2S), 586, still(c7b), 606), 1), K(606, still(c7b), 1),
-  K(612, crMoveG(still(c7b), 612, c7c, 640, [[-3.2, 1.55, 11.0]], [[-0.2, 1.2, 10.6]]), 1), K(640, c7c, 1)];
+// ================================================= S7 (438-469) CUT: "\"It's for baking.\"" The brewer in close-up, half-lid deadpan;
+// he shrugs one shoulder on "baking".
+const c7 = F(() => { const h = HD(BRW, B0); const c = frameOn(h, 198, 0.42, 50, 44, 0.1, 0.4); return { pos: c.pos, look: c.look, fov: c.fov }; }, 438, 0.0016);
+SHOT_CAMS[7] = () => [K(438, c7, 1, true)];
 SHOT_ACTS[7] = (f, s) => {
-  const PC = BS.CH_W, PK = kidAtPeel(f), D = dishAt(f), carrying = f >= 630 && f < 672;
-  const fcC = faceAt(7, s, f, PC, PK), fk = faceAt(7, s, f, PK, PC);
-  const cook = (who: string, P: V3, i: number, a: number) => C(who, P, f < a ? { expr: "neutral", facing: faceAt(7, s, f, P, [P[0], 1, 13.4]), armR: [[22, 20], [36, 30]], armRFront: true, propR: i ? "tongs" : "ladle" }
-    : { ...laughP(f, a, i), facing: faceAt(7, s, f, P, PK), armR: [[22, 20], [30, 34]], armRFront: true, propR: i ? "tongs" : "ladle" }, { idx: 10 + i });
-  return { cast: [
-    C(CHEF, PC, f < 562 ? { expr: "smug", facing: fcC } : { ...laughP(f, 562, 0), facing: fcC, armR: AR.hipR, armL: [[-26, 10], [-34, 24]] }, { idx: 1 }),
-    cook(COOK1, BS.COOK1, 0, 586), cook(COOK2, BS.COOK2, 1, 590),
-    C(KID, PK, { expr: "calm", facing: fk, ...kidPeelArms(7, s, f, PK, fk) }, { idx: 2 }),
-    C(DISH, D, carrying ? { expr: "bored", mode: "walk", phase: (f - 630) / 15, facing: faceAt(7, s, f, D, [0, 0, 9.0]), armR: armTo(7, s, f, D, [D[0] - 0.32, 0.5, D[2] - 0.1], 1), armRFront: true }
-      : { expr: f > 640 ? "calm" : "neutral", facing: faceAt(7, s, f, D, [0, 0, 9.0]), ...(f >= 672 && f < 692 ? { tilt: -12 * Math.sin(clamp01((f - 672) / 20) * Math.PI), armR: armTo(7, s, f, D, [0.12, 0.55, 8.95], 1) as A2, armRFront: true } : {}) }, { idx: 3 }),
-  ], subj: f < 586 ? CHEF : f < 612 ? COOK1 : DISH, focus: f < 586 ? [PC[0], 1.5, PC[2]] : f < 612 ? [-0.1, 1.45, 12.05] : [D[0], 1.0, D[2]], ctl: CTL(f) };
+  const fc = faceAt(7, s, f, B0, AST);
+  const o = flow(f, [[438, { expr: "smug", facing: fc, armL: AR.hipL, armR: AR.carryR }], [452, { expr: "smug", facing: fc, tilt: -3, headTilt: -5, armL: AR.shrugL, armR: AR.carryR }, 6], [462, { expr: "smug", facing: fc, tilt: 0, headTilt: -2, armL: AR.hipL, armR: AR.carryR }, 8]]);
+  return { cast: [C(BRW, B0, speak(f, 443, 464, o) as FigOpts)], subj: BRW, focus: HD(BRW, B0), ctl: CTLB(f) };
 };
-lens(554, DOF_MS, 1);
+lens(437, 3, 1);
+KICKS.push([438 / 30, 0.04]);
 
-// ================================================= SHOT 8 (700-815) the mock and the reply in ONE two-shot (11t): the head chef big
-// near the lens, leaning in and pointing, "Kid, you just made soup!"; the kid behind at the oven, peel up like a staff,
-// "Three minutes." (holds up three fingers; the oven timer ticks).
-const c8 = F(() => C2S, 724, 0.0008, [[727, 0.006, 8], [803, 0.007, 8]]);
-// the reply: the camera eases past the chef's shoulder onto the kid (the chef's big shoulder stays in the left foreground)
-const c8k = F(() => cam3([-3.3, 1.36, 9.9], [-0.2, 1.2, 9.75], 42), 816, 0.001);
-SHOT_CAMS[8] = () => [K(700, glideTo(c7c, 700, c8, 724), 1), K(724, c8, 1), K(792, glideTo(c8, 792, c8k, 812), 1), K(812, c8k, 1)];
+// ================================================= S8 (469-515) dissolve: "The whole station laughs,": through the agents' office window
+// (PROHIBITION AGENTS in gold on the glass): three agents laughing, one slaps the desk, the lead agent holds the can up.
+const c8 = F(() => cam3([187.2, 1.7, 4.6], [187.2, 1.75, 10.5], 46), 469, 0.0018);
+SHOT_CAMS[8] = () => [K(469, c8, 1, true)];
+const OFF_A: V3 = [187.2, 0.1, 10.75], OFF_S: V3 = [186.3, 0.1, 10.85], OFF_B: V3 = [188.1, 0.1, 10.95];
 SHOT_ACTS[8] = (f, s) => {
-  const PC = BS.CH_W, PK = kidAtPeel(f), fcC = faceAt(8, s, f, PC, PK), fk = faceAt(8, s, f, PK, PC), [g1, g2] = grips(f);
-  const lean = sm(f, 712, 728) * (1 - sm(f, 772, 790));
-  const oC = speak(f, 727, 772, { expr: f < 727 ? "smug" : "mock", facing: fcC, tilt: 10 * lean * Math.sign(fcC || 1), armR: lerpA2(AR.hipR, AR.pointR, lean) as A2, armRFront: true, armL: AR.hipL });
-  const three = sm(f, 797, 805);
-  const oK = speak(f, 803, 817, { expr: f < 797 ? "calm" : "smug", facing: fk, tilt: -3, armR: armTo(8, s, f, PK, g2, 1, fk), armRFront: true,
-    armL: lerpA2(armTo(8, s, f, PK, g1, -1, fk), [[-22, -14], [-14, -46]], three), armLFront: true });
-  return { cast: [C(CHEF, PC, oC, { idx: 1 }), C(KID, PK, oK, { idx: 2 }), C(DISH, dishAt(f), { expr: "calm", facing: faceAt(8, s, f, dishAt(f), PC) }, { idx: 3 })],
-    subj: f < 790 ? CHEF : KID, focus: f < 790 ? [PC[0], 1.55, PC[2]] : [PK[0], 1.5, PK[2]], ctl: { ...CTL(f), timer: (f - 700) / 600 } };
+  const slap = f >= 486 && f < 500 ? bump((f - 486) / 8) : 0;
+  return { cast: [
+    C(AGT, OFF_A, { ...laughP(f, 469, 0), armR: [[22, -12], [34, -52]] as A2, propR: "syrupCan", armL: AR.hipL }),
+    C(AGS, OFF_S, { ...laughP(f, 472, 1), facing: 0.5, armR: f >= 482 ? armTo(8, s, f, OFF_S, [186.45, 0.9 + 0.12 * (1 - slap), 10.6], 1, 0.5, 1, "stand", 10, 80) : AR.hipR, armRFront: true }),
+    C(AGB, OFF_B, { ...laughP(f, 475, 2), facing: -0.5, armL: AR.hipL, armR: AR.hipR }),
+  ], subj: AGT, focus: HD(AGT, OFF_A), ctl: CTLB(f) };
 };
-lens(700, DOF_MS, 1);
+lens(469, 0);
 
-// ================================================= SHOT 9 (815-960) "Then smoke pours out of the oven door, and the white mountain
-// comes out brown, with black tips." Smoke rolls out of the mouth and everyone leans back; the kid lowers the peel, slides it in
-// and pulls the dessert out: browned, its peaks charred black, big in front of us. He lifts the plate and holds it up, then
-// heads for the dining room.
-const c9a = F(() => cam3([-3.4, 1.5, 10.6], [-0.6, 1.1, 9.4], 60), 842, 0.0018);
-const c9b = F(() => cam3([-1.5, 1.5, 11.05], [0.2, 1.28, 9.5], 46), 894, 0.0012, [[920, 0.006, 10]]);
-SHOT_CAMS[9] = () => [K(815, glideTo(c8k, 815, c9a, 842), 1), K(842, c9a, 1), K(870, crMoveG(c9a, 870, c9b, 894, [], []), 1), K(894, c9b, 1)];
+// ================================================= S9 (515-582) "...and soon the whole town calls him the baker.": glide along the
+// sidewalk with the brewer carrying a crate of cans; a kid chalks BAKER on his truck door; two townsfolk point and laugh;
+// the brewer swings the crate to his hip and tips his cap, deadpan.
+const c9 = FIT([body([190.0, 0.15, 5.3], 0.4, 1.8, 0.3), body([190.9, 0.15, 4.8], 0.4, 1.8, 0.3), body([191.9, 0, 3.55], 0.3, 1.35, 0.3), body([193.9, 0.15, 5.6], 0.4, 1.8, 0.3)], 294, 6, 52, 0.86);
+SHOT_CAMS[9] = () => [K(515, FS(() => c9, 515, 0.0012, 0.004), 1, true)];
+const BRW9: V3[] = [[190.0, 0.15, 5.3], [190.9, 0.15, 4.8]];
 SHOT_ACTS[9] = (f, s) => {
-  const PK = kid9(f), PC = BS.CH_W, D = BS.DISH_SPOT;
-  const fk = faceAt(9, s, f, PK, f < 912 ? [0.05, 1, 8.5] : f < 946 ? [-0.8, 1.4, 10.8] : [-2.1, 0, 7.5]), fcC = faceAt(9, s, f, PC, [0.05, 1.2, 8.8]);
-  const back = sm(f, 832, 846) * (1 - sm(f, 862, 876));
-  const P9 = plate9(f);
-  const kidArms = f < 898 ? kidPeelArms(9, s, f, PK, fk)
-    : f < 912 ? { armR: AR.hipR, armL: AR.hipL }
-    : { armR: armTo(9, s, f, PK, [P9[0] + 0.13, P9[1] - 0.02, P9[2]], 1, fk), armL: armTo(9, s, f, PK, [P9[0] - 0.13, P9[1] - 0.02, P9[2]], -1, fk), armRFront: true, armLFront: true };
-  const walking = (f >= 898 && f < 912) || f >= 946;
-  return { cast: [
-    C(KID, PK, { expr: f < 870 ? "calm" : f < 918 ? "determined" : "proud", facing: fk, tilt: -8 * back, ...(walking ? { mode: "walk", phase: (f - 898) / 11 } : {}), ...kidArms }, { idx: 1 }),
-    C(CHEF, PC, flow(f, [[815, { expr: "smug", facing: fcC }], [834, { expr: "aghast", facing: fcC, tilt: -10 }, 5], [900, { expr: "yikes", facing: fcC, armR: [[22, -14], [6, -50]], armL: [[-22, -14], [-6, -50]], armRFront: true, armLFront: true }, 6]]), { idx: 2 }),
-    C(DISH, D, flow(f, [[815, { expr: "calm", facing: faceAt(9, s, f, D, [0, 1, 8.7]) }], [836, { expr: "shock", facing: faceAt(9, s, f, D, [0, 1, 8.7]), tilt: -8 }, 5], [904, { expr: "stare", facing: faceAt(9, s, f, D, [0, 1, 9.4]) }, 6]]), { idx: 3 }),
-  ], subj: KID, focus: f < 880 ? [0.05, 1.3, 8.8] : P9, ctl: CTL(f) };
+  const w = walkS(9, s, BRW, BRW9, f, 515, 552), P = w.p, fc = w.moving ? w.facing : faceAt(9, s, f, P, [P[0] - 1, 1, 6.5]);
+  const carry2 = f < 552;
+  const o = flow(f, [[515, { expr: "bored", facing: fc }], [562, { expr: "smug", facing: fc, tilt: -2 }, 8]]);
+  const brewer = C(BRW, P, { ...o, ...w.o,
+    ...(carry2 ? { carry2: true, propR: "crate", armR: [[24, 40], [14, 58]] as A2, armL: [[-24, 40], [-14, 58]] as A2, armRFront: true, armLFront: true }
+      : { propL: "crate", armL: [[-24, 28], [-34, 44]] as A2, armLFront: true, armR: f >= 562 && f < 578 ? AR.tipHatR : AR.hipR, hatLift: f >= 564 && f < 576 ? 0.25 * bump((f - 564) / 12) : 0 }) } as FigOpts);
+  const K9: V3 = [191.9, 0, 3.55], fk = faceAt(9, s, f, K9, [191.9, 1, 3.3]), wob = Math.sin(f * 0.9);
+  const kid = C(KDC, K9, { expr: f < 548 ? "grin" : "laugh", facing: fk, back: f < 548, armR: f >= 530 && f < 566 ? armTo(9, s, f, K9, [191.95 + 0.1 * wob * (f < 562 ? 1 : 0), 0.95 + 0.04 * Math.cos(f * 0.9), 3.4], 1, fk) : AR.hipR, armRFront: true, propR: "chalk" });
+  const T1: V3 = [193.9, 0.15, 5.6], T2: V3 = [194.7, 0.15, 5.9];
+  const ft1 = faceAt(9, s, f, T1, P), ft2 = faceAt(9, s, f, T2, P);
+  return { cast: [brewer, kid,
+    C(TFK, T1, { ...laughP(f, 548, 0), facing: ft1, armR: f >= 544 ? AR.pointR : AR.hipR, armRFront: true, armL: [[-22, 8], [-30, -8]] as A2, armLFront: true, propL: "syrupCan" }),
+    C(TMN, T2, { ...laughP(f, 552, 1), facing: ft2, armL: AR.hipL, armR: AR.hipR }),
+  ], subj: BRW, focus: HD(BRW, P), ctl: CTLB(f) };
 };
-lens(815, DOF_MS, 1); lens(894, DOF_CU, 10);
+lens(515, 0);
 
-// ================================================= SHOT 10 (960-1040) CUT to the critic's table: "The critic sniffs it, frowns, and
-// starts writing." The kid sets the plate down in front of him and steps back; he leans in to sniff, frowns, and writes.
-const c10 = F(() => cam3([-3.25, 1.26, 2.15], [-3.62, 1.05, 5.1], 50), 960, 0.0012, [[995, 0.005, 8]]);
-SHOT_CAMS[10] = () => [K(960, c10, 1, true)];
+// ================================================= S10 (582-658) dissolve: "But the first week, the grocery sells 3 cans.": the grocer
+// stacks 3 cans on the empty syrup shelf, comes back to the counter and hands one to a customer; the board over the
+// counter reads SYRUP SOLD 3.
+const GC0: V3 = [99.4, 0, 3.92], CW0: V3 = [98.75, 0, 2.75];
+const c10 = (f0: number) => F(() => FIT([body(GC0, 0.45, 1.8, 0.3), body(CW0, 0.45, 1.8, 0.3), body([99.05, 0, 3.42], 1.85, 2.65, 0.42), body([99.85, 0, 6.6], 1.0, 1.7, 0.25)], 176, 5, 54, 0.8, 0, 0, ROOM_GROC), f0, 0.0008);
+SHOT_CAMS[10] = () => [K(582, c10(582), 1, true)];
+const GW: V3 = [99.85, 0, 6.25], GC: V3 = GC0;
 SHOT_ACTS[10] = (f, s) => {
-  const fk = faceAt(10, s, f, KID_T, BS.CRITIC);
-  const sniff = sm(f, 970, 980) * (1 - sm(f, 990, 1000)), write = sm(f, 1016, 1022);
-  const pen: V3 = [-3.98 + 0.04 * Math.sin(f * 1.7) * write, 0.84, 5.32 + 0.02 * Math.cos(f * 2.3) * write];
-  const setK = 1 - sm(f, 966, 976);
-  return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[960, { expr: "bored", mode: "sit", tilt: 2 }], [970, { expr: "stare", mode: "sit" }, 4], [994, { expr: "stern", mode: "sit" }, 5], [1014, { expr: "stern", mode: "sit", tilt: 4 }, 5]]),
-      facing: faceAt(10, s, f, BS.CRITIC, ALT), tilt: -16 * sniff, armR: write > 0.5 ? armTo(10, s, f, BS.CRITIC, pen, 1, 0, 1, "sit") : AR.hipR, armRFront: true, propR: write > 0.5 ? "pen" : undefined,
-      armL: [[-24, 14], [-8, 26]], armLFront: true, propL: "journal" }, { idx: 1 }),
-    C(KID, kidT(f), { expr: f < 990 ? "calm" : "smug", facing: fk, ...(f >= 990 && f < 1010 ? { mode: "walk", phase: (f - 990) / 10 } : {}), armR: setK > 0.02 ? lerpA2(AR.hipR, armTo(10, s, f, KID_T, [ALT[0] + 0.1, 0.8, ALT[2]], 1, fk), setK) : AR.hipR, armRFront: true,
-      armL: setK > 0.02 ? lerpA2(AR.hipL, armTo(10, s, f, KID_T, [ALT[0] + 0.1, 0.8, ALT[2] + 0.12], -1, fk), setK) : AR.hipL, armLFront: true }, { idx: 2 }),
-  ], subj: CRIT, focus: [-4.0, 1.0, 5.2], ctl: CTL(f) };
+  const back = f < 612, w = walkS(10, s, GRO, [GW, [99.6, 0, 5.2], GC], f, 612, 630), P = back ? GW : w.p;
+  const fc = back ? 0 : faceAt(10, s, f, P, [99, 1, 2.6]);
+  const stack = f >= 584 && f < 610 ? (((f - 584) % 8) / 8) : 0;
+  const grocer = C(GRO, P, back ? { expr: "smile", back: true, armR: [[20, -8], [30 - 20 * stack, -30]] as A2, propR: f < 606 ? "syrupCan" : undefined }
+    : { ...w.o, expr: f < 636 ? "smile" : "grin", facing: fc, armR: f >= 634 && f < 650 ? armTo(10, s, f, P, [99.12, 1.12, 3.66], 1, fc) : AR.hipR, armRFront: true, propR: f >= 632 && f < 646 ? "syrupCan" : undefined });
+  const CW: V3 = CW0, fw = faceAt(10, s, f, CW, GC);
+  const cust = C(TFK, CW, { expr: f < 646 ? "smile" : "smile_closed", facing: fw, armR: f >= 640 ? armTo(10, s, f, CW, f < 648 ? [98.95, 1.12, 3.0] : [98.88, 1.0, 2.8], 1, fw, 1, "stand", 10, 80) : AR.hipR, armRFront: true, propR: f >= 646 ? "syrupCan" : undefined });
+  return { cast: [grocer, cust], subj: GRO, focus: HD(GRO, GC), ctl: CTLB(f) };
 };
-lens(960, DOF_MS, 1);
+lens(582, 1.5);
 
-// ================================================= SHOT 11 (1040-1170) "But when he cracks it open with his spoon, the ice cream inside
-// is still frozen solid." The dessert big in front (40 %+), his face above it; the spoon cracks the brown shell and frosty white
-// ice cream shows; the kid beside him doesn't even blink.
-const c11 = F(() => cam3([-3.4, 1.35, 3.2], [-3.86, 0.98, 5.08], 48), 1064, 0.0008, [[1080, 0.006, 10], [1135, 0.004, 8]]);
-SHOT_CAMS[11] = () => [K(1040, glideTo(c10, 1040, c11, 1064), 1), K(1064, c11, 1)];
+// ================================================= S11 (658-701) dissolve, same framing a week later: "The next week, 30.": the board flips
+// to 30, three customers with cans, the grocer handing out another.
+const c11 = F(() => FIT([body(GC0, 0.45, 1.8, 0.3), body([98.72, 0, 2.75], 0.45, 1.8, 0.3), body([99.98, 0, 2.62], 0.45, 1.8, 0.3), body([99.42, 0, 1.95], 0.3, 1.35, 0.3), body([99.05, 0, 3.42], 1.85, 2.65, 0.42)], 178, 6, 56, 0.88, 0, 0, ROOM_GROC), 658, 0.0012);
+SHOT_CAMS[11] = () => [K(658, c11, 1, true)];
 SHOT_ACTS[11] = (f, s) => {
-  const spoon: V3 = f < 1070 ? lerp3([-3.9, 1.12, 5.08], [-3.72, 1.08, 5.0], sm(f, 1046, 1066)) : lerp3([-3.72, 1.08, 5.0], [-3.66, 0.98, 4.98], sm(f, 1070, 1080));
-  const fk = faceAt(11, s, f, KID_BACK, BS.CRITIC);
+  const fc = faceAt(11, s, f, GC, [99.4, 1, 2.0]);
+  const Q1: V3 = [98.72, 0, 2.75], Q2: V3 = [99.98, 0, 2.62], Q3: V3 = [99.42, 0, 1.95];
   return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[1040, { expr: "stern", mode: "sit", tilt: 2 }], [1080, { expr: "stare", mode: "sit", tilt: -6 }, 4], [1135, { expr: "shock", mode: "sit", tilt: -2, headBack: 0.3 }, 5]]),
-      facing: faceAt(11, s, f, BS.CRITIC, ALT), armR: armTo(11, s, f, BS.CRITIC, spoon, 1, 0, 1, "sit"), armRFront: true, propR: "spoon", armL: [[-24, 14], [-8, 26]], armLFront: true }, { idx: 1 }),
-    C(KID, KID_BACK, { expr: f < 1135 ? "calm" : "smug", facing: fk, armR: [[26, 4], [-10, 16]], armL: [[-26, 4], [10, 16]], armRFront: true, armLFront: true }, { idx: 2 }),
-  ], subj: CRIT, focus: [ALT[0], 0.95, ALT[2]], ctl: CTL(f) };
+    C(GRO, GC, { expr: "grin", facing: fc, armR: armTo(11, s, f, GC, [99.25, 1.12 + 0.03 * Math.sin(f * 0.3), 3.66], 1, fc), armRFront: true, propR: "syrupCan", armL: AR.hipL }),
+    C(TFK, Q1, { expr: "smile_closed", facing: faceAt(11, s, f, Q1, GC), armR: [[22, 8], [30, -8]] as A2, armRFront: true, propR: "syrupCan" }),
+    C(TMN, Q2, { expr: "grin", facing: faceAt(11, s, f, Q2, GC), armL: [[-22, 8], [-30, -8]] as A2, armLFront: true, propL: "syrupCan" }),
+    C(KDC, Q3, { expr: "joy", facing: faceAt(11, s, f, Q3, GC), back: true, armR: [[22, -10], [26, -40]] as A2, propR: "syrupCan" }),
+  ], subj: GRO, focus: HD(GRO, GC), ctl: CTLB(f) };
 };
-lens(1040, DOF_CU, 18);
-KICKS.push([1080 / 30, 0.05]);
 
-// ================================================= SHOT 12 (1170-1271) "He takes a bite, and for the first time in his life, he
-// smiles." Close on the critic: the bite, the chew, then a huge slow smile; then the camera pushes into the cracked meringue
-// until its bubbles fill the frame.
-const c12 = F(() => cam3([-3.55, 1.3, 3.65], [-4.0, 0.98, 5.12], 44), 1192, 0.0015);
-const c12in = (f: number): Shot => { const u = sm(f, 1246, 1271); return { pos: lerp3([-3.52, 1.25, 3.9], [-3.58, 1.0, 4.6], u), look: lerp3([-3.75, 0.97, 5.05], [-3.6, 0.95, 4.88], u), fov: lerp(44, 28, u), roll: 0 }; };
-SHOT_CAMS[12] = () => [K(1170, glideTo(c11, 1170, c12, 1192), 1), K(1192, c12, 1), K(1234, glideTo(c12, 1234, c12in, 1250), 1), K(1250, c12in, 1)];
-SHOT_ACTS[12] = (f, s) => {
-  const bite = sm(f, 1172, 1186) * (1 - sm(f, 1194, 1206));
-  const spoon = lerp3([-3.66, 0.98, 4.98], [-4.02, 1.2, 5.15], bite);
+// ================================================= S12 (701-767) dissolve: "By month's end, it's a whole wall,": low and wide: the syrup
+// wall full to the top, the grocer on his stool stacking the top shelf, a queue with baskets; the agent's wife (teal) loads hers.
+const c12 = FIT([body([100.45, 0, 2.5], 0.4, 1.8, 0.3), body([99.75, 0, 2.2], 0.4, 1.8, 0.3), body([101.15, 0, 2.3], 0.4, 1.8, 0.3), body([102.7, 0.45, 6.15], 0.4, 1.85, 0.3), body([101.6, 0, 6.78], 0.5, 3.0, 1.9)], 152, -5, 60, 0.92, 0, 0, ROOM_GROC);
+SHOT_CAMS[12] = () => [K(701, F(() => c12, 701, 0.0016), 1, true)];
+const GS: V3 = [102.7, 0.45, 6.15], QW: V3 = [100.45, 0, 2.5], QA: V3 = [99.75, 0, 2.2], QB: V3 = [101.15, 0, 2.3];
+const act12 = (f: number, s: SetDef): Act => {
+  const lift = Math.sin(f * 0.22), load = f >= 726 && f < 752 ? sm(f, 726, 740) * (1 - sm(f, 742, 752)) : 0, fw = faceAt(12, s, f, QW, [101.6, 1, 4.0]);
   return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[1170, { expr: "stare", mode: "sit" }], [1188, { expr: "calm", mode: "sit", tilt: 2 }, 6], [1226, { expr: "beam", mode: "sit", tilt: -4, headBack: 0.2 }, 18]]),
-      facing: faceAt(12, s, f, BS.CRITIC, ALT), armR: armTo(12, s, f, BS.CRITIC, spoon, 1, 0, 1, "sit"), armRFront: true, propR: "spoon" }, { idx: 1 }),
-    C(KID, KID_BACK, { expr: "smug", facing: faceAt(12, s, f, KID_BACK, BS.CRITIC), armR: [[26, 4], [-10, 16]], armL: [[-26, 4], [10, 16]], armRFront: true, armLFront: true }, { idx: 2 }),
-  ], subj: CRIT, focus: f < 1240 ? [-4.18, 1.05, 5.2] : [ALT[0], 0.93, ALT[2]], ctl: CTL(f) };
+    C(GRO, GS, { expr: "grin", back: true, armR: [[22, -24], [26 + 6 * lift, -58]] as A2, propR: "syrupCan", armL: [[-20, -10], [-24, -36]] as A2 }),
+    C(WIF, QW, { expr: f < 740 ? "smile_closed" : "smile", facing: fw, armL: [[-24, 36], [-30, 56]] as A2, propL: "basket", armLFront: true, armR: [[24, 10 + 16 * load], [14, -6 + 40 * load]] as A2, armRFront: true, propR: f < 746 ? "syrupCan" : undefined }),
+    C(TFK, QA, { expr: "smile", facing: faceAt(12, s, f, QA, [101.6, 1, 4.0]), armL: [[-24, 36], [-30, 56]] as A2, propL: "basket" }),
+    C(TMN, QB, { expr: "grin", facing: faceAt(12, s, f, QB, [101.6, 1, 4.0]), armR: [[24, 36], [30, 56]] as A2, propR: "basket" }),
+  ], subj: WIF, focus: HD(WIF, QW), ctl: CTLB(f) };
 };
-lens(1170, DOF_CU, 1);
+SHOT_ACTS[12] = act12;
+lens(701, 0);
 
-// ================================================= SHOT 13 (1271-1517) the cutaway: "Because whipped egg white is mostly tiny bubbles of
-// air, and air is terrible at carrying heat. So the outside browns, and the heat never reaches the ice cream." Inside the
-// dessert at giant scale: the kid and the chef stand among man-sized meringue bubbles on the frozen ice cream. The kid taps
-// a bubble; orange heat waves come down from the browning crust and stall in the bubbles; down on the ice cream the chef
-// shivers with frost on his moustache.
-const CX = BS.CX, CI = BS.CUT_ICE;
-const PC15: V3 = [-1.5, 0, 6.02];   // the chef writes on the specials board from its west side (the kid passes behind him from the door)
-const PK13: V3 = [CX - 0.6, CI, 2.6], PC13: V3 = [CX + 0.7, CI, 2.6];
-const c13a = (f: number): Shot => { const u = sm(f, 1271, 1312); return { pos: lerp3([CX - 0.7, CI + 1.9, 3.6], [CX - 0.05, CI + 2.1, 6.6], u), look: lerp3([CX - 0.85, CI + 1.85, 2.0], [CX + 0.02, CI + 1.85, 1.0], u), fov: lerp(30, 56, u), roll: 0 }; };
-const c13b = F(() => cam3([CX - 0.05, CI + 2.1, 6.6], [CX + 0.02, CI + 1.85, 1.0], 56), 1312, 0.0005);
-const c13c = F(() => cam3([CX + 1.1, CI + 1.6, 5.0], [CX + 0.7, CI + 1.45, 2.6], 48), 1490, 0.002);
-SHOT_CAMS[13] = () => [K(1271, c13a, 1, true), K(1312, c13b, 1), K(1462, glideTo(c13b, 1462, c13c, 1490), 1), K(1490, c13c, 1)];
-SHOT_ACTS[13] = (f, s) => {
-  const tap = Math.max(0, Math.sin(clamp01((f - 1282) / 14) * Math.PI));
-  const shiver = f > 1468 ? 2.2 * Math.sin(f * 2.6) : 0;
-  return { cast: [
-    C(KID, PK13, { ...flow(f, [[1271, { expr: "smug", facing: 0.5 }], [1350, { expr: "proud", facing: 0.3 }, 8], [1430, { expr: "smile_closed", facing: 0.5 }, 8]]),
-      armR: lerpA2([[24, 10], [28, -10]], [[26, -10], [44, -34]], tap), armRFront: true, propR: "trowel", armL: AR.hipL }, { idx: 1 }),
-    C(CHEF, PC13, { ...flow(f, [[1271, { expr: "stare", facing: -0.5 }], [1380, { expr: "dismay", facing: -0.5 }, 8], [1466, { expr: "cold", facing: -0.3 }, 6]]), tilt: shiver, armR: [[20, 8], [-6, 18]], armL: [[-20, 8], [6, 18]], armRFront: true, armLFront: true }, { idx: 2 }),
-  ], subj: f < 1460 ? KID : CHEF, focus: f < 1460 ? [PK13[0], CI + 1.5, PK13[2]] : [PC13[0], CI + 1.5, PC13[2]], ctl: CTL(f) };
-};
-lens(1271, DOF_WS, 1);
+// ================================================= S13 (767-824) "...and the flour next to it hasn't sold a bag.": glide right along
+// the wall to the flour sacks: dusty, a cobweb, a spider walking over FLOUR (an insert: no faces).
+const FL: V3 = [103.42, 0.85, 5.5], c13 = cam3(lerp3(c12.pos, [FL[0], 1.1, FL[2]], 0.42), FL, 46);   // a dolly from the S12 lens onto the flour (no swing)
+SHOT_CAMS[13] = () => [K(767, F(() => c13, 823, 0.0008), 56)];
+SHOT_ACTS[13] = (f, s) => ({ cast: act12(766, s).cast, subj: null, focus: [103.45, 0.9, 5.55], ctl: CTLB(f) });   // the queue stays put (held at S12's last frame), out of the insert's line of sight
+lens(767, 2, 30);
 
-// ================================================= SHOT 14 (1517-1615) CUT, the comparison: "It's why that giant puffy coat kept the
-// critic warm in the snow." Earlier that evening on the snowy sidewalk: the critic strolls along in the giant mustard puffer,
-// snow piling on his shoulders, cosy and smug, breath puffing; the camera walks backwards in front of him, then turns away to
-// our window and pushes through the glass into tonight's dining room.
-const PCW = (f: number): V3 => [lerp(-8.6, -6.4, clamp01((f - 1517) / 93)), BS.SW, -1.45];
-const c14 = (f: number): Shot => { const P = PCW(f), push = 0.25 * sm(f, 1560, 1596); return { pos: [P[0] + 2.2 - 0.6 * push, 1.42, -2.95 + 0.9 * push], look: [P[0] + 0.1, 1.32, -1.45], fov: 44, roll: 0 }; };
-const W1: Cam = cam3([-2.0, 1.55, 0.0], [-1.3, 1.4, 4.0], 50);
-SHOT_CAMS[14] = () => [K(1517, c14, 1, true), K(1592, moveIn(c14, 1592, W1, 1615), 1)];
-const steamPuff = (P: V3, age: number): FxSpec => ({ kind: "card", key: "breath" + Math.min(5, Math.floor(age / 5)), pos: [P[0] + 0.32 + age * 0.008, P[1] + 1.5 + age * 0.004, P[2] - 0.2], w: 0.12 + age * 0.008, h: 0.1 + age * 0.006, soft: true, cw: 96, ch: 80,
-  draw: (p) => { const g = p.g; g.globalAlpha = 0.55 * (1 - age / 34); g.fillStyle = "#eef4ff"; g.beginPath(); g.ellipse(48, 40, 40, 30, 0, 0, 6.3); g.fill(); g.globalAlpha = 1; } });
+// ================================================= S14 (824-855) CUT: "So where's all the bread?": the agent in the shop doorway, notepad
+// up, squinting at the empty bread rack.
+const AD: V3 = [102.15, 0, 0.75];
+const c14 = F(() => FIT([body(AD, 0.45, 1.85, 0.3), body([101.25, 0, 0.3], 0.9, 2.15, 0.46)], 8, 4, 46, 0.86, 0, 0, ROOM_GROC), 824, 0.002);
+SHOT_CAMS[14] = () => [K(824, c14, 1, true)];
 SHOT_ACTS[14] = (f, s) => {
-  const P = PCW(f), fc = faceAt(14, s, f, P, [P[0] + 1, 0, P[2] - 0.6]);
-  const hug = sm(f, 1540, 1552);
-  return { cast: [C(CRIT, P, { expr: f < 1560 ? "smug" : "calm", mode: "walk", phase: (f - 1517) / 18, facing: fc, armR: lerpA2([[22, 20], [10, 34]], [[24, 4], [-8, 14]], hug), armL: lerpA2([[-22, 20], [-10, 34]], [[-24, 4], [8, 14]], hug), armRFront: true, armLFront: true }, { idx: 1 })],
-    subj: CRIT, focus: [P[0], 1.4, P[2]], ctl: CTL(f), fx: f > 1566 && f < 1600 ? [steamPuff(P, f - 1566)] : [] };
+  const fa = faceAt(14, s, f, AD, [BR.BREAD[0], 1.2, BR.BREAD[2]]);
+  return { cast: [C(AGT, AD, flow(f, [[824, { expr: "stern", facing: fa, armR: [[22, -4], [16, -26]] as A2, armRFront: true, propR: "clipboard", headTilt: 5 }], [838, { expr: "stare", facing: fa, armR: [[22, -4], [16, -26]] as A2, armRFront: true, propR: "clipboard", headTilt: -3, tilt: 3 }, 6]]))],
+    subj: AGT, focus: HD(AGT, AD), ctl: CTLB(f) };
 };
-lens(1517, DOF_MS, 1);
+{ const a14 = SHOT_ACTS[14]; SHOT_ACTS[14] = (f, s) => { const a = a14(f, s), c = CTLB(f); return { ...a, cast: [...a.cast, C(BRW, [(c.yeastX ?? 102.25) + 0.3, 0, (c.yeastZ ?? -1.4) + 0.45], { expr: "bored", facing: 0.5, armR: AR.hipR, armL: AR.hipL })] }; }; }
+lens(823, 3, 1);
 
-// ================================================= SHOT 15 (1615-1690) through the window, "Chefs really make this, and it's called a
-// baked Alaska." The diners at the next table beam over their own little baked Alaskas; the humbled head chef chalks BAKED
-// ALASKA on the specials board, letter by letter; the kid comes out of the kitchen door with a second dome and the copper pan.
-const c15 = F(() => cam3([-1.0, 1.42, 3.1], [-1.4, 1.2, 6.3], 52), 1650, 0.0012);
-SHOT_CAMS[15] = () => [K(1615, moveOut(W1, 1615, c15, 1650), 1), K(1650, c15, 1)];
+// ================================================= S15 (855-913) "Then the brewery sells yeast too,": pull back from the agent over the
+// grocer's shoulder: the brewer wheels a tower of YEAST boxes in on a hand truck; the grocer reaches up to steady the top box.
+const c15 = FIT([body([101.7, 0, 1.95], 0.8, 2.6, 0.25), body([102.0, 0, 2.4], 0.4, 1.8, 0.3), body([101.2, 0, 0.95], 0.45, 1.85, 0.3)], 15, 6, 56, 0.86, 0, 0, ROOM_GROC);
+SHOT_CAMS[15] = () => [K(855, F(() => c15, 901, 0.0014), 46)];
+const G15: V3 = [101.55, 0, 3.55];
 SHOT_ACTS[15] = (f, s) => {
-  const PC: V3 = PC15, fcC = faceAt(15, s, f, PC, BS.CHALK), chalkH: V3 = [-1.05 + 0.16 * Math.sin(f * 0.6), 1.5 - 0.25 * clamp01((f - 1636) / 52), 6.38];
-  const PK = kid16(f), fk = faceAt(15, s, f, PK, KID_T), c = CTL(f);
+  const c = CTLB(f), tower: V3 = [c.yeastX ?? 101.7, 0, c.yeastZ ?? 1.95];
+  const PB: V3 = [tower[0] + 0.3, 0, tower[2] + 0.45], moving = f > 866 && f <= 896, fb = faceAt(15, s, f, PB, [102.4, 1.5, 4.2]);   // pulls the hand truck in, walking backwards ahead of it
+  const dist = Math.hypot(102.25 - (c.yeastX ?? 101.7), -1.4 - (c.yeastZ ?? 1.95));
+  const catchK = sm(f, 880, 888);
+  const aw = walkS(15, s, AGT, [AD, [101.2, 0, 0.95]], f, 862, 880), AD2 = aw.p;   // steps away from the doorway, to the side the brewer is not on
   return { cast: [
-    C(CHEF, PC, { expr: f < 1650 ? "sheepish" : "proud", facing: fcC, armR: armTo(15, s, f, PC, chalkH, 1, fcC), armRFront: true, propR: "chalk", armL: AR.hipL }, { idx: 1 }),
-    ...(f >= 1636 ? [C(KID, PK, { expr: "proud", mode: "walk", phase: (f - 1640) / 16, facing: fk, armR: armTo(15, s, f, PK, [c.panX + 0.12, c.panY, c.panZ], 1, fk), armL: armTo(15, s, f, PK, [c.alFx, c.alFy - 0.03, c.alFz], -1, fk), armRFront: true, armLFront: true }, { idx: 2 })] : []),
-    C(DIN4, [0.9, 0, 5.15], { expr: "beam", mode: "sit", facing: faceAt(15, s, f, [0.9, 0, 5.15], [0.9, 0, 4.6]) }, { idx: 3 }),
-    C(DIN1, [0.35, 0, 4.6], { expr: "joy", mode: "sit", facing: faceAt(15, s, f, [0.35, 0, 4.6], [0.9, 0, 4.6]) }, { idx: 4 }),
-  ], subj: CHEF, focus: [-0.85, 1.35, 6.4], ctl: c };
+    C(BRW, PB, { expr: f < 896 ? "bored" : "smug", facing: fb, ...(moving ? { mode: "stride", phase: -dist / SM(BRW) } : {}), armR: armTo(15, s, f, PB, [tower[0] + 0.2, 1.12, tower[2] + 0.3], 1, fb, 1, "stand", 10, 80), armL: armTo(15, s, f, PB, [tower[0] + 0.34, 1.12, tower[2] + 0.3], -1, fb, 1, "stand", 10, 80) } as FigOpts),
+    C(GRO, G15, { expr: f < 884 ? "shock" : "relief", back: true, armR: [[22, -20 - 6 * catchK], [26, -50 - 14 * catchK]] as A2, armL: [[-22, -20 - 6 * catchK], [-26, -50 - 14 * catchK]] as A2, tilt: 3 * catchK }),
+    C(AGT, AD2, { expr: "stern", facing: aw.moving ? aw.facing : faceAt(15, s, f, AD2, tower), ...aw.o, armR: [[22, -4], [16, -26]] as A2, armRFront: true, propR: "clipboard" } as FigOpts),
+  ], subj: f < 868 ? AGT : BRW, focus: HD(BRW, PB), ctl: c };
 };
-lens(1615, DOF_MS, 1);
+lens(855, 2, 10);
 
-// ================================================= SHOT 16 (1690-1845) "So the critic orders another one, and this time, the kid pours
-// on hot rum and sets it on fire." The critic pushes his empty plate aside and holds up one finger just as the kid sets the second
-// dome down; the kid pours the hot rum from the copper pan and lights it: the flame rolls up between them on "fire". The kid
-// stands calm on one side, the critic lit orange and delighted on the other. The video ends on the peak.
-const c16 = F(() => C16, 1716, 0.0007);
-const c16b = (f: number): Shot => { const s0 = c16(1816), u = sm(f, 1816, 1842); return { pos: lerp3(s0.pos, [-4.5, 1.45, 3.0], u), look: lerp3(s0.look, [-3.76, 1.3, 5.2], u), fov: s0.fov ?? 52, roll: 0 }; };
-SHOT_CAMS[16] = () => [K(1690, glideTo(c15, 1690, c16, 1716), 1), K(1716, c16, 1), K(1816, c16b, 1)];
+// ================================================= S16 (913-980) dissolve: "...enough to raise a loaf the size of the church.": high over
+// the town from the west: the giant loaf rises beside the church steeple; tiny townsfolk stare up.
+const c16 = (f: number): Shot => { const u = sm(f, 913, 980); return { pos: lerp3([200, 19.5, -10], [202.5, 21, -9.2], u), look: lerp3([234, 4.6, 13], [234, 5.6, 13], u), fov: 40, roll: 0 }; };
+SHOT_CAMS[16] = () => [K(913, c16, 1, true)];
 SHOT_ACTS[16] = (f, s) => {
-  const PK = kid16(f), walking = f < 1712, fk = faceAt(16, s, f, PK, walking ? KID_T : BS.CRITIC);
-  const c = CTL(f);
-  const finger = sm(f, 1704, 1712) * (1 - sm(f, 1736, 1746)), push = sm(f, 1694, 1700) * (1 - sm(f, 1710, 1716));
-  const boom = sm(f, 1822, 1834), light = sm(f, 1796, 1802) * (1 - sm(f, 1806, 1814));
+  const up = { expr: "aghast" as Face, headBack: 0.8, tilt: -4 };
   return { cast: [
-    C(CRIT, BS.CRITIC, { ...flow(f, [[1690, { expr: "beam", mode: "sit" }], [1700, { expr: "smug", mode: "sit", tilt: 3 }, 6], [1752, { expr: "stare", mode: "sit" }, 6], [1822, { expr: "joy", mode: "sit", tilt: -10, headBack: 0.4 }, 4]]),
-      facing: faceAt(16, s, f, BS.CRITIC, ALT), armR: push > 0.01 ? armTo(16, s, f, BS.CRITIC, [ALT[0] - 0.05, 0.82, ALT[2] - 0.15], 1, 0, 1, "sit") : finger > 0.01 ? lerpA2(AR.hipR, [[24, -16], [18, -48]], finger) : AR.hipR, armRFront: true }, { idx: 1 }),
-    C(KID, PK, { expr: f < 1800 ? "calm" : "proud", ...(walking ? { mode: "walk", phase: (f - 1640) / 16 } : {}), facing: fk, tilt: -6 * boom,
-      armR: armTo(16, s, f, PK, [c.panX + 0.12, c.panY + 0.03, c.panZ], 1, fk), armRFront: true,
-      armL: f < 1722 ? armTo(16, s, f, PK, [c.alFx, c.alFy - 0.03, c.alFz], -1, fk) : light > 0.01 ? lerpA2(AR.hipL, armTo(16, s, f, PK, [ALT[0] + 0.12, 1.02, ALT[2] + 0.05], -1, fk), light) : AR.hipL, armLFront: true }, { idx: 2 }),
-  ], subj: f < 1800 ? CRIT : KID, focus: f < 1745 ? [-4.18, 1.05, 5.2] : [ALT[0], 1.0, ALT[2]], ctl: c };
+    C(TFK, [231.2, 0.15, 5.3], { ...up, facing: 0.5 }), C(TMN, [232.4, 0.15, 5.0], { ...up, facing: -0.5, armR: AR.pointR }), C(KDC, [233.4, 0.15, 5.4], { ...up, facing: 0.5 }),
+  ], subj: null, focus: [230, 4, 14], ctl: CTLB(f) };
 };
-lens(1690, DOF_MS, 1);
-KICKS.push([1823 / 30, 0.11]);
+lens(913, 0);
+
+// ================================================= S17 (980-1033) dissolve: "So the agent knocks on doors,": night, granny's porch in
+// profile: the agent hammers on the door three times (knock stars on the wood).
+const KN: V3 = [197.25, 0.6, 8.13], GD: V3 = [196.9, 0.6, 8.34], GIN: V3 = [196.75, 0.6, 8.62];   // GIN: inside her kitchen, off the agent's line
+const c17 = cam3([197.55, 2.0, 5.95], [197.15, 1.9, 8.3], 46);
+SHOT_CAMS[17] = () => [K(980, F(() => c17, 980, 0.0018), 1, true)];
+const KNOCKS = [994, 1003, 1012];
+SHOT_ACTS[17] = (f, s) => {
+  const fa = faceAt(17, s, f, KN, [197.25, 1.9, 8.5]);
+  let hit = 0; for (const k of KNOCKS) hit = Math.max(hit, bump((f - k + 4) / 8));
+  return { cast: [C(GRA, GIN, { expr: "smile", facing: 0, armR: [[24, 20], [30, 40]] as A2, armRFront: true, propR: "rollingPin", armL: [[-24, 30], [-28, 44]] as A2, armLFront: true, propL: "pie" }), C(AGT, KN, { expr: "stern", facing: fa, tilt: 2 * hit, armR: armTo(17, s, f, KN, [197.05, 1.95, 8.36 + 0.04 * hit], 1, fa), armRFront: true, armL: AR.hipL })],
+    subj: AGT, focus: HD(AGT, KN), ctl: CTLB(f), fx: fxs(...KNOCKS.map((k, i) => clang("kn" + i, [197.12, 1.95, 8.34], f - k, 0.32))) };
+};
+lens(980, 2);
+for (const k of KNOCKS) KICKS.push([k / 30, 0.035]);
+
+// ================================================= S18 (1033-1129) "...and a granny answers with flour on her hands. She really is
+// baking.": the door swings in on her lit kitchen; over the agent's shoulder she stands with her rolling pin, then holds up a
+// fresh pie, proud; a slow push in on "baking".
+const KN2: V3 = [197.5, 0.6, 7.45];
+const c18 = cam3([197.2, 2.05, 6.3], [196.88, 1.95, 8.35], 50);   // over his shoulder but squarer on her: the S19 pull-back turns less
+SHOT_CAMS[18] = () => [K(1033, F(() => c18, 1072, 0.0018, [[1104, 0.0035, 12]]), 40)];
+SHOT_ACTS[18] = (f, s) => {
+  const aw = walkS(18, s, AGT, [KN, KN2], f, 1033, 1052, true), P = aw.p, fg = faceAt(18, s, f, GD, [197.5, 1.9, 7.3]);
+  const g = flow(f, [
+    [1033, { expr: "smile", facing: fg, armR: [[24, 20], [30, 40]] as A2, armRFront: true, propR: "rollingPin", armL: [[-24, 30], [-28, 44]] as A2, armLFront: true, propL: "pie" }],
+    [1066, { expr: "proud", facing: fg, armR: [[24, 20], [30, 40]] as A2, armRFront: true, propR: "rollingPin", armL: [[-22, 6], [-26, -12]] as A2, armLFront: true, propL: "pie", tilt: -2 }, 8],
+    [1100, { expr: "beam", facing: fg, armR: [[24, 20], [30, 40]] as A2, armRFront: true, propR: "rollingPin", armL: [[-22, 4], [-26, -16]] as A2, armLFront: true, propL: "pie", tilt: -3, headTilt: 4 }, 8],
+  ]);
+  const cast: CastPlace[] = [C(AGT, P, { expr: f < 1070 ? "stare" : "worry", back: true, facing: -0.3, ...aw.o, sweat: sm(f, 1080, 1100), armL: AR.hipL, armR: AR.hipR } as FigOpts)];
+  const gIn: V3 = lerp3(GIN, GD, sm(f, 1038, 1050));   // steps out of her lit kitchen as the door swings in
+  cast.push(C(GRA, gIn, g));
+  return { cast, subj: f >= 1040 ? GRA : AGT, focus: HD(GRA, GD), ctl: CTLB(f) };
+};
+lens(1033, 3, 12);
+
+// ================================================= S19 (1129-1209) "He says sorry, backs down the steps, and her cellar goes...": low
+// from the street: the agent backs down the porch steps tipping his hat, sweating; the granny waves with the brass key on its
+// red string; the cellar window beside the steps starts to glow and rattle.
+const c19 = FIT([body([197.35, 0.6, 7.1], 0.4, 1.85, 0.3), body([197.9, 0.15, 5.75], 0.4, 1.85, 0.3), body(GD, 0.4, 1.75, 0.3), body([199.3, 0, 8.39], 0.05, 0.45, 0.4)], 192, 0, 56, 0.86);
+SHOT_CAMS[19] = () => [K(1129, F(() => c19, 1209, 0.0012), 80)];   // pulls back off the porch first; he only starts backing down once the lens is clear of her
+const BACK19: V3[] = [KN2, [197.35, 0.6, 7.1], [197.3, 0.15, 6.4], [197.9, 0.15, 5.75]];
+const AJ: V3 = [197.9, 0.15, 5.75];
+SHOT_ACTS[19] = (f, s) => {
+  const w = walkS(19, s, AGT, BACK19, f, 1150, 1204, true), P = w.p, fa = faceAt(19, s, f, P, GD);
+  const a = flow(f, [[1129, { expr: "worry", facing: fa, sweat: 1, armR: AR.hipR, armL: AR.hipL }], [1142, { expr: "fakegrin", facing: fa, sweat: 1, armR: AR.tipHatR, armL: AR.hipL }, 6], [1172, { expr: "worry", facing: fa, sweat: 1, armR: AR.hipR, armL: AR.hipL }, 8]]);
+  const fg = faceAt(19, s, f, GD, P), wave = Math.sin((f - 1160) * 0.45);
+  const g = flow(f, [[1129, { expr: "beam", facing: fg, armR: [[24, 20], [30, 40]] as A2, armRFront: true, propR: "rollingPin", armL: [[-24, 30], [-28, 44]] as A2, armLFront: true, propL: "pie" }], [1162, { expr: "smile_closed", facing: fg, armR: [[24, -14], [34 + 8 * wave, -46]] as A2, propR: "rollingPin", armL: [[-24, 30], [-28, 44]] as A2, armLFront: true, propL: "pie" }, 8]]);
+  const cw: V3 = [199.3, 0.24, 8.3];
+  return { cast: [C(AGT, P, { ...a, ...w.o, hatLift: f >= 1146 && f < 1168 ? 0.2 * bump((f - 1146) / 22) : 0 } as FigOpts), C(GRA, GD, g)],
+    subj: f < 1150 ? GRA : AGT, focus: HD(AGT, P), ctl: CTLB(f), fx: fxs(f >= 1186 ? squiggles("rattle", [cw[0], cw[1] + 0.32, cw[2] - 0.12], f, "#ffe2a0", 0.34) : null) };
+};
+lens(1129, 1.5);
+
+// ================================================= S20 (1209-1231) CUT: "...pop.": the cellar window bursts, a cap pings off, foam sprays;
+// the agent jumps, his hat flying up.
+
+const c20 = FIT([body(AJ, 0.4, 2.15, 0.3), body([199.3, 0, 8.39], 0.05, 0.45, 0.4)], 148, 0, 52, 0.85);
+SHOT_CAMS[20] = () => [K(1209, F(() => c20, 1209, 0.0025), 1, true)];
+SHOT_ACTS[20] = (f, s) => {
+  const fa = faceAt(20, s, f, AJ, [199.3, 0.3, 8.3]), j = f >= 1214 ? bump((f - 1214) / 14) : 0;
+  return { cast: [C(AGT, AJ, { expr: f < 1214 ? "worry" : "aghast", facing: fa, mode: j > 0 ? "hop" : undefined, lift: j, hatLift: f >= 1214 ? Math.min(1, (f - 1214) / 8) : 0, armR: f >= 1214 ? ARMS.upR : AR.hipR, armL: f >= 1214 ? ARMS.upL : AR.hipL, sweat: 1 } as FigOpts)],
+    subj: AGT, focus: HD(AGT, AJ), ctl: CTLB(f), fx: fxs(capFly("c20", [199.3, 0.3, 8.25], [-0.3, -0.6], f - 1214), clang("pop20", [199.3, 0.3, 8.2], f - 1213, 0.4)) };
+};
+lens(1208, 2, 1);
+KICKS.push([1214 / 30, 0.09]);
+
+// ================================================= S21 (1231-1262) whip right: "Then the next house pops.": the camera whips to the next
+// house's cellar window as it bursts; the agent spins and stumbles after it.
+const c21 = FIT([body([205.3, 0, 8.39], 0.05, 0.45, 0.4), body([201.4, 0.15, 6.0], 0.4, 1.85, 0.3), body(AJ, 0.4, 1.85, 0.3)], 200, 6, 60, 0.85);
+SHOT_CAMS[21] = () => [K(1231, F(() => c21, 1231, 0.0016), 1, true)];
+SHOT_ACTS[21] = (f, s) => {
+  const w = walkS(21, s, AGT, [AJ, [199.9, 0.15, 6.2], [201.4, 0.15, 6.0]], f, 1240, 1258), P = w.p, fa = w.moving ? w.facing : faceAt(21, s, f, P, [205.3, 0.3, 8.3]);
+  return { cast: [C(AGT, P, { expr: f < 1246 ? "aghast" : "shock", facing: fa, sweat: 1, ...w.o, hatLift: 1, armR: ARMS.upR, armL: AR.hipL } as FigOpts)],
+    subj: AGT, focus: [204.5, 0.6, 8.2], ctl: CTLB(f), fx: fxs(capFly("c21", [205.3, 0.3, 8.25], [0.2, -0.6], f - 1246), clang("pop21", [205.3, 0.3, 8.2], f - 1246, 0.4)) };
+};
+lens(1231, 0);
+KICKS.push([1246 / 30, 0.07]);
+
+// ================================================= S22 (1262-1300) "Then the whole street.": crane up and back: down the whole street the
+// cellar windows burst one after another, foam fountains; the agent turning in the middle of it.
+const c22 = cam3([198.4, 3.0, -5.4], [206.2, 0.9, 7.0], 50);   // a short push and pan down the street: the agent stays big in front while the cellars pop beyond him
+SHOT_CAMS[22] = () => [K(1262, F(() => c22, 1299, 0.0006), 37)];
+SHOT_ACTS[22] = (f, s) => {
+  const w = walkS(22, s, AGT, [[201.4, 0.15, 6.0], [203.2, 0.15, 5.6]], f, 1272, 1292), P = w.p, turn = Math.sin((f - 1292) * 0.2) * sm(f, 1290, 1296);
+  const T3: V3 = [209.3, 0.6, 7.8], T4: V3 = [215.2, 0.6, 7.8];
+  return { cast: [C(AGT, P, { expr: "aghast", facing: w.moving ? w.facing : turn, sweat: 1, ...w.o, hatLift: 1, armR: ARMS.upR, armL: ARMS.upL, tilt: 4 * turn } as FigOpts),
+    C(TFK, T3, { expr: "aghast", facing: 0.5, armR: ARMS.upR }), C(TMN, T4, { expr: "shock", facing: -0.5, armL: ARMS.upL })],
+    subj: AGT, focus: [208, 0.6, 8.2], ctl: CTLB(f), fx: fxs(...[1268, 1278, 1288].map((t, i) => clang("pop22" + i, [211.3 + 6 * i, 0.3, 8.2], f - t, 0.5))) };
+};
+lens(1262, 0);
+
+// ================================================= S23 (1300-1397) dissolve: "That syrup is malt extract, the barley sugar, already cooked.":
+// the cellar under granny's house, sliced open: she pours a can into the crock (a thick ribbon); the can's label pops up big
+// beside it: PURE MALT EXTRACT.
+const CK: V3 = [196.8, -1.88, 10.95], GR: V3 = [196.72, -2.5, 11.22];
+const c23 = FIT([body(GR, 0.4, 1.75, 0.3), body(CK, 0, 0.45, 0.25), body([195.35, -2.5, 12.45], 0.4, 2.0, 1.2)], 172, 6, 50, 0.9);
+SHOT_CAMS[23] = () => [K(1300, F(() => c23, 1300, 0.0016, [[1326, 0.005, 10]]), 1, true)];
+SHOT_ACTS[23] = (f, s) => {
+  const fg = faceAt(23, s, f, GR, [197.3, -1.4, 7.5]), pour = sm(f, 1308, 1320);
+  const hand: V3 = [CK[0] + 0.12, -1.32, CK[2] + 0.06];
+  const o = flow(f, [[1300, { expr: "smile_closed", facing: fg }], [1340, { expr: "proud", facing: fg, tilt: -2 }, 8]]);
+  const mouth: V3 = [CK[0] + 0.04, -1.38, CK[2]];
+  return { cast: [C(GRA, GR, { ...o, armR: armTo(23, s, f, GR, hand, 1, fg, 1, "stand", 10, 80), armRFront: true, propR: f < 1392 ? "syrupCan" : undefined, propRAng: 1.9 * pour, armL: armTo(23, s, f, GR, [CK[0] - 0.16, -1.5, CK[2] + 0.01], -1, fg, 1, "stand", 10, 80), armLFront: true } as FigOpts)],
+    subj: GRA, focus: HD(GRA, GR), ctl: CTLB(f),
+    fx: fxs(pour > 0.6 ? syrupStream("p23", mouth, [CK[0] + 0.02, -1.5, CK[2] - 0.05], f, f > 1360 ? 0.075 : 0.06) : null, labelCard([CK[0] - 0.55, -1.15, CK[2] - 0.25], f, 1326, 1366)) };
+};
+lens(1300, 2.5);
+
+// ================================================= S24 (1397-1451) "Add water and yeast,": straight down into the crock: water splashes
+// in, then a cake of yeast drops in.
+const c24 = FIT([body(GR, 0.8, 1.7, 0.3), body(CK, 0.1, 0.45, 0.25)], 171, 14, 46, 0.86);
+SHOT_CAMS[24] = () => [K(1397, F(() => c24, 1450, 0.0014), 53)];
+SHOT_ACTS[24] = (f, s) => {
+  const sur: V3 = [CK[0], -1.62, CK[2]], water = f >= 1404 && f < 1428, fg = faceAt(24, s, f, GR, [196.95, -1.0, 9.95]);
+  const pourK = sm(f, 1400, 1406) * (1 - sm(f, 1426, 1432)), drop = f >= 1424 && f < 1434;
+  const gran = C(GRA, GR, { expr: f < 1431 ? "smile_closed" : "proud", facing: fg, tilt: 4,
+    armL: armTo(24, s, f, GR, [CK[0] - 0.2, -1.3, CK[2] + 0.02], -1, fg, 1, "stand", 10, 80), armLFront: true, propL: f < 1432 ? "bucket" : undefined, propLAng: 0.9 * pourK,
+    armR: drop ? armTo(24, s, f, GR, [CK[0] + 0.06, -1.3, CK[2] + 0.02], 1, fg, 1, "stand", 10, 80) : AR.hipR, armRFront: true } as FigOpts);
+  const yA = f - 1431, cake = yA >= 0 && yA < 12 ? popCard("yeastCake", lerp3([CK[0] + 0.02, -1.0, CK[2] + 0.02], sur, yA / 12), 0.11 - 0.05 * (yA / 12), 0.08 - 0.035 * (yA / 12), f, 1431, 1443, (g) => {
+    g.fillStyle = INKC; g.fillRect(0, 0, 256, 180); g.fillStyle = "#f2d860"; g.fillRect(10, 10, 236, 160); g.fillStyle = "#b3261e"; g.fillRect(10, 10, 236, 34); g.fillStyle = "#3a1e10"; g.font = "900 64px Georgia"; g.textAlign = "center"; g.fillText("YEAST", 128, 130); }, 256, 180) : null;
+  return { cast: [gran], subj: GRA, focus: sur, ctl: CTLB(f),
+    fx: fxs(water ? waterStream("w24", [CK[0] - 0.18, -1.22, CK[2] - 0.05], [CK[0] - 0.05, -1.58, CK[2]], f) : null, splash("s24", sur, f - 1406, 0.5), cake, splash("s24b", sur, f - 1443, 0.35)) };
+};
+lens(1397, 3, 16);
+
+// ================================================= S25 (1451-1529) "...and the yeast eats it and burps out alcohol and bubbles.": rise out
+// of the crock onto the granny: bubbles climb, the foam burps on "burps" and crowns the rim; she leans in, sniffs, delighted.
+const c25 = FIT([body(GR, 0.4, 1.75, 0.3), body(CK, 0, 0.6, 0.25)], 174, 6, 44, 0.86);
+SHOT_CAMS[25] = () => [K(1451, F(() => c25, 1499, 0.0016), 48)];
+SHOT_ACTS[25] = (f, s) => {
+  const fg = faceAt(25, s, f, GR, [197.1, -1.4, 9.3]);
+  const o = flow(f, [[1451, { expr: "stare", facing: fg }], [1478, { expr: "shock", facing: fg, tilt: -4, headBack: 0.3 }, 5], [1494, { expr: "joy", facing: fg, tilt: 9, headTilt: 5 }, 10]]);
+  return { cast: [C(GRA, GR, { ...o, armL: AR.hipL, armR: AR.hipR } as FigOpts)], subj: GRA, focus: HD(GRA, GR), ctl: CTLB(f),
+    fx: fxs(bubbles("b25", [CK[0], -1.47, CK[2] - 0.1], f, sm(f, 1455, 1475)), f >= 1478 && f < 1500 ? squiggles("burp", [CK[0] + 0.05, -1.1, CK[2] - 0.15], f, "#fff2d0", 0.3) : null) };
+};
+lens(1451, 3, 12);
+
+// ================================================= S26 (1529-1606) dissolve: "It's like pancake mix, except it only makes beer.": the grocer
+// at the counter: water from a jug into the PANCAKE MIX bowl (batter); then he holds up a syrup can and taps his jug: beer foam.
+const PG: V3 = [98.1, 0, 3.88];
+const c26 = FIT([body(PG, 0.45, 1.8, 0.3), body([97.75, 0.95, 3.62], 0, 0.3, 0.12), body([98.6, 0.95, 3.62], 0, 0.3, 0.1)], 180, 8, 48, 0.86, 0, 0, ROOM_GROC);
+SHOT_CAMS[26] = () => [K(1529, F(() => c26, 1529, 0.0016), 1, true)];
+SHOT_ACTS[26] = (f, s) => {
+  const fc = faceAt(26, s, f, PG, [98.05, 1.4, 2.3]), pourK = sm(f, 1536, 1542) * (1 - sm(f, 1556, 1562));
+  const tap = f >= 1584 && f < 1600 ? bump((f - 1584) / 8) + bump((f - 1592) / 8) : 0;
+  const o = flow(f, [[1529, { expr: "smile", facing: fc }], [1564, { expr: "grin", facing: fc }, 8], [1590, { expr: "scheme", facing: fc, tilt: -2 }, 8]]);
+  return { cast: [C(GRO, PG, { ...o,
+    armR: f < 1566 ? armTo(26, s, f, PG, [98.0, 1.18 - 0.04 * pourK, 3.62], 1, fc) : AR.hipR, armRFront: true, propR: f < 1566 ? "jug" : undefined, propRAng: 1.2 * pourK,
+    armL: f < 1564 ? AR.hipL : armTo(26, s, f, PG, [98.3 + 0.02 * tap, 1.28 - 0.06 * tap, 3.64], -1, fc), armLFront: true, propL: f >= 1564 ? "syrupCan" : undefined } as FigOpts)],
+    subj: GRO, focus: [98.1, 1.1, 3.5], ctl: CTLB(f), fx: fxs(pourK > 0.5 ? waterStream("w26", [97.98, 1.12, 3.61], [98.03, 1.0, 3.62], f) : null) };
+};
+lens(1529, 3, 1);
+
+// ================================================= S27 (1606-1665) dissolve: "One can makes 45 bottles,": granny's cellar: shelves of brown
+// bottles, 45 chalked on the beam; she pulls the capper's lever down on a bottle: clack.
+const GK: V3 = [196.22, -2.5, 11.3];
+const c27 = FIT([body(GK, 0.4, 1.75, 0.3), body([195.4, -0.15, 12.68], 0, 0.3, 0.3), body([195.35, -2.5, 12.45], 0.3, 2.0, 1.3)], 172, 2, 54, 0.9);
+SHOT_CAMS[27] = () => [K(1606, F(() => c27, 1606, 0.0016), 1, true)];
+SHOT_ACTS[27] = (f, s) => {
+  const fg = faceAt(27, s, f, GK, [196.4, -1.3, 8.4]), press = f >= 1626 && f < 1644 ? bump((f - 1626) / 18) : 0;
+  return { cast: [C(GRA, GK, { expr: f < 1632 ? "determined" : "proud", facing: fg, armL: armTo(27, s, f, GK, [196.42, -1.5 - 0.14 * press, 11.07], -1, fg, 1, "stand", 10, 80), armLFront: true, armR: [[24, 30], [28, 44]] as A2, armRFront: true, propR: "rollingPin", tilt: 3 * press } as FigOpts)],
+    subj: GRA, focus: HD(GRA, GK), ctl: CTLB(f), fx: fxs(clang("cap27", [196.3, -1.82, 11.03], f - 1634, 0.24)) };
+};
+lens(1606, 1.5);
+KICKS.push([1634 / 30, 0.03]);
+
+// ================================================= S28 (1665-1741) "...and cap them too soon, the bubbles blow the caps off.": closer: she
+// caps another; the bottles behind her hiss, then the caps blow off one after another and ping off the ceiling, foam; she
+// ducks under her rolling pin.
+const c28 = FIT([body(GK, 0.5, 1.8, 0.32), body([195.6, -2.5, 12.45], 1.0, 1.9, 0.6)], 168, 4, 46, 0.86);
+SHOT_CAMS[28] = () => [K(1665, F(() => c28, 1690, 0.0018), 26)];
+SHOT_ACTS[28] = (f, s) => {
+  const fg = faceAt(28, s, f, GK, [196.6, -1.4, 9.4]), press = f >= 1668 && f < 1684 ? bump((f - 1668) / 16) : 0;
+  const o = flow(f, [
+    [1665, { expr: "proud", facing: fg, armL: armTo(28, s, f, GK, [196.42, -1.5 - 0.14 * press, 11.07], -1, fg, 1, "stand", 10, 80), armLFront: true, armR: [[24, 30], [28, 44]] as A2, armRFront: true, propR: "rollingPin" }],
+    [1690, { expr: "stare", facing: fg, armR: [[24, 30], [28, 44]] as A2, armRFront: true, propR: "rollingPin", armL: AR.hipL, headTilt: 6 }, 8],
+    [1704, { expr: "yikes", facing: fg, armR: [[22, -26], [10, -58]] as A2, armL: [[-22, -26], [-10, -58]] as A2, tilt: 8, propR: "rollingPin" }, 6],
+    [1730, { expr: "joy", facing: fg, armR: [[22, -26], [10, -58]] as A2, armL: [[-22, -26], [-10, -58]] as A2, tilt: 3, propR: "rollingPin" }, 8],
+  ]);
+  const shelf: V3 = [195.3, -1.2, 12.4];
+  return { cast: [C(GRA, GK, o)], subj: GRA, focus: HD(GRA, GK), ctl: CTLB(f), fx: fxs(f >= 1688 && f < 1704 ? squiggles("hiss", shelf, f, "#ffffff", 0.36) : null) };
+};
+lens(1665, 2.5, 12);
+KICKS.push([1700 / 30, 0.06]);
+
+// ================================================= S29 (1741-1838) dissolve: "Breweries really did this, and grocers sold it with a wink.":
+// over a customer's shoulder: the grocer hands a can across the counter, leans in and winks on "wink"; behind him the
+// poster of a winking grocer.
+const G29: V3 = [98.4, 0, 3.92], CU29: V3 = [98.95, 0, 2.75];
+const c29 = FIT([body(G29, 0.45, 1.8, 0.3), body([98.0, 0, 6.93], 1.6, 2.5, 0.4)], 172, 4, 46, 0.86, 0, -0.16, ROOM_GROC);   // lift: his face above the caption band
+SHOT_CAMS[29] = () => [K(1741, F(() => c29, 1741, 0.0012, [[1816, 0.005, 10]]), 1, true)];
+SHOT_ACTS[29] = (f, s) => {
+  const fc = faceAt(29, s, f, G29, [98.8, 1.5, 1.6]);
+  const o = flow(f, [
+    [1741, { expr: "smile", facing: fc, armR: [[24, 20], [28, 36]] as A2, armRFront: true }],
+    [1756, { expr: "grin", facing: fc, armR: [[22, -6], [30, -34]] as A2, armRFront: true, tilt: 2 }, 10],
+    [1788, { expr: "scheme", facing: fc, tilt: 6, armR: [[22, -6], [30, -34]] as A2, armRFront: true }, 10],
+    [1820, { expr: "wink", facing: fc, tilt: 7, headTilt: 6, armR: [[22, -6], [30, -34]] as A2, armRFront: true }, 4]]);
+  return { cast: [
+    C(GRO, G29, { ...o, propR: "syrupCan", armL: AR.hipL } as FigOpts),
+    C(TFK, CU29, { expr: "smile", back: true, facing: -0.3, armR: AR.hipR, armL: [[-24, 36], [-30, 56]] as A2, propL: "basket" }),
+  ], subj: GRO, focus: HD(GRO, G29), ctl: CTLB(f) };
+};
+lens(1741, 2.5);
+
+// ================================================= S30 (1838-1903) dissolve: "So the agent heads home, opens his cellar,": night outside his
+// own house: he trudges up and hauls the slanted cellar doors open; the brass key on its red string swings in the lock; light
+// spills up.
+const c30 = FIT([body([217.6, 0.15, 6.0], 0.4, 1.85, 0.3), body([219.5, 0.15, 7.17], 0.4, 1.85, 0.3), body(BR.BULK, 0, 0.6, 0.7)], 200, 8, 52, 0.86);
+SHOT_CAMS[30] = () => [K(1838, F(() => c30, 1838, 0.0016), 1, true)];
+SHOT_ACTS[30] = (f, s) => {
+  const w = walkS(30, s, AGT, [[217.6, 0.15, 6.0], [218.6, 0.15, 6.5], [219.5, 0.15, 7.17]], f, 1838, 1872), P = w.p, fa = w.moving ? w.facing : faceAt(30, s, f, P, BR.BULK);
+  const haul = sm(f, 1880, 1898), crouch = sm(f, 1873, 1880) * (1 - 0.6 * haul);
+  const o = flow(f, [[1838, { expr: "bored", facing: fa, tilt: 4 }], [1874, { expr: "strain", facing: fa, tilt: 10 }, 6], [1898, { expr: "stare", facing: fa, tilt: 2 }, 8]]);
+  return { cast: [C(AGT, P, { ...o, ...w.o,
+    ...(crouch > 0.01 ? { mode: "kneel", kneelK: crouch } : {}),
+    armR: f >= 1874 ? armTo(30, s, f, P, [219.28, 0.85 + 0.45 * haul, 7.36], 1, fa, 1, crouch > 0.3 ? "kneel" : "stand", 10, 80) : AR.hipR, armRFront: true,
+    armL: f >= 1874 ? armTo(30, s, f, P, [219.72, 0.85 + 0.45 * haul, 7.36], -1, fa, 1, crouch > 0.3 ? "kneel" : "stand", 10, 80) : AR.hipL, armLFront: true } as FigOpts)],
+    subj: AGT, focus: HD(AGT, P), ctl: CTLB(f), fx: fxs(f >= 1884 ? glowBurst("spill", [219.7, 0.55, 7.95], 1.2 * sm(f, 1884, 1898), sm(f, 1884, 1898)) : null) };
+};
+lens(1838, 1.5);
+
+// ================================================= S31 (1903-1986) dissolve: "...and finds his wife down there, baking.": over the agent's
+// shoulder at the foot of his cellar steps: his wife among crocks and bottles, rolling pin up, beaming; on "baking" the whole
+// shelf blows its caps in a chain and foam fountains over her; the agent's hat flies off.
+const A31: V3 = [221.95, -2.5, 10.3], W31: V3 = [220.4, -2.5, 11.6];   // the agent's head off the lens-to-wife line
+const c31 = cam3([222.25, -0.95, 8.9], [220.75, -1.55, 12.0], 56);
+SHOT_CAMS[31] = () => [K(1903, F(() => c31, 1903, 0.0007, [[1946, 0.003, 8]]), 1, true)];
+SHOT_ACTS[31] = (f, s) => {
+  const fw = faceAt(31, s, f, W31, [221.45, -1.2, 9.6]);
+  const w = flow(f, [[1903, { expr: "beam", facing: fw, armR: [[22, -26], [10, -58]] as A2, propR: "rollingPin", armL: AR.hipL }], [1948, { expr: "joy", facing: fw, armR: [[22, -26], [10, -58]] as A2, propR: "rollingPin", armL: ARMS.upL, tilt: -3, headBack: 0.4 }, 6]]);
+  return { cast: [
+    C(AGT, A31, { expr: f < 1946 ? "stare" : "aghast", back: true, facing: -0.3, hatLift: f >= 1948 ? Math.min(1, (f - 1948) / 10) : 0, armR: f >= 1948 ? ARMS.upR : AR.hipR, armL: f >= 1948 ? ARMS.upL : AR.hipL } as FigOpts),
+    C(WIF, W31, w),
+  ], subj: WIF, focus: HD(WIF, W31), ctl: CTLB(f) };
+};
+lens(1903, 2.5);
+KICKS.push([1947 / 30, 0.1]);
 
 // ---------------- carry-over (11r): when a shot starts with a camera move out of the previous one, everyone the previous shot had
 // on screen stays in the world for that move (by name), at the previous shot's acting on its last frame.
@@ -1343,7 +1522,7 @@ type SceneDef = { id: string; shots: number[]; a: number; b: number };
 const SCENES: SceneDef[] = [];
 for (const sh of SHOT_LIST) {
   const last = SCENES[SCENES.length - 1], prev = last && SHOT_LIST.find((x) => x.id === last.shots[last.shots.length - 1]);
-  if (last && prev && prev.set === sh.set && prev.light === sh.light && prev.b === sh.a) { last.shots.push(sh.id); last.b = sh.b; }
+  if (last && prev && prev.set === sh.set && prev.light === sh.light && prev.b === sh.a && !XF[sh.id]) { last.shots.push(sh.id); last.b = sh.b; }   // p14: a dissolve is a new time = a new scene (the seam ease slid the grocery queue across the S11 -> S12 dissolve)
   else SCENES.push({ id: "sc" + sh.id, shots: [sh.id], a: sh.a, b: sh.b });
 }
 const SCENE_OF: Record<number, SceneDef> = {};

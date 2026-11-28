@@ -11,4 +11,20 @@
   ElevenLabs: 2 takes (1343 + 1253 credits), flow HaErauBWoqYI0QUKal4z; take 2 (217 words) came out slower (75.6 s raw), unused.
 - Step 4 done: plan/plan.json (31 shots, 4 places: brewery, grocery, mainstreet day/night, cellar), plan_check 0 FAIL/0 WARN.
   plan/make_plan.py regenerates it. Checkpoints 1 and 2 sent.
-- Step 5 (look-dev) next: sets brewery/grocery/mainstreet/cellar, cast brewer/agent/agents/grocer/granny/wife/townsfolk.
+- Step 5 done (checkpoint 3 sent): sets/beer.ts + sets/beerkit.ts, cast block at the END of CAST (casts.ts), grades brewG/grocG/stDayG/stNightG/cellarG
+  (grade.ts, lights.ts point at them), still_check 0 FAIL on look/k_S*.jpg. New fig props: syrupCan, padlock, rollingPin, pie, capper.
+  Crate carry = {carry2: true, armRFront: true, armLFront: true, propR: "crate"} (without the front arms a 2nd crate draws at the hip).
+  Preview stills default cInf 10 (heavy blur): pass cInf (0 wides, 2-3 close). preview.mjs now merges spec.props into preview runs.
+  S23/S31 now 6-frame dissolves (plan_check 0/0). S26 pancake demo sits at the counter's left end (x 98).
+  Framings found in look-dev: S16 aerial cam [200,20,-10] look [234,5,13] fov 40; S18 OTS cam [197.4,2.05,6.3] look granny [196.9,1.95,8.35] fov 50,
+  agent [197.5,0.6,7.45] back; S8 office from the street cam [187.2,1.7,4.6] look [187.2,1.75,10.5] fov 46.
+  Repo: BenjaminWolff78/claude-ai-help branch they-banned-beer-sold-baking-syrup (worktree /home/claude/cah-beer), folder videos/they-banned-beer-sold-baking-syrup.
+- Step 6 done (Nov 27 ~20:00 ET): 31 shots in story.ts/shots.ts (beer block between the p14 marker and "carry-over (11r)").
+  Loop: extract block -> work/editsN.py (R(old,new) exact-once) -> python3 -I work/edit_block.py -> splice -> tsc -> esbuild camdump/dump_v2.ts
+  -> node dump.mjs 1 > work/frames.jsonl -> kit/previz_guard.py (0 FAIL; WARN G6 16 frames, G6b OTS shoulders) + tools_local/speeds.py.
+  tools_local/guardfull/previz_guard_full.py = the guard with the G5 note list untruncated (local copy, not committed).
+  rule_audit: work/audit_config.json (payoff range = the whole S31 shot 1903-1986), A-F PASS. plan_check 0 FAIL, 1 WARN (S21 cut not on a punch).
+  Fixes worth remembering: S19 is a pull-back from S18's OTS (c18 squarer at x 197.2), the agent only backs down from 1150, c19 az 192 el 0;
+  S22 no longer cranes out to z -20 (the agent fell under 5% width: rule B empty frame); S15 brewer stands at tower+0.3 and the agent
+  steps to x 101.2 (the other side); S31 agent x 221.95 / wife x 220.4 (off the lens-to-wife line); turn line split ("He says sorry," / "pop").
+  Disk: only ~7 GB free; Remotion bundles land in REMOTION_TMP (use /home/claude/rtmp/<name>, delete that named folder after).

@@ -1,12 +1,12 @@
-// Timeline of "He Set the Ice Cream on Fire and It Didn't Melt" (2026-11-27, master prompt v33). One set (bistro).
+// Timeline of "They Banned Beer, So He Sold It as Bread Syrup" (2026-11-27, master prompt v34). One set (beer), four places.
 import { getInputProps } from "remotion";
 import type { LightName } from "./lights";
 export const FPS = 30;
-export const TOTAL = 1845; // story frames (61.5 s; the voice ends at 61.24 s, the video ends on the flame peak)
+export const TOTAL = 1986; // story frames (66.2 s; the voice ends at 65.18 s, the video ends on the caps blowing over the wife)
 /** re-voiced Nov 25 (v30 3.22: no word endings cut): output frame -> story frame through remap.json (a smooth least-squares
  *  map through the shared word starts; the dropped phrase is skipped at the hard cut that already sat there) */
-export const WARP = 1, TOTAL_REAL = 1845;
-export const storyF = (n: number) => Math.max(0, Math.min(1844, Math.floor(n)));
+export const WARP = 1, TOTAL_REAL = 1986;
+export const storyF = (n: number) => Math.max(0, Math.min(1985, Math.floor(n)));
 export const D0 = 0; // build.ts legacy import
 export type V3 = [number, number, number];
 export const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
@@ -18,22 +18,37 @@ export const T = (f: number) => f / FPS;
 export type ShotDef = { id: number; a: number; b: number; set: string; light: LightName; name: string };
 const S = (id: number, a: number, b: number, set: string, light: LightName, name: string): ShotDef => ({ id, a, b, set, light, name });
 const STORY_MAIN: ShotDef[] = [
-  S(1, 0, 60, "bistro", "bsKit", "1 HOOK: the kid slides the white dome on the peel into the flaming 500-degree oven"),
-  S(2, 60, 139, "bistro", "bsDin", "2 CUT flash-forward: hot rum flames over the dome at the critic's table; the spoon cracks it: frozen inside"),
-  S(3, 139, 268, "bistro", "bsSnow", "3 CUT YOU SEE: the snowy street, the boarded-up restaurant with its one-star review; glide to our window"),
-  S(4, 268, 365, "bistro", "bsDin", "4 through the glass: the critic orders dessert; follow the waiter past the framed TOO WET review to the kitchen door"),
-  S(5, 365, 431, "bistro", "bsKit", "5 through the swing door: the head chef sweating through his hat"),
-  S(6, 431, 554, "bistro", "bsKit", "6 the kid heaps meringue on the ice cream block and slides it into the oven"),
-  S(7, 554, 700, "bistro", "bsKit", "7 the chef laughs, the cooks laugh, the dishwasher sets a mop bucket under the oven"),
-  S(8, 700, 815, "bistro", "bsKit", "8 two-shot: 'Kid, you just made soup!' / 'Three minutes.'"),
-  S(9, 815, 960, "bistro", "bsKit", "9 smoke pours out of the oven; the white mountain comes out brown, with black tips; the kid holds it up"),
-  S(10, 960, 1040, "bistro", "bsDin", "10 CUT to the critic's table: the kid sets it down; he sniffs, frowns, writes"),
-  S(11, 1040, 1170, "bistro", "bsDin", "11 the spoon cracks it open: frozen solid inside; the kid unmoved beside him"),
-  S(12, 1170, 1271, "bistro", "bsDin", "12 the bite and the first smile of his life; push into the meringue"),
-  S(13, 1271, 1517, "bistro", "bsCut", "13 the cutaway: inside the dessert, the kid and the chef among giant bubbles; heat stalls; the crust browns"),
-  S(14, 1517, 1615, "bistro", "bsSnow", "14 CUT the comparison: the critic warm in his puffy coat in the snow"),
-  S(15, 1615, 1690, "bistro", "bsDin", "15 back in through the window: diners with baked Alaskas; the chef chalks BAKED ALASKA; the kid brings a second"),
-  S(16, 1690, 1845, "bistro", "bsDin", "16 the critic orders another; the kid pours hot rum and sets it on fire: the biggest flame on 'fire'"),
+  S(1, 0, 78, "beer", "brew", "1 0.0 brewer already slapping a red FOR BAKING label on a can as thick brown syrup pours fro"),
+  S(2, 78, 161, "beer", "brew", "2 2.6 glide right and up past the brewer to the big wall sign: BEER crossed out in red paint"),
+  S(3, 161, 226, "beer", "brew", "3 5.4 two agents tip a beer barrel over the floor drain, foam gushing"),
+  S(4, 226, 273, "beer", "brew", "4 7.5 glide past the barrels onto the brewer filling cans at the kettle, calm"),
+  S(5, 273, 370, "beer", "brew", "5 9.1 the agent strides in with the padlock and chain"),
+  S(6, 370, 438, "beer", "brew", "6 12.3 over the brewer's shoulder: the agent sniffs the open can, brows up"),
+  S(7, 438, 469, "beer", "brew", "7 14.7 the brewer, half-lid deadpan, shrugs one shoulder: 'It's for baking.'"),
+  S(8, 469, 515, "beer", "stDay", "8 15.6 through the office window: three agents laughing, one slaps the desk, the lead agent "),
+  S(9, 515, 582, "beer", "stDay", "9 17.2 glide along the sidewalk with the brewer carrying a crate of cans"),
+  S(10, 582, 658, "beer", "groc", "10 19.4 the grocer puts 3 cans on the shelf"),
+  S(11, 658, 701, "beer", "groc", "11 21.9 same framing, a week later: the board flips to 30, three customers with cans"),
+  S(12, 701, 767, "beer", "groc", "12 23.4 a whole wall of syrup cans to the ceiling, the grocer up a ladder stacking"),
+  S(13, 767, 824, "beer", "groc", "13 25.6 glide right to the flour sacks next to the wall: dusty, a cobweb, a spider walks acro"),
+  S(14, 824, 855, "beer", "groc", "14 27.5 the agent in the doorway, squinting at the empty bread shelf, notepad up"),
+  S(15, 855, 913, "beer", "groc", "15 28.5 the brewer himself wheels in a tower of YEAST boxes on a hand truck"),
+  S(16, 913, 980, "beer", "stDay", "16 30.4 high over the town: a loaf of bread as big as the church rises beside the steeple"),
+  S(17, 980, 1033, "beer", "stNight", "17 32.7 night: the agent on a porch knocks hard three times, street lamp behind"),
+  S(18, 1033, 1129, "beer", "stNight", "18 34.4 the door opens: a granny with flour on her hands and a rolling pin"),
+  S(19, 1129, 1209, "beer", "stNight", "19 37.6 the agent backs down the steps tipping his hat, sweat drop"),
+  S(20, 1209, 1231, "beer", "stNight", "20 40.4 the cellar window bursts: a cap pings off, foam sprays the glass; the agent jumps, ha"),
+  S(21, 1231, 1262, "beer", "stNight", "21 41.0 whip right: the next house's cellar window pops, foam; the agent spins"),
+  S(22, 1262, 1300, "beer", "stNight", "22 42.1 crane up: down the whole street cellar windows pop one after another, foam fountains,"),
+  S(23, 1300, 1397, "beer", "cellar", "23 43.3 dissolve down into the sliced-open cellar under the street: the granny pours a can in"),
+  S(24, 1397, 1451, "beer", "cellar", "24 46.6 top-down: water sloshes in from a bucket"),
+  S(25, 1451, 1529, "beer", "cellar", "25 48.4 the crock starts to fizz, bubbles rising, a burp of foam on 'burps'"),
+  S(26, 1529, 1606, "beer", "groc", "26 51.0 at the counter the grocer pours water into a PANCAKE MIX box bowl: batter"),
+  S(27, 1606, 1665, "beer", "cellar", "27 53.5 shelves of brown bottles, a chalk 45 on the beam"),
+  S(28, 1665, 1741, "beer", "cellar", "28 55.5 she caps another; the bottles behind her start to hiss"),
+  S(29, 1741, 1838, "beer", "groc", "29 58.0 the grocer hands a can across the counter"),
+  S(30, 1838, 1903, "beer", "stNight", "30 61.3 night: the agent trudges up to his own house"),
+  S(31, 1903, 1986, "beer", "cellar", "31 63.4 dissolve to the foot of the cellar steps, over the agent's shoulder: his wife among c"),
 ];
 /** v34 kit test (inputProps.testScene): a 330-frame scene built natively with the v34 architecture (one act per scene, a
  *  planted-feet walk, a two-handed carry, people sitting ON seats) to run every gate on new code */
@@ -63,7 +78,7 @@ export const PREVIEW = (getInputProps() as { preview?: Preview }).preview;
 const ONLY = (getInputProps() as { only?: number[] }).only;
 export const SHOTS: ShotDef[] = PREVIEW ? [S(1, 0, TOTAL, PREVIEW.set, PREVIEW.light, "preview")] : ONLY ? STORY_SHOTS.filter((s) => ONLY.includes(s.id)) : STORY_SHOTS;
 /** crossfades (frames) where the place or time changes (6-8 f dissolves, measured) */
-export const XFADE: Record<number, number> = (getInputProps() as { testScene?: boolean }).testScene ? { 103: 6 } : {};   // 11-26: 6 at 16 frames (the night -> morning dissolve at 10 read as a hard cut)   // v30 rule j: dissolves only in place (the same framing, a new time): 6 night -> morning at his window; 9 night 2 -> night 3 at the drain; 17 the thaw -> next winter at his window
+export const XFADE: Record<number, number> = (getInputProps() as { testScene?: boolean }).testScene ? { 103: 6 } : { 8: 6, 9: 6, 10: 6, 11: 6, 12: 6, 16: 6, 17: 6, 23: 6, 26: 6, 27: 6, 29: 6, 30: 6, 31: 6 };   // p14 plan: 6-frame dissolves at every place / time change (plan_check P3)
 export const FLASH_AT = -1000; // no flash in this video
 /** light dips (v10.10 rule 7: no crossfade between places with people in them): the frame floods with the light's
  *  colour for ~4 frames, the cut happens under the flood, then it clears over ~6 frames. [shot id] -> colour */

@@ -1,0 +1,6 @@
+{"fps": 30, "hero": "brewer",
+ "leads": {"brewer": "#2f6b45", "agent": "#2b3550"},
+ "allow_no_face": [[767, 824, "flour insert"], [913, 980, "aerial over the town"]],
+ "hook": {"act_tags": ["syrup can", "label"], "danger_tags": ["wall sign"], "act_by_s": 0.5, "danger_by_s": 3.0},
+ "payoff": {"range": [1903, 1986], "event_tags": ["bottles"]},
+ "quotes": [[12.32, 14.5, "agent"], [14.78, 15.46, "brewer"]]}
