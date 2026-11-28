@@ -1,0 +1,349 @@
+[
+{
+"t": 0.0,
+"sfx": "amb_bunk",
+"amb": true,
+"dur": 2.8,
+"gain_db": 0
+},
+{
+"t": 0.0,
+"sfx": "blanket_tuck",
+"pan": -0.2,
+"gain_db": -2
+},
+{
+"t": 2.5,
+"sfx": "amb_camp_dawn",
+"amb": true,
+"dur": 2.8,
+"gain_db": 0
+},
+{
+"t": 3.2,
+"sfx": "car_start",
+"pan": 0.0,
+"gain_db": 0
+},
+{
+"t": 5.0,
+"sfx": "amb_camp_night",
+"amb": true,
+"dur": 7.4,
+"gain_db": 0
+},
+{
+"t": 5.4,
+"sfx": "steps_snow",
+"pan": 0.1,
+"gain_db": -4
+},
+{
+"t": 9.3,
+"sfx": "slurp",
+"pan": -0.3,
+"gain_db": -3
+},
+{
+"t": 11.0,
+"sfx": "laugh_foreman",
+"pan": -0.3,
+"gain_db": -2
+},
+{
+"t": 11.15,
+"sfx": "door_creak",
+"pan": 0.0,
+"gain_db": -3
+},
+{
+"t": 12.1,
+"sfx": "amb_bunk",
+"amb": true,
+"dur": 6.5,
+"gain_db": 0
+},
+{
+"t": 13.15,
+"sfx": "chalk",
+"pan": -0.3,
+"gain_db": -4
+},
+{
+"t": 13.75,
+"sfx": "blanket_flap",
+"pan": 0.0,
+"gain_db": -2
+},
+{
+"t": 17.35,
+"sfx": "giggle",
+"pan": -0.3,
+"gain_db": -3
+},
+{
+"t": 18.3,
+"sfx": "amb_mess",
+"amb": true,
+"dur": 5.1,
+"gain_db": 0
+},
+{
+"t": 19.3,
+"sfx": "laugh_room",
+"pan": 0.0,
+"gain_db": -1
+},
+{
+"t": 21.5,
+"sfx": "sip",
+"pan": 0.0,
+"gain_db": -4
+},
+{
+"t": 23.1,
+"sfx": "amb_camp_day",
+"amb": true,
+"dur": 5.2,
+"gain_db": 0
+},
+{
+"t": 23.3,
+"sfx": "engines_start",
+"pan": -0.3,
+"gain_db": -2
+},
+{
+"t": 24.5,
+"sfx": "truck_pull",
+"pan": 0.4,
+"gain_db": -3
+},
+{
+"t": 25.35,
+"sfx": "battery_clunk",
+"pan": 0.1,
+"gain_db": -3
+},
+{
+"t": 26.5,
+"sfx": "honks",
+"pan": 0.3,
+"gain_db": 0
+},
+{
+"t": 28.0,
+"sfx": "amb_camp_night",
+"amb": true,
+"dur": 2.7,
+"gain_db": 0
+},
+{
+"t": 28.8,
+"sfx": "frost_wipe",
+"pan": 0.0,
+"gain_db": -4
+},
+{
+"t": 29.2,
+"sfx": "sink",
+"pan": 0.0,
+"gain_db": -5
+},
+{
+"t": 30.4,
+"sfx": "amb_camp_dawn",
+"amb": true,
+"dur": 16.3,
+"gain_db": 0
+},
+{
+"t": 31.4,
+"sfx": "doors_slam",
+"pan": -0.2,
+"gain_db": -2
+},
+{
+"t": 33.37,
+"sfx": "key_click",
+"pan": -0.3,
+"gain_db": 0
+},
+{
+"t": 33.9,
+"sfx": "key_click",
+"pan": -0.1,
+"gain_db": 0
+},
+{
+"t": 34.17,
+"sfx": "key_click",
+"pan": 0.15,
+"gain_db": 0
+},
+{
+"t": 34.95,
+"sfx": "giant_dies",
+"pan": 0.0,
+"gain_db": 0
+},
+{
+"t": 37.2,
+"sfx": "honk_feeble",
+"pan": 0.0,
+"gain_db": -3
+},
+{
+"t": 37.3,
+"sfx": "door_creak",
+"pan": 0.2,
+"gain_db": -3
+},
+{
+"t": 37.6,
+"sfx": "steps_snow",
+"pan": 0.1,
+"gain_db": -5
+},
+{
+"t": 38.6,
+"sfx": "steam",
+"pan": 0.0,
+"gain_db": -4
+},
+{
+"t": 40.85,
+"sfx": "battery_clunk",
+"pan": 0.1,
+"gain_db": -3
+},
+{
+"t": 41.0,
+"sfx": "clamps",
+"pan": 0.1,
+"gain_db": -2
+},
+{
+"t": 41.86,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 42.25,
+"sfx": "car_roar",
+"pan": 0.0,
+"gain_db": 2
+},
+{
+"t": 43.6,
+"sfx": "reaction",
+"pan": 0.0,
+"gain_db": -3
+},
+{
+"t": 46.4,
+"sfx": "amb_mess",
+"amb": true,
+"dur": 3.2,
+"gain_db": 0
+},
+{
+"t": 46.45,
+"sfx": "fridge",
+"pan": 0.2,
+"gain_db": -3
+},
+{
+"t": 47.2,
+"sfx": "squeeze",
+"pan": 0.1,
+"gain_db": -3
+},
+{
+"t": 48.4,
+"sfx": "blob",
+"pan": 0.1,
+"gain_db": -3
+},
+{
+"t": 49.3,
+"sfx": "amb_camp_dawn",
+"amb": true,
+"dur": 9.4,
+"gain_db": 0
+},
+{
+"t": 49.35,
+"sfx": "tester",
+"pan": 0.0,
+"gain_db": -2
+},
+{
+"t": 52.55,
+"sfx": "dipstick",
+"pan": 0.0,
+"gain_db": -3
+},
+{
+"t": 53.1,
+"sfx": "goo",
+"pan": 0.0,
+"gain_db": -4
+},
+{
+"t": 54.6,
+"sfx": "steps_shuffle",
+"pan": 0.3,
+"gain_db": -4
+},
+{
+"t": 58.4,
+"sfx": "amb_camp_day",
+"amb": true,
+"dur": 3.4,
+"gain_db": 0
+},
+{
+"t": 58.85,
+"sfx": "engines_row",
+"pan": 0.0,
+"gain_db": 0
+},
+{
+"t": 60.6,
+"sfx": "cheer",
+"pan": 0.0,
+"gain_db": -2
+},
+{
+"t": 61.5,
+"sfx": "amb_bunk",
+"amb": true,
+"dur": 4.0,
+"gain_db": 0
+},
+{
+"t": 61.55,
+"sfx": "steps_boards",
+"pan": 0.3,
+"gain_db": -4
+},
+{
+"t": 63.25,
+"sfx": "battery_thump",
+"pan": 0.2,
+"gain_db": -2
+},
+{
+"t": 63.45,
+"sfx": "blanket_tuck",
+"pan": 0.2,
+"gain_db": -3
+},
+{
+"t": 64.04,
+"sfx": "final_hit",
+"pan": 0.0,
+"gain_db": 8
+}
+]

@@ -1,0 +1,1127 @@
+[
+{
+"word": "He",
+"start": 0.0,
+"end": 0.16
+},
+{
+"word": "tucked",
+"start": 0.16,
+"end": 0.36
+},
+{
+"word": "his",
+"start": 0.36,
+"end": 0.58
+},
+{
+"word": "car",
+"start": 0.58,
+"end": 0.8
+},
+{
+"word": "battery",
+"start": 0.8,
+"end": 1.08
+},
+{
+"word": "into",
+"start": 1.08,
+"end": 1.34
+},
+{
+"word": "bed",
+"start": 1.34,
+"end": 1.56
+},
+{
+"word": "every",
+"start": 1.56,
+"end": 1.96
+},
+{
+"word": "night,",
+"start": 1.96,
+"end": 2.26
+},
+{
+"word": "and",
+"start": 2.56,
+"end": 2.68
+},
+{
+"word": "his",
+"start": 2.68,
+"end": 2.92
+},
+{
+"word": "was",
+"start": 2.92,
+"end": 3.12
+},
+{
+"word": "the",
+"start": 3.12,
+"end": 3.28
+},
+{
+"word": "only",
+"start": 3.28,
+"end": 3.58
+},
+{
+"word": "engine",
+"start": 3.58,
+"end": 3.92
+},
+{
+"word": "in",
+"start": 3.92,
+"end": 4.1
+},
+{
+"word": "camp",
+"start": 4.1,
+"end": 4.3
+},
+{
+"word": "that",
+"start": 4.3,
+"end": 4.48
+},
+{
+"word": "started.",
+"start": 4.48,
+"end": 4.86
+},
+{
+"word": "Every",
+"start": 5.08,
+"end": 5.26
+},
+{
+"word": "night",
+"start": 5.26,
+"end": 5.44
+},
+{
+"word": "at",
+"start": 5.44,
+"end": 5.6
+},
+{
+"word": "the",
+"start": 5.6,
+"end": 5.72
+},
+{
+"word": "logging",
+"start": 5.72,
+"end": 5.92
+},
+{
+"word": "camp,",
+"start": 5.92,
+"end": 6.32
+},
+{
+"word": "the",
+"start": 6.44,
+"end": 6.5
+},
+{
+"word": "new",
+"start": 6.5,
+"end": 6.7
+},
+{
+"word": "guy",
+"start": 6.7,
+"end": 6.88
+},
+{
+"word": "lugs",
+"start": 6.88,
+"end": 7.18
+},
+{
+"word": "all",
+"start": 7.18,
+"end": 7.5
+},
+{
+"word": "forty",
+"start": 7.5,
+"end": 7.94
+},
+{
+"word": "pounds",
+"start": 7.94,
+"end": 8.16
+},
+{
+"word": "of",
+"start": 8.16,
+"end": 8.38
+},
+{
+"word": "it",
+"start": 8.38,
+"end": 8.46
+},
+{
+"word": "inside.",
+"start": 8.46,
+"end": 8.86
+},
+{
+"word": "The",
+"start": 9.1,
+"end": 9.22
+},
+{
+"word": "foreman",
+"start": 9.22,
+"end": 9.52
+},
+{
+"word": "laughs,",
+"start": 9.52,
+"end": 9.86
+},
+{
+"word": "\"Gonna",
+"start": 10.18,
+"end": 10.32
+},
+{
+"word": "read",
+"start": 10.32,
+"end": 10.54
+},
+{
+"word": "it",
+"start": 10.54,
+"end": 10.64
+},
+{
+"word": "a",
+"start": 10.64,
+"end": 10.78
+},
+{
+"word": "bedtime",
+"start": 10.78,
+"end": 11.14
+},
+{
+"word": "story",
+"start": 11.14,
+"end": 11.42
+},
+{
+"word": "too?\"",
+"start": 11.42,
+"end": 11.78
+},
+{
+"word": "Night",
+"start": 12.1,
+"end": 12.1
+},
+{
+"word": "one,",
+"start": 12.1,
+"end": 12.38
+},
+{
+"word": "it",
+"start": 12.6,
+"end": 12.64
+},
+{
+"word": "sleeps",
+"start": 12.64,
+"end": 12.84
+},
+{
+"word": "by",
+"start": 12.84,
+"end": 13.08
+},
+{
+"word": "the",
+"start": 13.08,
+"end": 13.22
+},
+{
+"word": "stove.",
+"start": 13.22,
+"end": 13.5
+},
+{
+"word": "Night",
+"start": 13.78,
+"end": 13.84
+},
+{
+"word": "two,",
+"start": 13.84,
+"end": 14.14
+},
+{
+"word": "it",
+"start": 14.38,
+"end": 14.46
+},
+{
+"word": "gets",
+"start": 14.46,
+"end": 14.64
+},
+{
+"word": "a",
+"start": 14.64,
+"end": 14.78
+},
+{
+"word": "blanket.",
+"start": 14.78,
+"end": 15.02
+},
+{
+"word": "Night",
+"start": 15.32,
+"end": 15.42
+},
+{
+"word": "three,",
+"start": 15.42,
+"end": 15.76
+},
+{
+"word": "it",
+"start": 15.92,
+"end": 16.1
+},
+{
+"word": "gets",
+"start": 16.1,
+"end": 16.28
+},
+{
+"word": "his",
+"start": 16.28,
+"end": 16.46
+},
+{
+"word": "pillow,",
+"start": 16.46,
+"end": 16.72
+},
+{
+"word": "and",
+"start": 16.96,
+"end": 17.06
+},
+{
+"word": "he",
+"start": 17.06,
+"end": 17.22
+},
+{
+"word": "sleeps",
+"start": 17.22,
+"end": 17.46
+},
+{
+"word": "on",
+"start": 17.46,
+"end": 17.66
+},
+{
+"word": "the",
+"start": 17.66,
+"end": 17.8
+},
+{
+"word": "floor.",
+"start": 17.8,
+"end": 18.04
+},
+{
+"word": "By",
+"start": 18.3,
+"end": 18.42
+},
+{
+"word": "breakfast,",
+"start": 18.42,
+"end": 18.8
+},
+{
+"word": "the",
+"start": 19.0,
+"end": 19.16
+},
+{
+"word": "whole",
+"start": 19.16,
+"end": 19.42
+},
+{
+"word": "camp",
+"start": 19.42,
+"end": 19.7
+},
+{
+"word": "calls",
+"start": 19.7,
+"end": 19.94
+},
+{
+"word": "him",
+"start": 19.94,
+"end": 20.16
+},
+{
+"word": "the",
+"start": 20.16,
+"end": 20.34
+},
+{
+"word": "battery",
+"start": 20.34,
+"end": 20.78
+},
+{
+"word": "babysitter.",
+"start": 20.78,
+"end": 21.4
+},
+{
+"word": "Why?",
+"start": 21.62,
+"end": 21.9
+},
+{
+"word": "He",
+"start": 22.16,
+"end": 22.24
+},
+{
+"word": "won't",
+"start": 22.24,
+"end": 22.46
+},
+{
+"word": "say.",
+"start": 22.46,
+"end": 22.7
+},
+{
+"word": "The",
+"start": 23.1,
+"end": 23.2
+},
+{
+"word": "first",
+"start": 23.2,
+"end": 23.4
+},
+{
+"word": "cold",
+"start": 23.4,
+"end": 23.7
+},
+{
+"word": "morning,",
+"start": 23.7,
+"end": 24.06
+},
+{
+"word": "every",
+"start": 24.28,
+"end": 24.54
+},
+{
+"word": "truck",
+"start": 24.54,
+"end": 24.78
+},
+{
+"word": "starts",
+"start": 24.78,
+"end": 25.12
+},
+{
+"word": "just",
+"start": 25.12,
+"end": 25.44
+},
+{
+"word": "fine,",
+"start": 25.44,
+"end": 25.8
+},
+{
+"word": "and",
+"start": 26.0,
+"end": 26.18
+},
+{
+"word": "the",
+"start": 26.18,
+"end": 26.28
+},
+{
+"word": "foreman",
+"start": 26.28,
+"end": 26.56
+},
+{
+"word": "honks",
+"start": 26.56,
+"end": 26.88
+},
+{
+"word": "at",
+"start": 26.88,
+"end": 27.06
+},
+{
+"word": "him",
+"start": 27.06,
+"end": 27.18
+},
+{
+"word": "all",
+"start": 27.18,
+"end": 27.42
+},
+{
+"word": "the",
+"start": 27.42,
+"end": 27.56
+},
+{
+"word": "way",
+"start": 27.56,
+"end": 27.66
+},
+{
+"word": "to",
+"start": 27.66,
+"end": 27.8
+},
+{
+"word": "work.",
+"start": 27.8,
+"end": 28.02
+},
+{
+"word": "Then",
+"start": 28.02,
+"end": 28.26
+},
+{
+"word": "one",
+"start": 28.26,
+"end": 28.5
+},
+{
+"word": "night,",
+"start": 28.5,
+"end": 28.74
+},
+{
+"word": "it",
+"start": 28.84,
+"end": 29.1
+},
+{
+"word": "hits",
+"start": 29.1,
+"end": 29.3
+},
+{
+"word": "forty",
+"start": 29.3,
+"end": 29.72
+},
+{
+"word": "below.",
+"start": 29.72,
+"end": 30.12
+},
+{
+"word": "At",
+"start": 30.4,
+"end": 30.5
+},
+{
+"word": "six,",
+"start": 30.5,
+"end": 30.78
+},
+{
+"word": "the",
+"start": 31.08,
+"end": 31.18
+},
+{
+"word": "whole",
+"start": 31.18,
+"end": 31.46
+},
+{
+"word": "crew",
+"start": 31.46,
+"end": 31.68
+},
+{
+"word": "turns",
+"start": 31.68,
+"end": 32.0
+},
+{
+"word": "their",
+"start": 32.0,
+"end": 32.2
+},
+{
+"word": "keys,",
+"start": 32.2,
+"end": 32.42
+},
+{
+"word": "and",
+"start": 32.7,
+"end": 32.82
+},
+{
+"word": "the",
+"start": 32.82,
+"end": 32.92
+},
+{
+"word": "lot",
+"start": 32.92,
+"end": 33.1
+},
+{
+"word": "goes",
+"start": 33.1,
+"end": 33.44
+},
+{
+"word": "click,",
+"start": 33.44,
+"end": 33.74
+},
+{
+"word": "click,",
+"start": 33.96,
+"end": 34.04
+},
+{
+"word": "click.",
+"start": 34.22,
+"end": 34.44
+},
+{
+"word": "Even",
+"start": 34.66,
+"end": 34.84
+},
+{
+"word": "the",
+"start": 34.84,
+"end": 35.08
+},
+{
+"word": "foreman's",
+"start": 35.08,
+"end": 35.42
+},
+{
+"word": "giant",
+"start": 35.42,
+"end": 35.68
+},
+{
+"word": "truck",
+"start": 35.68,
+"end": 36.04
+},
+{
+"word": "just",
+"start": 36.04,
+"end": 36.28
+},
+{
+"word": "coughs",
+"start": 36.28,
+"end": 36.82
+},
+{
+"word": "and",
+"start": 36.82,
+"end": 36.92
+},
+{
+"word": "dies.",
+"start": 36.92,
+"end": 37.22
+},
+{
+"word": "Then",
+"start": 37.54,
+"end": 37.78
+},
+{
+"word": "the",
+"start": 37.78,
+"end": 38.14
+},
+{
+"word": "babysitter",
+"start": 38.14,
+"end": 38.58
+},
+{
+"word": "walks",
+"start": 38.58,
+"end": 38.86
+},
+{
+"word": "out",
+"start": 38.86,
+"end": 39.14
+},
+{
+"word": "with",
+"start": 39.14,
+"end": 39.3
+},
+{
+"word": "his",
+"start": 39.3,
+"end": 39.44
+},
+{
+"word": "battery",
+"start": 39.44,
+"end": 39.76
+},
+{
+"word": "steaming",
+"start": 39.76,
+"end": 40.26
+},
+{
+"word": "in",
+"start": 40.26,
+"end": 40.38
+},
+{
+"word": "his",
+"start": 40.38,
+"end": 40.52
+},
+{
+"word": "arms,",
+"start": 40.52,
+"end": 40.8
+},
+{
+"word": "hooks",
+"start": 41.02,
+"end": 41.16
+},
+{
+"word": "it",
+"start": 41.16,
+"end": 41.32
+},
+{
+"word": "up,",
+"start": 41.32,
+"end": 41.48
+},
+{
+"word": "and",
+"start": 41.5,
+"end": 41.86
+},
+{
+"word": "turns",
+"start": 41.86,
+"end": 42.1
+},
+{
+"word": "the",
+"start": 42.1,
+"end": 42.28
+},
+{
+"word": "key.",
+"start": 42.28,
+"end": 42.5
+},
+{
+"word": "First",
+"start": 42.72,
+"end": 42.86
+},
+{
+"word": "try.",
+"start": 42.86,
+"end": 43.28
+},
+{
+"word": "You",
+"start": 43.6,
+"end": 43.7
+},
+{
+"word": "see,",
+"start": 43.7,
+"end": 43.9
+},
+{
+"word": "a",
+"start": 44.14,
+"end": 44.26
+},
+{
+"word": "battery",
+"start": 44.26,
+"end": 44.52
+},
+{
+"word": "makes",
+"start": 44.52,
+"end": 44.8
+},
+{
+"word": "power",
+"start": 44.8,
+"end": 45.16
+},
+{
+"word": "with",
+"start": 45.16,
+"end": 45.34
+},
+{
+"word": "a",
+"start": 45.34,
+"end": 45.48
+},
+{
+"word": "chemical",
+"start": 45.48,
+"end": 45.8
+},
+{
+"word": "reaction,",
+"start": 45.8,
+"end": 46.3
+},
+{
+"word": "and",
+"start": 46.48,
+"end": 46.72
+},
+{
+"word": "the",
+"start": 46.72,
+"end": 46.86
+},
+{
+"word": "cold",
+"start": 46.86,
+"end": 47.12
+},
+{
+"word": "slows",
+"start": 47.12,
+"end": 47.46
+},
+{
+"word": "it",
+"start": 47.46,
+"end": 47.66
+},
+{
+"word": "down",
+"start": 47.66,
+"end": 47.9
+},
+{
+"word": "like",
+"start": 47.9,
+"end": 48.1
+},
+{
+"word": "honey",
+"start": 48.1,
+"end": 48.4
+},
+{
+"word": "from",
+"start": 48.4,
+"end": 48.62
+},
+{
+"word": "the",
+"start": 48.62,
+"end": 48.8
+},
+{
+"word": "fridge.",
+"start": 48.8,
+"end": 49.02
+},
+{
+"word": "At",
+"start": 49.34,
+"end": 49.5
+},
+{
+"word": "forty",
+"start": 49.5,
+"end": 49.78
+},
+{
+"word": "below,",
+"start": 49.78,
+"end": 50.1
+},
+{
+"word": "it",
+"start": 50.28,
+"end": 50.46
+},
+{
+"word": "loses",
+"start": 50.46,
+"end": 50.68
+},
+{
+"word": "more",
+"start": 50.68,
+"end": 50.96
+},
+{
+"word": "than",
+"start": 50.96,
+"end": 51.14
+},
+{
+"word": "half",
+"start": 51.14,
+"end": 51.4
+},
+{
+"word": "its",
+"start": 51.4,
+"end": 51.6
+},
+{
+"word": "power,",
+"start": 51.6,
+"end": 51.96
+},
+{
+"word": "just",
+"start": 52.22,
+"end": 52.44
+},
+{
+"word": "when",
+"start": 52.44,
+"end": 52.66
+},
+{
+"word": "a",
+"start": 52.66,
+"end": 52.78
+},
+{
+"word": "frozen",
+"start": 52.78,
+"end": 53.06
+},
+{
+"word": "engine",
+"start": 53.06,
+"end": 53.36
+},
+{
+"word": "needs",
+"start": 53.36,
+"end": 53.64
+},
+{
+"word": "twice",
+"start": 53.64,
+"end": 54.02
+},
+{
+"word": "as",
+"start": 54.02,
+"end": 54.24
+},
+{
+"word": "much.",
+"start": 54.24,
+"end": 54.52
+},
+{
+"word": "So",
+"start": 54.52,
+"end": 54.9
+},
+{
+"word": "the",
+"start": 55.06,
+"end": 55.16
+},
+{
+"word": "foreman",
+"start": 55.16,
+"end": 55.44
+},
+{
+"word": "shuffles",
+"start": 55.44,
+"end": 55.82
+},
+{
+"word": "over,",
+"start": 55.82,
+"end": 56.12
+},
+{
+"word": "\"Hey,",
+"start": 56.48,
+"end": 56.48
+},
+{
+"word": "babysitter,",
+"start": 56.82,
+"end": 57.24
+},
+{
+"word": "got",
+"start": 57.24,
+"end": 57.72
+},
+{
+"word": "cables?\"",
+"start": 57.72,
+"end": 58.02
+},
+{
+"word": "By",
+"start": 58.46,
+"end": 58.58
+},
+{
+"word": "lunch,",
+"start": 58.58,
+"end": 58.84
+},
+{
+"word": "the",
+"start": 59.14,
+"end": 59.2
+},
+{
+"word": "babysitter",
+"start": 59.2,
+"end": 59.7
+},
+{
+"word": "has",
+"start": 59.7,
+"end": 59.86
+},
+{
+"word": "jump-started",
+"start": 59.86,
+"end": 60.42
+},
+{
+"word": "the",
+"start": 60.42,
+"end": 60.64
+},
+{
+"word": "whole",
+"start": 60.64,
+"end": 60.88
+},
+{
+"word": "camp.",
+"start": 60.88,
+"end": 61.26
+},
+{
+"word": "And",
+"start": 61.62,
+"end": 61.74
+},
+{
+"word": "that",
+"start": 61.74,
+"end": 61.9
+},
+{
+"word": "night,",
+"start": 61.9,
+"end": 62.14
+},
+{
+"word": "the",
+"start": 62.42,
+"end": 62.48
+},
+{
+"word": "foreman",
+"start": 62.48,
+"end": 62.8
+},
+{
+"word": "tucks",
+"start": 62.8,
+"end": 63.08
+},
+{
+"word": "his",
+"start": 63.08,
+"end": 63.24
+},
+{
+"word": "own",
+"start": 63.24,
+"end": 63.44
+},
+{
+"word": "battery",
+"start": 63.44,
+"end": 63.74
+},
+{
+"word": "into",
+"start": 63.74,
+"end": 64.04
+},
+{
+"word": "bed.",
+"start": 64.04,
+"end": 64.28
+}
+]

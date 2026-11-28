@@ -1,0 +1,6 @@
+{"fps": 30, "hero": "hero",
+ "leads": {"hero": "#e0761f", "foreman": "#2e6b3a"},
+ "allow_no_face": [[150, 222, "aerial over the camp"], [411, 459, "blanket insert"], [840, 912, "thermometer insert"], [1305, 1392, "battery cutaway"], [1479, 1551, "tester insert"], [1752, 1845, "aerial over the lot"]],
+ "hook": {"act_tags": ["battery"], "danger_tags": ["blanket"], "act_by_s": 0.5, "danger_by_s": 3.0},
+ "payoff": {"range": [1845, 1965], "event_tags": ["truck battery"]},
+ "quotes": [[10.18, 11.78, "foreman"], [56.48, 58.02, "foreman"]]}

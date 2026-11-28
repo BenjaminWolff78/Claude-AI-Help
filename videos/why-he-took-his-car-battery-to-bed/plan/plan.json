@@ -1,0 +1,1115 @@
+{
+ "title": "Why He Took His Car Battery to Bed",
+ "fps": 30,
+ "length_s": 65.5,
+ "hero": "hero",
+ "home_base": [
+  "lot"
+ ],
+ "key_numbers": [
+  "40"
+ ],
+ "places": {
+  "lot": {
+   "desc": "a logging camp in snowy pines: a gravel truck lot under a yard light, a row of crew pickups with HALVORSEN TIMBER doors, the foreman's giant red truck, the hero's small old car, a snowplow, the plank bunkhouse with a porch, a thermometer on the post, the mess hall with a clock, log piles, fuel drums, a sawhorse",
+   "light": "night: blue moonlight + one warm yard light + warm windows; day: crisp low winter sun; dawn at forty below: low pink-orange sun through ice fog",
+   "time": "night 5-12 s and 28-30 s; day 23-28 s and 58-61 s; dawn 2.5-5 s and 30-58 s"
+  },
+  "bunk": {
+   "desc": "a plank bunkhouse: double bunks with wool blankets, a glowing wood stove with a kettle, long johns and socks drying on a line, boots, a card table with a lantern, a frosted window, axes and a calendar on the wall",
+   "light": "warm firelight from the stove + one hanging bulb, cool blue from the window",
+   "time": "night"
+  },
+  "mess": {
+   "desc": "the mess hall: long plank tables, benches, plates of pancakes, coffee urn, the cook's counter and an old fridge, a chalk menu board, antlers, windows onto snow",
+   "light": "cool morning window light + warm pendant lamps",
+   "time": "morning"
+  }
+ },
+ "cast": {
+  "hero": {
+   "role": "the new guy (hero)",
+   "body": "#e0761f",
+   "look": "orange quilted puffy parka with a zipper, chest pocket and a reflective patch; blue knit beanie with a pompom; brass key on a red string",
+   "lead": true
+  },
+  "foreman": {
+   "role": "the foreman (doubter)",
+   "body": "#2e6b3a",
+   "look": "green-and-black buffalo plaid mackinaw, red trapper hat with ear flaps, big grey moustache, suspenders, a steaming mug",
+   "lead": true
+  },
+  "crew": {
+   "role": "the loggers / bunkmates",
+   "body": "#7a5a3a",
+   "look": "canvas and wool work jackets, beanies, beards",
+   "lead": false
+  },
+  "cook": {
+   "role": "the camp cook",
+   "body": "#c8c2b5",
+   "look": "white apron with a red trim over a striped shirt, paper cap, bald with a beard",
+   "lead": false
+  }
+ },
+ "lines": [
+  {
+   "t0": 0.0,
+   "t1": 2.26,
+   "kind": "hook",
+   "text": "He tucked his car battery into bed every night,",
+   "say": {
+    "who": "hero",
+    "verb": "tucks",
+    "object": "battery"
+   }
+  },
+  {
+   "t0": 2.56,
+   "t1": 4.86,
+   "kind": "hook",
+   "text": "and his was the only engine in camp that started.",
+   "say": {
+    "who": "hero",
+    "verb": "starts",
+    "object": "his car"
+   }
+  },
+  {
+   "t0": 5.08,
+   "t1": 8.86,
+   "kind": "setup",
+   "text": "Every night at the logging camp, the new guy lugs all forty pounds of it inside.",
+   "say": {
+    "who": "hero",
+    "verb": "lugs",
+    "object": "battery"
+   }
+  },
+  {
+   "t0": 9.1,
+   "t1": 11.78,
+   "kind": "quote",
+   "text": "The foreman laughs, \"Gonna read it a bedtime story too?\"",
+   "say": {
+    "who": "foreman",
+    "verb": "laughs at",
+    "object": "hero"
+   },
+   "speaker": "foreman"
+  },
+  {
+   "t0": 12.1,
+   "t1": 13.5,
+   "kind": "count",
+   "text": "Night one, it sleeps by the stove.",
+   "say": {
+    "who": "battery",
+    "verb": "sleeps by",
+    "object": "stove"
+   }
+  },
+  {
+   "t0": 13.78,
+   "t1": 15.02,
+   "kind": "count",
+   "text": "Night two, it gets a blanket.",
+   "say": {
+    "who": "battery",
+    "verb": "gets",
+    "object": "blanket"
+   }
+  },
+  {
+   "t0": 15.32,
+   "t1": 18.04,
+   "kind": "escalation",
+   "text": "Night three, it gets his pillow, and he sleeps on the floor.",
+   "say": {
+    "who": "hero",
+    "verb": "sleeps on",
+    "object": "floor"
+   }
+  },
+  {
+   "t0": 18.3,
+   "t1": 21.4,
+   "kind": "mock",
+   "text": "By breakfast, the whole camp calls him the battery babysitter.",
+   "say": {
+    "who": "crew",
+    "verb": "laughs at",
+    "object": "hero"
+   }
+  },
+  {
+   "t0": 21.62,
+   "t1": 22.7,
+   "kind": "question",
+   "text": "Why? He won't say.",
+   "say": {
+    "who": "hero",
+    "verb": "shrugs over",
+    "object": "coffee"
+   }
+  },
+  {
+   "t0": 23.1,
+   "t1": 28.02,
+   "kind": "fake_out",
+   "text": "The first cold morning, every truck starts just fine, and the foreman honks at him all the way to work.",
+   "say": {
+    "who": "foreman",
+    "verb": "honks at",
+    "object": "hero"
+   }
+  },
+  {
+   "t0": 28.02,
+   "t1": 30.12,
+   "kind": "turn",
+   "text": "Then one night, it hits forty below.",
+   "say": {
+    "who": "narrator",
+    "verb": "drops to forty below",
+    "object": "thermometer"
+   }
+  },
+  {
+   "t0": 30.4,
+   "t1": 34.44,
+   "kind": "escalation",
+   "text": "At six, the whole crew turns their keys, and the lot goes click, click, click.",
+   "say": {
+    "who": "crew",
+    "verb": "turn keys in",
+    "object": "trucks"
+   }
+  },
+  {
+   "t0": 34.66,
+   "t1": 37.22,
+   "kind": "escalation",
+   "text": "Even the foreman's giant truck just coughs and dies.",
+   "say": {
+    "who": "foreman",
+    "verb": "cranks",
+    "object": "giant truck"
+   }
+  },
+  {
+   "t0": 37.54,
+   "t1": 42.5,
+   "kind": "reveal",
+   "text": "Then the babysitter walks out with his battery steaming in his arms, hooks it up, and turns the key.",
+   "say": {
+    "who": "hero",
+    "verb": "carries",
+    "object": "battery"
+   }
+  },
+  {
+   "t0": 42.72,
+   "t1": 43.28,
+   "kind": "reveal",
+   "text": "First try.",
+   "say": {
+    "who": "hero",
+    "verb": "starts",
+    "object": "his car"
+   }
+  },
+  {
+   "t0": 43.6,
+   "t1": 46.3,
+   "kind": "you_see",
+   "text": "You see, a battery makes power with a chemical reaction,",
+   "say": {
+    "who": "narrator",
+    "verb": "opens",
+    "object": "battery"
+   }
+  },
+  {
+   "t0": 46.48,
+   "t1": 49.02,
+   "kind": "comparison",
+   "text": "and the cold slows it down like honey from the fridge.",
+   "say": {
+    "who": "cook",
+    "verb": "squeezes",
+    "object": "honey"
+   }
+  },
+  {
+   "t0": 49.34,
+   "t1": 51.96,
+   "kind": "mechanism",
+   "text": "At forty below, it loses more than half its power,",
+   "say": {
+    "who": "hero",
+    "verb": "tests",
+    "object": "frozen battery"
+   }
+  },
+  {
+   "t0": 52.22,
+   "t1": 54.52,
+   "kind": "mechanism",
+   "text": "just when a frozen engine needs twice as much.",
+   "say": {
+    "who": "foreman",
+    "verb": "pulls",
+    "object": "dipstick"
+   }
+  },
+  {
+   "t0": 54.52,
+   "t1": 58.02,
+   "kind": "quote",
+   "text": "So the foreman shuffles over, \"Hey, babysitter, got cables?\"",
+   "say": {
+    "who": "foreman",
+    "verb": "asks",
+    "object": "hero"
+   },
+   "speaker": "foreman"
+  },
+  {
+   "t0": 58.46,
+   "t1": 61.26,
+   "kind": "payoff",
+   "text": "By lunch, the babysitter has jump-started the whole camp.",
+   "say": {
+    "who": "hero",
+    "verb": "jump-starts",
+    "object": "trucks"
+   }
+  },
+  {
+   "t0": 61.62,
+   "t1": 64.28,
+   "kind": "payoff",
+   "text": "And that night, the foreman tucks his own battery into bed.",
+   "say": {
+    "who": "foreman",
+    "verb": "tucks",
+    "object": "truck battery"
+   }
+  }
+ ],
+ "shots": [
+  {
+   "id": "S1",
+   "t0": 0.0,
+   "t1": 2.5,
+   "place": "bunk",
+   "size": "MS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "battery",
+    "bunk",
+    "blanket",
+    "stove"
+   ],
+   "face": true,
+   "in": {
+    "type": "open"
+   },
+   "action": [
+    "0.0 the hero already pulling a red wool blanket up over the car battery lying on his bunk pillow (the battery ~40% of the width, red and black terminal caps, label readable)",
+    "0.9 he tucks the blanket edge under it and pats it twice",
+    "1.6 two bunkmates on the top bunk across lean out to stare, one with playing cards"
+   ],
+   "text": [
+    "40 LB on the battery label"
+   ],
+   "cam": "push in from MS to MCU, eased, already moving at frame 1"
+  },
+  {
+   "id": "S2",
+   "t0": 2.5,
+   "t1": 5.0,
+   "place": "lot",
+   "size": "WS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "his car",
+    "trucks",
+    "exhaust"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "2.5 flash-forward: dawn at forty below, a row of frosted dead trucks, crew stamping their feet beside them",
+    "3.3 in the middle the hero's small old car coughs to life: headlights snap on, a puff of exhaust",
+    "4.1 the hero at the wheel through the windshield grins; the crew turn to stare"
+   ],
+   "text": [
+    "HALVORSEN TIMBER on the truck doors"
+   ],
+   "cam": "slow push along the row toward his running car",
+   "time_jump": true
+  },
+  {
+   "id": "S3",
+   "t0": 5.0,
+   "t1": 7.4,
+   "place": "lot",
+   "size": "EWS",
+   "kind": "aerial",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "bunkhouse",
+    "trucks"
+   ],
+   "face": false,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "5.0 night, high over the logging camp in the pines: the bunkhouse with warm windows, the mess hall, the truck lot under one yard light, log piles, light snow",
+    "6.0 the hero, small, crosses the lot from his car to the bunkhouse with the battery in his arms"
+   ],
+   "text": [
+    "CAMP 9 on the bunkhouse roof"
+   ],
+   "cam": "crane down toward the bunkhouse porch, eased",
+   "angle": [
+    "high"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S4",
+   "t0": 7.4,
+   "t1": 9.1,
+   "place": "lot",
+   "size": "FS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "bunkhouse"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "7.4 the hero steps up toward the porch, the battery in both hands at his waist, leaning back with the weight",
+    "8.4 he shifts his grip, breath clouding"
+   ],
+   "text": [
+    "40 LB on the battery label",
+    "BUNKHOUSE sign over the door"
+   ]
+  },
+  {
+   "id": "S5",
+   "t0": 9.1,
+   "t1": 12.1,
+   "place": "lot",
+   "size": "MS",
+   "kind": "story",
+   "subject": "foreman",
+   "cast": [
+    "foreman",
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "bunkhouse"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "9.1 the foreman on the porch with a steaming mug, blocking the door, already chuckling",
+    "10.2 'Gonna read it a bedtime story too?' arms out, mug sloshing, laughing",
+    "11.3 the hero, 3/4 away, sweat drop, squeezes past him"
+   ],
+   "text": [],
+   "cam": "glide from the hero onto a profile two-shot on the porch, then creep",
+   "angle": [
+    "profile"
+   ]
+  },
+  {
+   "id": "S6",
+   "t0": 12.1,
+   "t1": 13.7,
+   "place": "bunk",
+   "size": "MS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "stove",
+    "tally"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "12.1 night one: the battery sits on the floor by the glowing wood stove; the hero crouches and warms his hands beside it",
+    "13.0 he chalks one mark on the bunk post"
+   ],
+   "text": [
+    "I chalked on the bunk post"
+   ]
+  },
+  {
+   "id": "S7",
+   "t0": 13.7,
+   "t1": 15.3,
+   "place": "bunk",
+   "size": "CU",
+   "kind": "insert",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "blanket",
+    "tally"
+   ],
+   "face": false,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "13.7 night two, looking down on the mattress: the hero's hands flap a red wool blanket over the battery",
+    "14.6 they smooth it down; the bunk post with two chalk marks at the edge"
+   ],
+   "text": [
+    "II chalked on the bunk post"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S8",
+   "t0": 15.3,
+   "t1": 18.3,
+   "place": "bunk",
+   "size": "MS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "battery",
+    "pillow",
+    "floor",
+    "tally"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "15.3 night three: the battery on his pillow under the blanket, a little knit cap on it",
+    "16.4 tilt down: the hero curled on the floor in a sleeping bag",
+    "17.4 bunkmates lean over the top bunk, giggling"
+   ],
+   "text": [
+    "III chalked on the bunk post"
+   ],
+   "cam": "tilt down from the pillow to the floor, eased",
+   "time_jump": true
+  },
+  {
+   "id": "S9",
+   "t0": 18.3,
+   "t1": 21.4,
+   "place": "mess",
+   "size": "WS",
+   "kind": "story",
+   "subject": "crew",
+   "cast": [
+    "crew",
+    "hero",
+    "cook"
+   ],
+   "objects": [
+    "chalkboard",
+    "tables"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "18.3 breakfast: long tables of loggers at three depths, plates of pancakes; heads turn as the hero carries his tray in",
+    "19.4 they point and laugh together; the cook laughs behind the counter",
+    "20.4 the chalkboard on the wall: BATTERY BABYSITTER with an arrow"
+   ],
+   "text": [
+    "BATTERY BABYSITTER chalked on the menu board",
+    "PANCAKES on the menu board"
+   ],
+   "cam": "push along the table toward the hero, eased"
+  },
+  {
+   "id": "S10",
+   "t0": 21.4,
+   "t1": 23.1,
+   "place": "mess",
+   "size": "CU",
+   "kind": "reaction",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "coffee"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "21.5 the hero, half-lid calm, sips his coffee",
+    "22.2 'He won't say': a one-shoulder shrug, eyes closed"
+   ],
+   "text": [],
+   "punch": true
+  },
+  {
+   "id": "S11",
+   "t0": 23.1,
+   "t1": 25.6,
+   "place": "lot",
+   "size": "WS",
+   "kind": "story",
+   "subject": "crew",
+   "cast": [
+    "crew",
+    "hero"
+   ],
+   "objects": [
+    "trucks",
+    "exhaust",
+    "battery"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "23.1 the first cold morning: trucks starting one after another, headlights, exhaust puffs",
+    "24.3 the hero walks to his car with the battery in his arms"
+   ],
+   "text": [
+    "HALVORSEN TIMBER on the truck doors"
+   ],
+   "angle": [
+    "high"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S12",
+   "t0": 25.6,
+   "t1": 28.0,
+   "place": "lot",
+   "size": "MS",
+   "kind": "story",
+   "subject": "foreman",
+   "cast": [
+    "foreman",
+    "hero"
+   ],
+   "objects": [
+    "giant truck",
+    "his car",
+    "battery"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "25.6 the foreman's giant red truck rolls past the hero bent over his open hood",
+    "26.5 the foreman leans out of the window, honking, laughing",
+    "27.3 the hero straightens, deadpan"
+   ],
+   "text": [],
+   "cam": "pan with the truck, then settle on the hero",
+   "fast": [
+    "foreman"
+   ]
+  },
+  {
+   "id": "S13",
+   "t0": 28.0,
+   "t1": 30.4,
+   "place": "lot",
+   "size": "CU",
+   "kind": "insert",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "thermometer"
+   ],
+   "face": false,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "28.0 night: the porch thermometer, frost creeping over its glass",
+    "28.8 a gloved hand wipes the frost: the red line drops to -40",
+    "29.7 the hand lifts the battery past it to the door"
+   ],
+   "text": [
+    "-40 on the thermometer"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S14",
+   "t0": 30.4,
+   "t1": 32.5,
+   "place": "lot",
+   "size": "WS",
+   "kind": "story",
+   "subject": "crew",
+   "cast": [
+    "crew",
+    "foreman"
+   ],
+   "objects": [
+    "trucks",
+    "clock"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "30.4 dawn at forty below: ice fog, frosted trucks, the crew trudging out in clouds of breath",
+    "31.4 they climb into the cabs, doors slam"
+   ],
+   "text": [
+    "6:00 on the mess hall clock"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S15",
+   "t0": 32.5,
+   "t1": 34.6,
+   "place": "lot",
+   "size": "MS",
+   "kind": "story",
+   "subject": "crew",
+   "cast": [
+    "crew"
+   ],
+   "objects": [
+    "trucks",
+    "keys"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "32.5 tracking along the windshields: a driver turns his key: click, the dash lights dim",
+    "33.4 the next one: click",
+    "34.0 the next: click, he slumps"
+   ],
+   "text": [],
+   "cam": "track sideways along the row of windshields",
+   "angle": [
+    "profile"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S16",
+   "t0": 34.6,
+   "t1": 37.4,
+   "place": "lot",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "foreman",
+   "cast": [
+    "foreman"
+   ],
+   "objects": [
+    "giant truck",
+    "steering wheel"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "34.7 through the giant truck's windshield: the foreman turns the key, smug",
+    "35.6 the truck shudders, one cough of exhaust, dies; his moustache droops",
+    "36.6 his forehead drops onto the wheel: a feeble honk"
+   ],
+   "text": [],
+   "cam": "push in through the windshield",
+   "angle": [
+    "low"
+   ],
+   "punch": true
+  },
+  {
+   "id": "S17",
+   "t0": 37.4,
+   "t1": 39.9,
+   "place": "lot",
+   "size": "FS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "battery",
+    "bunkhouse"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "37.5 the bunkhouse door opens, warm light: the hero walks out with the battery in both arms",
+    "38.6 steam curls off the warm battery in the cold",
+    "39.3 behind him the crew watch from their dead trucks"
+   ],
+   "text": [],
+   "cam": "low, tracking backward ahead of him",
+   "angle": [
+    "low"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S18",
+   "t0": 39.9,
+   "t1": 41.8,
+   "place": "lot",
+   "size": "MS",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "battery",
+    "his car"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "39.9 at his car, hood up: he lowers the steaming battery in",
+    "41.0 hooks the red clamp, then the black"
+   ],
+   "text": [
+    "COLD CRANKING AMPS on the battery label"
+   ],
+   "cam": "push over his shoulder into the engine bay",
+   "angle": [
+    "ots"
+   ]
+  },
+  {
+   "id": "S19",
+   "t0": 41.8,
+   "t1": 43.5,
+   "place": "lot",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "key",
+    "his car"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "41.9 inside the cabin (cutaway): he turns the brass key on its red string",
+    "42.7 the engine roars first try, the dash lights blaze; he smirks"
+   ],
+   "text": [],
+   "punch": true
+  },
+  {
+   "id": "S20",
+   "t0": 43.5,
+   "t1": 46.4,
+   "place": "lot",
+   "size": "CU",
+   "kind": "cutaway",
+   "subject": "hero",
+   "cast": [
+    "hero"
+   ],
+   "objects": [
+    "battery",
+    "his car"
+   ],
+   "face": true,
+   "in": {
+    "type": "cut"
+   },
+   "action": [
+    "43.5 push into the running engine bay; the battery case slices open: plates and acid, bright reaction streaming between them",
+    "44.8 the hero leans in over the hood, watching"
+   ],
+   "text": [
+    "COLD CRANKING AMPS on the battery label"
+   ],
+   "cam": "push in, then the slice opens"
+  },
+  {
+   "id": "S21",
+   "t0": 46.4,
+   "t1": 49.3,
+   "place": "mess",
+   "size": "MS",
+   "kind": "story",
+   "subject": "cook",
+   "cast": [
+    "cook",
+    "crew"
+   ],
+   "objects": [
+    "honey",
+    "fridge",
+    "pancakes"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "46.5 the cook pulls a honey bottle out of the fridge and squeezes it over a stack of pancakes",
+    "47.4 nothing comes out: he squeezes with both hands, face straining",
+    "48.4 one slow blob creeps out"
+   ],
+   "text": [
+    "HONEY on the bottle"
+   ]
+  },
+  {
+   "id": "S22",
+   "t0": 49.3,
+   "t1": 51.7,
+   "place": "lot",
+   "size": "CU",
+   "kind": "insert",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "foreman"
+   ],
+   "objects": [
+    "frozen battery",
+    "gauge",
+    "thermometer"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "49.4 the hero presses a battery tester onto the foreman's frosted battery",
+    "50.2 the needle swings up and sags below half into WEAK",
+    "51.0 the foreman leans in behind it"
+   ],
+   "text": [
+    "WEAK / GOOD on the tester dial",
+    "-40 on the porch thermometer behind"
+   ]
+  },
+  {
+   "id": "S23",
+   "t0": 51.7,
+   "t1": 54.5,
+   "place": "lot",
+   "size": "MCU",
+   "kind": "story",
+   "subject": "foreman",
+   "cast": [
+    "foreman",
+    "hero"
+   ],
+   "objects": [
+    "dipstick",
+    "giant truck"
+   ],
+   "face": true,
+   "in": {
+    "type": "move"
+   },
+   "action": [
+    "51.9 the foreman pulls the oil dipstick from his truck",
+    "52.8 the oil hangs off it like cold honey and won't drip",
+    "53.6 his face falls"
+   ],
+   "text": [],
+   "cam": "tilt up from the engine to his face"
+  },
+  {
+   "id": "S24",
+   "t0": 54.5,
+   "t1": 58.4,
+   "place": "lot",
+   "size": "MS",
+   "kind": "story",
+   "subject": "foreman",
+   "cast": [
+    "foreman",
+    "hero"
+   ],
+   "objects": [
+    "his car"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "54.5 the foreman shuffles over, hat in his hands",
+    "56.5 'Hey, babysitter, got cables?' fake grin, sweat drop",
+    "57.8 the hero, by his idling car, raises one eyebrow"
+   ],
+   "text": [],
+   "cam": "over the hero's shoulder, slow push",
+   "angle": [
+    "ots"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S25",
+   "t0": 58.4,
+   "t1": 61.5,
+   "place": "lot",
+   "size": "EWS",
+   "kind": "aerial",
+   "subject": "hero",
+   "cast": [
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "trucks",
+    "cables",
+    "his car"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "58.4 by lunch, high over the lot: jumper cables run from his little car to truck after truck",
+    "59.4 engines roar one by one, exhaust puffs down the row",
+    "60.6 the crew cheer"
+   ],
+   "text": [],
+   "cam": "crane down along the cable chain",
+   "angle": [
+    "high"
+   ],
+   "time_jump": true
+  },
+  {
+   "id": "S26",
+   "t0": 61.5,
+   "t1": 65.5,
+   "place": "bunk",
+   "size": "MS",
+   "kind": "payoff",
+   "subject": "foreman",
+   "cast": [
+    "foreman",
+    "hero",
+    "crew"
+   ],
+   "objects": [
+    "truck battery",
+    "bunk"
+   ],
+   "face": true,
+   "in": {
+    "type": "dissolve",
+    "frames": 6
+   },
+   "action": [
+    "61.6 night: in front, the hero on his bunk beside his tucked battery; behind, the foreman in long johns lugs a giant truck battery to his bunk",
+    "62.8 he lays it on his pillow and pulls the blanket up",
+    "64.0 on 'bed' the bunk legs snap: CRASH, the bunk drops, bunkmates jolt up; the hero opens one eye"
+   ],
+   "text": [],
+   "cam": "slow push past the hero toward the foreman's bunk"
+  }
+ ],
+ "ending": {
+  "event": "the foreman's bunk collapses under his giant truck battery with a crash, the hero watching from his bunk in front",
+  "t": 64.04,
+  "objects": [
+   "truck battery",
+   "bunk"
+  ]
+ }
+}

@@ -1,0 +1,25 @@
+# previz_guard
+
+| # | Check | Value | Target | Verdict | Where |
+|---|---|---|---|---|---|
+| G0 | Plan names found in the dump, dump complete | 0 problems | every shot's subject and cast name matches a dump key (exactly, or the same who without '#n'); a missing name turns G5-G7 off for it | PASS |  |
+| G1 | Camera never jumps | 0 frames over 40 px/frame (80 in a planned whip's first 12 frames) | Rick p90 14-25 px/frame at 720 wide, never a seam jump | PASS |  |
+| G1j | Camera starts and stops eased | 2 frames where speed changes by 14+ px/frame in one frame | moves ease in and out over 4-8 frames | WARN | 25.60 s, 39.90 s |
+| G2 | Depth of field eases | 0 frames with a blur/focus snap | blur changes at most 0.08 per frame outside a cut/dissolve (ease over 12-18 frames) | PASS |  |
+| G3 | Nobody teleports, pops or vanishes | 0 frames | heads move under 0.15 m/frame (0.35 if the plan marks them fast); nobody appears/disappears while on screen | PASS |  |
+| G3b | No pose snaps at shot changes | 0 seam frames; 5 frames inside shots | at a non-cut seam a person on screen changes body tilt under 2.5 deg, head tilt under 3 deg, eye look under 0.25 in one frame (inside shots 5 / 5 / 0.35); needs the dump's "pose" | WARN | 15.77s crew headTilt 5.25; 37.13s foreman tilt 5.13; 37.17s foreman tilt 5.08; 59.00s crew look 0.65; 64.03s foreman tilt 5.35 |
+| G3d | Feet never skate | 0 frames | a person moving over 0.012 m/frame with feet in frame uses mode "stride" and travels strideM per phase unit (within 30%); "walk" swings the legs in place (needs "feet" and pose.mode/phase/strideM in the dump) | PASS |  |
+| G9 | Seated people sit on the seat | 0 frames | mode "sit": the seat contact height (pose.seatH) within 6 cm of the top of a listed seat under the card; a card in a profile view sits over the seat on its camera side | PASS |  |
+| G10 | Hands reach what they hold | 0 frames short; 167 frames off-plane | a held or touched point is within the arm's reach (no gap over 6 cm) and within 0.3 m of the card's plane (needs pose.reach from the act's arm helper) | WARN | hero 0.93-1.77s (holds a point -0.33 m off its plane); hero 25.30-25.83s (holds a point -0.31 m off its plane); hero 40.57-41.77s (holds a point +0.31 m off its plane); foreman 52.60-52.77s (holds a point -0.33 m off its plane); foreman 54.30-54.37s (holds a point -0.33 m off its plane); hero 42.40-42.60s (holds a point -0.37 m off its plane); cook 46.93-48.33s (holds a point +0.30 m off its plane); foreman 63.00-63.90s (holds a point +0.32 m off its plane) |
+| G11 | Moving vehicles have a driver | 0 frames | a tag marked "vehicle": true that moves on screen has a person's head inside it ("driverless": true only when the story says so) | PASS |  |
+| G3c | Props never teleport or pop | 0 frames | story objects and props (the dump's tags) move under max(0.25 m, 0.6 x size) per frame and never appear/disappear on screen (fast lifts it for a thrown thing) | PASS |  |
+| G4 | Lens clearance | 0 frames | nothing within 0.5 m in frame, no head within 0.8 m, the camera never inside a solid | PASS |  |
+| G5 | Faces never covered | 0 frames | no prop, solid or head nearer the lens covers 35%+ of an important face | PASS |  |
+| G6 | Subject framing | 0 frames sliced; 128 frames with the face in the caption band | the subject head whole inside the frame; faces above the captions (y < 60%) | WARN |  / caption band: 0.00-2.47 s, 18.97-19.30 s, 23.50-24.70 s, 52.23-52.40 s |
+| G6b | No big half-cut faces | 69 frames | a face wider than 16% of the frame that is not the subject is not cut by the edge by more than a quarter (a planned over-the-shoulder shot sets "ots": true) | WARN | foreman 11.33-11.37s (half-cut by the frame edge); crew#2 18.30-20.00s (half-cut by the frame edge); crew 21.40-21.43s (half-cut by the frame edge); crew#4 30.40-30.47s (half-cut by the frame edge); hero 51.70-52.00s (half-cut by the frame edge) |
+| G7 | A readable face at least every 4 s | 0 stretches | outside inserts, cutaways, aerials, POV and the payoff | PASS |  |
+| G12 | Quoted lines are lip-synced | 0 of 2 quotes | the speaker's mouth changes 2+ times per second with open shapes in a fifth of the frames or more during the quote (needs pose.mouth and plan lines kind "quote" with speaker) | PASS |  |
+| G8 | Say-see on the previz | 0 of 22 checkable lines short | each line's who and object (plan say, matched to dump cast keys and tag names) on screen, readable, for half the line or more | PASS |  |
+
+0 FAIL, 5 WARN
+
