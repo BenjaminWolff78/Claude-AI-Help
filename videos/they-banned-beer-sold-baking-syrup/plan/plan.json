@@ -918,7 +918,7 @@
   {
    "id": "S20",
    "t0": 40.3,
-   "t1": 41.02,
+   "t1": 41.33,
    "place": "mainstreet",
    "size": "MS",
    "kind": "story",
@@ -943,7 +943,7 @@
   },
   {
    "id": "S21",
-   "t0": 41.02,
+   "t0": 41.33,
    "t1": 42.08,
    "place": "mainstreet",
    "size": "FS",

@@ -35,3 +35,8 @@
   band is free for the hit), quote_pitch.py (agent +4.5 st, brewer -4 st, formants kept), cues14.py -> cues14.json, mix.py (p13 mixer).
   mix_final.wav: -14.31 LUFS, TP -1.25; mix_check on the previz mux: width -21.9, dead air 0.5%, final impact low band +12.4 dB, quotes +70%/-54%.
 - Step 8 running: scripts/render_chunks.mjs 0 1985 (TOTAL 1986, 80-frame chunks, ~160 s each), log p14/render.log; chunk 0 sharpness 0.70.
+- Step 8-10 done (Nov 28 ~00:15 ET): render 25 chunks (~18.5 frames/min); door fix (swings OUT from a 0.3 m jamb after the agent steps
+  back; the inward leaf slid behind the painted kitchen in 3 frames) and the S21 cut moved to 1240 (S20/S21 cuts were 0.7 s apart);
+  chunks 960-1359 re-rendered. Final: still_check 0 FAIL, mix_check 0 FAIL, sharpness 0.70, kit rows open: fast p90 12.5, push-in 81%,
+  saturation 0.41, animation 3.0, 6 detected cuts (4 real). Delivered final/They Banned Beer, So He Sold It as Bread Syrup.mp4 + .mp3 + cover,
+  final_checks.md, cue_sheet.md. Remotion bundles land in /tmp (not REMOTION_TMP): delete each by its listed name.

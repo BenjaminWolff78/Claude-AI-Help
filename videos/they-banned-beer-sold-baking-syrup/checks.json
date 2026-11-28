@@ -340,5 +340,122 @@
 1040
 ],
 "result": "content, not a render fault: fresh stills of 1039/1040 match the chunk frames (0.2); the door leaf slid behind the painted kitchen in 3 frames. Fixed: the door now swings out onto the porch from a 0.3 m jamb after the agent steps back; chunks 960-1359 re-rendered"
+},
+{
+"check": "blank",
+"chunk": "c_0960.mp4",
+"range": [
+960,
+1039
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0960.mp4",
+"range": [
+959,
+960
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1040.mp4",
+"range": [
+1040,
+1119
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1040.mp4",
+"range": [
+1039,
+1040
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1120.mp4",
+"range": [
+1120,
+1199
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1120.mp4",
+"range": [
+1119,
+1120
+],
+"result": "PASS"
+},
+{
+"check": "hard-fail fix",
+"chunk": "c_1200.mp4",
+"range": [
+1209,
+1262
+],
+"result": "S20 cut 40.30 and S21 cut 41.02 were 0.72 s apart (v34 11.3: two cuts within 1 s). S21 now cuts at 41.33 (1240); the run starts after the seam ease; chunks 1200-1359 re-rendered"
+},
+{
+"check": "blank",
+"chunk": "c_1200.mp4",
+"range": [
+1200,
+1279
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1200.mp4",
+"range": [
+1199,
+1200
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1280.mp4",
+"range": [
+1280,
+1359
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1280.mp4",
+"range": [
+1279,
+1280
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1360.mp4",
+"range": [
+1360,
+1439
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1360.mp4",
+"range": [
+1359,
+1360
+],
+"result": "PASS"
 }
 ]

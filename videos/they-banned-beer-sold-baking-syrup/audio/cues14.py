@@ -23,7 +23,7 @@ FX = [  # (t, sfx, pan, gain_db, what happens, music)
     (28.90, "hand_truck", 0.25, -1, "the brewer wheels in the yeast tower; the top box is caught", ""),
     (30.60, "loaf_rise", 0.00, 0, "the loaf rises beside the steeple", "a held chord and a low tuba"),
     (33.13, "knocks3", 0.10, 0, "the agent knocks three times", "night: D minor tiptoe, no banjo"),
-    (34.43, "door_creak", -0.20, -2, "the door swings in on the granny", ""),
+    (34.00, "door_creak", -0.20, -2, "the door swings out onto the porch: the granny", ""),
     (39.53, "window_rattle", 0.45, -2, "the cellar window rattles and glows", "thins to tuba and pizzicato"),
     (40.43, "pop_big", 0.40, 2, "the cellar window POPS (the turn)", "the unlock stinger on 'pop' (40.46)"),
     (41.53, "pops_chain", -0.30, 0, "the next houses pop, down the street", "the rag comes back, D minor to F"),

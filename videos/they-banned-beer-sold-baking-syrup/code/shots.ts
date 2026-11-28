@@ -1161,14 +1161,14 @@ KICKS.push([1214 / 30, 0.09]);
 
 // ================================================= S21 (1231-1262) whip right: "Then the next house pops.": the camera whips to the next
 // house's cellar window as it bursts; the agent spins and stumbles after it.
-const c21 = FIT([body([205.3, 0, 8.39], 0.05, 0.45, 0.4), body([201.4, 0.15, 6.0], 0.4, 1.85, 0.3), body(AJ, 0.4, 1.85, 0.3)], 200, 6, 60, 0.85);
-SHOT_CAMS[21] = () => [K(1231, F(() => c21, 1231, 0.0016), 1, true)];
+const c21 = FIT([body([205.3, 0, 8.39], 0.05, 0.45, 0.4), body([200.6, 0.15, 6.1], 0.4, 1.85, 0.3), body(AJ, 0.4, 1.85, 0.3)], 200, 6, 60, 0.85);
+SHOT_CAMS[21] = () => [K(1240, F(() => c21, 1240, 0.0016), 1, true)];   // the cut moved from 1231 to 1240: S20's cut was only 0.7 s before (v34 hard fail: two cuts within 1 s)
 SHOT_ACTS[21] = (f, s) => {
-  const w = walkS(21, s, AGT, [AJ, [199.9, 0.15, 6.2], [201.4, 0.15, 6.0]], f, 1240, 1258), P = w.p, fa = w.moving ? w.facing : faceAt(21, s, f, P, [205.3, 0.3, 8.3]);
+  const w = walkS(21, s, AGT, [AJ, [199.6, 0.15, 6.2], [200.6, 0.15, 6.1]], f, 1246, 1260)   /* starts after the 8-frame seam ease of the 1240 cut */, P = w.p, fa = w.moving ? w.facing : faceAt(21, s, f, P, [205.3, 0.3, 8.3]);
   return { cast: [C(AGT, P, { expr: f < 1246 ? "aghast" : "shock", facing: fa, sweat: 1, ...w.o, hatLift: 1, armR: ARMS.upR, armL: AR.hipL } as FigOpts)],
     subj: AGT, focus: [204.5, 0.6, 8.2], ctl: CTLB(f), fx: fxs(capFly("c21", [205.3, 0.3, 8.25], [0.2, -0.6], f - 1246), clang("pop21", [205.3, 0.3, 8.2], f - 1246, 0.4)) };
 };
-lens(1231, 0);
+lens(1240, 0);
 KICKS.push([1246 / 30, 0.07]);
 
 // ================================================= S22 (1262-1300) "Then the whole street.": crane up and back: down the whole street the
@@ -1176,7 +1176,7 @@ KICKS.push([1246 / 30, 0.07]);
 const c22 = cam3([198.4, 3.0, -5.4], [206.2, 0.9, 7.0], 50);   // a short push and pan down the street: the agent stays big in front while the cellars pop beyond him
 SHOT_CAMS[22] = () => [K(1262, F(() => c22, 1299, 0.0006), 37)];
 SHOT_ACTS[22] = (f, s) => {
-  const w = walkS(22, s, AGT, [[201.4, 0.15, 6.0], [203.2, 0.15, 5.6]], f, 1272, 1292), P = w.p, turn = Math.sin((f - 1292) * 0.2) * sm(f, 1290, 1296);
+  const w = walkS(22, s, AGT, [[200.6, 0.15, 6.1], [202.6, 0.15, 5.7]], f, 1270, 1292), P = w.p, turn = Math.sin((f - 1292) * 0.2) * sm(f, 1290, 1296);
   const T3: V3 = [209.3, 0.6, 7.8], T4: V3 = [215.2, 0.6, 7.8];
   return { cast: [C(AGT, P, { expr: "aghast", facing: w.moving ? w.facing : turn, sweat: 1, ...w.o, hatLift: 1, armR: ARMS.upR, armL: ARMS.upL, tilt: 4 * turn } as FigOpts),
     C(TFK, T3, { expr: "aghast", facing: 0.5, armR: ARMS.upR }), C(TMN, T4, { expr: "shock", facing: -0.5, armL: ARMS.upL })],
