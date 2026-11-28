@@ -34,7 +34,7 @@ FX = [  # (t, sfx, pan, gain_db, what happens, music)
     (54.40, "capper", 0.10, -1, "the granny caps a bottle: clack", ""),
     (56.60, "caps_blow", 0.00, 0, "caps blow off one after another", ""),
     (62.60, "bulkhead", 0.20, -1, "the agent hauls open his cellar doors", "the walk home thins out, then four beats climb"),
-    (64.90, "final_hit", 0.00, 4, "FINAL HIT on 'baking': the wife's shelf blows its caps in a chain", "the music stops dead on the hit"),
+    (64.90, "final_hit", 0.00, 8, "FINAL HIT on 'baking': the wife's shelf blows its caps in a chain", "the music stops dead on the hit"),
 ]
 STING = (40.46, "stinger")
 cues = []

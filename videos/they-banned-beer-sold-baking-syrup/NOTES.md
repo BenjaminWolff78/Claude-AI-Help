@@ -28,3 +28,10 @@
   S22 no longer cranes out to z -20 (the agent fell under 5% width: rule B empty frame); S15 brewer stands at tower+0.3 and the agent
   steps to x 101.2 (the other side); S31 agent x 221.95 / wife x 220.4 (off the lens-to-wife line); turn line split ("He says sorry," / "pop").
   Disk: only ~7 GB free; Remotion bundles land in REMOTION_TMP (use /home/claude/rtmp/<name>, delete that named folder after).
+- Step 6 closed: checkpoint 4 sent (0 FAIL; kit: calm p90 5.69, animation 3.0, 2 false cut detections at 34.6/37.7 s).
+  One look round fixed S12 (queue at the wall, the wife visible), S13, S17 back view, S22, S30 (lamp at x 218 removed), S31 foam.
+  Previz renders: scripts/previz_render.mjs (RANGES="0-1985" CONC=1; two tabs gave white dissolve frames). tools_local/blankscan.py, contact.py.
+- Step 7 done: audio/sfx_make14.py (original synthesis, 26 effects + 6 beds + stinger), compose14.py (120 BPM rag, tuba at F2 so the sub
+  band is free for the hit), quote_pitch.py (agent +4.5 st, brewer -4 st, formants kept), cues14.py -> cues14.json, mix.py (p13 mixer).
+  mix_final.wav: -14.31 LUFS, TP -1.25; mix_check on the previz mux: width -21.9, dead air 0.5%, final impact low band +12.4 dB, quotes +70%/-54%.
+- Step 8 running: scripts/render_chunks.mjs 0 1985 (TOTAL 1986, 80-frame chunks, ~160 s each), log p14/render.log; chunk 0 sharpness 0.70.

@@ -23,6 +23,11 @@ def put(y, x, t, pan=0.0):
     return y
 def ring(fs, d, dec): c = tt(d); return sum(np.sin(2 * np.pi * f * c) * a for f, a in fs) * np.exp(-c * dec)
 def noise(d): return R.normal(0, 1, int(d * SR))
+def mx(*xs):
+    """add mono arrays of different lengths (zero-padded to the longest)"""
+    n = max(len(x) for x in xs); y = np.zeros(n)
+    for x in xs: y[:len(x)] += x
+    return y
 def env(d, a=0.005, r=None):
     c = tt(d); e = np.minimum(1, c / max(a, 1e-4))
     if r: e *= np.minimum(1, np.maximum(0, (d - c) / r))
@@ -90,7 +95,7 @@ def voice_ha(f0, n, gap, d0, seed):
     return y
 d = 1.9; y = np.zeros((int(d * SR), 2))
 put(y, voice_ha(150, 7, 0.17, 0.11, 1), 0.0, -0.4); put(y, voice_ha(118, 6, 0.2, 0.13, 2), 0.12, 0.35); put(y, voice_ha(185, 6, 0.15, 0.1, 3), 0.3, 0.05)
-put(y, wood(0.2, 140) * 1.4 + bp(noise(0.05), 400, 6000) * np.exp(-tt(0.05) * 80) * 0.8, 0.55, 0.2)   # the desk slap
+put(y, mx(wood(0.2, 140) * 1.4, bp(noise(0.05), 400, 6000) * np.exp(-tt(0.05) * 80) * 0.8), 0.55, 0.2)   # the desk slap
 save("laugh_desk", y, 0.6)
 # ---------------------------------------------------------------- chalk on a truck door (four strokes)
 y = np.zeros(int(1.1 * SR))
@@ -109,7 +114,7 @@ save("can_stack", y, 0.55)
 # ---------------------------------------------------------------- the hand truck: wheels rumbling over floorboards, a creak, the top box caught
 d = 1.9; c = tt(d); y = tilt(noise(d), 40, 400, 1.2) * (0.6 + 0.4 * np.sin(2 * np.pi * 5.5 * c) ** 2) * env(d, 0.15, 0.3)
 for k in range(6): put(y, wood(0.1, R.uniform(140, 220)) * 0.25, R.uniform(0.1, 1.5))
-put(y, wood(0.22, 200) * 0.9 + bp(noise(0.06), 300, 3000) * np.exp(-tt(0.06) * 50) * 0.6, 1.05)        # the box caught
+put(y, mx(wood(0.22, 200) * 0.9, bp(noise(0.06), 300, 3000) * np.exp(-tt(0.06) * 50) * 0.6), 1.05)        # the box caught
 save("hand_truck", y, 0.6)
 # ---------------------------------------------------------------- the giant loaf rising: a slow low dough-stretch swell with soft creaks
 d = 2.0; c = tt(d); f = 55 + 35 * c / d
@@ -118,7 +123,7 @@ for k in range(5): put(y, bp(noise(0.25), 200, 900) * np.sin(np.pi * tt(0.25) / 
 save("loaf_rise", y, 0.6)
 # ---------------------------------------------------------------- three knocks on a wooden door (0, 0.3, 0.6 s)
 y = np.zeros(int(1.0 * SR))
-for k, t0 in enumerate([0.0, 0.3, 0.6]): put(y, (wood(0.22, 150) * 1.2 + bp(noise(0.03), 200, 4000) * np.exp(-tt(0.03) * 120) * 0.7) * (0.85 + 0.15 * k), t0)
+for k, t0 in enumerate([0.0, 0.3, 0.6]): put(y, mx(wood(0.22, 150) * 1.2, bp(noise(0.03), 200, 4000) * np.exp(-tt(0.03) * 120) * 0.7) * (0.85 + 0.15 * k), t0)
 save("knocks3", y)
 # ---------------------------------------------------------------- the door swinging in: a hinge creak and the latch
 d = 0.9; c = tt(d); f = 420 + 260 * np.sin(np.pi * c / d) + 30 * np.sin(2 * np.pi * 9 * c)
@@ -128,7 +133,7 @@ save("door_creak", y, 0.5)
 # ---------------------------------------------------------------- the cellar window rattling in its frame (glass buzz, building)
 d = 0.95; c = tt(d); y = np.zeros(len(c))
 for k in range(int(d * 22)):
-    t0 = k / 22 + R.uniform(0, 0.01); put(y, (tin(R.uniform(2200, 3400), 0.05, 80) + bp(noise(0.03), 1500, 6000) * 0.3) * (0.2 + 0.8 * t0 / d), t0)
+    t0 = k / 22 + R.uniform(0, 0.01); put(y, mx(tin(R.uniform(2200, 3400), 0.05, 80), bp(noise(0.03), 1500, 6000) * 0.3) * (0.2 + 0.8 * t0 / d), t0)
 save("window_rattle", y, 0.5)
 # ---------------------------------------------------------------- the cellar window POP (the turn): a cap pops, the pane cracks, foam sprays
 def pop(dd=1.2, big=1.0):
@@ -152,7 +157,7 @@ save("water_plop", y, 0.6)
 # ---------------------------------------------------------------- the crock fizzing up, with a foam "burp" at 0.94 s
 d = 2.6; c = tt(d); y = bp(noise(d), 2500, 12000) * (0.15 + 0.85 * c / d) * 0.18 * env(d, 0.3, 0.3)
 for k in range(140): put(y, tin(R.uniform(2500, 6000), 0.02, 160) * R.uniform(0.03, 0.12) * (0.3 + c[min(len(c) - 1, int(k / 140 * len(c)))] / d), R.uniform(0, d - 0.1))
-cc = tt(0.4); put(y, glug(95, 0.32, 1.4) + bp(noise(0.4), 100, 800) * np.sin(np.pi * cc / 0.4) * 0.4, 0.94)
+cc = tt(0.4); put(y, mx(glug(95, 0.32, 1.4), bp(noise(0.4), 100, 800) * np.sin(np.pi * cc / 0.4) * 0.4), 0.94)
 save("fizz_burp", y, 0.55)
 # ---------------------------------------------------------------- the pancake bowl: water in, then beer foam frothing up when he taps the can (1.2 s)
 d = 2.3; y = bp(noise(0.8), 300, 5000) * env(0.8, 0.05, 0.3) * 0.35; y = np.concatenate([y, np.zeros(int((d - 0.8) * SR))])
@@ -171,16 +176,17 @@ save("caps_blow", y, 0.6)
 d = 1.4; c = tt(0.8); f = 260 + 120 * np.sin(np.pi * c / 0.8)
 cr = np.sin(2 * np.pi * np.cumsum(f) / SR); cr = np.sign(cr) * np.abs(cr) ** 0.6
 y = np.zeros(int(d * SR)); put(y, bp(cr, 200, 2500) * np.sin(np.pi * c / 0.8) * 0.45, 0.0)
-put(y, wood(0.4, 85) * 1.5 + bp(noise(0.06), 100, 2000) * np.exp(-tt(0.06) * 40), 0.75)
+put(y, mx(wood(0.4, 85) * 1.5, bp(noise(0.06), 100, 2000) * np.exp(-tt(0.06) * 40)), 0.75)
 save("bulkhead", y, 0.6)
 # ---------------------------------------------------------------- THE FINAL HIT (64.9 s): a deep boom under a crash of caps and glass, a foam roar
 d = 1.3; y = np.zeros((int(d * SR), 2)); c = tt(1.2)
-boom = np.sin(2 * np.pi * np.cumsum(42 + 90 * np.exp(-c * 18)) / SR) * np.exp(-c * 3.2) * (1 - np.exp(-c * 900))
-put(y, boom * 1.6, 0.0, 0.0); put(y, bp(noise(0.03), 600, 10000) * np.exp(-tt(0.03) * 150) * 1.0, 0.0, 0.0)
+boom = np.sin(2 * np.pi * np.cumsum(46 + 90 * np.exp(-c * 18)) / SR) * np.exp(-c * 7.0) * (1 - np.exp(-c * 900))   # short and deep: a big low-band peak for little loudness
+put(y, boom * 6.0, 0.0, 0.0); put(y, np.sin(2 * np.pi * 40 * c) * np.exp(-c * 14) * (1 - np.exp(-c * 600)) * 3.0, 0.0, 0.0);
+put(y, bp(noise(0.25), 4500, 14000) * np.exp(-tt(0.25) * 14) * 0.7, 0.0, -0.15); put(y, bp(noise(0.25), 4500, 14000) * np.exp(-tt(0.25) * 14) * 0.7, 0.0, 0.15)   # the glass crackle on top   # a deep body under the crash (mix_check: the low band must jump 12 dB+) put(y, bp(noise(0.03), 600, 10000) * np.exp(-tt(0.03) * 150) * 1.0, 0.0, 0.0)
 for k in range(160):
-    t0 = abs(R.normal(0.05, 0.25)); put(y, tin(R.uniform(2500, 8000), R.uniform(0.05, 0.2), R.uniform(20, 50)) * R.uniform(0.1, 0.5) * np.exp(-t0 * 2), t0, R.uniform(-0.7, 0.7))
+    t0 = abs(R.normal(0.05, 0.25)); put(y, tin(R.uniform(2500, 8000), R.uniform(0.05, 0.2), R.uniform(20, 50)) * R.uniform(0.05, 0.25) * np.exp(-t0 * 2), t0, R.uniform(-0.7, 0.7))
 roar = bp(noise(1.2), 400, 9000) * np.exp(-c * 2.2) * (1 - np.exp(-c * 40)) * 0.5
-put(y, roar, 0.02, -0.2); put(y, bp(noise(1.2), 400, 9000) * np.exp(-c * 2.2) * (1 - np.exp(-c * 40)) * 0.5, 0.02, 0.2)
+put(y, roar * 0.4, 0.02, -0.2); put(y, bp(noise(1.2), 400, 9000) * np.exp(-c * 2.2) * (1 - np.exp(-c * 40)) * 0.2, 0.02, 0.2)
 save("final_hit", y, 0.9)
 # ---------------------------------------------------------------- the unlock stinger at "pop": a short brass-and-banjo stab with a timpani
 d = 1.3; y = np.zeros((int(d * SR), 2)); c = tt(d)

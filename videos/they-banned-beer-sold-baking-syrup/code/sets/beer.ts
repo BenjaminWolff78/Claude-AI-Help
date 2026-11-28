@@ -300,7 +300,9 @@ export const beer = (): SetDef => {
       for (const dx of [-1.05, 1.05]) { box(1.0, 0.06, 0.06, trimWhite, [x + dx, BR.PORCH_Y + 0.85, z0 - 1.44], 0, g); for (let k = 0; k < 6; k++) box(0.04, 0.85, 0.04, trimWhite, [x + dx - 0.45 + k * 0.18, BR.PORCH_Y + 0.42, z0 - 1.44], 0, g); }
       // door + windows (day panes / lit at night)
       // the front door: hinged at its left edge (seen from the street); granny's (H1) swings in onto her lit kitchen (ctl door1)
-      const hinge = new THREE.Group(); hinge.position.set(x - 0.5, BR.PORCH_Y, z0 - 0.06); g.add(hinge);
+      const DZ = i === 0 ? 0.3 : 0.06;   // granny's door hangs at the front of a 0.3 m deep jamb, so she can stand behind the closed leaf
+      const hinge = new THREE.Group(); hinge.position.set(x - 0.5, BR.PORCH_Y, z0 - DZ); g.add(hinge);
+      if (i === 0) { for (const sx of [-0.55, 0.55]) box(0.1, 2.25, DZ, trimWhite, [x + sx, BR.PORCH_Y + 1.12, z0 - DZ / 2], 0, g); box(1.2, 0.12, DZ, trimWhite, [x, BR.PORCH_Y + 2.2, z0 - DZ / 2], 0, g); }
       { const d = box(1.0, 2.1, 0.08, std(["#6a2a2a", "#2a4a6a", "#3a5a3a", "#5a4a2a", "#2a3a5a"][i], 0.5), [0.5, 1.05, 0.04], 0, hinge); void d; }
       if (i === 0) {
         const kit = canvasTex("grannyKitchen", 256, 540, (k) => {
@@ -353,7 +355,7 @@ export const beer = (): SetDef => {
       box(1.0, 2.2, 0.1, std("#4a3020", 0.6), [x + 2.3, 1.1, -8.46]);
     });
     // street lamps (lit at night), a couple of trees, the brewery truck
-    for (let x = 182; x <= 236; x += 9) for (const z of [4.4, -4.4]) { if (z > 0 && x === 191) continue; /* no lamp between the S9 camera and the truck door */ ph("street_lamp_01", [x + (z > 0 ? 0 : 4.5), 0.15, z], z > 0 ? Math.PI : 0, { h: 4.2 }); const L = new THREE.PointLight("#ffc080", 0, 14, 1.6); L.position.set(x + (z > 0 ? 0 : 4.5), 3.9, z); root.add(L); nightLamps.push(L); nightGlows.push(glow(root, [x + (z > 0 ? 0 : 4.5), 3.95, z], "#ffc080", 0.9)); }
+    for (let x = 182; x <= 236; x += 9) for (const z of [4.4, -4.4]) { if (z > 0 && (x === 191 || x === 218)) continue; /* no lamp between the S9 camera and the truck door, nor the S30 camera and the cellar doors */ ph("street_lamp_01", [x + (z > 0 ? 0 : 4.5), 0.15, z], z > 0 ? Math.PI : 0, { h: 4.2 }); const L = new THREE.PointLight("#ffc080", 0, 14, 1.6); L.position.set(x + (z > 0 ? 0 : 4.5), 3.9, z); root.add(L); nightLamps.push(L); nightGlows.push(glow(root, [x + (z > 0 ? 0 : 4.5), 3.95, z], "#ffc080", 0.9)); }
     for (const [x, z] of [[183, 7.6], [233, 7.4], [212.6, 15]] as [number, number][]) ph("oak_lite", [x, 0, z], hsh(x) * 3, { h: 9 });
 const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
     // the CELLARS (granny under H1, the agent under H5): stone rooms, shelves of bottles, crocks, a bulb
@@ -383,7 +385,7 @@ const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
       if (kind === "granny") label("chalk45", 0.5, 0.3, "#000000", "#f0f0e6", [["45", 0.8]], [cx - 1.6, y0 + 2.35, z0 + 4.08], Math.PI, g, { alpha: true });
       const capper = new THREE.Group(); capper.position.set(cx - 0.75, y0 + 0.63, z0 + 2.45); g.add(capper);
       { const b = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.03, 0.12), iron); capper.add(b); const p = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.42, 6), iron); p.position.set(0.05, 0.21, 0); capper.add(p); const h = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.03, 0.03), std("#b3261e", 0.5)); h.position.set(0.0, 0.4, 0); capper.add(h); }
-      const fb = new FoamBurst(g, [cx - 0.6, y0 + 1.6, z0 + 3.6], [0, 0.6, -0.6], 18, 0.42);
+      const fb = kind === "agent" ? new FoamBurst(g, [cx - 0.5, y0 + 1.35, z0 + 3.5], [0.1, 0.12, -0.55], 26, 0.6) : new FoamBurst(g, [cx - 0.6, y0 + 1.6, z0 + 3.6], [0, 0.6, -0.6], 18, 0.42);   // the payoff burst sprays at the lens, over the wife
       return { g, rack, crocks, hero, front, fb, bulbL };
     };
     const cG = cellar(BR.H1, "granny"), cA = cellar(BR.H5, "agent");
@@ -396,7 +398,7 @@ const truckG = truck(root, [191.5, 0, 2.6], 0, chalkWordTex());
       const ck = cl(c.chalk ?? 0);
       truckG.traverse((o) => { if (o.name === "chalk") ((o as THREE.Mesh).material as THREE.MeshStandardMaterial).opacity = ck; });
       const b = sm(c.bulk ?? 0); lL.rotation.z = b * 1.75; lR.rotation.z = -b * 1.75;
-      if (grannyDoor) grannyDoor.rotation.y = -1.6 * sm(c.door1 ?? 0);   // swings in (into the house): the leaf hides inside the wall
+      if (grannyDoor) grannyDoor.rotation.y = 1.6 * sm(c.door1 ?? 0);   // swings OUT onto the porch (hinge on the left): swinging in, the leaf vanished into the wall in 3 frames
       houses.forEach((h, i) => { const gk = c[`glow${i + 1}`] ?? 0; if (gk > 0) (h.cw.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.9 + 2.2 * gk; });
       key.rotation.x = Math.sin(t * 5) * 0.25 * (0.3 + b);
       cG.front.visible = (c.cut1 ?? 0) < 0.5; cA.front.visible = true;

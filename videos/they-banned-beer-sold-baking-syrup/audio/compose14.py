@@ -44,7 +44,7 @@ def rag(t0, t1, prog, g=1.0, banjoOn=True, tubaOn=True, pz=True, brushes=True, s
     beat = 0; t = t0
     while t < t1 - 0.01:
         ch = prog[(beat // 4) % len(prog)]; b = beat % 4; r = ch[0]
-        if tubaOn and b in (0, 2): add(tuba(n(r - 24 + (7 if b == 2 else 0)), B * 0.85), t, 0, 0.34 * g)
+        if tubaOn and b in (0, 2): add(tuba(n(r - 12 + (7 if b == 2 else 0)), B * 0.85), t, 0, 0.24 * g)   # F2, not F1: the sub band is kept for the final hit
         if banjoOn and b in (1, 3):
             for k, x in enumerate(ch[:3]): add(banjo(n(x + 12), 0.4), t + k * 0.012, -0.45, 0.07 * g)
         if banjoOn and b in (0, 2): add(banjo(n(ch[1] + 12), 0.3, 0.55), t + B / 2, -0.45, 0.04 * g)
@@ -68,7 +68,7 @@ TUNE = [[(0, 0.5, 2), (0.5, 0.5, 1)], [(0, 1.0, 0)], [(0, 0.5, 1), (0.5, 0.5, 2)
 rag(0.0, 15.62, [F, Dm, Gm, C7], 0.95)                              # the brewer cans "syrup"; the agents; the padlock; the quotes
 rag(15.62, 19.4, [F, Dm, Gm, C7], 0.8, brushes=False)               # the station laughs; "the baker"
 rag(19.4, 30.44, [F, F7, Bb, C7], 1.0, shaker=True)                 # 3 cans, 30, a whole wall, the flour, the yeast
-padS(30.44, 32.66, [53, 60, 65, 69, 72], 1.0); add(tuba(n(29), 2.0), 30.44, 0, 0.3)   # the loaf the size of the church
+padS(30.44, 32.66, [53, 60, 65, 69, 72], 1.0); add(tuba(n(41), 2.0), 30.44, 0, 0.3)   # the loaf the size of the church
 rag(32.66, 37.64, [Dm, A7, Dm, A7], 0.7, banjoOn=False, brushes=True)   # night: the knock, the granny, "she really is baking"
 rag(37.64, 40.30, [Gm, A7], 0.6, banjoOn=False, pz=True)            # he backs down the steps (the stinger is an SFX at 40.46)
 rag(40.46, 43.32, [Dm, F, Gm, A7], 0.9, shaker=True)                # the pops down the street
@@ -76,8 +76,8 @@ rag(43.32, 61.28, [Bb, Gm, Eb, F7], 0.95, shaker=True, lead=TUNE)   # the reveal
 # the end: the walk home thins out, then four beats climb into the hit
 t0 = HIT - 4 * B
 rag(61.28, t0, [Bb, Gm7], 0.7, banjoOn=False, brushes=False)
-rag(t0, HIT, [Eb, F7], 1.0, pz=False)
-for k, m in enumerate([39, 41, 43, 45]): add(tuba(n(m - 12), B * 0.95), t0 + k * B, 0, 0.4)
+rag(t0, HIT, [Eb, F7], 1.0, pz=False, tubaOn=False)
+for k, m in enumerate([39, 41, 43, 45]): add(tuba(n(m), B * 0.6), t0 + k * B, 0, 0.22)   # the climb an octave up and short: the low band stays clear for the hit
 nr = int(4 * B / 0.05)
 for k in range(nr): add(brush(0.05), t0 + k * 0.05, -0.4 if k % 2 else 0.4, 0.02 + 0.07 * (k / nr) ** 2)
 # a decorrelated stereo room (width without smearing)

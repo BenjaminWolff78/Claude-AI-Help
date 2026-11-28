@@ -1,0 +1,344 @@
+[
+{
+"check": "blank",
+"chunk": "c_0000.mp4",
+"range": [
+0,
+79
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0080.mp4",
+"range": [
+80,
+159
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0080.mp4",
+"range": [
+79,
+80
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0160.mp4",
+"range": [
+160,
+239
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0160.mp4",
+"range": [
+159,
+160
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0240.mp4",
+"range": [
+240,
+319
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0240.mp4",
+"range": [
+239,
+240
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0320.mp4",
+"range": [
+320,
+399
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0320.mp4",
+"range": [
+319,
+320
+],
+"result": "PASS (seam 19.3 = the motion on both sides: 17.6 / 15.4; previz 18.5 at the same frame: S5 camera move, not a chunk jump)"
+},
+{
+"check": "blank",
+"chunk": "c_0400.mp4",
+"range": [
+400,
+479
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0400.mp4",
+"range": [
+399,
+400
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0480.mp4",
+"range": [
+480,
+559
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0480.mp4",
+"range": [
+479,
+480
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0560.mp4",
+"range": [
+560,
+639
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0560.mp4",
+"range": [
+559,
+560
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0640.mp4",
+"range": [
+640,
+719
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0640.mp4",
+"range": [
+639,
+640
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0720.mp4",
+"range": [
+720,
+799
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0720.mp4",
+"range": [
+719,
+720
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_0800.mp4",
+"range": [
+800,
+879
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0800.mp4",
+"range": [
+799,
+800
+],
+"result": "PASS (30.2 = the motion on both sides 30.0 / 28.8; previz 29.9: the S13 dolly, not a chunk jump)"
+},
+{
+"check": "blank",
+"chunk": "c_0880.mp4",
+"range": [
+880,
+959
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_0880.mp4",
+"range": [
+879,
+880
+],
+"result": "PASS (seam 14.2 vs neighbours 15.7 / 17.4: S15 camera move)"
+},
+{
+"check": "blank",
+"chunk": "c_1440.mp4",
+"range": [
+1440,
+1519
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1440.mp4",
+"range": [
+1439,
+1440
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1520.mp4",
+"range": [
+1520,
+1599
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1520.mp4",
+"range": [
+1519,
+1520
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1600.mp4",
+"range": [
+1600,
+1679
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1600.mp4",
+"range": [
+1599,
+1600
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1680.mp4",
+"range": [
+1680,
+1759
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1680.mp4",
+"range": [
+1679,
+1680
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1760.mp4",
+"range": [
+1760,
+1839
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1760.mp4",
+"range": [
+1759,
+1760
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1840.mp4",
+"range": [
+1840,
+1919
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1840.mp4",
+"range": [
+1839,
+1840
+],
+"result": "PASS"
+},
+{
+"check": "blank",
+"chunk": "c_1920.mp4",
+"range": [
+1920,
+1985
+],
+"result": "PASS"
+},
+{
+"check": "seam",
+"chunk": "c_1920.mp4",
+"range": [
+1919,
+1920
+],
+"result": "PASS"
+},
+{
+"check": "seam-investigation",
+"chunk": "c_1040.mp4",
+"range": [
+1039,
+1040
+],
+"result": "content, not a render fault: fresh stills of 1039/1040 match the chunk frames (0.2); the door leaf slid behind the painted kitchen in 3 frames. Fixed: the door now swings out onto the porch from a 0.3 m jamb after the agent steps back; chunks 960-1359 re-rendered"
+}
+]

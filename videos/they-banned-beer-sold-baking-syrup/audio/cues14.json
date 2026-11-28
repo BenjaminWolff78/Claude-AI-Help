@@ -1,0 +1,240 @@
+[
+{
+"t": 0.0,
+"sfx": "amb_brewery",
+"amb": true,
+"dur": 15.92,
+"gain_db": 0
+},
+{
+"t": 0.0,
+"sfx": "syrup_pour",
+"pan": 0.25,
+"gain_db": -3
+},
+{
+"t": 0.1,
+"sfx": "label_slap",
+"pan": -0.1,
+"gain_db": 0
+},
+{
+"t": 4.27,
+"sfx": "can_clink",
+"pan": -0.2,
+"gain_db": -2
+},
+{
+"t": 5.53,
+"sfx": "barrel_gush",
+"pan": 0.2,
+"gain_db": 0
+},
+{
+"t": 8.62,
+"sfx": "capper",
+"pan": 0.0,
+"gain_db": -1
+},
+{
+"t": 9.1,
+"sfx": "steps_chain",
+"pan": 0.4,
+"gain_db": -3
+},
+{
+"t": 15.62,
+"sfx": "amb_street_day",
+"amb": true,
+"dur": 4.08,
+"gain_db": 0
+},
+{
+"t": 15.65,
+"sfx": "laugh_desk",
+"pan": 0.0,
+"gain_db": -1
+},
+{
+"t": 17.8,
+"sfx": "chalk",
+"pan": 0.3,
+"gain_db": -4
+},
+{
+"t": 19.4,
+"sfx": "amb_grocery",
+"amb": true,
+"dur": 11.34,
+"gain_db": 0
+},
+{
+"t": 20.87,
+"sfx": "board_flip",
+"pan": 0.35,
+"gain_db": -2
+},
+{
+"t": 22.33,
+"sfx": "board_flip",
+"pan": 0.35,
+"gain_db": 0
+},
+{
+"t": 23.45,
+"sfx": "can_stack",
+"pan": -0.2,
+"gain_db": -3
+},
+{
+"t": 28.9,
+"sfx": "hand_truck",
+"pan": 0.25,
+"gain_db": -1
+},
+{
+"t": 30.44,
+"sfx": "amb_town_wind",
+"amb": true,
+"dur": 2.52,
+"gain_db": 0
+},
+{
+"t": 30.6,
+"sfx": "loaf_rise",
+"pan": 0.0,
+"gain_db": 0
+},
+{
+"t": 32.66,
+"sfx": "amb_night",
+"amb": true,
+"dur": 10.96,
+"gain_db": 0
+},
+{
+"t": 33.13,
+"sfx": "knocks3",
+"pan": 0.1,
+"gain_db": 0
+},
+{
+"t": 34.43,
+"sfx": "door_creak",
+"pan": -0.2,
+"gain_db": -2
+},
+{
+"t": 39.53,
+"sfx": "window_rattle",
+"pan": 0.45,
+"gain_db": -2
+},
+{
+"t": 40.43,
+"sfx": "pop_big",
+"pan": 0.4,
+"gain_db": 2
+},
+{
+"t": 40.46,
+"sfx": "stinger",
+"gain_db": 0
+},
+{
+"t": 41.53,
+"sfx": "pops_chain",
+"pan": -0.3,
+"gain_db": 0
+},
+{
+"t": 43.32,
+"sfx": "amb_cellar",
+"amb": true,
+"dur": 7.94,
+"gain_db": 0
+},
+{
+"t": 44.25,
+"sfx": "syrup_pour",
+"pan": 0.0,
+"gain_db": -3
+},
+{
+"t": 46.6,
+"sfx": "water_plop",
+"pan": 0.1,
+"gain_db": -2
+},
+{
+"t": 48.4,
+"sfx": "fizz_burp",
+"pan": 0.0,
+"gain_db": -2
+},
+{
+"t": 50.96,
+"sfx": "amb_grocery",
+"amb": true,
+"dur": 2.86,
+"gain_db": 0
+},
+{
+"t": 51.0,
+"sfx": "batter_froth",
+"pan": -0.15,
+"gain_db": -3
+},
+{
+"t": 53.52,
+"sfx": "amb_cellar",
+"amb": true,
+"dur": 4.82,
+"gain_db": 0
+},
+{
+"t": 54.4,
+"sfx": "capper",
+"pan": 0.1,
+"gain_db": -1
+},
+{
+"t": 56.6,
+"sfx": "caps_blow",
+"pan": 0.0,
+"gain_db": 0
+},
+{
+"t": 58.04,
+"sfx": "amb_grocery",
+"amb": true,
+"dur": 3.54,
+"gain_db": 0
+},
+{
+"t": 61.28,
+"sfx": "amb_night",
+"amb": true,
+"dur": 2.46,
+"gain_db": 0
+},
+{
+"t": 62.6,
+"sfx": "bulkhead",
+"pan": 0.2,
+"gain_db": -1
+},
+{
+"t": 63.44,
+"sfx": "amb_cellar",
+"amb": true,
+"dur": 2.76,
+"gain_db": 0
+},
+{
+"t": 64.9,
+"sfx": "final_hit",
+"pan": 0.0,
+"gain_db": 8
+}
+]
